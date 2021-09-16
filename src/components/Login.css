@@ -1,0 +1,15 @@
+@import '../theme/color.css';
+
+body {  
+    background-image: url('../img/login-bg.jpg');
+    background-position: top;
+}
+.login-title {
+    color: black;
+    font-weight: bold;
+    background-image: linear-gradient(to bottom right, var(--flamingo), var(--seabuckthorn));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-align: center;
+  }

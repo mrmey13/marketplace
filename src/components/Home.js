@@ -32,10 +32,9 @@ const URL = cs.BaseURL + "/user/detail";
 const revokeTokenURL = cs.BaseURL + "/api/auth/logout";
 const drawerWidth = 290;
 const lngs = {
-	en: { nativeName: 'English' },
-	vi: { nativeName: 'Vietnamese' },
+    en: { nativeName: 'language.english' },
+    vi: { nativeName: 'language.vietnamese' },
 };
-
 const styles = (theme) => ({
 	"@global": {
 		"*::-webkit-scrollbar": {
@@ -366,7 +365,7 @@ class Home extends React.Component {
 								i18n.changeLanguage(lng);
 								localStorage.setItem("currentLanguage", lng);
 							}}>
-							{lngs[lng].nativeName}
+							{t(lngs[lng].nativeName)}
 						</button>
 					))}
 				</div>

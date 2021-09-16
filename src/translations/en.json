@@ -14,5 +14,10 @@
     },
     "app_route": {
         "dashboard": "Marketplace Home"
+    },
+    "language": {
+        "title": "Language: ",
+        "english": "English",
+        "vietnamese": "Vietnamese"
     }
 }

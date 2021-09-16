@@ -14,5 +14,10 @@
     },
     "app_route": {
         "dashboard": "Trang chính Marketplace"
+    },
+    "language": {
+        "title": "Ngôn ngữ: ",
+        "english": "Tiếng Anh",
+        "vietnamese": "Tiếng Việt"
     }
 }

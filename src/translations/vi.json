@@ -1,3 +1,18 @@
 {
-    "LOGIN":"ĐĂNG NHẬP"
+    "LOGIN":"ĐĂNG NHẬP",
+    "commons": {
+        "button": {
+            "save": "Lưu",
+            "logout": "Đăng xuất",
+            "change_password": "Đổi mật khẩu",
+            "confirm": "Xác nhận",
+            "cancel": "Bỏ qua",
+            "refresh": "Làm mới",
+            "ok":"OK"
+        },
+        "expansionPanelText": "Tìm kiếm ..."
+    },
+    "app_route": {
+        "dashboard": "Trang chính Marketplace"
+    }
 }

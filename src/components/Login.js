@@ -114,8 +114,8 @@ class Login extends React.Component {
                 expireDate: data.data.expireDate,
               })
             );
-            // localStorage.setItem(cs.System_Code + '-expireDate', data.data.expireDate);
-            // localStorage.setItem(cs.System_Code + '-funtionRoles', JSON.parse(JSON.stringify(data.data.functionRoles)));
+            localStorage.setItem(cs.System_Code + '-expireDate', data.data.expireDate);
+            localStorage.setItem(cs.System_Code + '-funtionRoles', JSON.parse(JSON.stringify(data.data.functionRoles)));
             console.log(data.data);
             // console.log(data.data.functionRoles);
             // console.log(JSON.stringify(data.data.functionRoles));

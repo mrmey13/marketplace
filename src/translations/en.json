@@ -1,3 +1,18 @@
 {
-    "LOGIN":"LOGIN"
+    "LOGIN":"LOGIN",
+    "commons": {
+        "button": {
+            "save": "Save",
+            "logout": "Logout",
+            "change_password": "Change password",
+            "confirm": "Confirm",
+            "cancel": "Cancel",
+            "refresh": "Refresh",
+            "ok":"OK"
+        },
+        "expansionPanelText": "Search ..."
+    },
+    "app_route": {
+        "dashboard": "Marketplace Home"
+    }
 }

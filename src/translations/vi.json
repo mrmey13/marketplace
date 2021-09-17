@@ -8,7 +8,9 @@
             "confirm": "Xác nhận",
             "cancel": "Bỏ qua",
             "refresh": "Làm mới",
-            "ok":"OK"
+            "ok":"OK",
+            "create":"Tạo",
+            "edit":"Sửa"
         },
         "expansionPanelText": "Tìm kiếm ..."
     },
@@ -26,5 +28,12 @@
             "title": "Quản lý Shop",
             "profile": "Hồ sơ Shop"
         }
+    },
+    "shop_profile":{
+        "basic_info":"Thông tin cơ bản",
+        "background":"Ảnh nền",
+        "avatar":"Avatar",
+        "shopName":"Tên Shop",
+        "description":"Miêu tả"
     }
 }

@@ -8,7 +8,9 @@
             "confirm": "Confirm",
             "cancel": "Cancel",
             "refresh": "Refresh",
-            "ok": "OK"
+            "ok": "OK",
+            "create":"Create",
+            "edit":"Edit"
         },
         "expansionPanelText": "Search ..."
     },
@@ -26,5 +28,12 @@
             "title": "Shop Management",
             "profile": "Shop Profile"
         }
+    },
+    "shop_profile":{
+        "basic_info":"Basic Info",
+        "background":"Background",
+        "avatar":"Avatar",
+        "shopName":"Shop name",
+        "description":"Description"
     }
 }

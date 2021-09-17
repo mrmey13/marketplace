@@ -15,6 +15,8 @@ import { ToastProvider } from "react-toast-notifications";
 import { useTranslation, withTranslation } from "react-i18next";
 import ShopProfile from "./ShopProfile/ShopProfile";
 
+import MyAddresses from "./settings/MyAdresses";
+
 const styles = (theme) => ({
   tableContainer: {
     height: 320,
@@ -32,7 +34,11 @@ export class AppRoute extends Component {
       <ToastProvider autoDismissTimeout={5000} placement="bottom-center">
         <Route exact path="/" component={() => DashboardArea(t, i18n)} />
         <Route exact path="/shop_view" component={() => ShopView(t, i18n)} />
+
         <Route exact path="/shop/profile" component={() => ShopProfileArea(t, i18n)} />
+        
+        {/* Settings */}
+        <Route exact path="/settings/address" component={MyAddresses} />
       </ToastProvider>
     );
   }

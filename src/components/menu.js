@@ -20,6 +20,19 @@ const shop_menu = [
         accesses:[],
         nonaccesses: []
     },
+    {
+        icon: <Icon color="disable">build</Icon>,
+        title: 'Settings',
+        items: [
+            {
+                title: 'My Addresses',
+                to: '/settings/address',
+                items: [],
+                accesses:[],
+                nonaccesses: []
+            },
+        ]
+    },
 ]
 
 export const menu = [

@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+.card {
+  border-radius: 0;
+}
+
+.w-80em {
+  width: 80em;
+}
+
+.link-btn {
+  color: rgb(0, 89, 255);
+}
+
+.link-btn:hover {
+  color: rgb(1, 32, 167);
+}

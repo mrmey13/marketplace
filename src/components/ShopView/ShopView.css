@@ -1,0 +1,68 @@
+#root{
+    --color: rgb(219, 97, 16);
+}
+.infor-row{
+    border-bottom:  1px solid var(--color);
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.card-shop-avatar{
+    width:70%;
+    height: 150px;
+    margin-left: 15%;
+    margin-bottom: 5px;
+    object-fit: cover;
+    border-radius: 10px;
+    background: url("https://images.unsplash.com/photo-1550795629-4350bf35d102?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=375&q=80");
+    background-repeat: no-repeat;
+    background-size: 100% 150px;
+}
+.tab-button{
+    font-weight: bold;
+    color: black;
+}
+.tab-button:active{
+    border-bottom: 3px solid var(--color) !important;
+}
+.tab-button:focus{
+    box-shadow: none;
+    border-bottom: 3px solid var(--color);
+}
+.video-intro{
+    width: 100%;
+    height: 345px
+}
+.icon-button{
+    width: 30px;
+    height: 30px;
+    margin-right: 3px
+}
+.icon-item{
+    width: 20px;
+    height: 20px;
+    margin-right: 3px
+}
+.shop-avatar{
+    width: 70px;
+    height:70px;
+    border-radius: 100rem;
+    object-fit: cover;
+    border: 3px solid silver
+}
+.shop-infor-description{
+    border-left:3px solid var(--color);
+}
+.row-title{
+    margin-left: 10px;
+    margin-bottom: 5%;
+    font-weight: bold;
+    color:var(--color);
+}
+.row-shop-name{
+    margin-left: 10px;
+    color:black;
+    font-weight: bold;
+}
+.row-shop-description{
+    margin-left: 10px;
+}

@@ -7,8 +7,34 @@ const mediaURL = cs.MediaURL + "/material";
 
 function ShopView() {
   const [tab, setTab] = useState(1);
-  const [shopDetail, setShopDetail] = useState({});
+  const [shopDetail, setShopDetail] = useState({
+    numberOfFollowers: 0,
+    pertcentageOfChatFeedbacks: 0,
+    numberOfReviews: 0,
+    description: "",
+    shopName: "",
+    numberOfProducts: 0,
+    userName: "",
+    followingCount: 0,
+    averageRating: 0,
+    mediaDescriptionsList: [],
+    createdTime: "",
+    shopId: 1,
+    id: 0,
+  });
   const [media, setMedia] = useState([]);
+
+  function getId(url) {
+    const regExp =
+      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+
+    const endpoint = match && match[2].length === 11 ? match[2] : null;
+    const link = "//www.youtube.com/embed/" + endpoint;
+    return link;
+  }
+  // const videoId = getId("http://www.youtube.com/watch?v=zbYf5_S7oJo");
+  // console.log("Video ID:", videoId);
 
   const loadShopDetail = async (conditions) => {
     const response = await axios({
@@ -30,6 +56,19 @@ function ShopView() {
   useEffect(() => {
     loadShopDetail();
   }, []);
+
+  function ConvertBR(input) {
+    var output = "";
+    for (var i = 0; i <= input.length; i++) {
+      if (input.charCodeAt(i) == 13 && input.charCodeAt(i + 1) == 10) {
+        i++;
+        output += "<br/>";
+      } else {
+        output += input.charAt(i);
+      }
+    }
+    return output;
+  }
   console.log("tab", tab);
   return (
     <div>
@@ -316,9 +355,7 @@ function ShopView() {
               <div className="carousel-item active">
                 <img
                   // src={encodeURI(`${mediaURL}/${item.path}`)}
-                  src={encodeURI(
-                    mediaURL + "/shop_media/test/file_example_PNG_3MB.png"
-                  )}
+                  src={`${cs.MediaURL}/media/shop_media/test/LOGO-Credito.png`}
                   className="d-block w-100 carousel-img"
                   alt="..."
                 />
@@ -388,7 +425,8 @@ function ShopView() {
             Tên shop: {shopDetail.shopName}
           </div>
           <div className="row row-shop-description">
-            {shopDetail.description}
+            {/* {shopDetail.description} */}
+            {ConvertBR(shopDetail.description)}
           </div>
         </div>
       </div>

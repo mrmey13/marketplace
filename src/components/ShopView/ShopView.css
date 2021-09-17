@@ -1,5 +1,8 @@
 #root{
-    --color: rgb(219, 97, 16);
+    --color: #F69756;
+}
+h6{
+    font-weight: bold;
 }
 .infor-row{
     border-bottom:  1px solid var(--color);
@@ -17,20 +20,40 @@
     background-repeat: no-repeat;
     background-size: 100% 150px;
 }
+.button-indicator{
+    border-radius: 100rem;
+    width:1px;
+    height:1px;
+    background-color: #F69756;
+
+}
 .tab-button{
     font-weight: bold;
     color: black;
 }
+.tab-button:hover{
+    color: var(--color)
+}
 .tab-button:active{
-    border-bottom: 3px solid var(--color) !important;
+    border-bottom: 3px solid var(--color);
+    color: var(--color);
 }
 .tab-button:focus{
     box-shadow: none;
     border-bottom: 3px solid var(--color);
+    color: var(--color)
 }
 .video-intro{
     width: 100%;
-    height: 345px
+    height: 100%
+}
+.carousel-img{
+    width: 100%;
+    height: 100%
+}
+.carousel-item{
+    width: 100%;
+    height: 300px 
 }
 .icon-button{
     width: 30px;
@@ -65,4 +88,7 @@
 }
 .row-shop-description{
     margin-left: 10px;
+}
+.dropdown-item:active{
+    color:black
 }

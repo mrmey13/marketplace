@@ -10,7 +10,9 @@
             "refresh": "Refresh",
             "ok": "OK",
             "create":"Create",
-            "edit":"Edit"
+            "edit":"Edit",
+            "view":"View",
+            "delete":"Delete"
         },
         "expansionPanelText": "Search ..."
     },
@@ -34,6 +36,9 @@
         "background":"Background",
         "avatar":"Avatar",
         "shopName":"Shop name",
-        "description":"Description"
+        "description":"Description",
+        "shopView":"View Shop on computer",
+        "media":"Media",
+        "deleteMedia":"Delete item with id={{id}}"
     }
 }

@@ -10,7 +10,9 @@
             "refresh": "Làm mới",
             "ok":"OK",
             "create":"Tạo",
-            "edit":"Sửa"
+            "edit":"Sửa",
+            "view":"Xem",
+            "delete":"Xóa"
         },
         "expansionPanelText": "Tìm kiếm ..."
     },
@@ -31,9 +33,12 @@
     },
     "shop_profile":{
         "basic_info":"Thông tin cơ bản",
-        "background":"Ảnh nền",
+        "background":"Ảnh bìa",
         "avatar":"Avatar",
         "shopName":"Tên Shop",
-        "description":"Miêu tả"
+        "description":"Miêu tả",
+        "shopView":"Giao diện Shop trên máy tính",
+        "media":"Media",
+        "deleteMedia":"Xóa item với id={{id}}"
     }
 }

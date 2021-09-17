@@ -13,6 +13,9 @@ import ShopView from "../components/ShopView/ShopView";
 import { getRole, getFunctionRoles } from "../service";
 import { ToastProvider } from "react-toast-notifications";
 import { useTranslation, withTranslation } from "react-i18next";
+import ShopProfile from "./ShopProfile/ShopProfile";
+
+import MyAddresses from "./settings/MyAdresses";
 
 const styles = (theme) => ({
   tableContainer: {
@@ -31,6 +34,11 @@ export class AppRoute extends Component {
       <ToastProvider autoDismissTimeout={5000} placement="bottom-center">
         <Route exact path="/" component={() => DashboardArea(t, i18n)} />
         <Route exact path="/shop_view" component={() => ShopView(t, i18n)} />
+
+        <Route exact path="/shop/profile" component={() => ShopProfileArea(t, i18n)} />
+        
+        {/* Settings */}
+        <Route exact path="/settings/address" component={MyAddresses} />
       </ToastProvider>
     );
   }
@@ -41,6 +49,16 @@ const DashboardArea = (t, i18n) => (
     <Typography component="div" className={styles.tableContainer}>
       {/* E-Training Home */}
       {t("app_route.dashboard")}
+    </Typography>
+  </div>
+);
+
+const ShopProfileArea = (t, i18n) => (
+  <div>
+    <Typography component="div" className={styles.tableContainer}>
+      {/* E-Training Home */}
+      {t("app_route.shop-profile")}
+      <ShopProfile/>
     </Typography>
   </div>
 );

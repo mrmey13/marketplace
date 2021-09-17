@@ -8,16 +8,32 @@
             "confirm": "Xác nhận",
             "cancel": "Bỏ qua",
             "refresh": "Làm mới",
-            "ok":"OK"
+            "ok":"OK",
+            "create":"Tạo",
+            "edit":"Sửa"
         },
         "expansionPanelText": "Tìm kiếm ..."
     },
     "app_route": {
-        "dashboard": "Trang chính Marketplace"
+        "dashboard": "Trang chính Marketplace",
+        "shop-profile":"Hồ sơ Shop"
     },
     "language": {
         "title": "Ngôn ngữ: ",
         "english": "Tiếng Anh",
         "vietnamese": "Tiếng Việt"
+    },
+    "nested_list": {
+        "shop_menu": {
+            "title": "Quản lý Shop",
+            "profile": "Hồ sơ Shop"
+        }
+    },
+    "shop_profile":{
+        "basic_info":"Thông tin cơ bản",
+        "background":"Ảnh nền",
+        "avatar":"Avatar",
+        "shopName":"Tên Shop",
+        "description":"Miêu tả"
     }
 }

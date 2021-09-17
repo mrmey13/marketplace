@@ -59,7 +59,7 @@ const styles = (theme) => ({
 	},
 	toolbar: {
 		paddingRight: 24, // keep right padding when drawer closed
-		backgroundColor: color.flamingo,
+		backgroundColor: color.tanhide,
 	},
 	toolbarHeader: {
 		display: "flex",
@@ -156,6 +156,7 @@ const styles = (theme) => ({
 		justifyContent: "center",
 	},
 	footer: {
+		paddingTop: "20px",
 		display: "flex",
 		justifyContent: "center",
 		alignItems: "center",

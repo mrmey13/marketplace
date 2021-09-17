@@ -63,7 +63,6 @@
 		},
 		"scripts": {
 				"start": "react-scripts start",
-				"start:dev": "env-cmd -f ./env/dev.env npm run start",
 				"build": "react-scripts build",
 				"start:dev": "env-cmd -f ./env/dev.env npm run start",
 				"start:production": "env-cmd -f ./env/production.env npm run start",

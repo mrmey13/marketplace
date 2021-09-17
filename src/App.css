@@ -41,8 +41,30 @@
   border-radius: 0;
 }
 
-.w-80em {
-  width: 80em;
+.w-80vw {
+  width: 80vw;
+}
+
+.minw-80em {
+  min-width: 80em;
+}
+
+.alert-popup {
+  color: #000;
+  display: flex;
+  padding: 10px 16px;
+  /* flex-grow: 1;
+  flex-wrap: wrap; */
+  font-size: 0.875rem;
+  align-items: center;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  /* font-weight: 400;
+  line-height: 1.43; */
+  border: 1px solid #f69756;
+  border-radius: 4px;
+  letter-spacing: 0.01071em;
+  background-color: #ffffff;
+  min-width: 270px;
 }
 
 .link-btn {

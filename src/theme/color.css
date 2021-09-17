@@ -8,7 +8,7 @@
     --gray: #848484;
     --dovegray: #717171;
     --bizarre: #EDDED4;
-    --jaffa: #F37D3E;
+    /* --jaffa: #F37D3E; */
     --eveningsea: #04544C;
     --tangaroa: #041E44;
     --bluewhale: #042F3D;
@@ -30,4 +30,33 @@
     --flamingo: #F1503E;
     --seabuckthorn: #F9AB34;
     --orangeroughy: #D45713;
+
+    /* nhom 1: analogous */
+    --casablanca:#FAAE4B;
+    --tanhide:#F69756;
+    --coral:#FA744B;
+
+    /* nhom 2: monochromatic */
+    --christine:#F26A0D;
+    --tango:#f37926;
+    --jaffa: #f5883e;
+    /* --tanhide:#F69756; */
+    --rajah:#f7a66e;
+    --hitpink:#F9B586;
+    --corvette:#fac49f;
+
+    /* nhom 3 triadic */
+    --screamingreen:#56F697;
+    /* --tanhide:#F69756; */
+    --heliotrope:#9756F6;
+
+    /* nhom 4 complementary */
+    /* --tanhide:#F69756; */
+    --malibu:#56ECF5;
+
+    /* nhom 7 tetradic */
+    --olivegreen:#9FB350;
+    /* --tanhide:#F69756; */
+    --scooter:#30B7BF;
+    --purpleheart:#9139BF;
 }

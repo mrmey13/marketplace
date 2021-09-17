@@ -1,5 +1,5 @@
 {
-    "LOGIN":"LOGIN",
+    "LOGIN": "LOGIN",
     "commons": {
         "button": {
             "save": "Save",
@@ -8,16 +8,32 @@
             "confirm": "Confirm",
             "cancel": "Cancel",
             "refresh": "Refresh",
-            "ok":"OK"
+            "ok": "OK",
+            "create":"Create",
+            "edit":"Edit"
         },
         "expansionPanelText": "Search ..."
     },
     "app_route": {
-        "dashboard": "Marketplace Home"
+        "dashboard": "Marketplace Home",
+        "shop-profile":"Shop Profile"
     },
     "language": {
         "title": "Language: ",
         "english": "English",
         "vietnamese": "Vietnamese"
+    },
+    "nested_list": {
+        "shop_menu": {
+            "title": "Shop Management",
+            "profile": "Shop Profile"
+        }
+    },
+    "shop_profile":{
+        "basic_info":"Basic Info",
+        "background":"Background",
+        "avatar":"Avatar",
+        "shopName":"Shop name",
+        "description":"Description"
     }
 }

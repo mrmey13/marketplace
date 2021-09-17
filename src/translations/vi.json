@@ -13,11 +13,18 @@
         "expansionPanelText": "Tìm kiếm ..."
     },
     "app_route": {
-        "dashboard": "Trang chính Marketplace"
+        "dashboard": "Trang chính Marketplace",
+        "shop-profile":"Hồ sơ Shop"
     },
     "language": {
         "title": "Ngôn ngữ: ",
         "english": "Tiếng Anh",
         "vietnamese": "Tiếng Việt"
+    },
+    "nested_list": {
+        "shop_menu": {
+            "title": "Quản lý Shop",
+            "profile": "Hồ sơ Shop"
+        }
     }
 }

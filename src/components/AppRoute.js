@@ -12,6 +12,7 @@ import cs from "../const";
 import { getRole, getFunctionRoles } from "../service";
 import { ToastProvider } from "react-toast-notifications";
 import { useTranslation, withTranslation } from "react-i18next";
+import ShopProfile from "./ShopProfile/ShopProfile";
 
 const styles = (theme) => ({
     tableContainer: {
@@ -29,6 +30,7 @@ export class AppRoute extends Component {
         return (
             <ToastProvider autoDismissTimeout={5000} placement="bottom-center">
                 <Route exact path="/" component={() => DashboardArea(t, i18n)} />
+                <Route exact path="/shop/profile" component={() => ShopProfileArea(t, i18n)} />
             </ToastProvider>
         )
     }
@@ -41,6 +43,16 @@ const DashboardArea = (t, i18n) => (
         {t("app_route.dashboard")}
       </Typography>
     </div>
-  );
+);
+
+const ShopProfileArea = (t, i18n) => (
+    <div>
+      <Typography component="div" className={styles.tableContainer}>
+        {/* E-Training Home */}
+        {t("app_route.shop-profile")}
+        <ShopProfile/>
+      </Typography>
+    </div>
+);
 
 export default withTranslation()(AppRoute);

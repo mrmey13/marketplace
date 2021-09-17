@@ -1,5 +1,5 @@
 {
-    "LOGIN":"LOGIN",
+    "LOGIN": "LOGIN",
     "commons": {
         "button": {
             "save": "Save",
@@ -8,16 +8,23 @@
             "confirm": "Confirm",
             "cancel": "Cancel",
             "refresh": "Refresh",
-            "ok":"OK"
+            "ok": "OK"
         },
         "expansionPanelText": "Search ..."
     },
     "app_route": {
-        "dashboard": "Marketplace Home"
+        "dashboard": "Marketplace Home",
+        "shop-profile":"Shop Profile"
     },
     "language": {
         "title": "Language: ",
         "english": "English",
         "vietnamese": "Vietnamese"
+    },
+    "nested_list": {
+        "shop_menu": {
+            "title": "Shop Management",
+            "profile": "Shop Profile"
+        }
     }
 }

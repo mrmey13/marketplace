@@ -95,3 +95,7 @@ h5{
 .shop-image-description{
     width: 50%;
 }
+.nav-button:hover{
+    background-color: transparent;
+
+}

@@ -321,6 +321,12 @@ function ShopView() {
                   class={index == 0 ? "active" : null}
                   aria-current="true"
                   aria-label="Slide 1"
+                  style={{
+                    width: "15px",
+                    height: "15px",
+                    borderRadius: "100px",
+                    backgroundColor: "#FF6600",
+                  }}
                 ></button>
               ))}
             </div>
@@ -355,10 +361,11 @@ function ShopView() {
               ))}
             </div>
             <button
-              class="carousel-control-prev"
+              class="carousel-control-prev nav-button"
               type="button"
               data-bs-target="#carouselExampleIndicators"
               data-bs-slide="prev"
+              style={{ width: "30px" }}
             >
               <span
                 class="carousel-control-prev-icon"
@@ -367,10 +374,11 @@ function ShopView() {
               <span class="visually-hidden">Previous</span>
             </button>
             <button
-              class="carousel-control-next"
+              class="carousel-control-next nav-button"
               type="button"
               data-bs-target="#carouselExampleIndicators"
               data-bs-slide="next"
+              style={{ width: "30px" }}
             >
               <span
                 class="carousel-control-next-icon"

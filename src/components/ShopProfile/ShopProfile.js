@@ -98,6 +98,7 @@ const styles = (theme) => ({
         top: "0px",
         '&:hover': {
             backgroundColor: color.seabuckthorn,
+            boxShadow: `0 0px 10px ${color.seabuckthorn}`
         },
         '&:active': {
             backgroundColor: color.seabuckthorn,

@@ -45,17 +45,17 @@ class DialogWrapper extends React.Component {
     }
 
     render() {
-        const { children, title, width, history } = this.props;
+        const { children, title, width, history, open, handleClose } = this.props;
         return (
             <>
                 <Dialog
-                    onClose={history.goBack}
-                    open={true}
+                    onClose={handleClose || history.goBack}
+                    open={open || true}
                     aria-labelledby="form-dialog-title"
                     fullWidth
                     maxWidth={width || 'sm'}
                 >
-                    <DialogTitle id="create_user_form-dialog-title" onClose={history.goBack}>
+                    <DialogTitle id="create_user_form-dialog-title" onClose={handleClose || history.goBack}>
                         {title}
                     </DialogTitle>
                     {children}

@@ -3,6 +3,7 @@ import { ThemeContext } from "../contexts/ThemeContext";
 import { Backdrop, Box, makeStyles, Snackbar } from "@material-ui/core";
 import Modal from "@material-ui/core/Snackbar";
 import { useTranslation, withTranslation } from "react-i18next";
+import { GoogleMap, Marker, withGoogleMap, withScriptjs } from "react-google-maps"
 import axios from "axios";
 import cs from "../../const";
 import { useEffect } from "react";
@@ -22,9 +23,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const MyMapComponent = withScriptjs(withGoogleMap((props) =>
+  <GoogleMap
+    defaultZoom={10}
+    defaultCenter={{ lat: -34.397, lng: 150.644 }}
+  >
+    {props.isMarkerShown && <Marker position={{ lat: -34.397, lng: 150.644 }} onClick={props.onMarkerClick} />}
+  </GoogleMap>
+))
+
 const MyAddresses = () => {
   let fakeList = [];
   for (let i = 0; i < 4; i++) fakeList.push(i);
+
 
   const classes = useStyles();
 
@@ -92,7 +103,7 @@ const MyAddresses = () => {
   };
 
   const handleConfirmAddClick = async () => {
-    
+
     try {
 
     } catch (error) {
@@ -456,6 +467,15 @@ const MyAddresses = () => {
               {responseMessage.content}
             </div>
           </Snackbar>
+
+          <MyMapComponent
+            isMarkerShown
+            googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
+            loadingElement={<div style={{ height: `100%` }} />}
+            containerElement={<div style={{ height: `400px` }} />}
+            mapElement={<div style={{ height: `100%` }} />}
+          />
+
         </div>
       }}
     </ThemeContext.Consumer>

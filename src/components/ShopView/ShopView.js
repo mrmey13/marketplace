@@ -216,7 +216,7 @@ function ShopView() {
             className="btn btn-outline-none tab-button "
             style={
               tab == 1
-                ? { borderBottom: "3px solid #F69756" }
+                ? { borderBottom: "3px solid #F69756", color: "#F69756" }
                 : { borderBottom: "none" }
             }
             autoFocus="true"
@@ -229,7 +229,7 @@ function ShopView() {
             onClick={() => setTab(2)}
             style={
               tab == 2
-                ? { borderBottom: "3px solid #F69756" }
+                ? { borderBottom: "3px solid #F69756", color: "#F69756" }
                 : { borderBottom: "none" }
             }
           >
@@ -240,7 +240,7 @@ function ShopView() {
             onClick={() => setTab(3)}
             style={
               tab == 3
-                ? { borderBottom: "3px solid #F69756" }
+                ? { borderBottom: "3px solid #F69756", color: "#F69756" }
                 : { borderBottom: "none" }
             }
           >
@@ -251,7 +251,7 @@ function ShopView() {
             onClick={() => setTab(4)}
             style={
               tab == 4
-                ? { borderBottom: "3px solid #F69756" }
+                ? { borderBottom: "3px solid #F69756", color: "#F69756" }
                 : { borderBottom: "none" }
             }
           >
@@ -262,7 +262,7 @@ function ShopView() {
             onClick={() => setTab(5)}
             style={
               tab == 5
-                ? { borderBottom: "3px solid #F69756" }
+                ? { borderBottom: "3px solid #F69756", color: "#F69756" }
                 : { borderBottom: "none" }
             }
           >
@@ -276,7 +276,7 @@ function ShopView() {
               onClick={() => setTab(6)}
               style={
                 tab == 6
-                  ? { borderBottom: "3px solid #F69756" }
+                  ? { borderBottom: "3px solid #F69756", color: "#F69756" }
                   : { borderBottom: "none" }
               }
             >

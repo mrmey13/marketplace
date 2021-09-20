@@ -555,15 +555,16 @@ class ShopProfile extends Component {
 								Add Image
 							</Button>
 
-							<div className="row" style={{ paddingTop: "30px" }}>
+							<div className="row" style={{ paddingTop: "30px", paddingLeft:"10px" }}>
 								{this.state.mediaList.map((item) => (
 									<div
 										className="col"
 										style={{
 											display: "flex",
 											flexDirection: "column",
-											paddingTop: "20px",
-											paddingBottom: "10px",
+											// paddingTop: "20px",
+											// paddingBottom: "10px",
+											padding:"20px",
 											position: "relative",
 										}}
 									>
@@ -579,8 +580,8 @@ class ShopProfile extends Component {
 											<img
 												id={item.id}
 												style={{
-													height: "400px",
-													width: "800px",
+													height: "360px",
+													width: "720px",
 													borderStyle: "solid",
 												}}
 												src={`${cs.MediaURL}/media/${item.path}`}
@@ -592,8 +593,8 @@ class ShopProfile extends Component {
 										{item.type === 22 && (
 											<iframe
 												style={{
-													height: "400px",
-													width: "800px",
+													height: "360px",
+													width: "720px",
 													borderStyle: "solid",
 												}}
 												src={`//www.youtube.com/embed/${getYoutubeId(

@@ -151,6 +151,8 @@ class ShopProfile extends Component {
 						shopName: data.data.shopName,
 						description: data.data.description,
 						mediaList: data.data.mediaDescriptionsList,
+						avatarURL: `${cs.MediaURL}/media/${data.data.avatarPath}`,
+						bgURL: `${cs.MediaURL}/media/${data.data.coverPath}`
 					});
 				} else {
 					console.log("HERE");
@@ -165,7 +167,7 @@ class ShopProfile extends Component {
 		console.log('Files:', files);
 		let queryString = `${uploadBGURL}`;
 		const formData = new FormData();
-		formData.append('file', files[0]);
+		formData.append('file', files);
 
 		fetch(queryString, {
 			method: 'POST',
@@ -177,11 +179,14 @@ class ShopProfile extends Component {
 
 				console.log(data);
 				var isFileImported = true;
-				if (data && data.error_code != 0 && data.error_desc != "Success") {
+				if (data && data.error_code === 0 && data.error_desc === "Success") {
 					this.props.toastManager.add('Upload thành công !', {
 						appearance: 'success',
 						autoDismiss: true,
 						pauseOnHover: true
+					});
+					this.setState({
+						bgUpdated: false
 					});
 					// window.location.reload();
 					this.loadData();
@@ -197,7 +202,7 @@ class ShopProfile extends Component {
 		console.log('Files:', files);
 		let queryString = `${uploadAvatarURL}`;
 		const formData = new FormData();
-		formData.append('file', files[0]);
+		formData.append('file', files);
 
 		fetch(queryString, {
 			method: 'POST',
@@ -209,11 +214,14 @@ class ShopProfile extends Component {
 
 				console.log(data);
 				var isFileImported = true;
-				if (data && data.error_code != 0 && data.error_desc != "Success") {
+				if (data && data.error_code === 0 && data.error_desc === "Success") {
 					this.props.toastManager.add('Upload thành công !', {
 						appearance: 'success',
 						autoDismiss: true,
 						pauseOnHover: true
+					});
+					this.setState({
+						avatarUpdated: false
 					});
 					this.loadData();
 					// window.location.reload();

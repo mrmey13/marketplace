@@ -1,7 +1,58 @@
 import React from "react";
 import "./ShopSetting.css";
+import axios from "axios";
+import cs from "../../const";
+import { useState, useEffect } from "react";
+import { useTranslation, withTranslation } from "react-i18next";
+
+
+
+
+const lngs = {
+  en: { nativeName: 'language.english' },
+  vi: { nativeName: 'language.vietnamese' },
+};
 
 function ShopSetting() {
+
+  const [language, setLanguage] = useState([]);
+  const loadLanguage = async () => {
+    try {
+      const response = await axios({
+        method: "get",
+        url: `http://192.168.1.127:9555/api/common/language_definition`,
+        headers: {
+          Authorization: localStorage.getItem(cs.System_Code + "-token")
+        }
+      });
+      console.log("language", response.data);
+      setLanguage(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+  // const [setting, setSetting] = useState([]);
+  // const loadSetting = async () => {
+  //   try {
+  //     const response = await axios({
+  //       method: "get",
+  //       url: `http://192.168.1.127:9555/api/seller/shop-setting`,
+  //       headers: {
+  //         Authorization: localStorage.getItem(cs.System_Code + "-token")
+  //       }
+  //     });
+  //     console.log("setting", response.data);
+  //     setSetting(response.data.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+
+
+
+
   return (
     // <div className="header-bar"></div>
     // <div className="app-container"></div>
@@ -103,6 +154,10 @@ function ShopSetting() {
                                 shop-switch--normal
                             "
                         ></div>
+                        {/* <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked></input>
+                          <label class="form-check-label" for="flexSwitchCheckChecked"></label>
+                        </div> */}
                       </div>
                     </div>
                   </div>

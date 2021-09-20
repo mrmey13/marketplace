@@ -16,6 +16,9 @@ import ImageListItem from "@material-ui/core/ImageListItem";
 import { DropzoneDialog } from "material-ui-dropzone";
 import UploadMedia from "./UploadMedia";
 
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
+
 const storeDetailsURL = cs.BaseURL + "/api/seller/shop/detail";
 const createStoreURL = cs.BaseURL + "/api/seller/shop/create";
 const editStoreURL = cs.BaseURL + "/api/seller/shop/edit";
@@ -84,14 +87,37 @@ const styles = (theme) => ({
     fontSize: "12px",
     borderTop: "1px solid #e5e5e5",
   },
+  delete_btn: {
+    width: "50px",
+    height: "50px",
+    // borderRadius: "25px",
+    position: "absolute",
+    backgroundColor: color.casablanca,
+    left: "-5px",
+    top: "0px",
+    "&:hover": {
+      backgroundColor: color.seabuckthorn,
+      boxShadow: `0 0px 10px ${color.seabuckthorn}`,
+    },
+    "&:active": {
+      backgroundColor: color.seabuckthorn,
+    },
+    color: "#ffffff",
+  },
 });
 
 class ShopProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      bgURL: null,
       bg: null,
+      bgUpdated: false,
+
+      avatarURL: null,
       avatar: null,
+      avatarUpdated: false,
+
       name: "",
       description: "",
       mediaList: [],
@@ -131,34 +157,36 @@ class ShopProfile extends Component {
       .catch(() => {});
   };
 
-  handleBGChange = (event) => {
-    const newImage = URL.createObjectURL(event.target?.files?.[0]);
-
-    if (newImage) {
-      console.log(newImage);
-      this.setState({ bg: newImage });
-      // setImage(URL.createObjectURL(newImage));
-    }
+  handleBGChange = () => {
+    console.log(this.state.bg);
   };
 
-  handleAvatarChange = (event) => {
-    const newImage = URL.createObjectURL(event.target?.files?.[0]);
-
-    if (newImage) {
-      console.log(newImage);
-      this.setState({ avatar: newImage });
-      // setImage(URL.createObjectURL(newImage));
-    }
+  handleAvatarChange = () => {
+    console.log(this.state.avatar);
   };
 
   handleChange = (name) => (event) => {
-    if (name == "bg" || name == "avatar") {
+    if (name == "bg") {
       const newImage = URL.createObjectURL(event.target?.files?.[0]);
 
       if (newImage) {
         console.log(newImage);
-        this.setState({ [name]: newImage });
-        // setImage(URL.createObjectURL(newImage));
+        this.setState({
+          bgURL: newImage,
+          bg: event.target?.files?.[0],
+          bgUpdated: true,
+        });
+      }
+    } else if (name == "avatar") {
+      const newImage = URL.createObjectURL(event.target?.files?.[0]);
+
+      if (newImage) {
+        console.log(newImage);
+        this.setState({
+          avatarURL: newImage,
+          avatar: event.target?.files?.[0],
+          avatarUpdated: true,
+        });
       }
     } else
       this.setState(
@@ -320,7 +348,7 @@ class ShopProfile extends Component {
                   {/* <div className={classes.cover}/> */}
                   <div style={{ position: "relative" }}>
                     <img
-                      src={this.state.bg || default_image}
+                      src={this.state.bgURL || default_image}
                       className={classes.bgImage}
                     />
                     <div className={classes.cover} />
@@ -328,7 +356,7 @@ class ShopProfile extends Component {
                   {/* <img src={this.state.bg || default_image} className={classes.bgImage}> */}
 
                   <img
-                    src={this.state.avatar || default_image}
+                    src={this.state.avatarURL || default_image}
                     className={classes.avatarImage}
                   />
                   <Typography className={classes.previewText}>
@@ -340,25 +368,48 @@ class ShopProfile extends Component {
                   <div className={classes.list_info}>
                     <div className={classes.info_row}>
                       <Typography>{t("shop_profile.avatar")}</Typography>
-                      <Button variant="contained" component="label">
-                        Upload File
-                        <input
-                          type="file"
-                          hidden
-                          onChange={this.handleChange("avatar")}
-                        />
-                      </Button>
+                      {!this.state.avatarUpdated && (
+                        <Button variant="contained" component="label">
+                          Upload File
+                          <input
+                            type="file"
+                            hidden
+                            onChange={this.handleChange("avatar")}
+                          />
+                        </Button>
+                      )}
+                      {this.state.avatarUpdated && (
+                        <Button
+                          variant="contained"
+                          component="label"
+                          onClick={this.handleAvatarChange}
+                        >
+                          {t("commons.button.save")}
+                        </Button>
+                      )}
                     </div>
+
                     <div className={classes.info_row}>
                       <Typography>{t("shop_profile.background")}</Typography>
-                      <Button variant="contained" component="label">
-                        Upload File
-                        <input
-                          type="file"
-                          hidden
-                          onChange={this.handleChange("bg")}
-                        />
-                      </Button>
+                      {!this.state.bgUpdated && (
+                        <Button variant="contained" component="label">
+                          Upload File
+                          <input
+                            type="file"
+                            hidden
+                            onChange={this.handleChange("bg")}
+                          />
+                        </Button>
+                      )}
+                      {this.state.bgUpdated && (
+                        <Button
+                          variant="contained"
+                          component="label"
+                          onClick={this.handleBGChange}
+                        >
+                          {t("commons.button.save")}
+                        </Button>
+                      )}
                     </div>
                     <div className={classes.info_row}>
                       <Typography>{t("shop_profile.shopView")}</Typography>
@@ -373,6 +424,7 @@ class ShopProfile extends Component {
 
                 {/* <img src={default_image}/> */}
               </div>
+
               <div className="col-sm-8 card card-body">
                 <TextField
                   // autofocus
@@ -430,20 +482,39 @@ class ShopProfile extends Component {
                 variant="contained"
                 color="primary"
                 onClick={() => this.setState({ openUploadModal: true })}
+                style={{ backgroundColor: color.casablanca }}
               >
                 Add Image
               </Button>
 
-              <div className="row" style={{ paddingTop: "10px" }}>
+              <div className="row" style={{ paddingTop: "30px" }}>
                 {this.state.mediaList.map((item) => (
                   <div
                     className="col"
-                    style={{ display: "flex", flexDirection: "column" }}
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      paddingTop: "20px",
+                      paddingBottom: "10px",
+                      position: "relative",
+                    }}
                   >
+                    <IconButton
+                      color="primary"
+                      onClick={() => this.deleteMedia(item.id)}
+                      className={classes.delete_btn}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+
                     {item.type === 11 && (
                       <img
                         id={item.id}
-                        style={{ height: "400px", width: "800px" }}
+                        style={{
+                          height: "400px",
+                          width: "800px",
+                          borderStyle: "solid",
+                        }}
                         src={`${cs.MediaURL}/media/${item.path}`}
                         srcSet={`${cs.MediaURL}/media/${item.path}`}
                         alt={item.title}
@@ -452,7 +523,11 @@ class ShopProfile extends Component {
                     )}
                     {item.type === 22 && (
                       <iframe
-                        style={{ height: "400px", width: "800px" }}
+                        style={{
+                          height: "400px",
+                          width: "800px",
+                          borderStyle: "solid",
+                        }}
                         src={`//www.youtube.com/embed/${getYoutubeId(
                           item.path
                         )}`}
@@ -460,12 +535,9 @@ class ShopProfile extends Component {
                         allowfullscreen
                       ></iframe>
                     )}
-                    <Button
-                      onClick={() => this.deleteMedia(item.id)}
-                      style={{ width: "800px" }}
-                    >
-                      {t("commons.button.delete")}
-                    </Button>
+                    {/* <Button onClick={() => this.deleteMedia(item.id)} style={{ width: "800px",borderStyle: "solid", }}>
+                                            {t("commons.button.delete")}
+                                        </Button> */}
                   </div>
                 ))}
               </div>

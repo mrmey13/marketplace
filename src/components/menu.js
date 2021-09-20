@@ -16,6 +16,14 @@ const shop_menu = [
                 accesses:[],
                 nonaccesses: []
             },
+            {
+                // icon: <Icon color="disable">query_builder</Icon>,
+                title: 'Shop Settiengs',
+                to: '/shop/setting',
+                items: [],
+                accesses:[],
+                nonaccesses: []
+            },
         ],
         accesses:[],
         nonaccesses: []

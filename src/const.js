@@ -7,4 +7,5 @@ export default {
     System_Code: process.env.REACT_APP_SYSTEM_CODE,
     System_Name: process.env.REACT_APP_SYSTEM_NAME,
     System_Domain: process.env.REACT_APP_SYSTEM_DOMAIN,
+    GoogleMapsAPI_Key: process.env.GOOGLE_MAPS_API_KEY
 }

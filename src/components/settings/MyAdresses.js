@@ -8,6 +8,15 @@ import axios from "axios";
 import cs from "../../const";
 import { useEffect } from "react";
 
+const loadAddressesDataUrl = cs.BaseURL + "/api/seller/shop-address/list";
+const loadAddressTypeDataUrl = cs.BaseURL + "/api/common/shop-address-type";
+const loadCityDataUrl = cs.BaseURL + "/api/common/all-provinces";
+const loadDistrictDataUrl = cs.BaseURL + "/api/common/districts?";
+const loadWardtDataUrl = cs.BaseURL + "/api/common/communes?";
+const createAddressUrl = cs.BaseURL + "/api/seller/shop-address/create";
+const editAddressUrl = cs.BaseURL + "/api/seller/shop-address/edit";
+const deleteAddressUrl = cs.BaseURL + "/api/seller/shop-address/delete?";
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
@@ -23,20 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MyMapComponent = withScriptjs(withGoogleMap((props) =>
-  <GoogleMap
-    defaultZoom={10}
-    defaultCenter={{ lat: -34.397, lng: 150.644 }}
-  >
-    {props.isMarkerShown && <Marker position={{ lat: -34.397, lng: 150.644 }} onClick={props.onMarkerClick} />}
-  </GoogleMap>
-))
-
 const MyAddresses = () => {
-  let fakeList = [];
-  for (let i = 0; i < 4; i++) fakeList.push(i);
-
-
   const classes = useStyles();
 
   const [responseMessage, setResponseMessage] = useState({
@@ -54,7 +50,7 @@ const MyAddresses = () => {
 
   const [openModal, setOpenModal] = useState(false);
   const [reqType, setReqType] = useState("");
-  const [addressId, setAddressId] = useState();
+  const [address, setAddress] = useState({});
   const [openDelModal, setOpenDelModal] = useState(false);
   const [modalForm, setModalForm] = useState({
     fullname: "",
@@ -63,9 +59,12 @@ const MyAddresses = () => {
     district: 0,
     ward: 0,
     detailAddress: "",
-    type: "",
-    longtitude: "",
-    latitude: ""
+    type: [],
+    defaultAddress: false,
+    pickupAddress: false,
+    returnAddress: false,
+    longtitude: 0,
+    latitude: 0
   });
 
   const handleOpenModal = (reqType) => {
@@ -80,48 +79,170 @@ const MyAddresses = () => {
       district: 0,
       ward: 0,
       detailAddress: "",
-      type: "",
-      longtitude: "",
-      latitude: ""
+      type: [],
+      defaultAddress: false,
+      pickupAddress: false,
+      returnAddress: false,
+      longtitude: 0,
+      latitude: 0
     });
+    setAddress({});
     setOpenModal(false);
   };
   const onChangeModal = (event) => {
     setModalForm({ ...modalForm, [event.target.name]: event.target.value });
   };
+  const onChangeCheckBox = (event) => {
+    setModalForm({ ...modalForm, [event.target.name]: event.target.checked });
+  };
+  const onChangeCoordinates = (event) => {
+    console.log(event);
+    setModalForm({ ...modalForm, latitude: event.latLng.lat(), longtitude: event.latLng.lng() })
+  }
   const handleOpenDelModal = () => {
     setOpenDelModal(true);
   };
   const handleCloseDelModal = () => {
+    setAddress({});
     setOpenDelModal(false);
   };
+  const handleShopType = () => {
+    let typeList = [];
+    typeList = (modalForm.defaultAddress) ? typeList.concat(1) : typeList;
+    typeList = (modalForm.returnAddress) ? typeList.concat(2) : typeList;
+    typeList = (modalForm.pickupAddress) ? typeList.concat(3) : typeList;
+    return typeList;
+  }
   const handleConfirmData = () => {
     console.log(modalForm);
   };
+
+
   const handleAddClick = () => {
+    if (addressList.length === 0) { setModalForm({ ...modalForm, defaultAddress: true, pickupAddress: true, returnAddress: true }) };
     handleOpenModal("add");
   };
 
   const handleConfirmAddClick = async () => {
-
+    setModalForm({ ...modalForm, type: "" });
     try {
-
+      const response = await axios({
+        method: "post",
+        url: `${createAddressUrl}`, 
+        headers: {
+          Authorization: localStorage.getItem(cs.System_Code + "-token"),
+        },
+        data: {
+          provinceId: modalForm.city,
+          districtId: modalForm.district,
+          communeId: modalForm.ward,
+          fullAddress: modalForm.detailAddress,
+          fullName: modalForm.fullname,
+          telephone: modalForm.telephone,
+          shopAddressTypeList: handleShopType(),
+          longtitude: modalForm.longtitude,
+          latitude: modalForm.latitude
+        }
+      });
+      console.log(response.data);
+      console.log("modalForm", modalForm);
+      if (response.data.error_desc === "Success") {
+        loadAddressesData();
+        setResponseMessage({ type: "success", content: "Create Success!" });
+        setOpenMessage(true);
+        handleCloseModal();
+      } else {
+        setResponseMessage({ type: "error", content: response.data.error_desc });
+        setOpenMessage(true);
+      }
     } catch (error) {
       console.log(error);
     }
   }
 
   const handleModClick = (item) => {
-    console.log(item);
     setModalForm({
-
+      fullname: item.fullName,
+      telephone: item.telephone,
+      city: item.provinceId,
+      district: item.districtId,
+      ward: item.communeId,
+      detailAddress: item.fullAddress,
+      type: [], // can chinh here
+      defaultAddress: item.isDefault,
+      pickupAddress: item.isPickUp,
+      returnAddress: item.isReturn,
+      longtitude: item.longtitude,
+      latitude: item.latitude
     });
-    setAddressId(item);
+    setAddress(item);
     handleOpenModal("edit");
   };
 
   const handleConfirmModClick = async () => {
+    try {
+      const response = await axios({
+        method: "post",
+        url: `${editAddressUrl}`,
+        headers: {
+          Authorization: localStorage.getItem(cs.System_Code + "-token"),
+        },
+        data: {
+          addressId: address.addressId,
+          provinceId: modalForm.city,
+          districtId: modalForm.district,
+          communeId: modalForm.ward,
+          fullAddress: modalForm.detailAddress,
+          fullName: modalForm.fullname,
+          telephone: modalForm.telephone,
+          shopAddressTypeList: handleShopType(),
+          longtitude: modalForm.longtitude,
+          latitude: modalForm.latitude
+        }
+      });
+      console.log(response.data);
+      console.log("modalForm", modalForm);
+      if (response.data.error_desc === "Success") {
+        loadAddressesData();
+        setResponseMessage({ type: "success", content: "Edit Success!" });
+        setOpenMessage(true);
+        handleCloseModal();
+      } else {
+        setResponseMessage({ type: "error", content: response.data.error_desc });
+        setOpenMessage(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
+  const handleDelClick = (item) => {
+    setAddress(item);
+    handleOpenDelModal();
+  }
+
+  const handleConfirmDelClick = async () => {
+    try {
+      const response = await axios({
+        method: "get",
+        url: `${deleteAddressUrl}addressId=${address.addressId}`,
+        headers: {
+          Authorization: localStorage.getItem(cs.System_Code + "-token")
+        }
+      });
+      console.log(response.data);
+      if (response.data.error_desc === "Success") {
+        loadAddressesData();
+        setResponseMessage({ type: "success", content: "Delete Success!" });
+        setOpenMessage(true);
+        handleCloseDelModal();
+      } else {
+        setResponseMessage({ type: "error", content: response.data.error_desc });
+        setOpenMessage(true);
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const [addressList, setAddressList] = useState([]);
@@ -133,7 +254,7 @@ const MyAddresses = () => {
     try {
       const response = await axios({
         method: "get",
-        url: `http://192.168.1.127:9555/api/seller/shop-address/list`,
+        url: `${loadAddressesDataUrl}`,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + "-token")
         }
@@ -149,12 +270,12 @@ const MyAddresses = () => {
     try {
       const response = await axios({
         method: "get",
-        url: `http://192.168.1.127:9555/api/common/all-provinces`,
+        url: `${loadCityDataUrl}`,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + "-token")
         }
       });
-      console.log("city", response.data);
+      // console.log("city", response.data);
       setCityList(response.data.data);
     } catch (error) {
       console.log(error);
@@ -165,12 +286,12 @@ const MyAddresses = () => {
     try {
       const response = await axios({
         method: "get",
-        url: `http://192.168.1.127:9555/api/common/districts?provinceId=${modalForm.city}`,
+        url: `${loadDistrictDataUrl}provinceId=${modalForm.city}`,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + "-token")
         }
       });
-      console.log("district", response.data);
+      // console.log("district", response.data);
       setDistrictList(response.data.data);
     } catch (error) {
       console.log(error);
@@ -181,12 +302,12 @@ const MyAddresses = () => {
     try {
       const response = await axios({
         method: "get",
-        url: `http://192.168.1.127:9555/api/common/communes?districtId=${modalForm.district}`,
+        url: `${loadWardtDataUrl}districtId=${modalForm.district}`,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + "-token")
         }
       });
-      console.log("ward", response.data);
+      // console.log("ward", response.data);
       setWardList(response.data.data);
     } catch (error) {
       console.log(error);
@@ -197,12 +318,12 @@ const MyAddresses = () => {
     try {
       const response = await axios({
         method: "get",
-        url: `http://192.168.1.127:9555/api/common/shop-address-type`,
+        url: `${loadAddressTypeDataUrl}`,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + "-token")
         }
       });
-      console.log("addr-type", response.data);
+      // console.log("addr-type", response.data);
     } catch (error) {
       console.log(error);
     }
@@ -212,15 +333,10 @@ const MyAddresses = () => {
     loadAddressesData();
     loadCityData();
     loadAddressTypeData();
-  }, []);
-
-  useEffect(() => {
     loadDistrictData();
-  }, [modalForm.city])
-
-  useEffect(() => {
     loadWardtData();
-  }, [modalForm.district])
+  }, [modalForm.city, modalForm.district]);
+
   return (
     <ThemeContext.Consumer>
       {({ isDark }) => {
@@ -239,7 +355,7 @@ const MyAddresses = () => {
               </button>
             </div>
           </div>
-          <div className="card">
+          <div className="card pb-2">
             {addressList.map(item => {
               return <div className="card-body row">
                 <div className="col-1 text-end">
@@ -248,15 +364,15 @@ const MyAddresses = () => {
                 <div className="col-10 row">
                   <div className="col-2">Full Name</div>
                   <div className="col-10 d-flex align-items-baseline">
-                    {"Nguyen Anh Tuan"}
-                    <span className="d-block ms-5 me-1 px-1 text-success" style={{ fontSize: "12px", backgroundColor: "#90ee90", borderRadius: "3px" }}>Default Address</span>
-                    <span className="d-block mx-1 px-1 text-danger" style={{ fontSize: "12px", backgroundColor: "#ee9090", borderRadius: "3px" }}>Pickup Address</span>
-                    <span className="d-block mx-1 px-1 text-warning" style={{ fontSize: "12px", backgroundColor: "#eeee90", borderRadius: "3px" }}>Return Address</span>
+                    <span className="me-5">{item.fullName}</span>
+                    {item.isDefault === 1 && <span className="d-block mx-1 px-1 text-success" style={{ fontSize: "12px", backgroundColor: "#90ee90", borderRadius: "3px" }}>Default Address</span>}
+                    {item.isPickUp === 1 && <span className="d-block mx-1 px-1 text-danger" style={{ fontSize: "12px", backgroundColor: "#ee9090", borderRadius: "3px" }}>Pickup Address</span>}
+                    {item.isReturn === 1 && <span className="d-block mx-1 px-1 text-warning" style={{ fontSize: "12px", backgroundColor: "#eeee90", borderRadius: "3px" }}>Return Address</span>}
                   </div>
                   <div className="col-2">Phone Number</div>
-                  <div className="col-10">0123456789</div>
+                  <div className="col-10">{item.telephone}</div>
                   <div className="col-2">Address</div>
-                  <div className="col-10">Lien Xuan, Nam Son, Soc Son, Ha Noi</div>
+                  <div className="col-10">{item.fullAddress && `${item.fullAddress}, `} {item.communeName}, {item.districtName}, {item.provinceName}</div>
                 </div>
                 <div className="col-1 p-0 d-flex flex-column justify-content-start align-items-end">
                   <button
@@ -265,12 +381,12 @@ const MyAddresses = () => {
                   >
                     Edit
                   </button>
-                  <button
+                  {!(item.isDefault || item.isPickUp || item.isReturn) && <button
                     className="p-0 btn btn-sm text-end link-btn"
-
+                    onClick={() => handleDelClick(item)}
                   >
                     Delete
-                  </button>
+                  </button>}
                 </div>
               </div>
             })}
@@ -298,7 +414,6 @@ const MyAddresses = () => {
                     name="fullname"
                     value={modalForm.fullname}
                     onChange={onChangeModal}
-                    required
                   />
                 </div>
               </div>
@@ -312,7 +427,6 @@ const MyAddresses = () => {
                     name="telephone"
                     value={modalForm.telephone}
                     onChange={onChangeModal}
-                    required
                   />
                 </div>
               </div>
@@ -326,9 +440,9 @@ const MyAddresses = () => {
                     value={modalForm.city}
                     onChange={(event) => { onChangeModal(event); }}
                   >
-                    <option value={0} onClick={() => setModalForm({ district: 0, ward: 0 })}>{"city"}</option>
+                    <option value={0} onClick={() => setModalForm({ ...modalForm, district: 0, ward: 0 })}>{"city"}</option>
                     {cityList.map(item =>
-                      <option value={item.id} onClick={() => setModalForm({ district: 0, ward: 0 })}>{item.name}</option>
+                      <option value={item.id} onClick={() => setModalForm({ ...modalForm, district: 0, ward: 0 })}>{item.name}</option>
                     )}
                   </select>
                 </div>
@@ -383,34 +497,76 @@ const MyAddresses = () => {
                 </div>
               </div>
               <div className="row mb-2">
-                <label className="col-2" for="type">Type: </label>
+                <div className="col-2 text-nowrap">Select Location:</div>
                 <div className="col-10">
-                  <select
-                    className="form-select form-select-sm"
-                    id="type"
-                    name="type"
-                    value={modalForm.type}
-                    onChange={onChangeModal}
-                  >
-                    <option value="">{"type"}</option>
-                    {fakeList.map(item =>
-                      <option value={item}>{item}</option>
-                    )}
-                  </select>
+                  <MyMapComponent
+                    isMarkerShown
+                    googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=`}
+                    loadingElement={<div style={{ height: `100%` }} />}
+                    containerElement={<div style={{ height: `250px` }} />}
+                    mapElement={<div style={{ height: `100%` }} />}
+                    modalForm={modalForm}
+                    onChangeCoordinates={onChangeCoordinates}
+                  />
+                </div>
+              </div>
+              <div className="row mb-2">
+                <div className="">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id="default-address"
+                    name="defaultAddress"
+                    checked={modalForm.defaultAddress}
+                    onChange={onChangeCheckBox}
+                    disabled={!addressList.length || address.isDefault}
+                  />
+                  <label className="form-label ms-4" for="default-address">
+                    {"Set As Default Address"}
+                  </label>
+                </div>
+
+                <div className="">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id="pickup-address"
+                    name="pickupAddress"
+                    checked={modalForm.pickupAddress}
+                    onChange={onChangeCheckBox}
+                    disabled={!addressList.length || address.isPickUp}
+                  />
+                  <label className="form-label ms-4" for="pickup-address">
+                    {"Set As Pickup Address"}
+                  </label>
+                </div>
+                <div className="">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id="return-address"
+                    name="returnAddress"
+                    checked={modalForm.returnAddress}
+                    onChange={onChangeCheckBox}
+                    disabled={!addressList.length || address.isReturn}
+                  />
+                  <label className="form-label ms-4" for="return-address">
+                    {"Set As Return Address"}
+                  </label>
                 </div>
               </div>
               <div className="d-flex justify-content-end">
                 {reqType === "add" && <button
                   className="btn btn-sm btn-primary me-1"
                   style={{ width: "60px" }}
-                // onClick={() => { handleConfirmAddClick(); }}
+                  onClick={() => { handleConfirmAddClick(); }}
                 >
                   {"Add"}
                 </button>}
                 {reqType === "edit" && <button
                   className="btn btn-sm btn-primary me-1"
                   style={{ width: "60px" }}
-                // onClick={() => { handleConfirmModClick(); }}
+                  onClick={() => { handleConfirmModClick(); }}
                 >
                   {"Edit"}
                 </button>}
@@ -441,7 +597,7 @@ const MyAddresses = () => {
                     type="button"
                     className="btn btn-sm btn-primary me-1"
                     style={{ width: "60px" }}
-                  // onClick={() => handleConfirmDelClick()}
+                    onClick={() => handleConfirmDelClick()}
                   >
                     {"Delete"}
                   </button>
@@ -460,7 +616,7 @@ const MyAddresses = () => {
 
           <Snackbar
             open={openMessage}
-            autoHideDuration={1500}
+            autoHideDuration={2000}
             onClose={handleCloseMessage}
           >
             <div className={"alert-popup text-" + responseMessage.type}>
@@ -468,18 +624,24 @@ const MyAddresses = () => {
             </div>
           </Snackbar>
 
-          <MyMapComponent
-            isMarkerShown
-            googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
-            loadingElement={<div style={{ height: `100%` }} />}
-            containerElement={<div style={{ height: `400px` }} />}
-            mapElement={<div style={{ height: `100%` }} />}
-          />
 
         </div>
       }}
     </ThemeContext.Consumer>
   )
 }
+
+const MyMapComponent = withScriptjs(withGoogleMap((props) => {
+  const [mark, setMark] = useState({ x: "", y: "" });
+  const { modalForm, onChangeCoordinates } = props;
+  return <GoogleMap
+    defaultZoom={3}
+    defaultCenter={{ lat: modalForm.latitude, lng: modalForm.longtitude }}
+    onClick={(event) => { setMark({ x: event.latLng.lat(), y: event.latLng.lng() }); onChangeCoordinates(event) }}
+  >
+    {props.isMarkerShown && <Marker position={{ lat: mark.x, lng: mark.y }} />}
+  </GoogleMap>
+}
+))
 
 export default MyAddresses;

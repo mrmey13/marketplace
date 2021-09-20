@@ -23,6 +23,9 @@ const storeDetailsURL = cs.BaseURL + '/api/seller/shop/detail';
 const createStoreURL = cs.BaseURL + '/api/seller/shop/create';
 const editStoreURL = cs.BaseURL + '/api/seller/shop/edit';
 const uploadMediaURL = cs.BaseURL + '/api/seller/shop/media-description/upload';
+const uploadBGURL = cs.BaseURL + '/api/seller/shop/cover/upload';
+const uploadAvatarURL = cs.BaseURL + '/api/seller/shop/avatar/upload';
+
 const deleteMediaURL = cs.BaseURL + '/api/seller/shop/media-description/delete';
 
 function getYoutubeId(url) {
@@ -164,10 +167,66 @@ class ShopProfile extends Component {
 
     handleBGChange = () => {
         console.log(this.state.bg);
+        let files = this.state.bg;
+        console.log('Files:', files);
+        let queryString = `${uploadBGURL}`;
+        const formData = new FormData();
+        formData.append('file', files[0]);
+
+        fetch(queryString, {
+            method: 'POST',
+            body: formData,
+            headers: { Authorization: localStorage.getItem(cs.System_Code + '-token') }
+        })
+            .then(response => response.json())
+            .then(data => {
+
+                console.log(data);
+                var isFileImported = true;
+                if (data && data.error_code != 0 && data.error_desc != "Success") {
+                    this.props.toastManager.add('Upload thành công !', {
+                        appearance: 'success',
+                        autoDismiss: true,
+                        pauseOnHover: true
+                    });
+                    // window.location.reload();
+                    this.loadData();
+                }
+            })
+            .catch(() => {
+            });
     };
 
     handleAvatarChange = () => {
         console.log(this.state.avatar);
+        let files = this.state.avatar;
+        console.log('Files:', files);
+        let queryString = `${uploadAvatarURL}`;
+        const formData = new FormData();
+        formData.append('file', files[0]);
+
+        fetch(queryString, {
+            method: 'POST',
+            body: formData,
+            headers: { Authorization: localStorage.getItem(cs.System_Code + '-token') }
+        })
+            .then(response => response.json())
+            .then(data => {
+
+                console.log(data);
+                var isFileImported = true;
+                if (data && data.error_code != 0 && data.error_desc != "Success") {
+                    this.props.toastManager.add('Upload thành công !', {
+                        appearance: 'success',
+                        autoDismiss: true,
+                        pauseOnHover: true
+                    });
+                    this.loadData();
+                    // window.location.reload();
+                }
+            })
+            .catch(() => {
+            });
     };
 
     handleChange = name => event => {
@@ -376,6 +435,7 @@ class ShopProfile extends Component {
                                                 Upload File
                                                 <input
                                                     type="file"
+                                                    accept="image/*"
                                                     hidden
                                                     onChange={this.handleChange('avatar')}
                                                 />
@@ -400,6 +460,7 @@ class ShopProfile extends Component {
                                                 Upload File
                                                 <input
                                                     type="file"
+                                                    accept="image/*"
                                                     hidden
                                                     onChange={this.handleChange('bg')}
                                                 />

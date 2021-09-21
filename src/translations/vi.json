@@ -1,5 +1,5 @@
 {
-    "LOGIN":"ĐĂNG NHẬP",
+    "LOGIN": "ĐĂNG NHẬP",
     "commons": {
         "button": {
             "save": "Lưu",
@@ -8,17 +8,18 @@
             "confirm": "Xác nhận",
             "cancel": "Bỏ qua",
             "refresh": "Làm mới",
-            "ok":"OK",
-            "create":"Tạo",
-            "edit":"Sửa",
-            "view":"Xem",
-            "delete":"Xóa"
+            "ok": "OK",
+            "create": "Tạo",
+            "edit": "Sửa",
+            "view": "Xem",
+            "delete": "Xóa",
+            "next": "Tiếp theo"
         },
         "expansionPanelText": "Tìm kiếm ..."
     },
     "app_route": {
         "dashboard": "Trang chính Marketplace",
-        "shop-profile":"Hồ sơ Shop"
+        "shop-profile": "Hồ sơ Shop"
     },
     "language": {
         "title": "Ngôn ngữ: ",
@@ -29,16 +30,27 @@
         "shop_menu": {
             "title": "Quản lý Shop",
             "profile": "Hồ sơ Shop"
+        },
+        "product_menu": {
+            "title": "Quản lý sản phẩm",
+            "profile": "All Products",
+            "new_product":"Thêm 1 sản phẩm mới"
         }
     },
-    "shop_profile":{
-        "basic_info":"Thông tin cơ bản",
-        "background":"Ảnh bìa",
-        "avatar":"Avatar",
-        "shopName":"Tên Shop",
-        "description":"Miêu tả",
-        "shopView":"Giao diện Shop trên máy tính",
-        "media":"Media",
-        "deleteMedia":"Xóa item với id={{id}}"
+    "shop_profile": {
+        "basic_info": "Thông tin cơ bản",
+        "background": "Ảnh bìa",
+        "avatar": "Avatar",
+        "shopName": "Tên Shop",
+        "description": "Miêu tả",
+        "shopView": "Giao diện Shop trên máy tính",
+        "media": "Media",
+        "deleteMedia": "Xóa item với id={{id}}"
+    },
+    "product_category": {
+        "title": "Thêm 1 sản phẩm mới",
+        "productName": "Tên sản phẩm",
+        "categoryName": "Tên ngành",
+        "selectedPath":"Đã chọn"
     }
 }

@@ -17,6 +17,7 @@ import ShopProfile from "./ShopProfile/ShopProfile";
 import ShopSetting from "./ShopSettings/ShopSetting";
 
 import MyAddresses from "./settings/MyAdresses";
+import ProductCategory from "./ProductCategory/ProductCategory";
 
 const styles = (theme) => ({
   tableContainer: {
@@ -39,9 +40,11 @@ export class AppRoute extends Component {
         <Route exact path="/shop/profile" component={() => ShopProfileArea(t, i18n)} />
 
         <Route exact path="/shop/setting" component={() => ShopSetting(t, i18n)} />
-        
+
         {/* Settings */}
         <Route exact path="/settings/address" component={MyAddresses} />
+
+        <Route exact path="/product/category" component={() => ProductCategoryArea(t, i18n)} />
       </ToastProvider>
     );
   }
@@ -61,7 +64,17 @@ const ShopProfileArea = (t, i18n) => (
     <Typography component="div" className={styles.tableContainer}>
       {/* E-Training Home */}
       {t("app_route.shop-profile")}
-      <ShopProfile/>
+      <ShopProfile />
+    </Typography>
+  </div>
+);
+
+const ProductCategoryArea = (t, i18n) => (
+  <div>
+    <Typography component="div" className={styles.tableContainer}>
+      ProductCategory
+      {/* {t("app_route.shop-profile")} */}
+      <ProductCategory />
     </Typography>
   </div>
 );

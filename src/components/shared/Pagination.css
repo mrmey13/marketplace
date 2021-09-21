@@ -2,7 +2,7 @@
     flex-direction: row;
     flex-wrap: wrap;
 }
-.page-item a {
+.page-link {
     color: black;
     padding: 8px 16px;
     text-decoration: none;
@@ -12,13 +12,14 @@
     width: 50px;
     text-align: center;
   }
-.page-item a:focus {
+.page-link:focus {
     background-color: #4CAF50;
     color: white;
 }
-.page-item a:hover:not(.focus) {
+.page-link:hover:not(.focus) {
     background-color: rgb(131, 128, 128);
+    color: #F69756
 }
-.page-item a:active{
-    background-color: rgb(73, 125, 192);
+.page-link:active{
+    background-color: #F69756;
 }

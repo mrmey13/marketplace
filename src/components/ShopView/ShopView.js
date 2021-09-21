@@ -22,18 +22,19 @@ function ShopView() {
     shopId: 1,
     id: 0,
   });
+  console.log("shopDetail", shopDetail);
   const [media, setMedia] = useState([]);
   console.log(media);
 
-  function getId(url) {
-    const regExp =
-      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = url.match(regExp);
+  // function getId(url) {
+  //   const regExp =
+  //     /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  //   const match = url.match(regExp);
 
-    const endpoint = match && match[2].length === 11 ? match[2] : null;
-    const link = "//www.youtube.com/embed/" + endpoint;
-    return link;
-  }
+  //   const endpoint = match && match[2].length === 11 ? match[2] : null;
+  //   const link = "//www.youtube.com/embed/" + endpoint;
+  //   return link;
+  // }
 
   function getYoutubeId(url) {
     var regExp =
@@ -63,7 +64,6 @@ function ShopView() {
     ) {
       setShopDetail(response.data.data);
       setMedia(response.data.data.mediaDescriptionsList);
-      console.log("media", media);
       // console.log("res", response.data.data);
     }
   };
@@ -76,11 +76,12 @@ function ShopView() {
     for (var i = 0; i <= input.length; i++) {
       if (input.charCodeAt(i) == 13 && input.charCodeAt(i + 1) == 10) {
         i++;
-        output += "<br/>";
+        output += "<br />";
       } else {
         output += input.charAt(i);
       }
     }
+    console.log("output", output);
     return output;
   }
   console.log("tab", tab);
@@ -90,13 +91,17 @@ function ShopView() {
         <div className="col-4 col-avatar">
           <div
             className="card card-shop-avatar"
-            style={{ height: "fit-content" }}
+            style={{
+              height: "fit-content",
+              backgroundImage:
+                "url(" + cs.MediaURL + "/media/" + shopDetail.coverPath + ")",
+            }}
           >
             <div className="card-body ">
               <div className="card-body-top d-flex">
                 <img
                   className="shop-avatar"
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"
+                  src={`${cs.MediaURL}/media/${shopDetail.avatarPath}`}
                   alt="shop avatar"
                 />
                 <div
@@ -143,7 +148,7 @@ function ShopView() {
               className="icon-item"
               src="https://cdn-icons-png.flaticon.com/512/2827/2827585.png"
             />
-            Sản Phẩm:
+            Sản Phẩm:{" "}
             <b style={{ color: "black" }}>{shopDetail.numberOfProducts}</b>
           </div>
           <div className="row-title">
@@ -151,7 +156,7 @@ function ShopView() {
               className="icon-item"
               src="https://cdn-icons-png.flaticon.com/512/748/748004.png"
             />
-            Đang Theo Dõi:
+            Đang Theo Dõi:{" "}
             <b style={{ color: "black" }}>{shopDetail.numberOfReviews}</b>
           </div>
           <div className="row-title">
@@ -159,7 +164,7 @@ function ShopView() {
               className="icon-item"
               src="https://cdn-icons-png.flaticon.com/512/892/892228.png"
             />
-            Tỉ Lệ Phản Hồi Chat:
+            Tỉ Lệ Phản Hồi Chat:{" "}
             <b style={{ color: "black" }}>
               {shopDetail.pertcentageOfChatFeedbacks}
             </b>
@@ -177,7 +182,7 @@ function ShopView() {
               className="icon-item"
               src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png"
             />
-            Đánh Giá:
+            Đánh Giá:{" "}
             <b style={{ color: "black" }}>{shopDetail.averageRating}</b>
           </div>
           <div className="row-title">
@@ -193,7 +198,7 @@ function ShopView() {
               className="icon-item"
               src="https://cdn-icons-png.flaticon.com/512/747/747310.png"
             />
-            Tham Gia:
+            Tham Gia:{" "}
             <b style={{ color: "black" }}>
               {shopDetail.createdTime &&
                 shopDetail.createdTime.slice(8, 10) +
@@ -309,7 +314,7 @@ function ShopView() {
         <div className="col-8 shop-image-description d-none d-md-flex">
           <div
             id="carouselExampleIndicators"
-            class="carousel slide"
+            className="carousel slide carousel-intro"
             data-bs-ride="carousel"
           >
             <div class="carousel-indicators">
@@ -365,7 +370,6 @@ function ShopView() {
               type="button"
               data-bs-target="#carouselExampleIndicators"
               data-bs-slide="prev"
-              style={{ width: "30px" }}
             >
               <span
                 class="carousel-control-prev-icon"
@@ -378,7 +382,6 @@ function ShopView() {
               type="button"
               data-bs-target="#carouselExampleIndicators"
               data-bs-slide="next"
-              style={{ width: "30px" }}
             >
               <span
                 class="carousel-control-next-icon"
@@ -387,77 +390,13 @@ function ShopView() {
               <span class="visually-hidden">Next</span>
             </button>
           </div>
-          {/* <div className="col-6 shop-image-description d-none d-md-flex">
-          <div
-            id="carouselExampleControls"
-            className="carousel slide"
-            data-bs-ride="carousel"
-            style={{ width: "80%" }}
-          >
-            <div className="carousel-inner">
-              <div class="carousel-item active">
-                <img
-                  src="https://images.unsplash.com/photo-1631664393319-2824b4f7277d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                  className="d-block w-100 carousel-img"
-                  alt="..."
-                />
-              </div>
-            </div>
-            {media.map((item) => (
-              <div className="carousel-item">
-                {item.type === 11 && (
-                  <img
-                    id={item.id}
-                    style={{ height: "400px", width: "800px" }}
-                    src={`${cs.MediaURL}/media/${item.path}`}
-                    srcSet={`${cs.MediaURL}/media/${item.path}`}
-                    alt={item.title}
-                    loading="lazy"
-                  />
-                )}
-                {item.type === 22 && (
-                  <iframe
-                    style={{ height: "400px", width: "800px" }}
-                    src={`//www.youtube.com/embed/${getYoutubeId(item.path)}`}
-                    frameborder="0"
-                    allowfullscreen
-                  ></iframe>
-                )}
-              </div>
-            ))}
-
-            <button
-              className="carousel-control-prev"
-              type="button"
-              data-bs-target="#carouselExampleControls"
-              data-bs-slide="prev"
-            >
-              <span
-                className="carousel-control-prev-icon"
-                aria-hidden="true"
-              ></span>
-              <span className="visually-hidden">Previous</span>
-            </button>
-            <button
-              className="carousel-control-next"
-              type="button"
-              data-bs-target="#carouselExampleControls"
-              data-bs-slide="next"
-            >
-              <span
-                className="carousel-control-next-icon"
-                aria-hidden="true"
-              ></span>
-              <span className="visually-hidden">Next</span>
-            </button>
-          </div> */}
         </div>
-        <div className="col-4 shop-infor-description">
+        <div className="col-4 shop-infor-description d-block  ">
           <div
             className="row row-title "
             style={{ fontSize: "20px", marginBottom: "2%" }}
           >
-            Mô tả shop:
+            Mô tả shop
           </div>
           <div
             className="row row-shop-name"

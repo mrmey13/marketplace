@@ -1,4 +1,5 @@
 import React from "react";
+import "./Pagination.css";
 
 const Pagin = ({ ItemsPerPage, totalItems, paginate, currentPage }) => {
   const pageNumbers = [];
@@ -11,13 +12,13 @@ const Pagin = ({ ItemsPerPage, totalItems, paginate, currentPage }) => {
         <ul className="pagination">
           {currentPage !== 1 && (
             <li className="page-item">
-              <button
+              <a
                 className="page-link"
                 onClick={() => paginate(1)}
                 aria-label="Previous"
               >
                 <span aria-hidden="true">«</span>
-              </button>
+              </a>
             </li>
           )}
           {pageNumbers.map(
@@ -30,12 +31,9 @@ const Pagin = ({ ItemsPerPage, totalItems, paginate, currentPage }) => {
                     currentPage === number ? "page-item active" : "page-item"
                   }
                 >
-                  <button
-                    onClick={() => paginate(number)}
-                    className="page-link"
-                  >
+                  <a onClick={() => paginate(number)} className="page-link">
                     {number}
-                  </button>
+                  </a>
                 </li>
               )
           )}
@@ -44,13 +42,13 @@ const Pagin = ({ ItemsPerPage, totalItems, paginate, currentPage }) => {
               className="page-item"
               key={Math.ceil(totalItems / ItemsPerPage)}
             >
-              <button
+              <a
                 className="page-link"
                 onClick={() => paginate(Math.ceil(totalItems / ItemsPerPage))}
                 aria-label="Next"
               >
                 <span aria-hidden="true">»</span>
-              </button>
+              </a>
             </li>
           )}
         </ul>

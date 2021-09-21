@@ -23,6 +23,7 @@ function ShopView() {
     id: 0,
   });
   const [media, setMedia] = useState([]);
+  console.log(media);
 
   function getId(url) {
     const regExp =
@@ -32,6 +33,18 @@ function ShopView() {
     const endpoint = match && match[2].length === 11 ? match[2] : null;
     const link = "//www.youtube.com/embed/" + endpoint;
     return link;
+  }
+
+  function getYoutubeId(url) {
+    var regExp =
+      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    var match = url.match(regExp);
+
+    if (match && match[2].length == 11) {
+      return match[2];
+    } else {
+      return "error";
+    }
   }
   // const videoId = getId("http://www.youtube.com/watch?v=zbYf5_S7oJo");
   // console.log("Video ID:", videoId);
@@ -50,6 +63,7 @@ function ShopView() {
     ) {
       setShopDetail(response.data.data);
       setMedia(response.data.data.mediaDescriptionsList);
+      console.log("media", media);
       // console.log("res", response.data.data);
     }
   };
@@ -92,7 +106,7 @@ function ShopView() {
                     color: "black",
                   }}
                 >
-                  <h6>Tên shop: {shopDetail.shopName}</h6>
+                  <h5>{shopDetail.shopName}</h5>
                   <h6>
                     <sub>Online:</sub>
                   </h6>
@@ -192,7 +206,7 @@ function ShopView() {
         </div>
       </div>
 
-      <div className="container row tab-row mb-2">
+      <div className="container row tab-row mb-5">
         <div
           className="btn-group row-tab"
           role="group"
@@ -202,7 +216,7 @@ function ShopView() {
             className="btn btn-outline-none tab-button "
             style={
               tab == 1
-                ? { borderBottom: "3px solid #F69756" }
+                ? { borderBottom: "3px solid #F69756", color: "#F69756" }
                 : { borderBottom: "none" }
             }
             autoFocus="true"
@@ -215,7 +229,7 @@ function ShopView() {
             onClick={() => setTab(2)}
             style={
               tab == 2
-                ? { borderBottom: "3px solid #F69756" }
+                ? { borderBottom: "3px solid #F69756", color: "#F69756" }
                 : { borderBottom: "none" }
             }
           >
@@ -226,7 +240,7 @@ function ShopView() {
             onClick={() => setTab(3)}
             style={
               tab == 3
-                ? { borderBottom: "3px solid #F69756" }
+                ? { borderBottom: "3px solid #F69756", color: "#F69756" }
                 : { borderBottom: "none" }
             }
           >
@@ -237,7 +251,7 @@ function ShopView() {
             onClick={() => setTab(4)}
             style={
               tab == 4
-                ? { borderBottom: "3px solid #F69756" }
+                ? { borderBottom: "3px solid #F69756", color: "#F69756" }
                 : { borderBottom: "none" }
             }
           >
@@ -248,7 +262,7 @@ function ShopView() {
             onClick={() => setTab(5)}
             style={
               tab == 5
-                ? { borderBottom: "3px solid #F69756" }
+                ? { borderBottom: "3px solid #F69756", color: "#F69756" }
                 : { borderBottom: "none" }
             }
           >
@@ -262,7 +276,7 @@ function ShopView() {
               onClick={() => setTab(6)}
               style={
                 tab == 6
-                  ? { borderBottom: "3px solid #F69756" }
+                  ? { borderBottom: "3px solid #F69756", color: "#F69756" }
                   : { borderBottom: "none" }
               }
             >
@@ -287,101 +301,131 @@ function ShopView() {
             </ul>
           </div>
         </div>
-        {/* <div>
-          <ul class="nav nav-pills">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">
-                Active
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                Link
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled">Disabled</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                data-bs-toggle="dropdown"
-                href="#"
-                role="button"
-                aria-expanded="false"
-              >
-                Dropdown
-              </a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a class="dropdown-item" href="#">
-                    Đồ Dùng Em Bé
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">
-                    Đồ Dùng Bà Bầu
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">
-                    Đồ Dùng Trẻ Sơ Sinh
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div> */}
       </div>
-      <div className="container description-row d-flex justify-content-between">
-        <div className="col-6 shop-image-description">
+      <div
+        className="container description-row d-flex justify-content-between"
+        style={{ boxShadow: "3px 0px 3px 0px silver", paddingTop: "5px" }}
+      >
+        <div className="col-8 shop-image-description d-none d-md-flex">
+          <div
+            id="carouselExampleIndicators"
+            class="carousel slide"
+            data-bs-ride="carousel"
+          >
+            <div class="carousel-indicators">
+              {media.map((item, index) => (
+                <button
+                  type="button"
+                  data-bs-target="#carouselExampleIndicators"
+                  data-bs-slide-to={index}
+                  class={index == 0 ? "active" : null}
+                  aria-current="true"
+                  aria-label="Slide 1"
+                  style={{
+                    width: "15px",
+                    height: "15px",
+                    borderRadius: "100px",
+                    backgroundColor: "#FF6600",
+                  }}
+                ></button>
+              ))}
+            </div>
+            <div class="carousel-inner">
+              {media.map((item, index) => (
+                <div
+                  className={
+                    index == 0 ? "carousel-item active" : "carousel-item"
+                  }
+                >
+                  {item.type === 11 && (
+                    <img
+                      className="carousel-img"
+                      id={item.id}
+                      style={{ height: "400px", width: "800px" }}
+                      src={`${cs.MediaURL}/media/${item.path}`}
+                      srcSet={`${cs.MediaURL}/media/${item.path}`}
+                      alt={item.title}
+                      loading="lazy"
+                    />
+                  )}
+                  {item.type === 22 && (
+                    <iframe
+                      className="carousel-img"
+                      style={{ height: "400px", width: "800px" }}
+                      src={`//www.youtube.com/embed/${getYoutubeId(item.path)}`}
+                      frameborder="0"
+                      allowfullscreen
+                    ></iframe>
+                  )}
+                </div>
+              ))}
+            </div>
+            <button
+              class="carousel-control-prev nav-button"
+              type="button"
+              data-bs-target="#carouselExampleIndicators"
+              data-bs-slide="prev"
+              style={{ width: "30px" }}
+            >
+              <span
+                class="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button
+              class="carousel-control-next nav-button"
+              type="button"
+              data-bs-target="#carouselExampleIndicators"
+              data-bs-slide="next"
+              style={{ width: "30px" }}
+            >
+              <span
+                class="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+          {/* <div className="col-6 shop-image-description d-none d-md-flex">
           <div
             id="carouselExampleControls"
             className="carousel slide"
             data-bs-ride="carousel"
             style={{ width: "80%" }}
           >
-            <div class="carousel-indicators">
-              <button
-                type="button"
-                data-bs-target="#carouselExampleControls"
-                data-bs-slide-to="1"
-                className="active button-indicator"
-                aria-current="true"
-                aria-label="Slise 1"
-              ></button>
-            </div>
             <div className="carousel-inner">
-              <div className="carousel-item active">
-                <img
-                  // src={encodeURI(`${mediaURL}/${item.path}`)}
-                  src={`${cs.MediaURL}/media/shop_media/test/LOGO-Credito.png`}
-                  className="d-block w-100 carousel-img"
-                  alt="..."
-                />
-              </div>
-              {/* <div class="carousel-item">
+              <div class="carousel-item active">
                 <img
                   src="https://images.unsplash.com/photo-1631664393319-2824b4f7277d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
                   className="d-block w-100 carousel-img"
                   alt="..."
                 />
               </div>
-              <div className="carousel-item">
-                <video
-                  className="video-intro d-block w-100"
-                  id="video"
-                  controls
-                  autoPlay
-                  // currentTime={11.3}
-                  // width={1000}
-                  // height={500}
-                  src="https://www.youtube.com/watch?v=elQDIQqKx3o"
-                  // onProgress={checkProgress}
-                  // controlsList="nodownload"
-                />
-              </div> */}
             </div>
+            {media.map((item) => (
+              <div className="carousel-item">
+                {item.type === 11 && (
+                  <img
+                    id={item.id}
+                    style={{ height: "400px", width: "800px" }}
+                    src={`${cs.MediaURL}/media/${item.path}`}
+                    srcSet={`${cs.MediaURL}/media/${item.path}`}
+                    alt={item.title}
+                    loading="lazy"
+                  />
+                )}
+                {item.type === 22 && (
+                  <iframe
+                    style={{ height: "400px", width: "800px" }}
+                    src={`//www.youtube.com/embed/${getYoutubeId(item.path)}`}
+                    frameborder="0"
+                    allowfullscreen
+                  ></iframe>
+                )}
+              </div>
+            ))}
+
             <button
               className="carousel-control-prev"
               type="button"
@@ -406,9 +450,9 @@ function ShopView() {
               ></span>
               <span className="visually-hidden">Next</span>
             </button>
-          </div>
+          </div> */}
         </div>
-        <div className="col-6 shop-infor-description">
+        <div className="col-4 shop-infor-description">
           <div
             className="row row-title "
             style={{ fontSize: "20px", marginBottom: "2%" }}

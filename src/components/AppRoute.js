@@ -14,6 +14,7 @@ import { getRole, getFunctionRoles } from "../service";
 import { ToastProvider } from "react-toast-notifications";
 import { useTranslation, withTranslation } from "react-i18next";
 import ShopProfile from "./ShopProfile/ShopProfile";
+import ShopSetting from "./ShopSettings/ShopSetting";
 
 import MyAddresses from "./settings/MyAdresses";
 
@@ -36,6 +37,8 @@ export class AppRoute extends Component {
         <Route exact path="/shop_view" component={() => ShopView(t, i18n)} />
 
         <Route exact path="/shop/profile" component={() => ShopProfileArea(t, i18n)} />
+
+        <Route exact path="/shop/setting" component={() => ShopSetting(t, i18n)} />
         
         {/* Settings */}
         <Route exact path="/settings/address" component={MyAddresses} />
@@ -62,5 +65,17 @@ const ShopProfileArea = (t, i18n) => (
     </Typography>
   </div>
 );
+
+// const ShopSetting = (t, i18n) => (
+//   <div>
+//     <Typography component="div" className={styles.tableContainer}>
+//       {/* E-Training Home */}
+//       {/* {t("app_route.shop-profile")} */}
+//       <ShopSetting/>
+//     </Typography>
+//   </div>
+// );
+
+
 
 export default withTranslation()(AppRoute);

@@ -23,3 +23,6 @@
 .page-link:active{
     background-color: #F69756;
 }
+.page-link:select{
+    background-color: #F69756;
+}

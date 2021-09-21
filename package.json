@@ -29,6 +29,7 @@
 				"devextreme-react": "^19.2.0",
 				"dotenv": "^8.2.0",
 				"env-cmd": "^10.1.0",
+				"google-map-react": "^2.1.10",
 				"https": "^1.0.0",
 				"i18next": "^20.6.1",
 				"i18next-browser-languagedetector": "^6.1.2",

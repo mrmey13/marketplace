@@ -9,16 +9,17 @@
             "cancel": "Cancel",
             "refresh": "Refresh",
             "ok": "OK",
-            "create":"Create",
-            "edit":"Edit",
-            "view":"View",
-            "delete":"Delete"
+            "create": "Create",
+            "edit": "Edit",
+            "view": "View",
+            "delete": "Delete",
+            "next": "Next"
         },
         "expansionPanelText": "Search ..."
     },
     "app_route": {
         "dashboard": "Marketplace Home",
-        "shop-profile":"Shop Profile"
+        "shop-profile": "Shop Profile"
     },
     "language": {
         "title": "Language: ",
@@ -29,16 +30,27 @@
         "shop_menu": {
             "title": "Shop Management",
             "profile": "Shop Profile"
+        },
+        "product_menu": {
+            "title": "Product Management",
+            "profile": "All Products",
+            "new_product":"Add a new product"
         }
     },
-    "shop_profile":{
-        "basic_info":"Basic Info",
-        "background":"Background",
-        "avatar":"Avatar",
-        "shopName":"Shop name",
-        "description":"Description",
-        "shopView":"View Shop on computer",
-        "media":"Media",
-        "deleteMedia":"Delete item with id={{id}}"
+    "shop_profile": {
+        "basic_info": "Basic Info",
+        "background": "Background",
+        "avatar": "Avatar",
+        "shopName": "Shop name",
+        "description": "Description",
+        "shopView": "View Shop on computer",
+        "media": "Media",
+        "deleteMedia": "Delete item with id={{id}}"
+    },
+    "product_category": {
+        "title": "Add a new product",
+        "productName": "Product Name",
+        "categoryName": "Category Name",
+        "selectedPath":"Selected"
     }
 }

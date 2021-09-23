@@ -6,6 +6,10 @@ import color from "../../theme/color";
 import { useState, useEffect } from "react";
 import { useTranslation, withTranslation } from "react-i18next";
 
+
+const laguageURL = cs.BaseURL + '/api/common/language_definition';
+const settingURL = cs.BaseURL + '/api/seller/shop-setting';
+
 const lngs = {
   en: { nativeName: "language.english" },
   vi: { nativeName: "language.vietnamese" },
@@ -16,6 +20,7 @@ class ShopSetting extends React.Component {
     super(props);
     this.state = {};
   }
+
 
   // const [language, setLanguage] = useState([]);
   // const loadLanguage = async () => {
@@ -55,10 +60,7 @@ class ShopSetting extends React.Component {
     const { classes, t, i18n } = this.props;
 
     return (
-      // <div className="header-bar"></div>
-      // <div className="app-container"></div>
       <div className="page-container has-siderbar">
-        {/* <div className="sidebar-container"></div> */}
         <div className="page-content-wrapper">
           <div className="page">
             <div className="header">
@@ -69,7 +71,7 @@ class ShopSetting extends React.Component {
               <div className="desc">
                 {/* Thay đổi các cài đặt cho shop của bạn. */}
                 {t("shop_settings.change_settings")}
-                </div>
+              </div>
             </div>
             <div className="shop-tabs shop-tabs-line shop-tabs-noraml shop-tabs-top">
               <div className="shop-tabs__nav">
@@ -152,27 +154,41 @@ class ShopSetting extends React.Component {
                           <div className="title">
                             {/* Bảo vệ tài khoản của bạn ngay bây giờ bằng cách xác
                             minh hoạt động đáng ngờ */}
-                            {t("shop_settings.basic_settings.protect_your_account")}
+                            {t(
+                              "shop_settings.basic_settings.protect_your_account"
+                            )}
                           </div>
                           <div className="subtitle">
                             {/* Trong trường hợp hoạt động có rủi ro cao, hãy xác
                             minh hoạt động với OTP */}
-                            {t("shop_settings.basic_settings.protect_your_account_otp")}
+                            {t(
+                              "shop_settings.basic_settings.protect_your_account_otp"
+                            )}
                           </div>
                         </div>
                         <div className="operations">
-                          <div
+                          {/* <div
                             className="
                                           shop-switch
                                           shop-switch--open
                                           //shop-switch--close
                                           shop-switch--normal
                                       "
-                          ></div>
-                          {/* <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked></input>
-                                    <label class="form-check-label" for="flexSwitchCheckChecked"></label>
-                                  </div> */}
+                          ></div> */}
+                          <div class="form-check form-switch">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="flexSwitchCheckChecked"
+                              style={{ width: "50px", height: "25px" }}
+                              checked
+                              //onClick={() =>() }
+                            />
+                            <label
+                              class="form-check-label"
+                              for="flexSwitchCheckChecked"
+                            ></label>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -193,7 +209,7 @@ class ShopSetting extends React.Component {
                           <div className="title">
                             {/* Chế độ Tạm nghỉ */}
                             {t("shop_settings.basic_settings.vacation_mode")}
-                            </div>
+                          </div>
                           <div className="subtitle">
                             {/* Kích hoạt Chế độ Tạm nghỉ để ngăn khách hàng đặt đơn
                             hàng mới. Những đơn hàng đang tiến hành vẫn phải
@@ -202,13 +218,26 @@ class ShopSetting extends React.Component {
                           </div>
                         </div>
                         <div className="operations">
-                          <div
+                          {/* <div
                             className="
                                           shop-switch
                                           shop-switch--close
                                           shop-switch--normal
                                       "
-                          ></div>
+                          ></div> */}
+                          <div class="form-check form-switch">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              id="flexSwitchCheckDefault"
+                              style={{ width: "50px", height: "25px" }}
+                              // onClick={() => }
+                            />
+                            <label
+                              class="form-check-label"
+                              for="flexSwitchCheckDefault"
+                            ></label>
+                          </div>
                         </div>
                       </div>
                       <div className="extra">
@@ -296,6 +325,10 @@ class ShopSetting extends React.Component {
                                 fontWeight:
                                   i18n.language === lng ? "bold" : "normal",
                                 backgroundColor: "#F69756",
+                                width: "82px",
+                                height: "30px",
+                                borderRadius: "10px",
+                                marginLeft: "10px",
                               }}
                               type="submit"
                               onClick={() => {
@@ -320,5 +353,4 @@ class ShopSetting extends React.Component {
   }
 }
 
-//export default ShopSetting;
 export default withTranslation()(ShopSetting);

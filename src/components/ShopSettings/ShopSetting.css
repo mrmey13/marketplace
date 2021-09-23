@@ -1,6 +1,4 @@
-/* html {
-    font-family: Helvetica Neue,Helvetica,RobotoRegular,Droid Sans,Arial,sans-serif;
-} */
+
 .header-bar {
     top: 0;
     left: 0;
@@ -326,13 +324,6 @@
 .setting-card-row.off .title {
     opacity: 0.5;
 }
-
-/* .setting-card-row .title {
-    color: #333;
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 20px;
-} */
 
 .setting-card-row.off .subtitle {
     opacity: 0.5;

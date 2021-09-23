@@ -29,7 +29,8 @@
     "nested_list": {
         "shop_menu": {
             "title": "Quản lý Shop",
-            "profile": "Hồ sơ Shop"
+            "profile": "Hồ sơ Shop",
+            "setting":"Thiết lập Shop"
         },
         "product_menu": {
             "title": "Quản lý sản phẩm",

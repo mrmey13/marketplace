@@ -6,6 +6,10 @@ import color from "../../theme/color";
 import { useState, useEffect } from "react";
 import { useTranslation, withTranslation } from "react-i18next";
 
+
+const laguageURL = cs.BaseURL + '/api/common/language_definition';
+const settingURL = cs.BaseURL + '/api/seller/shop-setting';
+
 const lngs = {
   en: { nativeName: "language.english" },
   vi: { nativeName: "language.vietnamese" },
@@ -16,6 +20,7 @@ class ShopSetting extends React.Component {
     super(props);
     this.state = {};
   }
+
 
   // const [language, setLanguage] = useState([]);
   // const loadLanguage = async () => {
@@ -176,7 +181,8 @@ class ShopSetting extends React.Component {
                               type="checkbox"
                               id="flexSwitchCheckChecked"
                               style={{ width: "50px", height: "25px" }}
-                              // onClick={() => }
+                              checked
+                              //onClick={() =>() }
                             />
                             <label
                               class="form-check-label"

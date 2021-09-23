@@ -16,14 +16,6 @@ const shop_menu = [
                 accesses: [],
                 nonaccesses: []
             },
-            {
-                // icon: <Icon color="disable">query_builder</Icon>,
-                title: 'Shop Settings',
-                to: '/shop/setting',
-                items: [],
-                accesses: [],
-                nonaccesses: []
-            },
         ],
         accesses: [],
         nonaccesses: []
@@ -52,6 +44,14 @@ const settings_menu = [
             {
                 title: 'My Addresses',
                 to: '/settings/address',
+                items: [],
+                accesses: [],
+                nonaccesses: []
+            },
+            {
+                // icon: <Icon color="disable">query_builder</Icon>,
+                title: 'nested_list.shop_menu.setting',
+                to: '/shop/setting',
                 items: [],
                 accesses: [],
                 nonaccesses: []

@@ -25,13 +25,15 @@ const Pagin = ({ ItemsPerPage, totalItems, paginate, currentPage }) => {
             (number) =>
               currentPage > number - 3 &&
               currentPage < number + 3 && (
-                <li
-                  key={number}
-                  className={
-                    currentPage === number ? "page-item active" : "page-item"
-                  }
-                >
-                  <a onClick={() => paginate(number)} className="page-link">
+                <li key={number} className="page-item">
+                  <a
+                    onClick={() => paginate(number)}
+                    className={
+                      currentPage === number
+                        ? "page-link selected"
+                        : "page-link"
+                    }
+                  >
                     {number}
                   </a>
                 </li>

@@ -229,8 +229,9 @@ function ShopView() {
           >
             Hồ Sơ Shop
           </button>
-          <button
+          <a
             className="btn btn-outline-none tab-button "
+            href="/products"
             onClick={() => setTab(2)}
             style={
               tab == 2
@@ -239,7 +240,7 @@ function ShopView() {
             }
           >
             Tất Cả Sản Phẩm
-          </button>
+          </a>
           <button
             className="btn btn-outline-none tab-button "
             onClick={() => setTab(3)}

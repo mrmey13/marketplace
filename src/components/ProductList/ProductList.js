@@ -62,7 +62,7 @@ function ProductList() {
         <h3>PRODUCT LIST</h3>{" "}
       </div>
       <div class="row">
-        <div class="col-2">
+        <div class="col-2 scroller" data-bs-spy="scroll">
           <div
             className="card card-shop-intro"
             style={{
@@ -75,14 +75,14 @@ function ProductList() {
               //   "url(" + cs.MediaURL + "/media/" + shopDetail.coverPath + ")",
             }}
           >
-            <div className="card-body ">
+            <div className="card-body">
               <div
                 className="card-body-shop"
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  JustifyContent: "center",
-                }}
+                // style={{
+                //   display: "flex",
+                //   flexDirection: "column",
+                //   JustifyContent: "center",
+                // }}
               >
                 <img
                   className="shop-avatar"
@@ -121,15 +121,12 @@ function ProductList() {
                 </div> */}
             </div>
           </div>
-          <div className="pt-2">
+          <div className="marketplace-credito-filter mt-2">
             <b>DANH MỤC SHOP</b>
-            <div className="d-flex" style={{ borderBottom: "1px solid black" }}>
-              {/* <button
-                className="btn"
-                style={{ border: "none", boxShadow: "none" }}
-              >
-                Sản phẩm
-              </button> */}
+            <div className="collection-filter_collection active">Quần áo</div>
+            <div className="collection-filter_collection">Quần áo</div>
+            {/* <div className="d-flex" style={{ borderBottom: "1px solid black" }}>
+             
               <ul
                 class="nav nav-pills fex-column mb-3"
                 id="pills-tab"
@@ -164,11 +161,11 @@ function ProductList() {
                   </button>
                 </li>
               </ul>
-            </div>
+            </div> */}
           </div>
-          <div className="pt-2">
+          <div className="marketplace-credito-filter facet-filter mt-2">
             <b>THEO DANH MỤC</b>
-            <div class="form-check pt-2">
+            <div class="form-check products-checkbox-filter pt-2">
               <input
                 class="form-check-input"
                 type="checkbox"
@@ -176,13 +173,13 @@ function ProductList() {
                 id="flexCheckDefault4"
               />
               <label class="form-check-label" for="flexCheckDefault4">
-                Default checkbox
+                Quần Áo Nam
               </label>
             </div>
           </div>
-          <div className="pt-2">
+          <div className="marketplace-credito-filter location-filter mt-2">
             <b>NƠI BÁN</b>
-            <div class="form-check pt-2">
+            <div class="form-check products-checkbox-filter pt-2">
               <input
                 class="form-check-input"
                 type="checkbox"
@@ -190,13 +187,13 @@ function ProductList() {
                 id="flexCheckDefault5"
               />
               <label class="form-check-label" for="flexCheckDefault5">
-                Default checkbox
+                Hà Nội
               </label>
             </div>
           </div>
-          <div className="pt-2">
+          <div className="marketplace-credito-filter logistics-filter mt-2">
             <b>ĐƠN VỊ VẬN CHUYỂN</b>
-            <div class="form-check pt-2">
+            <div class="form-check products-checkbox-filter pt-2">
               <input
                 class="form-check-input"
                 type="checkbox"
@@ -204,13 +201,13 @@ function ProductList() {
                 id="flexCheckDefault6"
               />
               <label class="form-check-label" for="flexCheckDefault6">
-                Default checkbox
+                Grab
               </label>
             </div>
           </div>
-          <div className="pt-2">
+          <div className="marketplace-credito-filter brands-filter mt-2">
             <b>THƯƠNG HIỆU</b>
-            <div class="form-check pt-2">
+            <div class="form-check products-checkbox-filter pt-2">
               <input
                 class="form-check-input"
                 type="checkbox"
@@ -218,14 +215,14 @@ function ProductList() {
                 id="flexCheckDefault7"
               />
               <label class="form-check-label" for="flexCheckDefault7">
-                Default checkbox
+                Luis Vuiton
               </label>
             </div>
           </div>
           <div>
-            <div className="pt-2">
+            <div className="marketplace-credito-filter price-filter mt-2">
               <b>KHOẢNG GIÁ</b>
-              <div className="pt-2">
+              <div className="pt-2marketplace-credito-filter ">
                 {/* <input
                   className="sort-salary"
                   type="text"
@@ -260,15 +257,19 @@ function ProductList() {
               </div>
             </div>
             <button
-              className="btn mt-3"
-              style={{ backgroundColor: Color.tanhide }}
+              className="btn btn-outline-dark mt-3"
+              style={{
+                width: "fit-content",
+                backgroundColor: Color.tanhide,
+                color: "black",
+              }}
             >
               Áp Dụng
             </button>
           </div>
-          <div className="pt-2">
+          <div className="marketplace-credito-filter state-filter mt-2">
             <b>TÌNH TRẠNG</b>
-            <div class="form-check pt-2">
+            <div class="form-check products-checkbox-filter pt-2">
               <input
                 class="form-check-input"
                 type="checkbox"
@@ -279,7 +280,7 @@ function ProductList() {
                 Cũ
               </label>
             </div>
-            <div class="form-check pt-2">
+            <div class="form-check products-checkbox-filter pt-2">
               <input
                 class="form-check-input"
                 type="checkbox"
@@ -291,7 +292,7 @@ function ProductList() {
               </label>
             </div>
           </div>
-          <div className="pt-2">
+          <div className="marketplace-credito-filter rate-filter  mt-2">
             <b>ĐÁNH GIÁ</b>
             <div>
               <button className="btn rate-button 5-star">
@@ -383,7 +384,7 @@ function ProductList() {
           </div>
           <div className="pt-2">
             <button
-              className="btn mt-4"
+              className="btn btn btn-outline-dark mt-4"
               style={{
                 width: "100%",
                 backgroundColor: "#F69756",
@@ -396,60 +397,73 @@ function ProductList() {
         </div>
         <div class="col-10">
           <div className="card sort-card mb-2">
-            <button
-              className="btn btn-outline-dark btn-sort"
-              style={
-                sortTab == "popular"
-                  ? {
-                      width: "fit-content",
-                      backgroundColor: "#F69756",
-                      color: "black",
-                    }
-                  : { width: "fit-content", backgroundColor: "white" }
-              }
-              onClick={() => setSortTab("popular")}
-            >
-              Phổ Biến
-            </button>
-            <button
-              className="btn btn-outline-dark btn-sort"
-              style={
-                sortTab == "newest"
-                  ? {
-                      width: "fit-content",
-                      backgroundColor: "#F69756",
-                      color: "black",
-                    }
-                  : { width: "fit-content", backgroundColor: "white" }
-              }
-              onClick={() => setSortTab("newest")}
-            >
-              Mới Nhất
-            </button>
-            <button
-              className="btn btn-outline-dark btn-sort"
-              style={
-                sortTab == "selling"
-                  ? {
-                      width: "fit-content",
-                      backgroundColor: "#F69756",
-                      color: "black",
-                    }
-                  : { width: "fit-content", backgroundColor: "white" }
-              }
-              onClick={() => setSortTab("selling")}
-            >
-              Bán Chạy
-            </button>
-            <select
-              class="form-select select-sort"
-              aria-label="Default select example"
-              style={{ width: "fit-content", margin: "5px" }}
-            >
-              <option selected>Giá</option>
-              <option value="1">Từ thấp tới cao</option>
-              <option value="2">Từ cao tới thấp</option>
-            </select>
+            <div className="saleplus-credito sort-card">
+              <button
+                className="btn btn-outline-dark btn-sort"
+                style={
+                  sortTab == "popular"
+                    ? {
+                        width: "fit-content",
+                        backgroundColor: "#F69756",
+                        color: "black",
+                      }
+                    : { width: "fit-content", backgroundColor: "white" }
+                }
+                onClick={() => setSortTab("popular")}
+              >
+                Phổ Biến
+              </button>
+              <button
+                className="btn btn-outline-dark btn-sort"
+                style={
+                  sortTab == "newest"
+                    ? {
+                        width: "fit-content",
+                        backgroundColor: "#F69756",
+                        color: "black",
+                      }
+                    : { width: "fit-content", backgroundColor: "white" }
+                }
+                onClick={() => setSortTab("newest")}
+              >
+                Mới Nhất
+              </button>
+              <button
+                className="btn btn-outline-dark btn-sort"
+                style={
+                  sortTab == "selling"
+                    ? {
+                        width: "fit-content",
+                        backgroundColor: "#F69756",
+                        color: "black",
+                      }
+                    : { width: "fit-content", backgroundColor: "white" }
+                }
+                onClick={() => setSortTab("selling")}
+              >
+                Bán Chạy
+              </button>
+              <select
+                class="form-select select-sort"
+                aria-label="Default select example"
+                style={{
+                  width: "fit-content",
+                  margin: "5px",
+                }}
+              >
+                <option selected>Giá</option>
+                <option value="1">Từ thấp tới cao</option>
+                <option value="2">Từ cao tới thấp</option>
+              </select>
+            </div>
+            <div className="saleplus-credito pagin-card d-none d-md-flex">
+              <Pagin
+                ItemsPerPage={postsPerPage}
+                paginate={paginate}
+                totalItems={productList.length}
+                currentPage={currentPage}
+              />
+            </div>
           </div>
           <div className="product-card">
             <div className="row g-0">
@@ -457,14 +471,14 @@ function ProductList() {
                 <Product data={data} />
               ))}
             </div>
-          </div>
-          <div className="d-flex justify-content-center mt-5">
-            <Pagin
-              ItemsPerPage={postsPerPage}
-              paginate={paginate}
-              totalItems={productList.length}
-              currentPage={currentPage}
-            />
+            <div className="saleplus-credito pagin-card mt-5 d-flex justify-content-center ">
+              <Pagin
+                ItemsPerPage={postsPerPage}
+                paginate={paginate}
+                totalItems={productList.length}
+                currentPage={currentPage}
+              />
+            </div>
           </div>
         </div>
       </div>

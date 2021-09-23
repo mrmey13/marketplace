@@ -50,12 +50,6 @@ export class AppRoute extends Component {
           component={() => ShopSetting(t, i18n)}
         />
 
-        <Route
-          exact
-          path="/shop/setting"
-          component={() => ShopSetting(t, i18n)}
-        />
-
         {/* Settings */}
         <Route exact path="/settings/address" component={MyAddresses} />
 

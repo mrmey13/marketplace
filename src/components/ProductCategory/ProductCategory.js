@@ -14,6 +14,9 @@ import TreeView from "@material-ui/lab/TreeView";
 import TreeItem from "@material-ui/lab/TreeItem";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import axios from 'axios';
+
+const productCategoryUrl = cs.BaseURL + "/api/common/product/category/list";
 
 const styles = (theme) => ({
     categorySelectorWrap: {
@@ -88,46 +91,7 @@ const styles = (theme) => ({
 
 const CHARACTER_LIMIT = 20;
 
-const tmpData = [
-    { name: "TEST 1", value: "1" },
-    { name: "TEST 2", value: "2", notAllowed: "true" },
-    { name: "TEST 3", value: "3" },
-    {
-        name: "TEST 4", value: "4", children: [
-            { name: "TEST 4.1", value: "4.1", notAllowed: "true" },
-            { name: "TEST 4.2", value: "4.2" },
-            { name: "TEST 4.3", value: "4.3" },
-            {
-                name: "TEST 4.4", value: "4.4", notAllowed: "true", children: [
-                    { name: "TEST 4.4.1", value: "4.4.1", notAllowed: "true" },
-                    { name: "TEST 4.4.2", value: "4.4.2" }
-                ]
-            },
-            {
-                name: "TEST 4.5", value: "4.5", children: [
-                    { name: "TEST 4.5.1", value: "4.5.1" },
-                    { name: "TEST 4.5.2", value: "4.5.2",notAllowed: "true" },
-                    {
-                        name: "TEST 4.5.3", value: "4.5.3",
-                        children: [
-                            { name: "TEST 4.5.3.1", value: "4.5.3.1" },
-                            {
-                                name: "TEST 4.5.3.2", value: "4.5.3.2",
-                                children: [
-                                    { name: "TEST 4.5.3.2.1", value: "4.5.3.2.1" },
-                                    { name: "TEST 4.5.3.2.2", value: "4.5.3.2.2",notAllowed: "true" }
-                                ]
-                            },
-                            { name: "TEST 4.5.3.3", value: "4.5.3.3",notAllowed: "true" },
-                        ]
-                    }
-                ]
-            },
 
-
-        ]
-    }
-]
 
 class ProductCategory extends Component {
 
@@ -138,7 +102,7 @@ class ProductCategory extends Component {
             categoryName: "",
             valid: false,
             layer1: "",
-            layer1Data: tmpData,
+            layer1Data: [],
             layer2: "",
             layer2Data: [],
             layer3: "",
@@ -148,14 +112,46 @@ class ProductCategory extends Component {
             layer5: "",
             layer5Data: []
         };
+        this.tmpData = [];
     }
 
     componentWillMount() {
+        this.loadData();
     }
 
-    loadData = (conditions) => {
+    loadData = async (parentId, categoryLevel) => {
+        console.log("params", parentId, categoryLevel);
+        if (!categoryLevel) {
+            categoryLevel = 1;
+        }
+        let url = productCategoryUrl;
+        if (parentId) {
+            console.log("HERE", parentId, categoryLevel);
+            url += `?parentId=${parentId}&categoryLevel=${categoryLevel}`;
+        }
+
+        try {
+            const response = await axios({
+                method: "get",
+                url: url,
+                headers: {
+                    Authorization: localStorage.getItem(cs.System_Code + "-token")
+                }
+            });
+            console.log(response.data.data);
+            if (response.data.data && response.data.data.length > 0) {
+                console.log("HERE");
+                this.setState({ [`layer${categoryLevel}Data`]: response.data.data });
+                if (categoryLevel === 1) {
+                    this.tmpData = response.data.data;
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
 
     }
+
     handleCategory = (layer, item) => {
         console.log(layer, item, item.notAllowed === "true");
         let {
@@ -169,62 +165,76 @@ class ProductCategory extends Component {
         switch (layer) {
             case 1:
                 this.setState({
-                    valid: (item.children == null || item.children.length < 0) && item.notAllowed !== "true",
-                    layer1: item.value,
+                    valid: (!item.hasChildren),
+                    layer1: item,
                     layer2: "",
-                    layer2Data: item.children,
+                    // layer2Data: [],
                     layer3: "",
                     layer3Data: [],
                     layer4: "",
                     layer4Data: [],
                     layer5: "",
                     layer5Data: []
-                })
+                });
                 break;
             case 2:
                 this.setState({
-                    valid: (item.children == null || item.children.length < 0) && item.notAllowed !== "true",
-                    layer2: item.value,
+                    valid: (!item.hasChildren),
+                    layer2: item,
                     layer3: "",
-                    layer3Data: item.children,
+                    layer3Data: [],
                     layer4: "",
                     layer4Data: [],
                     layer5: "",
                     layer5Data: []
-                })
+                });
                 break;
             case 3:
                 this.setState({
-                    valid: (item.children == null || item.children.length < 0) && item.notAllowed !== "true",
-                    layer3: item.value,
+                    valid: (!item.hasChildren),
+                    layer3: item,
                     layer4: "",
-                    layer4Data: item.children,
+                    layer4Data: [],
                     layer5: "",
                     layer5Data: []
-                })
+                });
                 break;
             case 4:
                 this.setState({
-                    valid: (item.children == null || item.children.length < 0) && item.notAllowed !== "true",
-                    layer4: item.value,
+                    valid: (!item.hasChildren),
+                    layer4: item,
                     layer5: "",
-                    layer5Data: item.children
-                })
+                    layer5Data: []
+                });
                 break;
             case 5:
                 this.setState({
-                    valid: (item.children == null || item.children.length < 0) && item.notAllowed !== "true",
-                    layer5: item.value
-                })
+                    valid: (!item.hasChildren),
+                    layer5: item
+                });
                 break;
             default:
                 break;
+        }
+        if (layer != 5 && item.hasChildren) {
+            this.loadData(item.categoryId, layer + 1);
         }
     }
 
     handleChange = (name) => (event) => {
         if (name == "categoryName") {
-            let filtered = tmpData.filter((item) => item.name.includes(event.target.value))
+            console.log(this.tmpData);
+            let filtered = this.tmpData
+            if (event.target.value ==="") {
+                
+            } else {
+                filtered = this.tmpData.filter((item) => 
+                item.categoryEngName.toLowerCase().indexOf(event.target.value) != -1 || 
+                item.categoryVieName.toLowerCase().indexOf(event.target.value) != -1);
+            }
+            // let filtered = this.tmpData.filter((item) => 
+            // item.categoryEngName.match(`/${event.target.value}/i`) || 
+            // item.categoryVieName.match(`/${event.target.value}/i`))
             console.log(filtered);
             this.setState({
                 categoryName: event.target.value,
@@ -252,17 +262,24 @@ class ProductCategory extends Component {
     };
 
     getPath = () => {
+        const { classes, t, i18n } = this.props;
+        let language = i18n.language;
+        // item.categoryEngName : item.categoryVieName
         let pathStr = "";
         if (this.state.layer1) {
-            pathStr += this.state.layer1;
+            pathStr += language === "en" ? this.state.layer1.categoryEngName : this.state.layer1.categoryVieName;
             if (this.state.layer2) {
-                pathStr += " > " + this.state.layer2;
+                pathStr += " > ";
+                pathStr += language === "en" ? this.state.layer2.categoryEngName : this.state.layer2.categoryVieName;
                 if (this.state.layer3) {
-                    pathStr += " > " + this.state.layer3;
+                    pathStr += " > ";
+                    pathStr += language === "en" ? this.state.layer3.categoryEngName : this.state.layer3.categoryVieName;
                     if (this.state.layer4) {
-                        pathStr += " > " + this.state.layer4;
+                        pathStr += " > ";
+                        pathStr += language === "en" ? this.state.layer4.categoryEngName : this.state.layer4.categoryVieName;
                         if (this.state.layer5) {
-                            pathStr += " > " + this.state.layer5;
+                            pathStr += " > ";
+                            pathStr += language === "en" ? this.state.layer5.categoryEngName : this.state.layer5.categoryVieName;
                         }
                     }
                 }
@@ -336,22 +353,22 @@ class ProductCategory extends Component {
 
                                         {this.state.layer1Data.map((item) => (
                                             <li className={classes.categoryItem}
-                                                id={item.value} data-id={item.value}
+                                                id={item.categoryId} data-id={item.categoryId}
                                                 // onClick={this.handleChange('layer1')}
                                                 onClick={() => this.handleCategory(1, item)}
                                             >
-                                                <p className={item.value == this.state.layer1 ?
+                                                <p className={item.categoryId == this.state.layer1.categoryId ?
                                                     classes.textOverflowSelected : classes.textOverflow}>
-                                                    {item.name}
+                                                    {i18n.language === "en" ? item.categoryEngName : item.categoryVieName}
                                                 </p>
 
                                                 <div className={classes.categoryItemRight}>
-                                                    {item.notAllowed === "true" &&
+                                                    {/* {item.notAllowed === "true" &&
                                                         <div className={classes.notAllowedTag}>
                                                             Not Allowed
                                                         </div>
-                                                    }
-                                                    {item.children && item.children.length > 0 &&
+                                                    } */}
+                                                    {item.hasChildren &&
                                                         <ChevronRightIcon />
                                                     }
                                                 </div>
@@ -362,21 +379,21 @@ class ProductCategory extends Component {
                                     <ul className={classes.scrollItem}>
                                         {this.state.layer2Data && this.state.layer2Data.map((item) => (
                                             <li className={classes.categoryItem}
-                                                id={item.value} data-id={item.value}
+                                                id={item.categoryId} data-id={item.categoryId}
                                                 // onClick={this.handleChange('layer2')}
                                                 onClick={() => this.handleCategory(2, item)}
                                             >
-                                                <p className={item.value == this.state.layer2 ?
+                                                <p className={item.categoryId == this.state.layer2.categoryId ?
                                                     classes.textOverflowSelected : classes.textOverflow}>
-                                                    {item.name}
+                                                    {i18n.language === "en" ? item.categoryEngName : item.categoryVieName}
                                                 </p>
                                                 <div className={classes.categoryItemRight}>
-                                                    {item.notAllowed === "true" &&
+                                                    {/* {item.notAllowed === "true" &&
                                                         <div className={classes.notAllowedTag}>
                                                             Not Allowed
                                                         </div>
-                                                    }
-                                                    {item.children && item.children.length > 0 &&
+                                                    } */}
+                                                    {item.hasChildren &&
                                                         <ChevronRightIcon />
                                                     }
                                                 </div>
@@ -388,21 +405,21 @@ class ProductCategory extends Component {
                                         {this.state.layer3Data && this.state.layer3Data.map((item) => (
                                             <li className={classes.categoryItem}
                                                 // style={{ color: item.value === this.state.layer3 ? color.seabuckthorn : "#000000" }}
-                                                id={item.value} data-id={item.value}
+                                                id={item.categoryId} data-id={item.categoryId}
                                                 // onClick={this.handleChange('layer3')}
                                                 onClick={() => this.handleCategory(3, item)}
                                             >
-                                                <p className={item.value == this.state.layer3 ?
+                                                <p className={item.categoryId == this.state.layer3.categoryId ?
                                                     classes.textOverflowSelected : classes.textOverflow}>
-                                                    {item.name}
+                                                    {i18n.language === "en" ? item.categoryEngName : item.categoryVieName}
                                                 </p>
                                                 <div className={classes.categoryItemRight}>
-                                                    {item.notAllowed === "true" &&
+                                                    {/* {item.notAllowed === "true" &&
                                                         <div className={classes.notAllowedTag}>
                                                             Not Allowed
                                                         </div>
-                                                    }
-                                                    {item.children && item.children.length > 0 &&
+                                                    } */}
+                                                    {item.hasChildren &&
                                                         <ChevronRightIcon />
                                                     }
                                                 </div>
@@ -413,21 +430,21 @@ class ProductCategory extends Component {
                                     <ul className={classes.scrollItem}>
                                         {this.state.layer4Data && this.state.layer4Data.map((item) => (
                                             <li className={classes.categoryItem}
-                                                id={item.value} data-id={item.value}
-                                                // onClick={this.handleChange('layer4')}
+                                            id={item.categoryId} data-id={item.categoryId}
+                                            // onClick={this.handleChange('layer4')}
                                                 onClick={() => this.handleCategory(4, item)}
                                             >
-                                                <p className={item.value == this.state.layer4 ?
+                                                <p className={item.categoryId == this.state.layer4.categoryId ?
                                                     classes.textOverflowSelected : classes.textOverflow}>
-                                                    {item.name}
+                                                    {i18n.language === "en" ? item.categoryEngName : item.categoryVieName}
                                                 </p>
                                                 <div className={classes.categoryItemRight}>
-                                                    {item.notAllowed === "true" &&
+                                                    {/* {item.notAllowed === "true" &&
                                                         <div className={classes.notAllowedTag}>
                                                             Not Allowed
                                                         </div>
-                                                    }
-                                                    {item.children && item.children.length > 0 &&
+                                                    } */}
+                                                    {item.hasChildren &&
                                                         <ChevronRightIcon />
                                                     }
                                                 </div>
@@ -438,21 +455,21 @@ class ProductCategory extends Component {
                                     <ul className={classes.scrollItem}>
                                         {this.state.layer5Data && this.state.layer5Data.map((item) => (
                                             <li className={classes.categoryItem}
-                                                id={item.value} data-id={item.value}
+                                            id={item.categoryId} data-id={item.categoryId}
                                                 // onClick={this.handleChange('layer5')}
                                                 onClick={() => this.handleCategory(5, item)}
                                             >
-                                                <p className={item.value === this.state.layer5 ?
+                                                <p className={item.categoryId === this.state.layer5.categoryId ?
                                                     classes.textOverflowSelected : classes.textOverflow}>
-                                                    {item.name}
+                                                    {i18n.language === "en" ? item.categoryEngName : item.categoryVieName}
                                                 </p>
                                                 <div className={classes.categoryItemRight}>
-                                                    {item.notAllowed === "true" &&
+                                                    {/* {item.notAllowed === "true" &&
                                                         <div className={classes.notAllowedTag}>
                                                             Not Allowed
                                                         </div>
-                                                    }
-                                                    {item.children && item.children.length > 0 &&
+                                                    } */}
+                                                    {item.hasChildren &&
                                                         <ChevronRightIcon />
                                                     }
                                                 </div>

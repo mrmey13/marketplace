@@ -18,7 +18,7 @@ const shop_menu = [
             },
             {
                 // icon: <Icon color="disable">query_builder</Icon>,
-                title: 'Shop Settiengs',
+                title: 'Shop Settings',
                 to: '/shop/setting',
                 items: [],
                 accesses: [],

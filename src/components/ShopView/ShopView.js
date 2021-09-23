@@ -77,6 +77,7 @@ function ShopView() {
       if (input.charCodeAt(i) == 13 && input.charCodeAt(i + 1) == 10) {
         i++;
         output += "<br />";
+        console.log(2222);
       } else {
         output += input.charAt(i);
       }
@@ -218,94 +219,82 @@ function ShopView() {
           aria-label="Basic outlined example"
         >
           <button
-            className="btn btn-outline-none tab-button "
-            style={
+            className={
               tab == 1
-                ? { borderBottom: "3px solid #F69756", color: "#F69756" }
-                : { borderBottom: "none" }
+                ? "btn btn-outline-none tab-button active-tab"
+                : "btn btn-outline-none tab-button"
             }
+            // style={
+            //   tab == 1
+            //     ? { borderBottom: "3px solid #F69756", color: "#F69756" }
+            //     : { borderBottom: "none" }
+            // }
             autoFocus="true"
             onClick={() => setTab(1)}
           >
             Hồ Sơ Shop
           </button>
           <a
-            className="btn btn-outline-none tab-button "
+            className={
+              tab == 2
+                ? "btn btn-outline-none tab-button active-tab"
+                : "btn btn-outline-none tab-button"
+            }
             href="/products"
             onClick={() => setTab(2)}
-            style={
-              tab == 2
-                ? { borderBottom: "3px solid #F69756", color: "#F69756" }
-                : { borderBottom: "none" }
-            }
+            // style={
+            //   tab == 2
+            //     ? { borderBottom: "3px solid #F69756", color: "#F69756" }
+            //     : null
+            // }
           >
             Tất Cả Sản Phẩm
           </a>
           <button
-            className="btn btn-outline-none tab-button "
-            onClick={() => setTab(3)}
-            style={
+            className={
               tab == 3
-                ? { borderBottom: "3px solid #F69756", color: "#F69756" }
-                : { borderBottom: "none" }
+                ? "btn btn-outline-none tab-button active-tab"
+                : "btn btn-outline-none tab-button"
             }
+            onClick={() => setTab(3)}
+            // style={
+            //   tab == 3
+            //     ? { borderBottom: "3px solid #F69756", color: "#F69756" }
+            //     : null
+            // }
           >
             Giày Dép
           </button>
           <button
-            className="btn btn-outline-none tab-button "
-            onClick={() => setTab(4)}
-            style={
+            className={
               tab == 4
-                ? { borderBottom: "3px solid #F69756", color: "#F69756" }
-                : { borderBottom: "none" }
+                ? "btn btn-outline-none tab-button active-tab"
+                : "btn btn-outline-none tab-button"
             }
+            onClick={() => setTab(4)}
+            // style={
+            //   tab == 4
+            //     ? { borderBottom: "3px solid #F69756", color: "#F69756" }
+            //     : null
+            // }
           >
             Quần Áo
           </button>
           <button
-            className="btn btn-outline-none tab-button "
-            onClick={() => setTab(5)}
-            style={
+            className={
               tab == 5
-                ? { borderBottom: "3px solid #F69756", color: "#F69756" }
-                : { borderBottom: "none" }
+                ? "btn btn-outline-none tab-button active-tab"
+                : "btn btn-outline-none tab-button"
             }
+            onClick={() => setTab(5)}
+            // style={
+            //   tab == 5
+            //     ? { borderBottom: "3px solid #F69756", color: "#F69756" }
+            //     : { borderBottom: "none" }
+            // }
           >
             Phụ Kiện
           </button>
-          <div class="dropdown">
-            <button
-              class="btn btn-outline-none tab-button dropdown-toggle "
-              id="additionDropdown1"
-              data-bs-toggle="dropdown"
-              onClick={() => setTab(6)}
-              style={
-                tab == 6
-                  ? { borderBottom: "3px solid #F69756", color: "#F69756" }
-                  : { borderBottom: "none" }
-              }
-            >
-              Thêm
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="additionDropdown1">
-              <li>
-                <a class="dropdown-item " href="#">
-                  Đồ Dùng Em Bé
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">
-                  Đồ Dùng Bà Bầu
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">
-                  Đồ Dùng Trẻ Sơ Sinh
-                </a>
-              </li>
-            </ul>
-          </div>
         </div>
       </div>
       <div

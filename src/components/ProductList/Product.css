@@ -18,6 +18,7 @@ html {
     --subtitle: 13px;
   }
   .card-course {
+    position: relative;
     border-radius: 10px;
     overflow: hidden;
     background-color: white;
@@ -199,7 +200,7 @@ html {
     margin-bottom: 5px;
     object-fit: cover;
     border-radius: 10px;
-    background: url("https://images.unsplash.com/photo-1550795629-4350bf35d102?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=375&q=80");
+    /* background: url("https://images.unsplash.com/photo-1550795629-4350bf35d102?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=375&q=80"); */
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
@@ -225,12 +226,22 @@ html {
 .pagin-card{
   height:fit-content;
 }
-.card-salary{
+.card-price{
   justify-content: space-between;
 }
+.product-price{
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  /* -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+   display: -webkit-box; */
+   height: fit-content
+}
 .free-ship-img{
-  width: 30px;
-  height:30px
+  /* margin-left: 2px; */
+  width: 25px;
+  height:25px
 }
 .scroller{
   height:700px;
@@ -245,3 +256,9 @@ html {
 /* .collection-filter_collection:active{
   color: var(--color)
 } */
+.discount-badge{
+  position: absolute;
+  padding-left: 3px;
+  width: fit-content;
+  word-break: break-word;
+}

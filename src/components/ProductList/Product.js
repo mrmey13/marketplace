@@ -1,12 +1,22 @@
 import React from "react";
 import { Popover, Button, OverlayTrigger } from "react-bootstrap";
 import "./Product.css";
+import Color from "../../theme/color";
 import { Link } from "react-router-dom";
 function Product({ data }) {
   // const isDark = localStorage.getItem("aidriven-general-theme");
   return (
     <div className="col-lg-2 col-sm-4 col-6 col-md-3">
       <div className="card-course">
+        <span
+          class="badge discount-badge"
+          style={{ backgroundColor: Color.christine }}
+        >
+          <div style={{ fontSize: "10px" }}>DISCOUNT</div>{" "}
+          <div style={{ color: "black", marginTop: "2px", fontSize: "12px" }}>
+            <b>20%</b>
+          </div>
+        </span>
         <img
           src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
           className="card-img-top"
@@ -69,26 +79,49 @@ function Product({ data }) {
               </div> */}
               <div className="card-time"></div>
             </div>
-            <div className="card-salary d-flex">
-              <div className="product-salary">
-                <h6
-                  style={{
-                    color: "#F26A0D",
-                    width: "fit-content",
-                    marginRight: "5px",
-                  }}
-                >
-                  150000
-                  <sub
+            <div className="card-price d-flex">
+              <div className="product-price d-flex">
+                <div className="disc-price">
+                  <h6
                     style={{
+                      color: "#F26A0D",
                       width: "fit-content",
-                      marginLeft: "5px",
-                      color: "black",
+                      marginRight: "5px",
                     }}
                   >
-                    <u>đ</u>
-                  </sub>
-                </h6>
+                    150000
+                    <sub
+                      style={{
+                        width: "fit-content",
+                        marginLeft: "5px",
+                        color: "black",
+                      }}
+                    >
+                      <u>đ</u>
+                    </sub>
+                  </h6>
+                </div>
+                <div className="price ">
+                  <del
+                    style={{
+                      fontSize: "14px",
+                      color: "#000000",
+                      width: "fit-content",
+                      marginRight: "5px",
+                    }}
+                  >
+                    150000
+                    <sub
+                      style={{
+                        width: "fit-content",
+                        marginLeft: "5px",
+                        color: "black",
+                      }}
+                    >
+                      <u>đ</u>
+                    </sub>
+                  </del>
+                </div>
               </div>
               <img
                 className="free-ship-img"
@@ -106,7 +139,7 @@ function Product({ data }) {
               <button className="btn card-live">
                 <span>Thêm vào giỏ hàng</span>
               </button> */}
-              <div className="card-watching text-align-end">4.2k lượt mua</div>
+              <div className="card-watching text-align-end">Đã bán</div>
               <div className="card-watching text-align-end">Hà Nội</div>
             </div>
           </div>

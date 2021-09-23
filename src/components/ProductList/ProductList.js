@@ -4,9 +4,25 @@ import axios from "axios";
 import cs from "../../const";
 import Product from "./Product";
 import Pagin from "../../components/shared/Pagin";
-// import ProductList from "../ProductList/ProductList";
+const URL = cs.BaseURL + "/api/seller/shop/detail";
+const mediaURL = cs.MediaURL + "/material";
 function ProductList() {
   const getProductListUrl = cs.BaseURL + "/api/course/list";
+  const [shopDetail, setShopDetail] = useState({
+    numberOfFollowers: 0,
+    pertcentageOfChatFeedbacks: 0,
+    numberOfReviews: 0,
+    description: "",
+    shopName: "",
+    numberOfProducts: 0,
+    userName: "",
+    followingCount: 0,
+    averageRating: 0,
+    mediaDescriptionsList: [],
+    createdTime: "",
+    shopId: 1,
+    id: 0,
+  });
   const [productList, setProductList] = useState([
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
   ]);
@@ -29,24 +45,25 @@ function ProductList() {
     selling: "",
     price: "",
   });
-  // const getCoursesData = async () => {
-  //   try {
-  //     const response = await axios({
-  //       method: "get",
-  //       url: `${getProductListUrl}`,
-  //       headers: {
-  //         Authorization: localStorage.getItem(cs.System_Code + "-token"),
-  //       },
-  //     });
-  //     console.log("course", response.data);
-  //     setProductList(response.data.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   getCoursesData();
-  // }, []);
+  const loadShopDetail = async (conditions) => {
+    const response = await axios({
+      method: "get",
+      url: `${URL}`,
+      headers: {
+        Authorization: localStorage.getItem(cs.System_Code + "-token"),
+      },
+    });
+    if (
+      response.data.error_desc === "Success" &&
+      response.data.data.length != 0
+    ) {
+      setShopDetail(response.data.data);
+      // console.log("res", response.data.data);
+    }
+  };
+  useEffect(() => {
+    loadShopDetail();
+  }, []);
 
   const [sortSlary, setSortSalary] = useState({ value1: "", value2: "" });
   console.log(sortSlary);
@@ -62,7 +79,7 @@ function ProductList() {
         <h3>PRODUCT LIST</h3>{" "}
       </div>
       <div class="row">
-        <div class="col-2 scroller" data-bs-spy="scroll">
+        <div class="col-md-2 col-4 scroller" data-bs-spy="scroll">
           <div
             className="card card-shop-intro"
             style={{
@@ -75,20 +92,24 @@ function ProductList() {
               //   "url(" + cs.MediaURL + "/media/" + shopDetail.coverPath + ")",
             }}
           >
-            <div className="card-body">
-              <div
-                className="card-body-shop"
-                // style={{
-                //   display: "flex",
-                //   flexDirection: "column",
-                //   JustifyContent: "center",
-                // }}
-              >
+            <div
+              className="card-body"
+              style={{
+                borderRadius: "10px",
+                backgroundImage:
+                  "url(" + cs.MediaURL + "/media/" + shopDetail.coverPath + ")",
+              }}
+            >
+              <div className="card-body-shop">
                 <img
                   className="shop-avatar"
-                  // src={`${cs.MediaURL}/media/${shopDetail.avatarPath}`}
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"
+                  src={`${cs.MediaURL}/media/${shopDetail.avatarPath}`}
+                  // src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"
                   alt="shop avatar"
+                  style={{
+                    width: "85px",
+                    height: "85px",
+                  }}
                 />
                 <div
                   className="row-title"
@@ -97,10 +118,10 @@ function ProductList() {
                     color: "black",
                   }}
                 >
-                  <h6>Tên shop:</h6>
-                  <h6>
+                  <h6>{shopDetail.shopName}</h6>
+                  {/* <h6>
                     <sub>Online:</sub>
-                  </h6>
+                  </h6> */}
                 </div>
               </div>
               {/* <div className="card-body-bottom d-xl-flex mt-2 justify-content-between d-none">
@@ -395,7 +416,7 @@ function ProductList() {
             </button>
           </div>
         </div>
-        <div class="col-10">
+        <div class="col-md-10 col-8">
           <div className="card sort-card mb-2">
             <div className="saleplus-credito sort-card">
               <button

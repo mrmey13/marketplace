@@ -29,8 +29,13 @@ const product_menu = [
         items: [
             {
                 icon: <Icon color="disable">shop</Icon>,
+                to: '/product/all',
+                title: 'nested_list.product_menu.all_products'
+            },
+            {
+                icon: <Icon color="disable">shop</Icon>,
                 to: '/product/category',
-                title: 'nested_list.product_menu.new_product',
+                title: 'nested_list.product_menu.new_product'
             }
         ],
     }

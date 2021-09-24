@@ -34,7 +34,7 @@
         },
         "product_menu": {
             "title": "Product Management",
-            "profile": "All Products",
+            "all_products": "All Products",
             "new_product":"Add a new product"
         }
     },

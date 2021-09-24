@@ -10,9 +10,7 @@ import cs from "../../const";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import TreeView from "@material-ui/lab/TreeView";
-import TreeItem from "@material-ui/lab/TreeItem";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import axios from 'axios';
 
@@ -287,6 +285,18 @@ class ProductCategory extends Component {
         }
         return pathStr;
     }
+    handleNext(){
+        let {
+            layer1, layer1Data,
+            layer2, layer2Data,
+            layer3, layer3Data,
+            layer4, layer4Data,
+            layer5, layer5Data
+        } = this.state;
+
+        let lastItem = layer5 || layer4 || layer3 || layer2 || layer1;
+        console.log("lastItem",lastItem);
+    }
 
     render() {
         const { classes, t, i18n } = this.props;
@@ -488,7 +498,9 @@ class ProductCategory extends Component {
                                 <div style={{ display: "flex", justifyContent: "end" }}>
                                     <Button
                                         disabled={!this.state.valid}
-                                        onClick={() => { }}
+                                        onClick={() => { 
+                                            this.handleNext();
+                                        }}
                                         style={{ width: "120px", borderStyle: "solid", backgroundColor: color.casablanca }}>
                                         {t("commons.button.next")}
                                     </Button>

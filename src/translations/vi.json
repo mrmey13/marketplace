@@ -34,7 +34,7 @@
         },
         "product_menu": {
             "title": "Quản lý sản phẩm",
-            "profile": "All Products",
+            "all_products": "Tất cả sản phẩm",
             "new_product":"Thêm 1 sản phẩm mới"
         }
     },

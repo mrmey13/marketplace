@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import Paper from '@material-ui/core/Paper';
 import {
     Grid,
@@ -6,9 +6,10 @@ import {
     VirtualTable,
     TableHeaderRow,
     TableColumnResizing,
+    TableSelection,
     PagingPanel
 } from '@devexpress/dx-react-grid-material-ui';
-import { PagingState, SortingState, CustomPaging } from '@devexpress/dx-react-grid';
+import { PagingState, SortingState, CustomPaging, SelectionState, IntegratedSelection } from '@devexpress/dx-react-grid';
 import { withStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ReactDOM from 'react-dom';
@@ -16,6 +17,7 @@ import lodash from 'lodash';
 import useInterval from './useInterval';
 
 import { TableSettingContext } from '../contexts/TableSettingContext';
+import color from '../../theme/color';
 
 const styles = (theme) => ({
     grid_Container: {
@@ -25,10 +27,12 @@ const styles = (theme) => ({
     },
     tableStriped: {
         '& tbody tr:nth-of-type(odd)': {
-            backgroundColor: 'rgb(186, 207, 255)'
+            // backgroundColor: 'rgb(186, 207, 255)'
+            backgroundColor: 'rgb(255, 255, 255)'
         },
         '& tbody tr:nth-of-type(even)': {
-            backgroundColor: 'rgb(217, 226, 244)'
+            // backgroundColor: 'rgb(217, 226, 244)'
+            backgroundColor: color.corvette
         }
     },
     cell_button: {
@@ -42,6 +46,7 @@ function DataTable({
     rows = [],
     columns = [],
     sorting = [],
+    selection = [],
     currentPage = 0,
     pageSize = 15,
     pageSizes = [],
@@ -51,11 +56,13 @@ function DataTable({
     changeSorting = () => null,
     changeCurrentPage = () => null,
     changePageSize = () => null,
+    handleSelections = () => null,
     ActionCell = null,
     CellComponent = null,
     autoLoadData = () => null
 }) {
     const { tableheight, autoreload, intervaltime } = useContext(TableSettingContext);
+    // const [selection, setSelection] = useState([]);
 
     useInterval(() => {
         if (autoreload) {
@@ -96,7 +103,8 @@ function DataTable({
                     margin: 1,
                     padding: 1,
                     height: 46,
-                    backgroundColor: 'rgb(63, 109, 193)'
+                    // backgroundColor: 'rgb(63, 109, 193)'
+                    backgroundColor: color.rajah
                 }}
             />
         );
@@ -162,6 +170,11 @@ function DataTable({
                 style={{ width: '100%', marginTop: '20px', overflowX: 'auto' }}
                 className={styles.grid_Container}
             >
+                {/* <span>
+                    Total rows selected:
+                    {' '}
+                    {selection.length}
+                </span> */}
                 <Grid rows={rows} columns={columns} getRowId={getRowId}>
                     <SortingState sorting={sorting} onSortingChange={changeSorting} />
                     <PagingState
@@ -170,6 +183,11 @@ function DataTable({
                         onPageSizeChange={changePageSize}
                         pageSize={pageSize}
                     />
+                    {/* <SelectionState
+                        selection={selection}
+                        onSelectionChange={handleSelections}
+                    />
+                    <IntegratedSelection /> */}
                     <CustomPaging totalCount={totalCount} />
                     <VirtualTable
                         columnExtensions={columnWidths}
@@ -186,6 +204,7 @@ function DataTable({
                         rowComponent={HeaderRowComponent}
                         cellComponent={HeaderCellComponent}
                     />
+                    {/* <TableSelection showSelectAll /> */}
                     <PagingPanel pageSizes={pageSizes} messages={pagingPanelMessages} />
                     {loading && (
                         <CircularProgress

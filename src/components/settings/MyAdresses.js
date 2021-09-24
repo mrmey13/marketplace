@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MyAddresses = () => {
+const MyAddresses = ({ t, i18n }) => {
   const classes = useStyles();
 
   const [responseMessage, setResponseMessage] = useState({
@@ -128,7 +128,7 @@ const MyAddresses = () => {
     try {
       const response = await axios({
         method: "post",
-        url: `${createAddressUrl}`, 
+        url: `${createAddressUrl}`,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + "-token"),
         },
@@ -632,16 +632,16 @@ const MyAddresses = () => {
 }
 
 const MyMapComponent = withScriptjs(withGoogleMap((props) => {
-  const [mark, setMark] = useState({ x: "", y: "" });
   const { modalForm, onChangeCoordinates } = props;
+  const [mark, setMark] = useState({ x: modalForm.latitude, y: modalForm.longtitude });
   return <GoogleMap
-    defaultZoom={3}
+    defaultZoom={5}
     defaultCenter={{ lat: modalForm.latitude, lng: modalForm.longtitude }}
     onClick={(event) => { setMark({ x: event.latLng.lat(), y: event.latLng.lng() }); onChangeCoordinates(event) }}
   >
-    {props.isMarkerShown && <Marker position={{ lat: mark.x, lng: mark.y }} />}
+    {<Marker position={{ lat: mark.x, lng: mark.y }} />}
   </GoogleMap>
 }
 ))
 
-export default MyAddresses;
+export default withTranslation()(MyAddresses);

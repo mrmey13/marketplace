@@ -1,5 +1,6 @@
 import React from 'react';
 import Icon from '@material-ui/core/Icon';
+import { LocalMall } from '@material-ui/icons';
 import cs from '../const';
 
 const shop_menu = [
@@ -16,6 +17,37 @@ const shop_menu = [
                 accesses: [],
                 nonaccesses: []
             },
+            {
+                // icon: <Icon color="disable">query_builder</Icon>,
+                title: 'Shop Settiengs',
+                to: '/shop/setting',
+                items: [],
+                accesses: [],
+                nonaccesses: []
+            },
+        ],
+        accesses: [],
+        nonaccesses: []
+    },
+    {
+        icon: <LocalMall />,
+        title: 'Products',
+        // to: '/',
+        items: [
+            {
+                title: 'Add New Product',
+                to: '/product/category',
+                items: [],
+                accesses: [],
+                nonaccesses: []
+            },
+            {
+                title: 'Create Product',
+                to: '/product/new',
+                items: [],
+                accesses: [],
+                nonaccesses: []
+            }
         ],
         accesses: [],
         nonaccesses: []

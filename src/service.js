@@ -81,7 +81,7 @@ export const isSoloUser = () => {
     //         return false;
     //     }
     // });
-    if (userRole === cs.Role_Solo_Buyer || cs.Role_Solo_Seller) {
+    if (userRole === cs.Role_Solo_Buyer || userRole === cs.Role_Solo_Seller) {
         isSolo = true;
     }
     return isSolo;

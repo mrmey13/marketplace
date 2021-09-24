@@ -2,7 +2,7 @@ import React from 'react';
 import Icon from '@material-ui/core/Icon';
 import { LocalMall } from '@material-ui/icons';
 import cs from '../const';
-
+import {isSoloUser} from '../service';
 const shop_menu = [
     {
         icon: <Icon color="disable">store</Icon>,
@@ -105,6 +105,6 @@ const admin_menu = [{
 export const menu = [
     ...shop_menu,
     ...product_menu,
-    ...admin_menu,
+    ...(!isSoloUser() && admin_menu || []),
     ...settings_menu
 ]

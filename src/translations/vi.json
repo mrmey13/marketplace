@@ -34,7 +34,7 @@
         "product_menu": {
             "title": "Quản lý sản phẩm",
             "all_products": "Tất cả sản phẩm",
-            "new_product":"Thêm 1 sản phẩm mới"
+            "new_product": "Thêm 1 sản phẩm mới"
         }
     },
     "shop_profile": {
@@ -51,10 +51,23 @@
         "title": "Thêm 1 sản phẩm mới",
         "productName": "Tên sản phẩm",
         "categoryName": "Tên ngành",
-        "selectedPath":"Đã chọn"
+        "selectedPath": "Đã chọn"
+    },
+    "all_products": {
+        "title": "Tất cả sản phẩm",
+        "tabs": {
+            "all": "Tất cả",
+            "new": "Mới",
+            "justChanged": "Mới thay đổi",
+            "deleted": "Đã xóa",
+            "contraband": "Hàng cấm",
+            "violatesRules": "Vi phạm",
+            "accepted": "Chấp nhận",
+            "notAccepted": "Không chấp nhận"
+        }
     },
     "shop_settings": {
-        "setting":"Thiết Lập Shop",
+        "setting": "Thiết Lập Shop",
         "shop_settings": "Thiết Lập Shop",
         "change_settings": "Thay đổi các cài đặt cho shop của bạn.",
         "basic_settings": {

@@ -35,7 +35,7 @@
         "product_menu": {
             "title": "Product Management",
             "all_products": "All Products",
-            "new_product":"Add a new product"
+            "new_product": "Add a new product"
         }
     },
     "shop_profile": {
@@ -52,7 +52,20 @@
         "title": "Add a new product",
         "productName": "Product Name",
         "categoryName": "Category Name",
-        "selectedPath":"Selected"
+        "selectedPath": "Selected"
+    },
+    "all_products": {
+        "title": "All Products",
+        "tabs": {
+            "all": "All",
+            "new": "New",
+            "justChanged": "Just Changed",
+            "deleted": "Deleted by user",
+            "contraband": "Contraband",
+            "violatesRules": "Violates Rules",
+            "accepted": "Accepted",
+            "notAccepted": "Not Accepted"
+        }
     },
     "shop_settings": {
         "shop_settings": "Shop Settings",

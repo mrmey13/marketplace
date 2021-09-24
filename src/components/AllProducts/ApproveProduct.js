@@ -70,7 +70,7 @@ class ApproveProduct extends Component {
     handleDialogAgree() {
         console.log(this.state);
         //tmpData = data.data.filter((el) => el.is_deleted_by_merchant === 0);
-        if (!this.state.approveStatus ) {
+        if (!this.state.approveStatus) {
             window.alert('Please input information !');
             return;
         }
@@ -80,10 +80,6 @@ class ApproveProduct extends Component {
             productId
         } = this.state;
         let queryString = `${approveURL}?productId=${this.state.productId}&approveStatus=${this.state.approveStatus}`;
-
-       
-
-       
 
         fetch(queryString, {
             method: 'GET',
@@ -238,10 +234,10 @@ class ApproveProduct extends Component {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.props.history.goBack} color="primary">
-                            Hủy
+                            {t("commons.button.cancel")}
                         </Button>
                         <Button onClick={this.handleDialogAgree} color="primary">
-                            Tạo mới
+                            {t("commons.button.ok")}
                         </Button>
                     </DialogActions>
                 </DialogWrapper>

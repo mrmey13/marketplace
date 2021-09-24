@@ -206,6 +206,7 @@ const BasicInformation = ({ imageList, form, onChangeFile }) => {
           className="form-control form-control-sm"
           id="product-name"
           name="productName"
+          value={form.name}
         />
       </div>
     </div>

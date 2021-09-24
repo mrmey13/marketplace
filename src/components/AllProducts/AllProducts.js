@@ -115,7 +115,7 @@ class AllProducts extends Component {
                 { columnName: 'sales', align: 'center', width: 150 },
                 { columnName: 'productStatusId', align: 'center', width: 150 },
                 { columnName: 'totalNumberOfQuestions', align: 'center', width: 250 },
-                { columnName: 'action', align: 'center', width: 400 }
+                { columnName: 'action', align: 'center', width: 200 }
 
             ],
             pageSizes: [5, 10],
@@ -326,8 +326,8 @@ class AllProducts extends Component {
                     <div className="card-body shadow">
                         <div className="d-flex align-items-baseline">
                             <h4 className="card-title mb-4 text-uppercase">
-                                {/* {t("product_category.title")} */}
-                                PRODUCT LIST
+                                {t("all_products.title")}
+                                {/* PRODUCT LIST */}
                             </h4>
                         </div>
 
@@ -339,7 +339,7 @@ class AllProducts extends Component {
                                 // component={Link} to="/product/all"
                                 onClick={() => { window.location.href = "/product-list/all"; }}
                             >
-                                Tất cả
+                                {t("all_products.tabs.all")}
                             </Button>
                             <Button
                                 className={this.state.currentTab === 'new' ? classes.tabBtnSelected : classes.tabBtn}
@@ -348,7 +348,7 @@ class AllProducts extends Component {
                                 // component={Link} to="/product/new"
                                 onClick={() => { window.location.href = "/product-list/new"; }}
                             >
-                                New
+                                {t("all_products.tabs.new")}
                             </Button>
                             <Button
                                 className={this.state.currentTab === 'justChanged' ? classes.tabBtnSelected : classes.tabBtn}
@@ -356,7 +356,7 @@ class AllProducts extends Component {
                                 variant={"contained"}
                                 onClick={() => { window.location.href = "/product-list/justChanged"; }}
                             >
-                                Just changed
+                                {t("all_products.tabs.justChanged")}
                             </Button>
                             <Button
                                 className={this.state.currentTab === 'deleted' ? classes.tabBtnSelected : classes.tabBtn}
@@ -364,7 +364,7 @@ class AllProducts extends Component {
                                 variant={"contained"}
                                 onClick={() => { window.location.href = "/product-list/deleted"; }}
                             >
-                                Deleted by user
+                                {t("all_products.tabs.deleted")}
                             </Button>
                             <Button
                                 className={this.state.currentTab === 'contraband' ? classes.tabBtnSelected : classes.tabBtn}
@@ -372,7 +372,7 @@ class AllProducts extends Component {
                                 variant={"contained"}
                                 onClick={() => { window.location.href = "/product-list/contraband"; }}
                             >
-                                Hàng cấm
+                                {t("all_products.tabs.contraband")}
                             </Button>
                             <Button
                                 className={this.state.currentTab === 'violatesRules' ? classes.tabBtnSelected : classes.tabBtn}
@@ -380,7 +380,7 @@ class AllProducts extends Component {
                                 variant={"contained"}
                                 onClick={() => { window.location.href = "/product-list/violatesRules"; }}
                             >
-                                violates rules
+                                {t("all_products.tabs.violatesRules")}
                             </Button>
                             <Button
                                 className={this.state.currentTab === 'accepted' ? classes.tabBtnSelected : classes.tabBtn}
@@ -388,7 +388,7 @@ class AllProducts extends Component {
                                 variant={"contained"}
                                 onClick={() => { window.location.href = "/product-list/accepted"; }}
                             >
-                                Accepted
+                                {t("all_products.tabs.accepted")}
                             </Button>
                             <Button
                                 className={this.state.currentTab === 'notAccepted' ? classes.tabBtnSelected : classes.tabBtn}
@@ -396,7 +396,7 @@ class AllProducts extends Component {
                                 variant={"contained"}
                                 onClick={() => { window.location.href = "/product-list/notAccepted"; }}
                             >
-                                Not accepted
+                                {t("all_products.tabs.notAccepted")}
                             </Button>
                             {/* <Button
                                 className={this.state.currentTab === 'active' ? classes.tabBtnSelected : classes.tabBtn}

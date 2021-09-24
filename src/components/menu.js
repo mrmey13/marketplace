@@ -22,43 +22,43 @@ const shop_menu = [
         accesses: [],
         nonaccesses: []
     },
-    {
-        icon: <LocalMall />,
-        title: 'Products',
-        // to: '/',
-        items: [
-            {
-                title: 'Add New Product',
-                to: '/product/category',
-                items: [],
-                accesses: [],
-                nonaccesses: []
-            },
-            {
-                title: 'Create Product',
-                to: '/product/new',
-                items: [],
-                accesses: [],
-                nonaccesses: []
-            }
-        ],
-        accesses: [],
-        nonaccesses: []
-    }
+    // {
+    //     icon: <LocalMall />,
+    //     title: 'Products',
+    //     // to: '/',
+    //     items: [
+    //         {
+    //             title: 'Add New Product',
+    //             to: '/product/category',
+    //             items: [],
+    //             accesses: [],
+    //             nonaccesses: []
+    //         },
+    //         {
+    //             title: 'Create Product',
+    //             to: '/product/new',
+    //             items: [],
+    //             accesses: [],
+    //             nonaccesses: []
+    //         }
+    //     ],
+    //     accesses: [],
+    //     nonaccesses: []
+    // }
 ]
 
 const product_menu = [
     {
-        icon: <Icon color="disable">shop</Icon>,
+        icon: <LocalMall/>,
         title: 'nested_list.product_menu.title',
         items: [
             {
-                icon: <Icon color="disable">shop</Icon>,
+                // icon: <Icon color="disable">shop</Icon>,
                 to: '/product-list/all',
                 title: 'nested_list.product_menu.all_products'
             },
             {
-                icon: <Icon color="disable">shop</Icon>,
+                // icon: <Icon color="disable">shop</Icon>,
                 to: '/product/category',
                 title: 'nested_list.product_menu.new_product'
             }

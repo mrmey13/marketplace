@@ -1,5 +1,5 @@
 {
-    "LOGIN":"ĐĂNG NHẬP",
+    "LOGIN": "ĐĂNG NHẬP",
     "commons": {
         "button": {
             "save": "Lưu",
@@ -8,17 +8,18 @@
             "confirm": "Xác nhận",
             "cancel": "Bỏ qua",
             "refresh": "Làm mới",
-            "ok":"OK",
-            "create":"Tạo",
-            "edit":"Sửa",
-            "view":"Xem",
-            "delete":"Xóa"
+            "ok": "OK",
+            "create": "Tạo",
+            "edit": "Sửa",
+            "view": "Xem",
+            "delete": "Xóa",
+            "next": "Tiếp theo"
         },
         "expansionPanelText": "Tìm kiếm ..."
     },
     "app_route": {
         "dashboard": "Trang chính Marketplace",
-        "shop-profile":"Hồ sơ Shop"
+        "shop-profile": "Hồ sơ Shop"
     },
     "language": {
         "title": "Ngôn ngữ: ",
@@ -28,23 +29,46 @@
     "nested_list": {
         "shop_menu": {
             "title": "Quản lý Shop",
-            "profile": "Hồ sơ Shop"
+            "profile": "Hồ sơ Shop",
+            "setting":"Thiết lập Shop"
+        },
+        "product_menu": {
+            "title": "Quản lý sản phẩm",
+            "profile": "All Products",
+            "new_product":"Thêm 1 sản phẩm mới"
         }
     },
-    "shop_profile":{
-        "basic_info":"Thông tin cơ bản",
-        "background":"Ảnh bìa",
-        "avatar":"Avatar",
-        "shopName":"Tên Shop",
-        "description":"Miêu tả",
-        "shopView":"Giao diện Shop trên máy tính",
-        "media":"Media",
-        "deleteMedia":"Xóa item với id={{id}}"
+    "shop_profile": {
+        "basic_info": "Thông tin cơ bản",
+        "background": "Ảnh bìa",
+        "avatar": "Avatar",
+        "shopName": "Tên Shop",
+        "description": "Miêu tả",
+        "shopView": "Giao diện Shop trên máy tính",
+        "media": "Media",
+        "deleteMedia": "Xóa item với id={{id}}"
     },
-    "address_settings": {
-        "title": "",
-        "description": "",
-        "add_new": "",
-        "": ""
+    "product_category": {
+        "title": "Thêm 1 sản phẩm mới",
+        "productName": "Tên sản phẩm",
+        "categoryName": "Tên ngành",
+        "selectedPath":"Đã chọn"
+    },
+    "shop_settings": {
+        "shop_settings": "Thiết Lập Shop",
+        "change_settings": "Thay đổi các cài đặt cho shop của bạn.",
+        "basic_settings": {
+        "basic_settings": "Thiết Lập Cơ Bản",
+        "protect_your_account": "Bảo vệ tài khoản của bạn ngay bây giờ bằng cách xác minh hoạt động đáng ngờ",
+        "protect_your_account_otp": "Trong trường hợp hoạt động có rủi ro cao, hãy xác minh hoạt động với OTP",
+        "vacation_mode": "Chế độ Tạm nghỉ",
+        "vacation_mode_p": "Kích hoạt Chế độ Tạm nghỉ để ngăn khách hàng đặt đơn hàng mới. Những đơn hàng đang tiến hành vẫn phải được xử lý.",
+        "chat_auto": "Bạn vẫn chưa kích hoạt Trả lời tự động.",
+        "set_now": "Thiết lập ngay",
+        "language": "Ngôn ngữ"
+        },
+        "privacy_settings": "Cài đặt riêng tư",
+        "chat_settings": "Cài đặt chat",
+        "notification_settings": "Cài đặt thông báo"
     }
 }

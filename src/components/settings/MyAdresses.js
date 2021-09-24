@@ -632,14 +632,14 @@ const MyAddresses = ({ t, i18n }) => {
 }
 
 const MyMapComponent = withScriptjs(withGoogleMap((props) => {
-  const [mark, setMark] = useState({ x: "", y: "" });
   const { modalForm, onChangeCoordinates } = props;
+  const [mark, setMark] = useState({ x: modalForm.latitude, y: modalForm.longtitude });
   return <GoogleMap
-    defaultZoom={3}
+    defaultZoom={5}
     defaultCenter={{ lat: modalForm.latitude, lng: modalForm.longtitude }}
     onClick={(event) => { setMark({ x: event.latLng.lat(), y: event.latLng.lng() }); onChangeCoordinates(event) }}
   >
-    {props.isMarkerShown && <Marker position={{ lat: mark.x, lng: mark.y }} />}
+    {<Marker position={{ lat: mark.x, lng: mark.y }} />}
   </GoogleMap>
 }
 ))

@@ -1,24 +1,30 @@
 .pagination{
     flex-direction: row;
     flex-wrap: wrap;
+    padding-top: 5px;
+    height:fit-content
 }
-.page-item a {
+.page-link {
     color: black;
     padding: 8px 16px;
     text-decoration: none;
     border-radius: 3px;
     margin-right: 3px;
-    margin-bottom: 3px;
-    width: 50px;
+    width: 40px;
     text-align: center;
   }
-.page-item a:focus {
+/* .page-link:focus {
     background-color: #4CAF50;
     color: white;
+} */
+.page-link:hover:not(.focus) {
+    /* background-color: rgb(131, 128, 128); */
+    color: #F69756
 }
-.page-item a:hover:not(.focus) {
-    background-color: rgb(131, 128, 128);
-}
-.page-item a:active{
-    background-color: rgb(73, 125, 192);
+/* .page-item:active{
+    background-color: #F69756 !important;
+} */
+
+.selected{
+    background-color: #F69756;
 }

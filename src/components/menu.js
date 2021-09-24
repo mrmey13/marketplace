@@ -51,7 +51,24 @@ const shop_menu = [
         ],
         accesses: [],
         nonaccesses: []
-    },
+    }
+]
+
+const product_menu = [
+    {
+        icon: <Icon color="disable">shop</Icon>,
+        title: 'nested_list.product_menu.title',
+        items: [
+            {
+                icon: <Icon color="disable">shop</Icon>,
+                to: '/product/category',
+                title: 'nested_list.product_menu.new_product',
+            }
+        ],
+    }
+]
+
+const settings_menu = [
     {
         icon: <Icon color="disable">build</Icon>,
         title: 'Settings',
@@ -63,10 +80,20 @@ const shop_menu = [
                 accesses: [],
                 nonaccesses: []
             },
+            {
+                // icon: <Icon color="disable">query_builder</Icon>,
+                title: 'nested_list.shop_menu.setting',
+                to: '/shop/setting',
+                items: [],
+                accesses: [],
+                nonaccesses: []
+            },
         ]
     },
 ]
 
 export const menu = [
-    ...shop_menu
+    ...shop_menu,
+    ...product_menu,
+    ...settings_menu
 ]

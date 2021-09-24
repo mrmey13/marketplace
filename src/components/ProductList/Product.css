@@ -1,0 +1,264 @@
+@import "../../theme/color.css";
+html {
+    box-sizing: border-box;
+  }
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  *,
+  *:before,
+  *:after {
+    box-sizing: border-box;
+  }
+  /* card-list */
+  body {
+    --spacing: 10px;
+    --columns: 6;
+    --subtitle: 13px;
+  }
+  .card-course {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: rgba(31, 31, 32, 0.2) 0px 7px 29px 0px;
+    margin-right: 0.5rem;
+    margin-bottom: 1rem;
+    /* width: 19%; */
+  }
+  .card-img-top {
+    object-fit: cover;
+  }
+  .card-top {
+      padding-bottom: 1rem;
+      height: 60px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+  }
+  .card-star{
+    width: fit-content;
+    height: fit-content;
+    color: white;
+    padding-right: 3px;
+    position: absolute;
+    /* left: 40%; */
+    top: -50%;
+    border: 3px solid #ffffff;
+    border-radius: 100rem;
+    background-color: #9756F6;
+  
+  }
+  .card-product-name {
+    margin-top: -3px;
+    font-weight: bold;
+    color: black;
+    background-color: white;
+    white-space: pre-wrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+     display: -webkit-box;
+     height: fit-content
+    
+  }
+  /* .card-product-name:hover{
+    white-space: normal; 
+    overflow: visible;
+    word-break: break-word;
+  } */
+  /* .card_course_name{
+    height: 60px;
+  } */
+  .card-user {
+    display: flex;
+    align-items: center;
+  }
+  .card-user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 100rem;
+    object-fit: cover;
+  }
+  .card-user-info {
+    padding-left: 20px;
+    flex: 1;
+  }
+  .card-user-top {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+  }
+  .card-user-name {
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 1;
+    padding-top: 7px;
+  }
+  #popovers-icon {
+    margin-top: 1.5rem;
+  }
+  .popover-header {
+    background-color: white;
+    background-image: linear-gradient(to bottom right, #00aefd, #ffa400);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .card-user-top ion-icon {
+    color: #20e3b2;
+    margin-left: 5px;
+  }
+  .card-bottom {
+    padding: 5px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .card-live {
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 5px 5px 5px 5px;
+    border-radius: 10px;
+    background-color: #f06957;
+    margin-right: 10px;
+  }
+  .card-live span {
+    font-size: 14px;
+  }
+  .card-watching {
+    font-size: 13px;
+    font-weight: 300;
+  }
+  .card-time {
+    font-weight: 300;
+    font-size: var(--subtitle);
+  }
+  .row-title {
+    margin: 5px ;
+    width:fit-content;
+  }
+
+  /* Course List */
+  .component-top{
+    justify-content: space-between;
+  }
+  .component-top-title{
+    /* background-image: linear-gradient(to bottom right, #00aefd, #ffa400);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent; */
+      text-align: center;
+      font-weight: bold;
+      font-size: 20px;
+
+  }
+  .component-top-button {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+  }
+  .link__to{
+    color: white;
+  }
+  .btn-sort{
+    width: "fit-content";
+    margin: 5px;
+    height: fit-content;
+  }
+  
+  .btn-sort:focus{
+    box-shadow: none;
+    
+  }
+  .btn-sort:hover{
+    color: #F69756;
+  }
+  .select-sort{
+    border: 1px solid black;
+    height: fit-content;
+  }
+  .select-sort:focus{
+    box-shadow: none;
+    border: 1px solid black;
+  }
+  .sort-card{
+    display: flex;
+    justify-content: space-between;
+    flex-direction:row;
+    background-color: rgb(243, 243, 243);
+    height:fit-content;
+  }
+  .card-shop-intro{
+    width:80%;
+    height: 150px;
+    margin-left: 15%;
+    margin-bottom: 5px;
+    object-fit: cover;
+    border-radius: 10px;
+    /* background: url("https://images.unsplash.com/photo-1550795629-4350bf35d102?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=375&q=80"); */
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+.card-body-shop{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.sort-star-img{
+  width: 15px;
+}
+.rate-button{
+  height: 25px;
+  width: 90px;
+  display: flex !important; 
+}
+.rate-button:focus{
+  box-shadow: none;
+}
+.rate-button:hover{
+  background-color: var(--hawkesblue);
+}
+.pagin-card{
+  height:fit-content;
+}
+.card-price{
+  justify-content: space-between;
+}
+.product-price{
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  /* -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+   display: -webkit-box; */
+   height: fit-content
+}
+.free-ship-img{
+  /* margin-left: 2px; */
+  width: 25px;
+  height:25px
+}
+.scroller{
+  height:700px;
+  overflow-y: scroll;
+  scrollbar-color: rebeccapurple green;
+  scrollbar-width: thin;
+}
+.collection-filter_collection{
+  border-bottom: 1px solid var(--color);
+  margin-top: 5px;
+}
+/* .collection-filter_collection:active{
+  color: var(--color)
+} */
+.discount-badge{
+  position: absolute;
+  padding-left: 3px;
+  width: fit-content;
+  word-break: break-word;
+}

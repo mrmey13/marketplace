@@ -45,8 +45,20 @@
   width: 80vw;
 }
 
+.w-70vw {
+  width: 70vw;
+}
+
+.w-20vw {
+  width: 20vw;
+}
+
 .minw-80em {
   min-width: 80em;
+}
+
+.maxw-15em {
+  max-width: 15em;
 }
 
 .alert-popup {
@@ -73,4 +85,8 @@
 
 .link-btn:hover {
   color: rgb(1, 32, 167);
+}
+
+.image-btn {
+  
 }

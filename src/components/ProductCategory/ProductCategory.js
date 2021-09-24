@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { useTranslation, withTranslation } from "react-i18next";
 import { withToastManager } from "react-toast-notifications";
+import { Link, withRouter, Route } from 'react-router-dom';
 
 import color from "../../theme/color";
 import cs from "../../const";
@@ -10,9 +11,7 @@ import cs from "../../const";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import TreeView from "@material-ui/lab/TreeView";
-import TreeItem from "@material-ui/lab/TreeItem";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import axios from 'axios';
 
@@ -117,6 +116,8 @@ class ProductCategory extends Component {
     }
 
     componentWillMount() {
+        console.log(this.props.history);
+
         this.loadData();
         this.loadStateData();
     }
@@ -299,6 +300,27 @@ class ProductCategory extends Component {
             }
         }
         return pathStr;
+    }
+    handleNext(){
+        let {
+            productName,
+            layer1, layer1Data,
+            layer2, layer2Data,
+            layer3, layer3Data,
+            layer4, layer4Data,
+            layer5, layer5Data
+        } = this.state;
+
+        let lastItem = layer5 || layer4 || layer3 || layer2 || layer1;
+        console.log("lastItem",lastItem);
+
+        this.props.history.push({
+            pathname: '/product/new',
+            state: { 
+                name: productName,
+                category: lastItem
+            }
+        });
     }
 
     handleNextClick = () => {
@@ -531,6 +553,6 @@ ProductCategory.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withToastManager(
+export default withRouter(withToastManager(
     withStyles(styles)(withTranslation()(ProductCategory))
-);
+));

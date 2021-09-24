@@ -4,6 +4,8 @@ import axios from "axios";
 import { element } from "prop-types";
 import React, { useEffect, useState } from "react";
 import { useTranslation, withTranslation } from "react-i18next";
+import { Link, withRouter, useLocation, useHistory, Route } from 'react-router-dom';
+
 import cs from "../../const";
 
 const LIMIT_IMAGE_UPLOAD = 9;
@@ -30,6 +32,8 @@ const CreateProduct = (props) => {
   let imageList = []
   for (let i = 0; i < LIMIT_IMAGE_UPLOAD; i++) imageList.push(i)
 
+  // console.log(location.state);
+  // console.log(history);
   const [form, setForm] = useState({
     categoryId: "",
     categoryPath: "",

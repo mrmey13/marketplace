@@ -40,5 +40,11 @@
         "shopView":"Giao diện Shop trên máy tính",
         "media":"Media",
         "deleteMedia":"Xóa item với id={{id}}"
+    },
+    "address_settings": {
+        "title": "",
+        "description": "",
+        "add_new": "",
+        "": ""
     }
 }

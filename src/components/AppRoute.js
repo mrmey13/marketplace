@@ -47,12 +47,6 @@ export class AppRoute extends Component {
           component={() => ShopProfileArea(t, i18n)}
         />
 
-        <Route
-          exact
-          path="/shop/setting"
-          component={() => ShopSetting(t, i18n)}
-        />
-
         <Route exact path="/shop/setting" component={() => ShopSetting(t, i18n)} />
 
         {/* Product */}

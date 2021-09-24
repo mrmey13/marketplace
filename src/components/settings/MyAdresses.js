@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MyAddresses = () => {
+const MyAddresses = ({ t, i18n }) => {
   const classes = useStyles();
 
   const [responseMessage, setResponseMessage] = useState({
@@ -128,7 +128,7 @@ const MyAddresses = () => {
     try {
       const response = await axios({
         method: "post",
-        url: `${createAddressUrl}`, 
+        url: `${createAddressUrl}`,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + "-token"),
         },
@@ -644,4 +644,4 @@ const MyMapComponent = withScriptjs(withGoogleMap((props) => {
 }
 ))
 
-export default MyAddresses;
+export default withTranslation()(MyAddresses);

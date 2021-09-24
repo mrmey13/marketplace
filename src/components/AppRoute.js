@@ -62,7 +62,7 @@ export class AppRoute extends Component {
         <Route
           exact
           path="/product/category"
-          component={() => ProductCategoryArea(t, i18n)}
+          component={ProductCategoryArea}
         />
       </ToastProvider>
     );
@@ -88,12 +88,12 @@ const ShopProfileArea = (t, i18n) => (
   </div>
 );
 
-const ProductCategoryArea = (t, i18n) => (
+const ProductCategoryArea = (props) => (
   <div>
     <Typography component="div" className={styles.tableContainer}>
       ProductCategory
       {/* {t("app_route.shop-profile")} */}
-      <ProductCategory />
+      <ProductCategory {...props} />
     </Typography>
   </div>
 );

@@ -29,8 +29,7 @@
     "nested_list": {
         "shop_menu": {
             "title": "Shop Management",
-            "profile": "Shop Profile",
-            "setting": "Shop Settings"
+            "profile": "Shop Profile"
         },
         "product_menu": {
             "title": "Product Management",
@@ -55,6 +54,7 @@
         "selectedPath":"Selected"
     },
     "shop_settings": {
+        "setting": "Shop Settings",
         "shop_settings": "Shop Settings",
         "change_settings": "Change the settings of your shop.",
         "basic_settings": {

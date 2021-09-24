@@ -248,7 +248,6 @@ class Home extends React.Component {
 
 	render() {
 		const { classes, t, i18n } = this.props;
-
 		var username = "";
 		var user = localStorage.getItem(cs.System_Code + "-user");
 		if (user) username = JSON.parse(String(user)).fullname;

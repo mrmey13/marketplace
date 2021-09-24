@@ -177,35 +177,35 @@ class AllProducts extends Component {
 
                                 variant={"contained"}
                                 // component={Link} to="/product/all"
-                                onClick={() => {window.location.href="/product/all";}}
+                                onClick={() => {window.location.href="/product-list/all";}}
                                 >
                                 Tất cả
                             </Button>
                             <Button
                                 className={this.state.currentTab === 'active' ? classes.tabBtnSelected : classes.tabBtn}
                                 // component={Link} to="/product/active"
-                                onClick={() => {window.location.href="/product/active";}}
+                                onClick={() => {window.location.href="/product-list/active";}}
                                 >
                                 Đang hoạt động
                             </Button>
                             <Button
                                 className={this.state.currentTab === 'soldout' ? classes.tabBtnSelected : classes.tabBtn}
                                 // component={Link} to="/product/soldout"
-                                onClick={() => {window.location.href="/product/soldout";}}
+                                onClick={() => {window.location.href="/product-list/soldout";}}
                                 >
                                 Hết hàng
                             </Button>
                             <Button
                                 className={this.state.currentTab === 'banned' ? classes.tabBtnSelected : classes.tabBtn}
                                 // component={Link} to="/product/banned"
-                                onClick={() => {window.location.href="/product/banned";}}
+                                onClick={() => {window.location.href="/product-list/banned";}}
                                 >
                                 Vi phạm
                             </Button>
                             <Button
                                 className={this.state.currentTab === 'unlisted' ? classes.tabBtnSelected : classes.tabBtn}
                                 // component={Link} to="/product/unlisted"
-                                onClick={() => {window.location.href="/product/unlisted";}}
+                                onClick={() => {window.location.href="/product-list/unlisted";}}
                                 >
                                 Đã ẩn
                             </Button>

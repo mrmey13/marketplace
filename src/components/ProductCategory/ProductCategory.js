@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { useTranslation, withTranslation } from "react-i18next";
 import { withToastManager } from "react-toast-notifications";
+import { Link, withRouter, Route } from 'react-router-dom';
 
 import color from "../../theme/color";
 import cs from "../../const";
@@ -114,6 +115,8 @@ class ProductCategory extends Component {
     }
 
     componentWillMount() {
+        console.log(this.props.history);
+
         this.loadData();
     }
 
@@ -287,6 +290,7 @@ class ProductCategory extends Component {
     }
     handleNext(){
         let {
+            productName,
             layer1, layer1Data,
             layer2, layer2Data,
             layer3, layer3Data,
@@ -296,6 +300,14 @@ class ProductCategory extends Component {
 
         let lastItem = layer5 || layer4 || layer3 || layer2 || layer1;
         console.log("lastItem",lastItem);
+
+        this.props.history.push({
+            pathname: '/product/new',
+            state: { 
+                name: productName,
+                category: lastItem
+            }
+        });
     }
 
     render() {
@@ -497,7 +509,7 @@ class ProductCategory extends Component {
 
                                 <div style={{ display: "flex", justifyContent: "end" }}>
                                     <Button
-                                        disabled={!this.state.valid}
+                                        disabled={!this.state.valid || this.state.productName === ""}
                                         onClick={() => { 
                                             this.handleNext();
                                         }}
@@ -520,6 +532,6 @@ ProductCategory.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withToastManager(
+export default withRouter(withToastManager(
     withStyles(styles)(withTranslation()(ProductCategory))
-);
+));

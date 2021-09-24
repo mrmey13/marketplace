@@ -61,7 +61,7 @@ const product_menu = [
         items: [
             {
                 icon: <Icon color="disable">shop</Icon>,
-                to: '/product/all',
+                to: '/product-list/all',
                 title: 'nested_list.product_menu.all_products'
             },
             {

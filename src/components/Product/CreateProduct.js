@@ -2,6 +2,8 @@ import axios from "axios";
 import { element } from "prop-types";
 import React, { useState } from "react";
 import { useTranslation, withTranslation } from "react-i18next";
+import { Link, withRouter, useLocation, useHistory, Route } from 'react-router-dom';
+
 import cs from "../../const";
 
 const LIMIT_IMAGE_UPLOAD = 9;
@@ -9,10 +11,14 @@ const LIMIT_IMAGE_UPLOAD = 9;
 const CreateProduct = () => {
   let imageList = []
   for (let i = 0; i < 9; i++) imageList.push(i)
+  let location = useLocation();
+  let history = useHistory();
 
+  console.log(location.state);
+  // console.log(history);
   const [form, setForm] = useState({
-    categoryId: "100350",
-    name: "",
+    categoryId: location && location.state && location.state.category ? location.state.category.categoryId : "100350",
+    name: location && location.state && location.state.name ? location.state.name : "",
     description: "desc",
     price: 1000,
     inventoryCount: 10,
@@ -27,6 +33,8 @@ const CreateProduct = () => {
     imgFileUrl: [],
     videoFile: {},
   });
+
+  console.log("form",form);
 
   const removeDuplicate = (imageList) => {
     let checkDup = false;

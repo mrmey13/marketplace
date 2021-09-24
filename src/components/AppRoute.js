@@ -68,7 +68,7 @@ export class AppRoute extends Component {
 
         <Route
           // exact
-          path="/product/:type"
+          path="/product-list/:type"
           component={() => AllProductsArea(t, i18n)}
         />
       </ToastProvider>

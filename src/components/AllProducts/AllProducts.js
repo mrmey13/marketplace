@@ -19,6 +19,12 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Typography from '@material-ui/core/Typography';
 import Icon from '@material-ui/core/Icon';
 
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 import { Link, withRouter, Route } from 'react-router-dom';
 
 import { Tooltip } from '@material-ui/core';
@@ -27,8 +33,11 @@ import { Table } from '@devexpress/dx-react-grid-material-ui';
 
 // import { DataGrid } from '@material-ui/data-grid';
 import DataTable from '../shared/DataTable.jsx';
-import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
+import ApproveProduct from './ApproveProduct';
+// import ShopProfile from './ApproveProduct';
 
+const allProductStatusURL = cs.BaseURL + "/api/manager/common/all-product-status";
+const productListURL = cs.BaseURL + "/api/manager/product/list";
 const styles = (theme) => ({
     tabBtn: {
         color: color.casablanca,
@@ -58,6 +67,7 @@ class AllProducts extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            openApproveModal: false,
             currentTab: this.props.match.params.type || "all", // all, active, soldout, banned, unlisted
             columns: [
                 { name: "productName", title: 'Tên sản phẩm' },
@@ -67,29 +77,30 @@ class AllProducts extends Component {
                 { name: 'stock', title: 'Kho hàng' },
 
                 { name: 'sales', title: 'Đã bán' },
+                { name: 'productStatusId', title: 'productStatusId' },
                 // { name: 'totalNumberOfQuestions', title: 'Số câu hỏi' },
                 // { name: 'stock', title: 'stock' },
                 { name: 'action', title: 'Thao tác' }
             ],
             rows: [
-                {
-                    id:0,
-                    productName: "TEST",
-                    variationSKU:"RFF2",
-                    variationName:"SDWD",
-                    price:"E23",
-                    stock:"EDEWFE",
-                    sales:"21"
-                },
-                {
-                    id:1,
-                    productName: "TEST 2",
-                    variationSKU:"RFF2 2",
-                    variationName:"SDWDfafa",
-                    price:"E23",
-                    stock:"EDEWFE",
-                    sales:"21"
-                }
+                // {
+                //     id: 0,
+                //     productName: "TEST",
+                //     variationSKU: "RFF2",
+                //     variationName: "SDWD",
+                //     price: "E23",
+                //     stock: "EDEWFE",
+                //     sales: "21"
+                // },
+                // {
+                //     id: 1,
+                //     productName: "TEST 2",
+                //     variationSKU: "RFF2 2",
+                //     variationName: "SDWDfafa",
+                //     price: "E23",
+                //     stock: "EDEWFE",
+                //     sales: "21"
+                // }
             ],
             // rows:[
             //     {"lectureOrderNumber":127,"courseId":6}
@@ -102,21 +113,30 @@ class AllProducts extends Component {
                 { columnName: 'price', align: 'center', width: 200 },
                 { columnName: 'stock', align: 'center', width: 200 },
                 { columnName: 'sales', align: 'center', width: 150 },
+                { columnName: 'productStatusId', align: 'center', width: 150 },
                 { columnName: 'totalNumberOfQuestions', align: 'center', width: 250 },
                 { columnName: 'action', align: 'center', width: 400 }
 
             ],
-            pageSizes: [5, 10, 20, 30, 60],
+            pageSizes: [5, 10],
             totalCount: 0,
-            pageSize: 15,
+            pageSize: 5,
             currentPage: 0,
             loading: true,
             sorting: [{ columnName: 'lead_created_at_unix', direction: 'desc' }],
+            statusList: []
         };
         this.tmpData = [];
 
         this.handleChangeTab = this.handleChangeTab.bind(this);
         this.handleSelections = this.handleSelections.bind(this);
+        this.changeCurrentPage = this.changeCurrentPage.bind(this);
+        this.changePageSize = this.changePageSize.bind(this);
+    }
+
+    componentDidMount() {
+        this.loadStatus();
+        this.loadData();
     }
 
     handleSelections(selection) {
@@ -126,14 +146,154 @@ class AllProducts extends Component {
         })
     }
 
-    loadData() {
+    loadStatus() {
+        let queryString = `${allProductStatusURL}`;
+        fetch(queryString, {
+            method: "GET",
+            // body: JSON.stringify({}),
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: localStorage.getItem(cs.System_Code + "-token"),
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
 
+                console.log(data.data);
+                if (data && data.data) {
+                    this.setState({
+                        statusList: data.data
+                    })
+                }
+            })
+            .catch(() => {
+                // sessionStorage.clear();
+                // localStorage.clear();
+                // window.location.reload();
+            });
+    }
+
+    queryString() {
+        const {
+            pageSize,
+            currentPage,
+            sorting,
+            currentTab
+        } = this.state;
+
+        let productStatus = 0;
+
+        switch (currentTab) {
+            case 'new':
+                productStatus = 1;
+                break;
+            case 'justChanged':
+                productStatus = 2;
+                break;
+            case 'deleted':
+                productStatus = 3;
+                break;
+            case 'contraband':
+                productStatus = 4;
+                break;
+            case 'violatesRules':
+                productStatus = 5;
+                break;
+            case 'accepted':
+                productStatus = 9;
+                break;
+            case 'notAccepted':
+                productStatus = 10;
+                break;
+            // case 'new':
+            //     productStatus = 1;
+            //     break;
+            default:
+                productStatus = 0;
+                break;
+        }
+
+        let queryString = `${productListURL}?size=${pageSize}&page=${currentPage + 1}&productStatus=${productStatus}`;
+
+        const columnSorting = sorting[0];
+        // if (columnSorting) {
+        //     queryString = `${queryString}&orderby=${columnSorting.columnName}`;
+
+        //     if (columnSorting.direction === 'desc') queryString = `${queryString}&asc=false`;
+        //     else queryString = `${queryString}&asc=true`;
+        // }
+        return queryString;
+    }
+
+    loadData() {
+        let queryString = this.queryString();
+        fetch(queryString, {
+            method: "GET",
+            // body: JSON.stringify({}),
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: localStorage.getItem(cs.System_Code + "-token"),
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+
+                console.log(data.data);
+                if (data && data.data) {
+                    // this.setState({
+                    //     statusList: data.data
+                    // })
+                    // for (var i = 0; i < data.data.length; i++) {
+                    //     data.data[i] = formatValue(data.data[i]);
+                    // }
+
+                    this.setState({
+                        rows: data.data,
+                        totalCount: data.total_count,
+                        loading: false
+                    });
+                }
+            })
+            .catch(() => {
+                // sessionStorage.clear();
+                // localStorage.clear();
+                // window.location.reload();
+            });
     }
 
     handleChangeTab(newValue) {
         // console.log(event, newValue);
         this.setState({ currentTab: newValue })
     }
+
+    changeCurrentPage(currentPage) {
+        this.setState(
+            {
+                loading: true,
+                currentPage: currentPage
+            },
+            () => {
+                this.loadData();
+            }
+        );
+    }
+
+    changePageSize(pageSize) {
+        this.setState(
+            {
+                loading: true,
+                pageSize: pageSize,
+                currentPage: 0
+            },
+            () => {
+                this.loadData();
+            }
+        );
+    }
+
+    handleClose() { }
 
     render() {
         const { classes, t, i18n } = this.props;
@@ -171,51 +331,107 @@ class AllProducts extends Component {
                             </h4>
                         </div>
 
-                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "600px" }}>
+                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "1200px" }}>
                             <Button
                                 className={this.state.currentTab === 'all' ? classes.tabBtnSelected : classes.tabBtn}
 
                                 variant={"contained"}
                                 // component={Link} to="/product/all"
-                                onClick={() => {window.location.href="/product-list/all";}}
-                                >
+                                onClick={() => { window.location.href = "/product-list/all"; }}
+                            >
                                 Tất cả
                             </Button>
                             <Button
+                                className={this.state.currentTab === 'new' ? classes.tabBtnSelected : classes.tabBtn}
+
+                                variant={"contained"}
+                                // component={Link} to="/product/new"
+                                onClick={() => { window.location.href = "/product-list/new"; }}
+                            >
+                                New
+                            </Button>
+                            <Button
+                                className={this.state.currentTab === 'justChanged' ? classes.tabBtnSelected : classes.tabBtn}
+
+                                variant={"contained"}
+                                onClick={() => { window.location.href = "/product-list/justChanged"; }}
+                            >
+                                Just changed
+                            </Button>
+                            <Button
+                                className={this.state.currentTab === 'deleted' ? classes.tabBtnSelected : classes.tabBtn}
+
+                                variant={"contained"}
+                                onClick={() => { window.location.href = "/product-list/deleted"; }}
+                            >
+                                Deleted by user
+                            </Button>
+                            <Button
+                                className={this.state.currentTab === 'contraband' ? classes.tabBtnSelected : classes.tabBtn}
+
+                                variant={"contained"}
+                                onClick={() => { window.location.href = "/product-list/contraband"; }}
+                            >
+                                Hàng cấm
+                            </Button>
+                            <Button
+                                className={this.state.currentTab === 'violatesRules' ? classes.tabBtnSelected : classes.tabBtn}
+
+                                variant={"contained"}
+                                onClick={() => { window.location.href = "/product-list/violatesRules"; }}
+                            >
+                                violates rules
+                            </Button>
+                            <Button
+                                className={this.state.currentTab === 'accepted' ? classes.tabBtnSelected : classes.tabBtn}
+
+                                variant={"contained"}
+                                onClick={() => { window.location.href = "/product-list/accepted"; }}
+                            >
+                                Accepted
+                            </Button>
+                            <Button
+                                className={this.state.currentTab === 'notAccepted' ? classes.tabBtnSelected : classes.tabBtn}
+
+                                variant={"contained"}
+                                onClick={() => { window.location.href = "/product-list/notAccepted"; }}
+                            >
+                                Not accepted
+                            </Button>
+                            {/* <Button
                                 className={this.state.currentTab === 'active' ? classes.tabBtnSelected : classes.tabBtn}
                                 // component={Link} to="/product/active"
-                                onClick={() => {window.location.href="/product-list/active";}}
-                                >
+                                onClick={() => { window.location.href = "/product-list/active"; }}
+                            >
                                 Đang hoạt động
                             </Button>
                             <Button
                                 className={this.state.currentTab === 'soldout' ? classes.tabBtnSelected : classes.tabBtn}
                                 // component={Link} to="/product/soldout"
-                                onClick={() => {window.location.href="/product-list/soldout";}}
-                                >
+                                onClick={() => { window.location.href = "/product-list/soldout"; }}
+                            >
                                 Hết hàng
                             </Button>
                             <Button
                                 className={this.state.currentTab === 'banned' ? classes.tabBtnSelected : classes.tabBtn}
                                 // component={Link} to="/product/banned"
-                                onClick={() => {window.location.href="/product-list/banned";}}
-                                >
+                                onClick={() => { window.location.href = "/product-list/banned"; }}
+                            >
                                 Vi phạm
                             </Button>
                             <Button
                                 className={this.state.currentTab === 'unlisted' ? classes.tabBtnSelected : classes.tabBtn}
                                 // component={Link} to="/product/unlisted"
-                                onClick={() => {window.location.href="/product-list/unlisted";}}
-                                >
+                                onClick={() => { window.location.href = "/product-list/unlisted"; }}
+                            >
                                 Đã ẩn
-                            </Button>
+                            </Button> */}
                         </div>
 
-                        {
-                            this.state.currentTab === 'all' &&
-                            <div>
-                                <div className=" card card-body">
-                                    <Grid
+
+                        <div>
+                            <div className=" card card-body">
+                                {/* <Grid
                                         container
                                         direction="row"
                                         justify="space-between"
@@ -315,81 +531,104 @@ class AllProducts extends Component {
                                     <Button
                                         style={{ width: "120px", borderStyle: "solid", backgroundColor: color.casablanca }}>
                                         Search
-                                    </Button>
+                                    </Button> */}
 
-                                    <DataTable
-                                        rows={rows}
-                                        columns={columns}
-                                        columnWidths={tableColumnExtensions}
-                                        pageSizes={pageSizes}
-                                        pageSize={pageSize}
-                                        currentPage={currentPage}
-                                        // loading={loading}
-                                        sorting={sorting}
-                                        totalCount={totalCount}
-                                        selection={selection}
-                                        changeCurrentPage={this.changeCurrentPage}
-                                        changePageSize={this.changePageSize}
-                                        changeSorting={this.changeSorting}
-                                        CellComponent={CellComponent}
-                                        autoLoadData={this.loadData}
-                                        handleSelections={this.handleSelections}
-                                    />
-                                </div>
+                                <DataTable
+                                    rows={rows}
+                                    columns={columns}
+                                    columnWidths={tableColumnExtensions}
+                                    pageSizes={pageSizes}
+                                    pageSize={pageSize}
+                                    currentPage={currentPage}
+                                    // loading={loading}
+                                    sorting={sorting}
+                                    totalCount={totalCount}
+                                    selection={selection}
+                                    changeCurrentPage={this.changeCurrentPage}
+                                    changePageSize={this.changePageSize}
+                                    changeSorting={this.changeSorting}
+                                    CellComponent={CellComponent}
+                                    autoLoadData={this.loadData}
+                                    handleSelections={this.handleSelections}
+                                />
                             </div>
-                        }
+                        </div>
+
                     </div>
                 </div>
+
+                <Route exact path="/product-list/:type/approve/:productId/" component={ApproveProduct} />
+                {/* <Dialog open={this.state.openApproveModal} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+                    <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            To subscribe to this website, please enter your email address here. We will send updates
+                            occasionally.
+                        </DialogContentText>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            label="Email Address"
+                            type="email"
+                            fullWidth
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleClose} color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={this.handleClose} color="primary">
+                            Subscribe
+                        </Button>
+                    </DialogActions>
+                </Dialog> */}
             </div>
         )
     }
 }
 
-const CellComponent = props => {
-    const { column } = props;
-    if (column.name === 'action') {
-        return <ActionCell {...props} />;
+// const CellComponent = props => {
+//     const { column } = props;
+//     if (column.name === 'action') {
+//         return <ActionCell {...props} />;
+//     }
+
+//     return (
+//         <Table.Cell
+//             {...props}
+//             style={{
+//                 padding: 2,
+//                 color: '#81557a',
+//                 fontSize: '12px'
+//             }}
+//         />
+//     );
+// };
+
+class CellComponent extends React.Component {
+    constructor(props) {
+        super(props);
     }
 
-    return (
-        <Table.Cell
-            {...props}
-            style={{
-                padding: 2,
-                color: '#81557a',
-                fontSize: '12px'
-            }}
-        />
-    );
+    render() {
+        const { column } = this.props;
+        if (column.name === 'action') {
+            return <ActionCell {...this.props} />;
+        }
 
-    // var t1 = moment.unix(props.tableRow.row.submitted_at);
-    // var t2 = moment();
-
-    // var diff = t2.diff(t1, 'minutes');
-
-    // if (diff <= 30)
-    //     return (
-    //         <Table.Cell
-    //             {...props}
-    //             style={{
-    //                 padding: 2,
-    //                 color: '#81557a',
-    //                 fontSize: '12px'
-    //             }}
-    //         />
-    //     );
-    // else
-    //     return (
-    //         <Table.Cell
-    //             {...props}
-    //             style={{
-    //                 padding: 2,
-    //                 color: '#d34c3e',
-    //                 fontSize: '12px'
-    //             }}
-    //         />
-    //     );
-};
+        return (
+            <Table.Cell
+                {...this.props}
+                style={{
+                    padding: 2,
+                    color: '#81557a',
+                    fontSize: '12px'
+                }}
+            />
+        );
+    }
+}
 
 class ActionCell extends React.Component {
     render() {
@@ -400,69 +639,9 @@ class ActionCell extends React.Component {
                 fontSize: '12px'
             }}>
                 <span>
-                    {/* <Button
-                        color="primary"
-                        component={Link}
-                        to={{ pathname: '/detail/' + this.props.row.order_code, state: { previous: '/waiting' } }}
-                    >
-                        Chi tiết
-                    </Button> */}
 
 
-                    {/* <Button
-                        color="primary"
-                        component={Link}
-                        to={{ 
-                            pathname: `/course_materials/${this.props.row.courseId}/${this.props.row.lectureOrderNumber}`, 
-                            state: { previous: `/course_lectures/${this.props.row.courseId}` } 
-                        }}
-                    >
-                        Materials
-                    </Button> */}
-
-                    {/* <Button
-                        color="primary"
-                        style={{
-                            margin: 0,
-                            padding: 0
-                        }}
-                        component={Link}
-                        to={{
-                            pathname: `/course_exams/${this.props.row.courseId}/start/${this.props.row.testOrderNumber}`,
-                            state: { previous: `/course_exams/${this.props.row.courseId}` }
-                        }}
-                    >
-                        start
-                    </Button> */}
-
-                    <Button
-                        color="primary"
-                        style={{
-                            margin: 0,
-                            padding: 0
-                        }}
-                        component={Link}
-                        // to={`/course_lectures/${this.props.row.courseId}/delete/${this.props.row.lectureOrderNumber}`}
-                        to={{
-                            pathname: `/mock_exam/${this.props.row.courseId}/${this.props.row.testOrderNumber}`,
-                            state: { previous: `/course_exams/${this.props.row.courseId}` }
-                        }}
-                    >
-                        {/* <Icon>remove_circle</Icon> */}preview
-                    </Button>
-
-                    {/* <Button
-                        color="primary"
-                        component={Link}
-                        to={{
-                            pathname: `/answer_list/${this.props.row.courseId}/${this.props.row.testOrderNumber}`,
-                            state: { previous: `/course_lectures/${this.props.row.courseId}` }
-                        }}
-                    >
-                        Answers
-                    </Button> */}
-
-                    <Tooltip title="Change Settings">
+                    <Tooltip title="Approve">
                         <Button
                             color="primary"
                             style={{
@@ -472,38 +651,36 @@ class ActionCell extends React.Component {
                             component={Link}
                             // to={`/course_lectures/${this.props.row.courseId}/edit/${this.props.row.lectureOrderNumber}`}
                             to={{
-                                pathname: `/course_exams/${this.props.row.courseId}/edit/${this.props.row.testOrderNumber}`,
-                                state: { previous: `/course_exams/${this.props.row.courseId}` }
+                                pathname: `/product-list/all/approve/${this.props.row.productId}`,
+                                state: { previous: `/product-list/all` }
                             }}
                         >
-                            <Icon>settings</Icon>
+                            <Icon>check</Icon>
                         </Button>
                     </Tooltip>
 
 
-                    {this.props.row.examType === 2 &&
-                        <Tooltip title="Change question">
-                            <Button
-                                color="primary"
-                                style={{
-                                    margin: 0,
-                                    padding: 0
-                                }}
-                                component={Link}
-                                // to={`/course_lectures/${this.props.row.courseId}/edit/${this.props.row.lectureOrderNumber}`}
-                                to={{
-                                    pathname: `/course_exams/${this.props.row.courseId}/customize/${this.props.row.testOrderNumber}`,
-                                    state: { previous: `/course_exams/${this.props.row.courseId}` }
-                                }}
-                                onClick={() => {
-                                    console.log(this.props.row);
-                                }}
-                            >
-                                <Icon>edit</Icon>
-                                {/* Customize */}
-                            </Button>
-                        </Tooltip>
-                    }
+
+                    {/* <Tooltip title="Change question">
+                        <Button
+                            color="primary"
+                            style={{
+                                margin: 0,
+                                padding: 0
+                            }}
+                            component={Link}
+                            to={{
+                                pathname: `/course_exams/${this.props.row.courseId}/customize/${this.props.row.testOrderNumber}`,
+                                state: { previous: `/course_exams/${this.props.row.courseId}` }
+                            }}
+                            onClick={() => {
+                                console.log(this.props.row);
+                            }}
+                        >
+                            <Icon>edit</Icon>
+                        </Button>
+                    </Tooltip>
+
 
                     <Button
                         color="secondary"
@@ -512,14 +689,13 @@ class ActionCell extends React.Component {
                             padding: 0
                         }}
                         component={Link}
-                        // to={`/course_lectures/${this.props.row.courseId}/delete/${this.props.row.lectureOrderNumber}`}
                         to={{
-                            pathname: `/course_exams/${this.props.row.courseId}/delete/${this.props.row.testOrderNumber}`,
+                            pathname: `/product-list/${this.props.row.courseId}/delete/${this.props.row.testOrderNumber}`,
                             state: { previous: `/course_exams/${this.props.row.courseId}` }
                         }}
                     >
                         <Icon>remove_circle</Icon>
-                    </Button>
+                    </Button> */}
 
                 </span>
             </Table.Cell>
@@ -531,6 +707,6 @@ AllProducts.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withRouter(withToastManager(
+export default withRouter(
     withStyles(styles)(withTranslation()(AllProducts))
-));
+);

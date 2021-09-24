@@ -21,6 +21,7 @@ import CreateProduct from "./Product/CreateProduct";
 import ProductList from "./ProductList/ProductList";
 import ProductCategory from "./ProductCategory/ProductCategory";
 import AllProducts from "./AllProducts/AllProducts"
+import ApproveProduct from './AllProducts/ApproveProduct';
 
 const styles = (theme) => ({
   tableContainer: {
@@ -41,7 +42,7 @@ export class AppRoute extends Component {
         <Route exact path="/shop_view" component={() => ShopView(t, i18n)} />
         <Route exact path="/products" component={() => ProductList(t, i18n)} />
         <Route
-          exact
+          // exact
           path="/shop/profile"
           component={() => ShopProfileArea(t, i18n)}
         />
@@ -71,6 +72,12 @@ export class AppRoute extends Component {
           path="/product-list/:type"
           component={() => AllProductsArea(t, i18n)}
         />
+
+        {/* <Route
+          exact
+          path="/approve-product/:productId"
+          component={ApproveProduct}
+        /> */}
       </ToastProvider>
     );
   }

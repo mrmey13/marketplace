@@ -7,6 +7,7 @@ import { useTranslation, withTranslation } from "react-i18next";
 import { Link, withRouter, useLocation, useHistory, Route } from 'react-router-dom';
 
 import cs from "../../const";
+import SalesInformation from "./SalesInformation";
 
 const LIMIT_IMAGE_UPLOAD = 9;
 
@@ -54,6 +55,7 @@ const CreateProduct = (props) => {
   });
 
   const onChangeData = (event) => {
+    console.log(event.target);
     setForm({ ...form, [event.target.name]: event.target.value })
   }
 
@@ -217,7 +219,10 @@ const CreateProduct = (props) => {
         setModalVideo={setModalVideo}
       />
       <Specification />
-      <SalesInformation />
+      <SalesInformation
+        form={form}
+        onChangeData={onChangeData}
+      />
       <Shipping />
       <Others />
       <div className="d-flex justify-content-end">
@@ -408,26 +413,7 @@ const Specification = () => {
   </div>
 }
 
-const SalesInformation = () => {
-  return <div className="card card-body mb-3 shadow">
-    <h5>SalesInformation</h5>
-    <div className="row">
-      <div className="col-3 text-muted text-end">
-        Product images
-      </div>
-      <div className="col-9">
-        Photo
-      </div>
 
-      <div className="col-3 text-muted text-end">
-        Product Video
-      </div>
-      <div className="col-9">
-        Photo
-      </div>
-    </div>
-  </div>
-}
 
 const Shipping = () => {
   return <div className="card card-body mb-3 shadow">

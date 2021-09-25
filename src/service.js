@@ -69,3 +69,20 @@ export const isManagementManager = () => {
     });
     return isMM;
 }
+
+export const isSoloUser = () => {
+    var user = localStorage.getItem(cs.System_Code + '-user');
+    if (!user) return null;
+    var userRole = JSON.parse(String(user)).role;
+    let isSolo = false;
+    // userFunctionRoles.forEach(element => {
+    //     if (element.functionRoleId === cs.FunctionRole_Seller) {
+    //         isSolo = true;
+    //         return false;
+    //     }
+    // });
+    if (userRole === cs.Role_Solo_Buyer || userRole === cs.Role_Solo_Seller) {
+        isSolo = true;
+    }
+    return isSolo;
+}

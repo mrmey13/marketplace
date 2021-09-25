@@ -36,6 +36,13 @@
             "title": "Product Management",
             "all_products": "All Products",
             "new_product": "Add a new product"
+        },
+        "settings_menu":{
+            "title":"Settings"
+        },
+        "admin_menu":{
+            "title":"Administration",
+            "all_products": "Approve Products"
         }
     },
     "shop_profile": {
@@ -68,7 +75,9 @@
         }
     },
     "shop_settings": {
+        "setting": "Shop Settings",
         "shop_settings": "Shop Settings",
+        "my_addresses":"My Addresses",
         "change_settings": "Change the settings of your shop.",
         "basic_settings": {
             "basic_settings": "Basic Settings",

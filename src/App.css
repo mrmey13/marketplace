@@ -72,9 +72,10 @@
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   /* font-weight: 400;
   line-height: 1.43; */
-  border: 1px solid #f69756;
+  border: none;
   border-radius: 4px;
   letter-spacing: 0.01071em;
+  box-shadow: 5px 5px 10px #aaaaaa;
   background-color: #ffffff;
   min-width: 270px;
 }
@@ -85,8 +86,4 @@
 
 .link-btn:hover {
   color: rgb(1, 32, 167);
-}
-
-.image-btn {
-  
 }

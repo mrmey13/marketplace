@@ -59,7 +59,6 @@ const MyAddresses = ({ t, i18n }) => {
     district: 0,
     ward: 0,
     detailAddress: "",
-    type: [],
     defaultAddress: false,
     pickupAddress: false,
     returnAddress: false,
@@ -79,7 +78,6 @@ const MyAddresses = ({ t, i18n }) => {
       district: 0,
       ward: 0,
       detailAddress: "",
-      type: [],
       defaultAddress: false,
       pickupAddress: false,
       returnAddress: false,
@@ -124,7 +122,6 @@ const MyAddresses = ({ t, i18n }) => {
   };
 
   const handleConfirmAddClick = async () => {
-    setModalForm({ ...modalForm, type: "" });
     try {
       const response = await axios({
         method: "post",
@@ -168,7 +165,6 @@ const MyAddresses = ({ t, i18n }) => {
       district: item.districtId,
       ward: item.communeId,
       detailAddress: item.fullAddress,
-      type: [], // can chinh here
       defaultAddress: item.isDefault,
       pickupAddress: item.isPickUp,
       returnAddress: item.isReturn,
@@ -341,7 +337,7 @@ const MyAddresses = ({ t, i18n }) => {
     <ThemeContext.Consumer>
       {({ isDark }) => {
         return <div className="container-fluid w-80vw minw-80em my-3">
-          <div className="card card-body d-flex flex-row">
+          <div className="card card-body d-flex flex-row shadow">
             <div className="p-3" style={{ width: "75%" }}>
               <h4 className="fw-bold">My Addresses</h4>
               <p className="text-muted">Manage your shipping and pickup addresses </p>
@@ -355,7 +351,7 @@ const MyAddresses = ({ t, i18n }) => {
               </button>
             </div>
           </div>
-          <div className="card pb-2">
+          <div className="card pb-2 shadow">
             {addressList.map(item => {
               return <div className="card-body row">
                 <div className="col-1 text-end">

@@ -33,8 +33,8 @@ const URL = cs.BaseURL + "/user/detail";
 const revokeTokenURL = cs.BaseURL + "/api/auth/logout";
 const drawerWidth = 250;
 const lngs = {
-    en: { nativeName: 'language.english' },
-    vi: { nativeName: 'language.vietnamese' },
+	en: { nativeName: 'language.english' },
+	vi: { nativeName: 'language.vietnamese' },
 };
 const styles = (theme) => ({
 	"@global": {
@@ -265,7 +265,7 @@ class Home extends React.Component {
 							position="absolute"
 							className={classNames(
 								classes.appBar,
-								this.state.open && classes.appBarShift
+								this.state.open && getRole() != cs.Role_Solo_Buyer && classes.appBarShift
 							)}
 						>
 							<Toolbar
@@ -310,39 +310,42 @@ class Home extends React.Component {
 								</div>
 							</Toolbar>
 						</AppBar>
-						<Drawer
-							variant="permanent"
-							classes={{
-								paper: classNames(
-									classes.drawerPaper,
-									!this.state.open && classes.drawerPaperClose
-								),
-							}}
-							onEscapeKeyDown={this.handleDrawerClose}
-							onBackdropClick={this.handleDrawerClose}
-							open={this.state.open}
-						>
-							<div className={classes.toolbarHeader}>
-								<Avatar
-									className={classes.avatar}
-								// src={require("../img/LOGO-Credito.png")}
-								/>
-								<Typography variant="body" className={classes.username}>
-									{username}
-								</Typography>
-								{/* <IconButton onClick={this.handleDrawerClose}>
-									<ChevronLeftIcon />
-								</IconButton> */}
-							</div>
-							<Divider />
-							<List grouped={true} collapsibleGroups={true}>
-								<NestedList
-									multilingual={true}
-									menu={menu}
-									closeMenuTab={this.handleDrawerClose}
-								/>
-							</List>
-						</Drawer>
+
+						{getRole() != cs.Role_Solo_Buyer &&
+							<Drawer
+								variant="permanent"
+								classes={{
+									paper: classNames(
+										classes.drawerPaper,
+										!this.state.open && classes.drawerPaperClose
+									),
+								}}
+								onEscapeKeyDown={this.handleDrawerClose}
+								onBackdropClick={this.handleDrawerClose}
+								open={this.state.open}
+							>
+								<div className={classes.toolbarHeader}>
+									<Avatar
+										className={classes.avatar}
+									// src={require("../img/LOGO-Credito.png")}
+									/>
+									<Typography variant="body" className={classes.username}>
+										{username}
+									</Typography>
+									{/* <IconButton onClick={this.handleDrawerClose}>
+														<ChevronLeftIcon />
+													</IconButton> */}
+								</div>
+								<Divider />
+								<List grouped={true} collapsibleGroups={true}>
+									<NestedList
+										multilingual={true}
+										menu={menu}
+										closeMenuTab={this.handleDrawerClose}
+									/>
+								</List>
+							</Drawer>
+						}
 
 						<main className={classes.content}>
 							<div className={classes.appBarSpacer} />

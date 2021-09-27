@@ -21,9 +21,11 @@ import CreateProduct from "./Product/CreateProduct";
 import ProductList from "./ProductList/ProductList";
 import ProductCategory from "./ProductCategory/ProductCategory";
 import AllProducts from "./AllProducts/AllProducts";
-import ApproveProduct from "./AllProducts/ApproveProduct";
+import SellerProducts from "./SellerProducts/SellerProducts";
 import ProductDetail from "./ProductList/ProductDetail";
 import HomePage from "./HomePage/HomePage";
+import EditProduct from "./Product/EditProduct";
+
 const styles = (theme) => ({
   tableContainer: {
     height: 320,
@@ -33,6 +35,7 @@ const styles = (theme) => ({
 export class AppRoute extends Component {
   constructor(props) {
     super(props);
+    this.role = getRole();
     // console.log("AppRoute props", props);
   }
   render(props) {
@@ -79,11 +82,17 @@ export class AppRoute extends Component {
           component={() => AllProductsArea(t, i18n)}
         />
 
-        {/* <Route
+        <Route
           exact
-          path="/approve-product/:productId"
-          component={ApproveProduct}
-        /> */}
+          path="/seller-product-list"
+          component={() => SellerProductsArea(t, i18n)}
+        />
+
+        <Route
+          // exact
+          path="/product/edit/:productId"
+          component={EditProduct}
+        />
       </ToastProvider>
     );
   }
@@ -126,6 +135,17 @@ const AllProductsArea = (t, i18n) => (
       {/* {t("app_route.shop-profile")} */}
       <AllProducts />
     </Typography>
+  </div>
+);
+
+const SellerProductsArea = (t, i18n) => (
+  <div>
+    <Typography variant="h5" gutterBottom component="h2">
+      {t("all_products.title")}
+    </Typography>
+    <div className={styles.tableContainer}>
+      <SellerProducts />
+    </div>
   </div>
 );
 

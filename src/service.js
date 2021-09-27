@@ -112,3 +112,21 @@ export const isMarketplaceAdmin = () => {
 
     return flag1 || flag2;
 }
+
+export const isSeller = () => {
+    var user = localStorage.getItem(cs.System_Code + '-user');
+    if (!user) return null;
+    var userRole = JSON.parse(String(user)).role;
+    var userFunctionRoles = JSON.parse(String(user)).functionRoles;
+
+    let tmp = userFunctionRoles.filter(element =>
+        element.functionRoleId === cs.FunctionRole_Seller
+    );
+    
+    if ((userRole && userRole === cs.Role_Solo_Seller)
+        || tmp && tmp.length > 0
+    ) {
+        return true
+    }
+    return false;
+}

@@ -1,9 +1,69 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from "@material-ui/core/Button";
 import color from "../../theme/color";
 import { useTranslation, withTranslation } from "react-i18next";
 
-const SalesInformation = ({ form, onChangeData, setVariationArray, setInventoryArray }) => {
+const formatData = (variationArray, inventoryArray) => {
+	let level1 = null;
+	let level1Attribute = null;
+	let level2 = null;
+	let level2Options = null;
+	let level2Attribute = null;
+
+	if (variationArray) {
+		if (variationArray.length == 1) {
+			level1Attribute = variationArray[0].name;
+			level1 = inventoryArray.map((e, i) => ({
+				valueName: e.variationName,
+				price: e.price,
+				inventoryCount: e.inventoryCount,
+				sku: e.sku
+			}));
+		}
+
+		if (variationArray.length == 2) {
+			level1Attribute = variationArray[0].name;
+			level2Attribute = variationArray[1].name;
+			console.log("HERE", variationArray[0].options);
+			level1 = variationArray[0].options.map((e, i) => ({
+				valueName: e.optionValue,
+				price: 0,
+				inventoryCount: 0,
+				sku: ""
+			}))
+			// level1 = inventoryArray.map((e, i) => ({
+			// 	valueName: e.variationName.split("_")[0],
+			// 	price: 0,
+			// 	inventoryCount: 0,
+			// 	sku: ""
+			// }))
+			level2Options = variationArray[1].options.map((e, i) => ({ valueName: e.optionValue }))
+			level2 = inventoryArray.map((e, i) => {
+				return ({
+					valueName1: e.variationName.split("_")[0],
+					valueName2: e.variationName.split("_")[1],
+					price: e.price,
+					inventoryCount: e.inventoryCount,
+					sku: e.sku
+				});
+			})
+		}
+	}
+
+	return { level1Attribute, level1, level2Attribute, level2Options, level2 };
+}
+
+const SalesInformation = ({ form, onChangeData,
+	variationArray, setVariationArray,
+	inventoryArray, setInventoryArray }) => {
+
+	let { level1Attribute, level1, level2Attribute, level2Options, level2 } = formatData(variationArray, inventoryArray);
+	console.log("level1Attrbute", level1Attribute);
+	console.log("level1", level1);
+	console.log("level2Attrbute", level2Attribute);
+	console.log("level2Options", level2Options);
+	console.log("level2", level2);
+
 	const [autoPrice, setAutoPrice] = useState(0);
 	const [autoInventoryCount, setAutoInventoryCount] = useState(0);
 	const [autoSKU, setAutoSKU] = useState("");
@@ -13,15 +73,26 @@ const SalesInformation = ({ form, onChangeData, setVariationArray, setInventoryA
 	const [Attribute2, setAttribute2] = useState("");
 	const [hidden1, sethidden1] = useState(false);
 	const [hidden2, sethidden2] = useState(false);
-	const [NumberOfValue, setNumberOfValue] = useState(1);
 	const [ValueList1, setValueList1] = useState([""]);
 	const [ValueList2, setValueList2] = useState([]);
-	const [indexes, setindexes] = useState([...Array(NumberOfValue).keys()]);
 	const [inputList, setInputList] = useState([{ valueName: "", price: 0, inventoryCount: 0, sku: "" }]);
 	// const [inputList2, setInputList2] = useState([{ valueName1: "", valueName2: "", price: 0, inventoryCount: 0, sku: "" }]);
 	const [inputList2, setInputList2] = useState([]);
 
 	console.log("inputList", inputList);
+
+	useEffect(() => {
+		let { level1Attribute, level1, level2Attribute, level2Options, level2 } = formatData(variationArray, inventoryArray);
+		console.log("level1Attribute", level1Attribute);
+		console.log("level1", level1);
+		console.log("level2Attribute", level2Attribute);
+		console.log("level2Options", level2Options);
+		console.log("level2", level2);
+		setAttribute1(level1Attribute);
+		setAttribute2(level2Attribute);
+		sethidden1(level1 == null);
+		sethidden2(level2 == null);
+	}, [])
 
 	const handleInputChangeLevel1 = (e, idx) => {
 		console.log("ADD TO inputList");
@@ -217,7 +288,7 @@ const SalesInformation = ({ form, onChangeData, setVariationArray, setInventoryA
 				variationName: variationName,
 				inventoryCount: item.inventoryCount,
 				price: item.price,
-				SKU: item.sku
+				sku: item.sku
 			})
 		});
 
@@ -723,13 +794,13 @@ const SalesInformation = ({ form, onChangeData, setVariationArray, setInventoryA
 				</div>
 			</div>
 
-			<div 
+			<div
 				style={{
-				display: "flex",
-				alignItems: "center",
-				justifyContent: "flex-end",
-				// justifyContent: "center",
-			}}>
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "flex-end",
+					// justifyContent: "center",
+				}}>
 				<Button
 					onClick={() => saveData()}
 					style={{ width: "120px", borderStyle: "solid", backgroundColor: color.casablanca }}>

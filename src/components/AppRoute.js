@@ -95,6 +95,7 @@ const DashboardArea = (t, i18n) => (
     <Typography component="div" className={styles.tableContainer}>
       {/* E-Training Home */}
       {t("app_route.dashboard")}
+      <HomePage />
     </Typography>
   </div>
 );

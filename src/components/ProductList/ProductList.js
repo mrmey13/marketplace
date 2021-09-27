@@ -274,7 +274,7 @@ function ProductList() {
                   type="text"
                   placeholder=" Từ"
                   size="20"
-                  maxlength="12"
+                  maxLength="12"
                   name="value1"
                   value={sortPrice.value1}
                   onChange={(e) => onChange(e)}
@@ -286,7 +286,7 @@ function ProductList() {
                   className="sort-salary"
                   type="text"
                   placeholder=" Đến"
-                  maxlength="12"
+                  maxLength="12"
                   size="20"
                   name="value2"
                   value={sortPrice.value2}
@@ -505,7 +505,7 @@ function ProductList() {
             </div>
           </div>
           <div className="product-card">
-            <div className="row g-0">
+            <div className="row g-0 ">
               {currentPosts.map((data) => (
                 <Product data={data} />
               ))}

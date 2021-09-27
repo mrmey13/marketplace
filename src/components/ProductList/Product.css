@@ -17,9 +17,15 @@ html {
     --columns: 6;
     --subtitle: 13px;
   }
+  /* br{
+    margin: 15px;
+  } */
   /* .product-container-saleplus{
     min-width: 100%;
   } */
+  .shop-view-container{
+    min-width: 1150px;
+  }
   .card-course {
     position: relative;
     border-radius: 10px;
@@ -162,7 +168,9 @@ html {
     width:fit-content;
   }
 
-  /* Course List */
+  .shop-infor-description{
+    max-width: 400px;
+  }
   .component-top{
     justify-content: space-between;
   }
@@ -285,7 +293,7 @@ html {
 
 
 .product-detail-container{
-  min-width: 1500px;
+  min-width: 1200px;
 }
 .info-product-detail-intro div div{
   width: fit-content
@@ -318,4 +326,30 @@ html {
   font-size: 30px;
   color: var(--tanhide);
   background-color: rgb(243, 243, 243);
+}
+.card-product-detail-title{
+  text-align: center;
+  font-weight: bold;
+  background-color: var(--corvette);
+  height: 50px;
+  padding-top: 10px;
+  /* margin: 0px 2px */
+}
+.sort-rate-button{
+  background-color: white;
+  border: 1px solid black;
+  transform: scale(1,1);
+  width: fit-content;
+  margin: 8px;
+  color: black;
+  padding: 5px;
+  transform: scale(1,1);
+  transition: transform 0.3s ease;
+}
+.rate-active{
+  border: 2px solid var(--christine);
+  color: var(--christine);
+  font-weight: bold;
+  transform: scale(1.2,1.2);
+  transition: transform 0.3s ease;
 }

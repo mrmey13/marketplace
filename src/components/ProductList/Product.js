@@ -3,7 +3,7 @@ import { Popover, Button, OverlayTrigger } from "react-bootstrap";
 import "./Product.css";
 import Color from "../../theme/color";
 import { Link } from "react-router-dom";
-function Product({ data }) {
+function Product({ data, useFor }) {
   const List = [
     "https://images.unsplash.com/photo-1521093470119-a3acdc43374a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
     "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
@@ -13,7 +13,13 @@ function Product({ data }) {
   const Statement = useState(List[Math.floor(Math.random() * 4)]);
   // const isDark = localStorage.getItem("aidriven-general-theme");
   return (
-    <div className="col-lg-2 col-sm-4 col-6 col-md-3 product_container">
+    <div
+      className={
+        useFor == "bestseller"
+          ? "product_container"
+          : "col-lg-2 col-sm-4 col-6 col-md-3 product_container"
+      }
+    >
       <div className="card-course">
         <Link
           className="h5 text-dark fw-bold text-decoration-none stretched-link"

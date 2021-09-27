@@ -381,7 +381,7 @@ function ShopView() {
             </button>
           </div>
         </div>
-        <div className="col-4 shop-infor-description d-block  ">
+        <div className="col-3 shop-infor-description d-block  ">
           <div
             className="row row-title "
             style={{ fontSize: "20px", marginBottom: "2%" }}

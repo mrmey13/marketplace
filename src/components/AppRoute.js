@@ -23,7 +23,7 @@ import ProductCategory from "./ProductCategory/ProductCategory";
 import AllProducts from "./AllProducts/AllProducts";
 import ApproveProduct from "./AllProducts/ApproveProduct";
 import ProductDetail from "./ProductList/ProductDetail";
-
+import HomePage from "./HomePage/HomePage";
 const styles = (theme) => ({
   tableContainer: {
     height: 320,
@@ -94,6 +94,7 @@ const DashboardArea = (t, i18n) => (
     <Typography component="div" className={styles.tableContainer}>
       {/* E-Training Home */}
       {t("app_route.dashboard")}
+      <HomePage />
     </Typography>
   </div>
 );

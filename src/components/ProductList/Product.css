@@ -17,6 +17,9 @@ html {
     --columns: 6;
     --subtitle: 13px;
   }
+  /* br{
+    margin: 15px;
+  } */
   /* .product-container-saleplus{
     min-width: 100%;
   } */
@@ -324,6 +327,29 @@ html {
   color: var(--tanhide);
   background-color: rgb(243, 243, 243);
 }
-button:focus{
-  box-shadow: none;
+.card-product-detail-title{
+  text-align: center;
+  font-weight: bold;
+  background-color: var(--corvette);
+  height: 50px;
+  padding-top: 10px;
+  /* margin: 0px 2px */
+}
+.sort-rate-button{
+  background-color: white;
+  border: 1px solid black;
+  transform: scale(1,1);
+  width: fit-content;
+  margin: 8px;
+  color: black;
+  padding: 5px;
+  transform: scale(1,1);
+  transition: transform 0.3s ease;
+}
+.rate-active{
+  border: 2px solid var(--christine);
+  color: var(--christine);
+  font-weight: bold;
+  transform: scale(1.2,1.2);
+  transition: transform 0.3s ease;
 }

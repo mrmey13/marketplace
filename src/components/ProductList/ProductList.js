@@ -505,7 +505,7 @@ function ProductList() {
             </div>
           </div>
           <div className="product-card">
-            <div className="row g-0">
+            <div className="row g-0 ">
               {currentPosts.map((data) => (
                 <Product data={data} />
               ))}

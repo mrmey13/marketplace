@@ -20,6 +20,9 @@ html {
   /* .product-container-saleplus{
     min-width: 100%;
   } */
+  .shop-view-container{
+    min-width: 1150px;
+  }
   .card-course {
     position: relative;
     border-radius: 10px;
@@ -162,7 +165,9 @@ html {
     width:fit-content;
   }
 
-  /* Course List */
+  .shop-infor-description{
+    max-width: 400px;
+  }
   .component-top{
     justify-content: space-between;
   }
@@ -285,7 +290,7 @@ html {
 
 
 .product-detail-container{
-  min-width: 1500px;
+  min-width: 1200px;
 }
 .info-product-detail-intro div div{
   width: fit-content
@@ -318,4 +323,7 @@ html {
   font-size: 30px;
   color: var(--tanhide);
   background-color: rgb(243, 243, 243);
+}
+button:focus{
+  box-shadow: none;
 }

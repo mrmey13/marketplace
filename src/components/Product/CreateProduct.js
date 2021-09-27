@@ -10,6 +10,7 @@ import cs from "../../const";
 import SalesInformation from "./SalesInformation";
 
 const LIMIT_IMAGE_UPLOAD = 9;
+const createVariationURL = cs.BaseURL + "/api/seller/product/variation/create"
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -53,6 +54,9 @@ const CreateProduct = (props) => {
     imgFileUrl: [],
     videoFile: {},
   });
+
+  const [variationArray, setVariationArray] = useState([]);
+  const [inventoryArray, setInventoryArray] = useState([]);
 
   const onChangeData = (event) => {
     console.log(event.target);
@@ -119,6 +123,8 @@ const CreateProduct = (props) => {
 
   const createProduct = async () => {
     console.log(form);
+    console.log("variationArray",variationArray);
+    console.log("inventoryArray",inventoryArray);
     //error mess
     try {
       const response = await axios({
@@ -144,8 +150,35 @@ const CreateProduct = (props) => {
       })
       console.log(response.data);
       if (response.data.error_desc === "Success") {
-        saveCoverImage(response.data.data.productId);
-        saveImages(response.data.data.productId);
+        let productId = response.data.data.productId;
+        saveCoverImage(productId);
+        saveImages(productId);
+        createVariation(productId);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const createVariation = async (productId) => {
+    let requestBody = {
+      productId,
+      variationArray,
+      inventoryArray
+    }
+    console.log(requestBody);
+    try {
+      const response = await axios({
+        method: "POST",
+        url: createVariationURL,
+        headers: {
+          Authorization: localStorage.getItem(cs.System_Code + '-token'),
+        },
+        data: requestBody
+      })
+      console.log(response.data);
+      if (response.data.error_desc === "Success") {
+
       }
     } catch (error) {
       console.log(error);
@@ -222,6 +255,8 @@ const CreateProduct = (props) => {
       <SalesInformation
         form={form}
         onChangeData={onChangeData}
+        setVariationArray={setVariationArray}
+        setInventoryArray={setInventoryArray}
       />
       <Shipping />
       <Others />

@@ -23,6 +23,7 @@ import ProductCategory from "./ProductCategory/ProductCategory";
 import AllProducts from "./AllProducts/AllProducts";
 import ApproveProduct from "./AllProducts/ApproveProduct";
 import ProductDetail from "./ProductList/ProductDetail";
+import MyAccount from "./MyAccount/MyAccount";
 
 const styles = (theme) => ({
   tableContainer: {
@@ -61,8 +62,8 @@ export class AppRoute extends Component {
 
         <Route
           exact
-          path="/shop/setting"
-          component={() => ShopSetting(t, i18n)}
+          path="/my_account"
+          component={() => MyAccount(t, i18n)}
         />
 
         {/* Product */}

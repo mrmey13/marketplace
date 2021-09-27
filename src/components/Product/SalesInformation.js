@@ -1,6 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import Button from "@material-ui/core/Button";
+import color from "../../theme/color";
+import { useTranslation, withTranslation } from "react-i18next";
 
-const SalesInformation = ({ form, onChangeData }) => {
+const SalesInformation = ({ form, onChangeData, setVariationArray, setInventoryArray }) => {
+	const [autoPrice, setAutoPrice] = useState(0);
+	const [autoInventoryCount, setAutoInventoryCount] = useState(0);
+	const [autoSKU, setAutoSKU] = useState("");
+	const { t, i18n } = useTranslation();
+
 	const [Attribute1, setAttribute1] = useState("");
 	const [Attribute2, setAttribute2] = useState("");
 	const [hidden1, sethidden1] = useState(false);
@@ -151,6 +159,72 @@ const SalesInformation = ({ form, onChangeData }) => {
 		setInputList2(list2);
 	}
 
+	const fixValue = (name, value) => {
+		let list = [...inputList];
+		inputList.forEach((e1, i1) => {
+			list[i1][name] = value;
+		});
+		setInputList(list);
+
+		let list2 = [...inputList2];
+		inputList2.forEach((e2, i2) => {
+			list2[i2][name] = value;
+		});
+		setInputList2(list2);
+	}
+
+	const saveData = () => {
+		if (Attribute1 == "") {
+			return;
+		}
+		let variationArray = [];
+		let inventoryArray = [];
+
+		// set variationArray
+		if (inputList.length > 0) {
+			let level1Value = [];
+			inputList.forEach(element => {
+				level1Value.push({
+					optionValue: element.valueName
+				})
+			});
+			variationArray.push({
+				name: Attribute1,
+				options: level1Value
+			})
+
+			if (ValueList2.length > 0) {
+				let level2Value = [];
+				ValueList2.forEach(element => {
+					level2Value.push({
+						optionValue: element.valueName
+					})
+				});
+				variationArray.push({
+					name: Attribute2,
+					options: level2Value
+				})
+			}
+		}
+
+		console.log(variationArray);
+		setVariationArray(variationArray);
+
+		let tmpData = [...(inputList2.length > 0 && inputList2 || inputList)];
+		tmpData.forEach(item => {
+			let variationName = inputList2.length > 0 ? [item.valueName1, item.valueName2].join("_") : item.valueName;
+			inventoryArray.push({
+				variationName: variationName,
+				inventoryCount: item.inventoryCount,
+				price: item.price,
+				SKU: item.sku
+			})
+		});
+
+		console.log(inventoryArray);
+		setInventoryArray(inventoryArray)
+	}
+
 	return <div className="card card-body mb-3 shadow">
 		<h5>SalesInformation</h5>
 		<div className="row">
@@ -212,6 +286,8 @@ const SalesInformation = ({ form, onChangeData }) => {
 							// className="btn btn-outline-secondary btn-sm me-3"
 							style={{ width: "30px", width: "30px" }}
 							onClick={() => {
+								setAttribute1("");
+								setAttribute2("");
 								sethidden1(false);
 								sethidden2(false);
 								setInputList([{ valueName: "", price: 0, inventoryCount: 0, sku: "" }]);
@@ -322,6 +398,7 @@ const SalesInformation = ({ form, onChangeData }) => {
 							// className="btn btn-outline-secondary btn-sm me-3"
 							style={{ width: "30px", width: "30px" }}
 							onClick={() => {
+								setAttribute2("");
 								sethidden2(false);
 								setValueList2([]);
 								setInputList2([]);
@@ -402,6 +479,79 @@ const SalesInformation = ({ form, onChangeData }) => {
 								Thêm phân loại hàng
 							</button>
 						</div>
+					</div>
+				</div>
+
+			</div>
+
+
+			<div style={{ backgroundColor: "#FAFAFA", marginBottom: "24px" }} hidden={!hidden1} className="border">
+				<div className="row my-2">
+					<div className="col-3 text-muted text-start">
+						Mẹo thiết lập phân loại hàng
+					</div>
+					<div className="col-9 text-muted text-end">
+
+					</div>
+				</div>
+
+
+				<div className="row mb-2">
+					<div className="col-3">
+						<input
+							className="form-control form-control-sm"
+							id="autoPrice"
+							name="autoPrice"
+							value={autoPrice}
+							type="number"
+							onChange={(e) => setAutoPrice(e.target.value)}
+							min={0}
+							max={999999999}
+						/>
+					</div>
+
+					<div className="col-3">
+						<input
+							className="form-control form-control-sm"
+							id="product-inventory-count"
+							name="autoInventoryCount"
+							value={autoInventoryCount}
+							type="number"
+							onChange={(e) => setAutoInventoryCount(e.target.value)}
+							min={0}
+							max={999999999}
+						/>
+					</div>
+
+					<div className="col-3">
+						<input
+							className="form-control form-control-sm"
+							id="product-sku"
+							name="autoSKU"
+							value={autoSKU}
+							onChange={(e) => setAutoSKU(e.target.value)}
+							maxLength={20}
+						/>
+					</div>
+
+					<div className="col-3">
+						<button
+							style={{ width: "120px", borderStyle: "solid", backgroundColor: color.casablanca }}
+							className="btn btn-sm "
+							onClick={() => {
+								if (autoPrice != 0) {
+									fixValue("price", autoPrice)
+								}
+								if (autoInventoryCount != 0) {
+									fixValue("inventoryCount", autoInventoryCount)
+								}
+								if (autoSKU != "") {
+									fixValue("sku", autoSKU)
+								}
+							}}
+						>
+							ÁP DỤNG
+						</button>
 					</div>
 				</div>
 
@@ -573,6 +723,19 @@ const SalesInformation = ({ form, onChangeData }) => {
 				</div>
 			</div>
 
+			<div 
+				style={{
+				display: "flex",
+				alignItems: "center",
+				justifyContent: "flex-end",
+				// justifyContent: "center",
+			}}>
+				<Button
+					onClick={() => saveData()}
+					style={{ width: "120px", borderStyle: "solid", backgroundColor: color.casablanca }}>
+					{t("commons.button.ok")}
+				</Button>
+			</div>
 		</div>
 	</div>
 }

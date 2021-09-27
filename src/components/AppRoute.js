@@ -23,6 +23,8 @@ import ProductCategory from "./ProductCategory/ProductCategory";
 import AllProducts from "./AllProducts/AllProducts";
 import SellerProducts from "./SellerProducts/SellerProducts";
 import ProductDetail from "./ProductList/ProductDetail";
+import MyAccount from "./MyAccount/MyAccount";
+
 import HomePage from "./HomePage/HomePage";
 import EditProduct from "./Product/EditProduct";
 
@@ -33,11 +35,7 @@ const styles = (theme) => ({
 });
 
 export class AppRoute extends Component {
-  constructor(props) {
-    super(props);
-    this.role = getRole();
-    // console.log("AppRoute props", props);
-  }
+  
   render(props) {
     const { t, i18n } = this.props;
     return (
@@ -64,8 +62,8 @@ export class AppRoute extends Component {
 
         <Route
           exact
-          path="/shop/setting"
-          component={() => ShopSetting(t, i18n)}
+          path="/my_account"
+          component={() => MyAccount(t, i18n)}
         />
 
         {/* Product */}

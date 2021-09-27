@@ -86,6 +86,14 @@ const settings_menu = [
                 accesses: [],
                 nonaccesses: []
             },
+            {
+                // icon: <Icon color="disable">query_builder</Icon>,
+                title: 'MyAccount',
+                to: '/my_account',
+                items: [],
+                accesses: [],
+                nonaccesses: []
+            },
         ]
     },
 ]

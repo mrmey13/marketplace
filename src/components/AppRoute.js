@@ -20,7 +20,8 @@ import MyAddresses from "./settings/MyAdresses";
 import CreateProduct from "./Product/CreateProduct";
 import ProductList from "./ProductList/ProductList";
 import ProductCategory from "./ProductCategory/ProductCategory";
-import AllProducts from "./AllProducts/AllProducts"
+import AllProducts from "./AllProducts/AllProducts";
+import ProductDetail from "./ProductList/ProductDetail";
 
 const styles = (theme) => ({
   tableContainer: {
@@ -51,8 +52,17 @@ export class AppRoute extends Component {
           path="/shop/setting"
           component={() => ShopSetting(t, i18n)}
         />
+        <Route
+          exact
+          path="/product_detail"
+          component={() => ProductDetail(t, i18n)}
+        />
 
-        <Route exact path="/shop/setting" component={() => ShopSetting(t, i18n)} />
+        <Route
+          exact
+          path="/shop/setting"
+          component={() => ShopSetting(t, i18n)}
+        />
 
         {/* Product */}
         <Route exact path="/product/new" component={CreateProduct} />

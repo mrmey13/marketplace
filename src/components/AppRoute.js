@@ -25,6 +25,8 @@ import ApproveProduct from "./AllProducts/ApproveProduct";
 import ProductDetail from "./ProductList/ProductDetail";
 import MyAccount from "./MyAccount/MyAccount";
 
+import HomePage from "./HomePage/HomePage";
+
 const styles = (theme) => ({
   tableContainer: {
     height: 320,
@@ -32,10 +34,7 @@ const styles = (theme) => ({
 });
 
 export class AppRoute extends Component {
-  constructor(props) {
-    super(props);
-    // console.log("AppRoute props", props);
-  }
+  
   render(props) {
     const { t, i18n } = this.props;
     return (

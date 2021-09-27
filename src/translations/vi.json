@@ -34,7 +34,14 @@
         "product_menu": {
             "title": "Quản lý sản phẩm",
             "all_products": "Tất cả sản phẩm",
-            "new_product": "Thêm 1 sản phẩm mới"
+            "new_product": "Thêm sản phẩm mới"
+        },
+        "settings_menu":{
+            "title":"Cài đặt"
+        },
+        "admin_menu":{
+            "title":"Quản trị",
+            "all_products": "Phê duyệt sản phẩm"
         }
     },
     "shop_profile": {
@@ -69,6 +76,7 @@
     "shop_settings": {
         "setting": "Thiết Lập Shop",
         "shop_settings": "Thiết Lập Shop",
+        "my_addresses":"Địa chỉ",
         "change_settings": "Thay đổi các cài đặt cho shop của bạn.",
         "basic_settings": {
             "basic_settings": "Thiết Lập Cơ Bản",

@@ -4,6 +4,9 @@
 h6{
     font-weight: bold;
 }
+/* .shop-view-container{
+    min-width: 1200px;
+} */
 .infor-row{
     border-bottom:  1px solid var(--color);
     margin-bottom: 10px;
@@ -87,7 +90,7 @@ h6{
 .shop-infor-description{
     border-left:3px solid var(--color);
 }
-.row-title{
+.row-title-shopview{
     margin-left: 10px;
     margin-bottom: 5%;
     font-weight: bold;

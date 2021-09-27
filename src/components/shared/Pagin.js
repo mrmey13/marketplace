@@ -23,8 +23,8 @@ const Pagin = ({ ItemsPerPage, totalItems, paginate, currentPage }) => {
           )}
           {pageNumbers.map(
             (number) =>
-              currentPage > number - 3 &&
-              currentPage < number + 3 && (
+              currentPage > number - 2 &&
+              currentPage < number + 2 && (
                 <li key={number} className="page-item">
                   <a
                     onClick={() => paginate(number)}

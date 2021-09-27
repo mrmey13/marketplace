@@ -34,6 +34,7 @@ import { Table } from '@devexpress/dx-react-grid-material-ui';
 // import { DataGrid } from '@material-ui/data-grid';
 import DataTable from '../shared/DataTable.jsx';
 import ApproveProduct from './ApproveProduct';
+import { isSoloUser } from '../../service';
 // import ShopProfile from './ApproveProduct';
 
 const allProductStatusURL = cs.BaseURL + "/api/manager/common/all-product-status";
@@ -126,6 +127,10 @@ class AllProducts extends Component {
             sorting: [{ columnName: 'lead_created_at_unix', direction: 'desc' }],
             statusList: []
         };
+
+        if (isSoloUser()) {
+            window.location.href="/";
+        }
         this.tmpData = [];
 
         this.handleChangeTab = this.handleChangeTab.bind(this);
@@ -135,6 +140,9 @@ class AllProducts extends Component {
     }
 
     componentDidMount() {
+        if (isSoloUser()) {
+            window.location.href="/";
+        }
         this.loadStatus();
         this.loadData();
     }

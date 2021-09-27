@@ -27,6 +27,7 @@ import { menu } from "./menu.js";
 import AppRoute from "./AppRoute";
 
 import { useTranslation, withTranslation } from "react-i18next";
+import { getRole, isSoloUser } from "../service";
 
 const URL = cs.BaseURL + "/user/detail";
 const revokeTokenURL = cs.BaseURL + "/api/auth/logout";
@@ -253,7 +254,8 @@ class Home extends React.Component {
 		var user = localStorage.getItem(cs.System_Code + "-user");
 		if (user) username = JSON.parse(String(user)).fullname;
 		if (!username) username = JSON.parse(String(user)).name;
-		// console.log(getRole());
+		console.log(getRole());
+		console.log(isSoloUser());
 		return (
 			<div>
 				<Router>

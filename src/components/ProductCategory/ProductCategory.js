@@ -99,6 +99,7 @@ class ProductCategory extends Component {
         this.state = {
             productName: "",
             categoryName: "",
+            categoryId: "",
             valid: false,
             layer1: "",
             layer1Data: [],
@@ -118,6 +119,15 @@ class ProductCategory extends Component {
         console.log(this.props.history);
 
         this.loadData();
+        this.loadStateData();
+    }
+
+    loadStateData = () => {
+        const { location, history } = this.props;
+        if (location.state !== undefined) {
+            const { state } = location;
+            this.setState({ productName: state.productName })
+        }
     }
 
     loadData = async (parentId, categoryLevel) => {
@@ -220,18 +230,21 @@ class ProductCategory extends Component {
         if (layer != 5 && item.hasChildren) {
             this.loadData(item.categoryId, layer + 1);
         }
+        if (!item.hasChildren) {
+            this.setState({ categoryId: item.categoryId });
+        }
     }
 
     handleChange = (name) => (event) => {
         if (name == "categoryName") {
             console.log(this.tmpData);
             let filtered = this.tmpData
-            if (event.target.value ==="") {
-                
+            if (event.target.value === "") {
+
             } else {
-                filtered = this.tmpData.filter((item) => 
-                item.categoryEngName.toLowerCase().indexOf(event.target.value) != -1 || 
-                item.categoryVieName.toLowerCase().indexOf(event.target.value) != -1);
+                filtered = this.tmpData.filter((item) =>
+                    item.categoryEngName.toLowerCase().indexOf(event.target.value) != -1 ||
+                    item.categoryVieName.toLowerCase().indexOf(event.target.value) != -1);
             }
             // let filtered = this.tmpData.filter((item) => 
             // item.categoryEngName.match(`/${event.target.value}/i`) || 
@@ -308,6 +321,16 @@ class ProductCategory extends Component {
                 category: lastItem
             }
         });
+    }
+
+    handleNextClick = () => {
+        const state = {
+            categoryId: this.state.categoryId,
+            categoryPath: this.getPath(),
+            productName: this.state.productName,
+        }
+        // console.log(state)
+        this.props.history.push('/product/new', state)
     }
 
     render() {
@@ -452,8 +475,8 @@ class ProductCategory extends Component {
                                     <ul className={classes.scrollItem}>
                                         {this.state.layer4Data && this.state.layer4Data.map((item) => (
                                             <li className={classes.categoryItem}
-                                            id={item.categoryId} data-id={item.categoryId}
-                                            // onClick={this.handleChange('layer4')}
+                                                id={item.categoryId} data-id={item.categoryId}
+                                                // onClick={this.handleChange('layer4')}
                                                 onClick={() => this.handleCategory(4, item)}
                                             >
                                                 <p className={item.categoryId == this.state.layer4.categoryId ?
@@ -477,7 +500,7 @@ class ProductCategory extends Component {
                                     <ul className={classes.scrollItem}>
                                         {this.state.layer5Data && this.state.layer5Data.map((item) => (
                                             <li className={classes.categoryItem}
-                                            id={item.categoryId} data-id={item.categoryId}
+                                                id={item.categoryId} data-id={item.categoryId}
                                                 // onClick={this.handleChange('layer5')}
                                                 onClick={() => this.handleCategory(5, item)}
                                             >
@@ -509,10 +532,8 @@ class ProductCategory extends Component {
 
                                 <div style={{ display: "flex", justifyContent: "end" }}>
                                     <Button
-                                        disabled={!this.state.valid || this.state.productName === ""}
-                                        onClick={() => { 
-                                            this.handleNext();
-                                        }}
+                                        disabled={!this.state.valid}
+                                        onClick={() => { this.handleNextClick() }}
                                         style={{ width: "120px", borderStyle: "solid", backgroundColor: color.casablanca }}>
                                         {t("commons.button.next")}
                                     </Button>

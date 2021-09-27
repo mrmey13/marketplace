@@ -35,7 +35,14 @@
         "product_menu": {
             "title": "Product Management",
             "all_products": "All Products",
-            "new_product":"Add a new product"
+            "new_product": "Add a new product"
+        },
+        "settings_menu":{
+            "title":"Settings"
+        },
+        "admin_menu":{
+            "title":"Administration",
+            "all_products": "Approve Products"
         }
     },
     "shop_profile": {
@@ -52,20 +59,35 @@
         "title": "Add a new product",
         "productName": "Product Name",
         "categoryName": "Category Name",
-        "selectedPath":"Selected"
+        "selectedPath": "Selected"
+    },
+    "all_products": {
+        "title": "All Products",
+        "tabs": {
+            "all": "All",
+            "new": "New",
+            "justChanged": "Just Changed",
+            "deleted": "Deleted by user",
+            "contraband": "Contraband",
+            "violatesRules": "Violates Rules",
+            "accepted": "Accepted",
+            "notAccepted": "Not Accepted"
+        }
     },
     "shop_settings": {
+        "setting": "Shop Settings",
         "shop_settings": "Shop Settings",
+        "my_addresses":"My Addresses",
         "change_settings": "Change the settings of your shop.",
         "basic_settings": {
-        "basic_settings": "Basic Settings",
-        "protect_your_account": "Protect your account now by verifying suspicious activity",
-        "protect_your_account_otp": "In case of high risk activity, verify activity with OTP",
-        "vacation_mode": "Vacation Mode",
-        "vacation_mode_p": "Turn on Vacation Mode to prevent buyers from placing new orders. Existing orders must still be fulfilled. It may take up to 1 hour to take effect.",
-        "chat_auto": "You have not enabled chat auto-reply yet.",
-        "set_now": "Set Now",
-        "language": "Language"
+            "basic_settings": "Basic Settings",
+            "protect_your_account": "Protect your account now by verifying suspicious activity",
+            "protect_your_account_otp": "In case of high risk activity, verify activity with OTP",
+            "vacation_mode": "Vacation Mode",
+            "vacation_mode_p": "Turn on Vacation Mode to prevent buyers from placing new orders. Existing orders must still be fulfilled. It may take up to 1 hour to take effect.",
+            "chat_auto": "You have not enabled chat auto-reply yet.",
+            "set_now": "Set Now",
+            "language": "Language"
         },
         "privacy_settings": "Privacy Settings",
         "chat_settings": "Chat Settings",

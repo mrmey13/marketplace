@@ -265,6 +265,13 @@ class ShopSetting extends React.Component {
                                           shop-button--link
                                           shop-button--normal
                                       "
+                            onClick={() =>
+                              alert(
+                                "1.Trả lời tự động mặc định sẽ chỉ được kích hoạt 24 giờ một lần cho mỗi người mua." +
+                                  "  " +
+                                  "2.Trả lời tự động ngoại tuyến sẽ chỉ được kích hoạt mỗi ngày một lần cho mỗi người mua."
+                              )
+                            }
                           >
                             <span>
                               {/* Thiết lập ngay */}

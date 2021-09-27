@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 export const TableSettingContext = React.createContext();
 
 export function TableSettingProvider(props) {
-    const [table_height, setTableHeight] = useState(650);
+    const [table_height, setTableHeight] = useState(400);
     const [auto_reload, setAutoReload] = useState(false);
     const [interval_time, setInterval] = useState(30);
 

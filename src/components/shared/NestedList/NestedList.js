@@ -14,18 +14,18 @@ import { Divider, Typography } from "@material-ui/core";
 import { useTranslation, withTranslation } from 'react-i18next';
 
 export default function NestedList(props) {
-    const {t, i18n} = useTranslation();
+    const { t, i18n } = useTranslation();
     const menu = props.menu;
     const userrole = props.userrole;
     const multilingual = props.multilingual;
-    return menu.map((item, key) => <MenuItem key={key} item={item} userrole={userrole} closeMenuTab={props.closeMenuTab} multilingual={multilingual} t={t} i18n={i18n}/>);
+    return menu.map((item, key) => <MenuItem key={key} item={item} userrole={userrole} closeMenuTab={props.closeMenuTab} multilingual={multilingual} t={t} i18n={i18n} />);
 }
 
 const MenuItem = ({ item, userrole, closeMenuTab, multilingual, t, i18n }) => {
     if (!hasAccess(item, userrole)) return null;
     if (hasNonAccess(item, userrole)) return null;
     const Component = hasChildren(item) ? MultiLevel : SingleLevel;
-    return <Component item={item} userrole={userrole} closeMenuTab={closeMenuTab} multilingual={multilingual} t={t} i18n={i18n}/>;
+    return <Component item={item} userrole={userrole} closeMenuTab={closeMenuTab} multilingual={multilingual} t={t} i18n={i18n} />;
 };
 
 const SingleLevel = ({ item, userrole, closeMenuTab, multilingual, t, i18n }) => {
@@ -36,7 +36,12 @@ const SingleLevel = ({ item, userrole, closeMenuTab, multilingual, t, i18n }) =>
             <>
                 <ListItem button component={Link} to={item.to} onClick={() => { closeMenuTab() }} style={{ whiteSpace: "normal" }}>
                     <ListItemIcon className="ms-3">{item.icon}</ListItemIcon>
-                    <ListItemText primary={multilingual ? t(item.title) :item.title} />
+                    <ListItemText
+                        // primary={multilingual ? t(item.title) :item.title} 
+                        disableTypography
+                        primary={<Typography type="body2" style={{ fontSize: 12 }}>
+                            {multilingual ? t(item.title) : item.title}
+                        </Typography>} />
                 </ListItem>
                 {/* <Divider /> */}
             </>
@@ -47,7 +52,12 @@ const SingleLevel = ({ item, userrole, closeMenuTab, multilingual, t, i18n }) =>
                 {/* <Divider /> */}
                 <ListItem button style={{ whiteSpace: "normal" }}>
                     <ListItemIcon>{item.icon}</ListItemIcon>
-                    <ListItemText primary={multilingual ? t(item.title) :item.title} />
+                    <ListItemText
+                        // primary={multilingual ? t(item.title) :item.title} 
+                        disableTypography
+                        primary={<Typography type="body2" style={{ fontSize: 12 }}>
+                            {multilingual ? t(item.title) : item.title}
+                        </Typography>} />
                 </ListItem>
             </>
 
@@ -73,8 +83,8 @@ const MultiLevel = ({ item, userrole, closeMenuTab, multilingual, t, i18n }) => 
                 {/* <ListItemText primary={item.title} style={{ fontWeight: 'bold' }} /> */}
                 <ListItemText
                     disableTypography
-                    primary={<Typography type="body2" style={{ fontWeight: 'bold', fontSize: 18 }}>
-                        {multilingual ? t(item.title) :item.title}
+                    primary={<Typography type="body2" style={{ fontWeight: 'bold', fontSize: 12 }}>
+                        {multilingual ? t(item.title) : item.title}
                     </Typography>}
                 />
                 {open ? <ExpandLessIcon /> : <ExpandMoreIcon />}

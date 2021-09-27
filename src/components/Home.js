@@ -27,10 +27,11 @@ import { menu } from "./menu.js";
 import AppRoute from "./AppRoute";
 
 import { useTranslation, withTranslation } from "react-i18next";
+import { getRole, isSoloUser } from "../service";
 
 const URL = cs.BaseURL + "/user/detail";
 const revokeTokenURL = cs.BaseURL + "/api/auth/logout";
-const drawerWidth = 290;
+const drawerWidth = 250;
 const lngs = {
     en: { nativeName: 'language.english' },
     vi: { nativeName: 'language.vietnamese' },
@@ -64,7 +65,8 @@ const styles = (theme) => ({
 	toolbarHeader: {
 		display: "flex",
 		alignItems: "center",
-		justifyContent: "flex-end",
+		// justifyContent: "flex-end",
+		justifyContent: "center",
 		padding: "0 2px",
 		...theme.mixins.toolbar,
 	},
@@ -189,7 +191,7 @@ class Home extends React.Component {
 		super(props);
 		this.state = {
 			user: {},
-			open: false,
+			open: true,
 			showChangePassword: false,
 		};
 		console.log("HOME props", props);
@@ -207,7 +209,7 @@ class Home extends React.Component {
 	};
 
 	handleDrawerClose = () => {
-		this.setState({ open: false });
+		// this.setState({ open: false });
 	};
 
 	handleLogOut = () => {
@@ -252,7 +254,8 @@ class Home extends React.Component {
 		var user = localStorage.getItem(cs.System_Code + "-user");
 		if (user) username = JSON.parse(String(user)).fullname;
 		if (!username) username = JSON.parse(String(user)).name;
-		// console.log(getRole());
+		console.log(getRole());
+		console.log(isSoloUser());
 		return (
 			<div>
 				<Router>
@@ -308,7 +311,7 @@ class Home extends React.Component {
 							</Toolbar>
 						</AppBar>
 						<Drawer
-							// variant="permanent"
+							variant="permanent"
 							classes={{
 								paper: classNames(
 									classes.drawerPaper,
@@ -327,9 +330,9 @@ class Home extends React.Component {
 								<Typography variant="body" className={classes.username}>
 									{username}
 								</Typography>
-								<IconButton onClick={this.handleDrawerClose}>
+								{/* <IconButton onClick={this.handleDrawerClose}>
 									<ChevronLeftIcon />
-								</IconButton>
+								</IconButton> */}
 							</div>
 							<Divider />
 							<List grouped={true} collapsibleGroups={true}>

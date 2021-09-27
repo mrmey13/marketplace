@@ -29,13 +29,19 @@
     "nested_list": {
         "shop_menu": {
             "title": "Quản lý Shop",
-            "profile": "Hồ sơ Shop",
-            "setting":"Thiết lập Shop"
+            "profile": "Hồ sơ Shop"
         },
         "product_menu": {
             "title": "Quản lý sản phẩm",
             "all_products": "Tất cả sản phẩm",
-            "new_product":"Thêm 1 sản phẩm mới"
+            "new_product": "Thêm sản phẩm mới"
+        },
+        "settings_menu":{
+            "title":"Cài đặt"
+        },
+        "admin_menu":{
+            "title":"Quản trị",
+            "all_products": "Phê duyệt sản phẩm"
         }
     },
     "shop_profile": {
@@ -52,20 +58,35 @@
         "title": "Thêm 1 sản phẩm mới",
         "productName": "Tên sản phẩm",
         "categoryName": "Tên ngành",
-        "selectedPath":"Đã chọn"
+        "selectedPath": "Đã chọn"
+    },
+    "all_products": {
+        "title": "Tất cả sản phẩm",
+        "tabs": {
+            "all": "Tất cả",
+            "new": "Mới",
+            "justChanged": "Mới thay đổi",
+            "deleted": "Đã xóa",
+            "contraband": "Hàng cấm",
+            "violatesRules": "Vi phạm",
+            "accepted": "Chấp nhận",
+            "notAccepted": "Không chấp nhận"
+        }
     },
     "shop_settings": {
+        "setting": "Thiết Lập Shop",
         "shop_settings": "Thiết Lập Shop",
+        "my_addresses":"Địa chỉ",
         "change_settings": "Thay đổi các cài đặt cho shop của bạn.",
         "basic_settings": {
-        "basic_settings": "Thiết Lập Cơ Bản",
-        "protect_your_account": "Bảo vệ tài khoản của bạn ngay bây giờ bằng cách xác minh hoạt động đáng ngờ",
-        "protect_your_account_otp": "Trong trường hợp hoạt động có rủi ro cao, hãy xác minh hoạt động với OTP",
-        "vacation_mode": "Chế độ Tạm nghỉ",
-        "vacation_mode_p": "Kích hoạt Chế độ Tạm nghỉ để ngăn khách hàng đặt đơn hàng mới. Những đơn hàng đang tiến hành vẫn phải được xử lý.",
-        "chat_auto": "Bạn vẫn chưa kích hoạt Trả lời tự động.",
-        "set_now": "Thiết lập ngay",
-        "language": "Ngôn ngữ"
+            "basic_settings": "Thiết Lập Cơ Bản",
+            "protect_your_account": "Bảo vệ tài khoản của bạn ngay bây giờ bằng cách xác minh hoạt động đáng ngờ",
+            "protect_your_account_otp": "Trong trường hợp hoạt động có rủi ro cao, hãy xác minh hoạt động với OTP",
+            "vacation_mode": "Chế độ Tạm nghỉ",
+            "vacation_mode_p": "Kích hoạt Chế độ Tạm nghỉ để ngăn khách hàng đặt đơn hàng mới. Những đơn hàng đang tiến hành vẫn phải được xử lý.",
+            "chat_auto": "Bạn vẫn chưa kích hoạt Trả lời tự động.",
+            "set_now": "Thiết lập ngay",
+            "language": "Ngôn ngữ"
         },
         "privacy_settings": "Cài đặt riêng tư",
         "chat_settings": "Cài đặt chat",

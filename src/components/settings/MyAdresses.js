@@ -122,6 +122,16 @@ const MyAddresses = ({ t, i18n }) => {
   };
 
   const handleConfirmAddClick = async () => {
+    if (!modalForm.fullname || !modalForm.telephone || !modalForm.detailAddress) {
+      setResponseMessage({ type: "warning", content: "Please fill in empty fields" });
+      setOpenMessage(true);
+      return;
+    }
+    if (!modalForm.city || !modalForm.district || !modalForm.ward) {
+      setResponseMessage({ type: "warning", content: "Please select your address" });
+      setOpenMessage(true);
+      return;
+    }
     try {
       const response = await axios({
         method: "post",
@@ -141,8 +151,8 @@ const MyAddresses = ({ t, i18n }) => {
           latitude: modalForm.latitude
         }
       });
-      console.log(response.data);
-      console.log("modalForm", modalForm);
+      // console.log(response.data);
+      // console.log("modalForm", modalForm);
       if (response.data.error_desc === "Success") {
         loadAddressesData();
         setResponseMessage({ type: "success", content: "Create Success!" });
@@ -176,6 +186,16 @@ const MyAddresses = ({ t, i18n }) => {
   };
 
   const handleConfirmModClick = async () => {
+    if (!modalForm.fullname || !modalForm.telephone || !modalForm.detailAddress) {
+      setResponseMessage({ type: "warning", content: "Please fill in empty fields" });
+      setOpenMessage(true);
+      return;
+    }
+    if (!modalForm.city || !modalForm.district || !modalForm.ward) {
+      setResponseMessage({ type: "warning", content: "Please select your address" });
+      setOpenMessage(true);
+      return;
+    }
     try {
       const response = await axios({
         method: "post",
@@ -196,8 +216,8 @@ const MyAddresses = ({ t, i18n }) => {
           latitude: modalForm.latitude
         }
       });
-      console.log(response.data);
-      console.log("modalForm", modalForm);
+      // console.log(response.data);
+      // console.log("modalForm", modalForm);
       if (response.data.error_desc === "Success") {
         loadAddressesData();
         setResponseMessage({ type: "success", content: "Edit Success!" });
@@ -226,7 +246,7 @@ const MyAddresses = ({ t, i18n }) => {
           Authorization: localStorage.getItem(cs.System_Code + "-token")
         }
       });
-      console.log(response.data);
+      // console.log(response.data);
       if (response.data.error_desc === "Success") {
         loadAddressesData();
         setResponseMessage({ type: "success", content: "Delete Success!" });
@@ -255,7 +275,7 @@ const MyAddresses = ({ t, i18n }) => {
           Authorization: localStorage.getItem(cs.System_Code + "-token")
         }
       });
-      console.log("addresses", response.data);
+      // console.log("addresses", response.data);
       setAddressList(response.data.data);
     } catch (error) {
       console.log(error);

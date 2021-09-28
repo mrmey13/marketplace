@@ -99,6 +99,11 @@ const admin_menu = [{
             to: '/product-list/all',
             title: 'nested_list.admin_menu.all_products'
         },
+        {
+            // icon: <Icon color="disable">shop</Icon>,
+            to: '/attribute/list',
+            title: 'Attribute Management'
+        },
     ]
 }]
 

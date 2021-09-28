@@ -22,6 +22,8 @@ import ProductList from "./ProductList/ProductList";
 import ProductCategory from "./ProductCategory/ProductCategory";
 import AllProducts from "./AllProducts/AllProducts"
 import ApproveProduct from './AllProducts/ApproveProduct';
+import Attribute from "./Administration/AttributeManage/Attribute";
+import AttributeManage from "./Administration/AttributeManage/AttributeManage";
 
 const styles = (theme) => ({
   tableContainer: {
@@ -48,6 +50,10 @@ export class AppRoute extends Component {
         />
 
         <Route exact path="/shop/setting" component={() => ShopSetting(t, i18n)} />
+
+        {/* Administration */}
+        <Route exact path="/attribute/list" component={Attribute} />
+        <Route exact path="/attribute/config" component={AttributeManage} />
 
         {/* Product */}
         <Route exact path="/product/new" component={CreateProduct} />

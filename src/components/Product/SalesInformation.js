@@ -58,7 +58,20 @@ const SalesInformation = ({ form, onChangeData,
 	inventoryArray, setInventoryArray, salesData }) => {
 
 	// let { level1Attribute, level1, level2Attribute, level2Options, level2 } = formatData(variationArray, inventoryArray);
-	let { level1Attribute, level1, level2Attribute, level2Options, level2 } = salesData;
+	// let { level1Attribute, level1, level2Attribute, level2Options, level2 } = {
+	// 	...salesData,
+	// 	level1Attribute: salesData && salesData.level1Attribute || "",
+	// 	level1: salesData && salesData.level1 || [],
+	// 	level2Attribute: salesData && salesData.level2Attribute || "",
+	// 	level2Options: salesData && salesData.level2Options || [],
+	// 	level2: salesData && salesData.level2 || []
+	// };
+	let level1Attribute = salesData && salesData.level1Attribute || "";
+	let level1 = salesData && salesData.level1 || [];
+
+	let level2Attribute = salesData && salesData.level2Attribute || "";
+	let level2Options = salesData && salesData.level2Options || [];
+	let level2 = salesData && salesData.level2 || [];
 	// console.log("level1Attrbute", level1Attribute ? level1Attribute : "");
 	// console.log("level1", level1);
 	// console.log("level2Attrbute", level2Attribute);
@@ -90,16 +103,18 @@ const SalesInformation = ({ form, onChangeData,
 		// console.log("level2Attribute", level2Attribute);
 		// console.log("level2Options", level2Options);
 		console.log("level2", level2);
-		setAttribute1(level1Attribute || "");
-		setAttribute2(level2Attribute || "");
-		sethidden1(level1 != null);
-		sethidden2(level2 != null);
-		if (level1 != null) {
-			setInputList(level1);
-		}
-		if (level2 != null) {
-			setValueList2(level2Options);
-			setInputList2(level2);
+		if (salesData) {
+			setAttribute1(level1Attribute || "");
+			setAttribute2(level2Attribute || "");
+			sethidden1(level1 != null);
+			sethidden2(level2 != null);
+			if (level1 != null) {
+				setInputList(level1);
+			}
+			if (level2 != null) {
+				setValueList2(level2Options);
+				setInputList2(level2);
+			}
 		}
 
 	}, [salesData])

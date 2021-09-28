@@ -55,7 +55,7 @@ export class AppRoute extends Component {
         />
         <Route
           exact
-          path="/product_detail"
+          path="/product_detail/:productId"
           component={() => ProductDetail(t, i18n)}
         />
 

@@ -4,10 +4,20 @@ import cs from "../../const";
 import Color from "../../theme/color";
 import "./Product.css";
 import Product from "./Product";
-
+import { useParams } from "react-router-dom";
 const URL = cs.BaseURL + "/api/seller/shop/detail";
 const mediaURL = cs.MediaURL + "/material";
 function ProductDetail() {
+  const { productId } = useParams();
+  console.log("productId", productId);
+  const [quantityProduct, setQuantityProduct] = useState(1);
+  const [variation, setVariation] = useState({ 0: "0" });
+  console.log("variation", variation);
+  const ChooseOption = (e) => {
+    setVariation({ ...variation, [e.target.name]: e.target.value });
+  };
+  // const [chooseOption, setChooseOption] = useState(0);
+  // console.log("setQuantityProduct", quantityProduct);
   const [buttonRateState, setButtonRateState] = useState("all");
   const [introImage, setIntroImage] = useState(
     "https://images.unsplash.com/photo-1521093470119-a3acdc43374a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80"
@@ -27,9 +37,11 @@ function ProductDetail() {
     createdTime: "",
     shopId: 1,
     id: 0,
+    productId: 0,
   });
+  const [productDetail, setProductDetail] = useState({ variationArray: [] });
+
   const [media, setMedia] = useState([]);
-  console.log(media);
   const loadShopDetail = async (conditions) => {
     const response = await axios({
       method: "get",
@@ -44,17 +56,78 @@ function ProductDetail() {
     ) {
       setShopDetail(response.data.data);
       setMedia(response.data.data.mediaDescriptionsList);
-      // console.log("res", response.data.data);
+    }
+  };
+  const loadProductDetail = async (conditions) => {
+    const response = await axios({
+      method: "get",
+      url: `http://192.168.1.127:9555/api/seller/product/detail?productId=${productId}`,
+      headers: {
+        Authorization: localStorage.getItem(cs.System_Code + "-token"),
+      },
+    });
+    if (
+      response.data.error_desc === "Success" &&
+      response.data.data.length != 0
+    ) {
+      setProductDetail(response.data.data);
     }
   };
   useEffect(() => {
+    loadProductDetail();
     loadShopDetail();
   }, []);
+  const QuantityFunctionSub = () => {
+    if (quantityProduct > 1) setQuantityProduct(quantityProduct - 1);
+    else setQuantityProduct(quantityProduct);
+  };
+  const QuantityFunctionAdd = () => {
+    if (quantityProduct < 100) setQuantityProduct(quantityProduct + 1);
+    else setQuantityProduct(quantityProduct);
+  };
+  function onChange(e) {
+    const re = /^[0-9\b]+$/;
+    if (e.target.value === "" || re.test(e.target.value)) {
+      e.preventDefault();
+      setQuantityProduct(e.target.value);
+    }
+  }
+
   const List = [1, 2, 3, 4, 5];
   return (
     <div className="product-detail-container container">
+      <div
+        className="card card-link d-flex flex-row mb-3 py-2 px-5"
+        style={{ height: "40px" }}
+      >
+        <h6 style={{ color: Color.tanhide }}>SalePlus</h6>
+        <div className="px-2">
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </div>
+        <h6>{productDetail.categoryLevel1VieName}</h6>
+        <div className="px-2">
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </div>
+        <h6>{productDetail.categoryLevel2VieName}</h6>
+        <div className="px-2 ">
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </div>
+        <h6>{productDetail.categoryLevel3VieName}</h6>
+        {productDetail.categoryLevel4VieName != "" && (
+          <div className="px-2">
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </div>
+        )}
+        <h6>{productDetail.categoryLevel4VieName}</h6>
+        {productDetail.categoryLevel4VieName != "" && (
+          <div className="px-2">
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </div>
+        )}
+        <h6>{productDetail.categoryLevel5VieName}</h6>
+      </div>
       <div className="card card-product-detail-main">
-        <div className="row main-row-product-detail d-flex justify-content-between mt-5">
+        <div className="row main-row-product-detail d-flex justify-content-between mt-2">
           <div
             className="col-5 img-product-detail-intro "
             style={{ borderRight: "1px solid black" }}
@@ -205,9 +278,9 @@ function ProductDetail() {
           <div className="col-7 info-product-detail-intro">
             <div
               className="product-product-detail-name"
-              style={{ width: "fit-content" }}
+              style={{ width: "fit-content", textTransform: "uppercase" }}
             >
-              Giày thể thao Nike hot nhất năm 2021
+              {productDetail.productName}
             </div>
             <div className="product-product-detail-rate">
               <a
@@ -276,6 +349,34 @@ function ProductDetail() {
                 <div className="free-shipping"> Phí Vận Chuyển</div>
               </div>
             </div>
+            {productDetail.variationArray.map((item) => (
+              <div className="row product-product-detail-variation mt-3">
+                <div className="col-4">{item.name}</div>
+                <div className="col-8">
+                  {item.options.map((option) => (
+                    <input
+                      type="button"
+                      name={item.id}
+                      className={
+                        Object.entries(variation).map((it) => {
+                          if ((it[0] = item.id && it[1] == option.optionValue))
+                            return "btn sort-rate-button rate-active me-3 ";
+                          else return "btn sort-rate-button me-3 ";
+                        })
+
+                        // ? "btn sort-rate-button rate-active me-3 "
+                        // : "btn sort-rate-button me-3"}
+                      }
+                      onClick={(e) => {
+                        ChooseOption(e);
+                      }}
+                      value={option.optionValue}
+                      // style={{ backgroundColor: Color.tanhide }}
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
             <div className="row product-product-detail-quantity mt-5">
               <div className="col-4">Số Lượng</div>
               <div className="col-8 ">
@@ -287,20 +388,24 @@ function ProductDetail() {
                     backgroundColor: Color.tanhide,
                     fontSize: "20px",
                   }}
+                  onClick={() => QuantityFunctionSub()}
                 >
                   <ion-icon name="remove-outline"></ion-icon>
                 </button>
                 <input
                   className="sort-salary"
                   type="text"
-                  placeholder=" Từ"
-                  size="10"
+                  placeholder=" "
+                  size="3"
+                  value={quantityProduct}
                   maxlength="2"
                   name="value1"
                   //   value={sortPrice.value1}
                   //   onChange={(e) => onChange(e)}
                   // onkeypress={(event) => isNumberKey(event)}
+                  onChange={(e) => onChange(e)}
                   style={{
+                    textAlign: "center",
                     width: "45px",
                     height: "35px",
                     paddingLeft: "1px",
@@ -317,11 +422,13 @@ function ProductDetail() {
                     height: "35px",
                     backgroundColor: Color.tanhide,
                   }}
+                  onClick={() => QuantityFunctionAdd()}
                 >
                   <ion-icon name="add-outline"></ion-icon>
                 </button>
               </div>
             </div>
+
             <div className="product-product-detail-buy d-flex flex-row justify-content-center my-5">
               <button
                 className="btn btn-outline-dark py-2 d-flex flex-row"
@@ -489,8 +596,34 @@ function ProductDetail() {
           <div className="col-10 g-0">
             <div className="card product-detail-product-detail-card p-5">
               <h5 className="card-product-detail-title">Chi Tiết Sản Phẩm</h5>
-              <div className="p-2">
-                Danh Mục: Shopee / Sản Phẩm Thể Thao / Giày Dép
+              <div className="p-2 d-flex flex-row">
+                <h6 style={{ marginRight: "10px" }}>Danh Mục: </h6>
+                {"  "}
+                <h6 style={{ color: Color.tanhide }}>SalePlus</h6>
+                <div className="px-2">
+                  <ion-icon name="chevron-forward-outline"></ion-icon>
+                </div>
+                <h6>{productDetail.categoryLevel1VieName}</h6>
+                <div className="px-2">
+                  <ion-icon name="chevron-forward-outline"></ion-icon>
+                </div>
+                <h6>{productDetail.categoryLevel2VieName}</h6>
+                <div className="px-2 ">
+                  <ion-icon name="chevron-forward-outline"></ion-icon>
+                </div>
+                <h6>{productDetail.categoryLevel3VieName}</h6>
+                {productDetail.categoryLevel4VieName != "" && (
+                  <div className="px-2">
+                    <ion-icon name="chevron-forward-outline"></ion-icon>
+                  </div>
+                )}
+                <h6>{productDetail.categoryLevel4VieName}</h6>
+                {productDetail.categoryLevel4VieName != "" && (
+                  <div className="px-2">
+                    <ion-icon name="chevron-forward-outline"></ion-icon>
+                  </div>
+                )}
+                <h6>{productDetail.categoryLevel5VieName}</h6>
               </div>
               <div className="p-2">Kho Hàng:</div>
               <div className="p-2">Gửi Từ:</div>
@@ -607,7 +740,7 @@ function ProductDetail() {
             </div>
           </div>
           <div className="col-2">
-            <div className="card product-detail-best-seller-card px-2">
+            <div className="card product-detail-best-seller-card px-3">
               <h6 className="card-product-detail-title">
                 Top Sản Phẩm Bán Chạy
               </h6>

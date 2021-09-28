@@ -22,6 +22,7 @@ function ProductList() {
     createdTime: "",
     shopId: 1,
     id: 0,
+    productId: 0,
   });
   const [productList, setProductList] = useState([
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
@@ -51,7 +52,7 @@ function ProductList() {
       // console.log("res", response.data.data);
     }
   };
-  const loadProductDetail = async (conditions) => {
+  const loadProductList = async (conditions) => {
     const response = await axios({
       method: "get",
       url: `${Product_URL}?page=${currentPage}&size=0`,
@@ -69,7 +70,7 @@ function ProductList() {
   };
   useEffect(() => {
     loadShopDetail();
-    loadProductDetail();
+    loadProductList();
   }, []);
   //Pagin
   const [postsPerPage, setpostPerPage] = useState(6);
@@ -507,7 +508,7 @@ function ProductList() {
           <div className="product-card">
             <div className="row g-0 ">
               {currentPosts.map((data) => (
-                <Product data={data} />
+                <Product data={data} useFor="seller" />
               ))}
             </div>
             <div className="saleplus-credito pagin-card mt-5 d-flex justify-content-center ">

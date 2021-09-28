@@ -1,9 +1,6 @@
 #root{
     --color: #F69756;
 }
-h6{
-    font-weight: bold;
-}
 /* .shop-view-container{
     min-width: 1200px;
 } */
@@ -53,6 +50,9 @@ h6{
 }
 .active-tab::after{
     transform: scale(0.95, 1);
+    color: var(--color);
+}
+.active-tab{
     color: var(--color);
 }
 .tab-button:focus{

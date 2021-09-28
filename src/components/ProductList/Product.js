@@ -20,10 +20,17 @@ function Product({ data, useFor }) {
           : "col-lg-2 col-sm-4 col-6 col-md-3 product_container"
       }
     >
-      <div className="card-course">
+      <div
+        className="card-course"
+        style={useFor == "seller" ? { marginRight: "10px" } : null}
+      >
         <Link
           className="h5 text-dark fw-bold text-decoration-none stretched-link"
-          to={"/product_detail"}
+          to={
+            useFor == "seller"
+              ? "/product_detail/" + data.productId
+              : "/product_detail"
+          }
         ></Link>
         <span
           class="badge discount-badge"
@@ -114,7 +121,7 @@ function Product({ data, useFor }) {
                     </sub>
                   </h6>
                 </div>
-                <div className="price ">
+                {/* <div className="price ">
                   <del
                     style={{
                       fontSize: "14px",
@@ -134,7 +141,7 @@ function Product({ data, useFor }) {
                       <u>đ</u>
                     </sub>
                   </del>
-                </div>
+                </div> */}
               </div>
               <img
                 className="free-ship-img"

@@ -17,6 +17,13 @@ html {
     --columns: 6;
     --subtitle: 13px;
   }
+  button:focus{
+    box-shadow: none !important;
+  }
+  input:focus{
+    box-shadow: none !important;
+    
+  }
   /* br{
     margin: 15px;
   } */
@@ -32,8 +39,8 @@ html {
     overflow: hidden;
     background-color: white;
     box-shadow: rgba(31, 31, 32, 0.2) 0px 7px 29px 0px;
-    margin-right: 0.5rem;
-    margin-bottom: 1rem;
+    margin-right: -0.5rem;
+    margin-bottom: 0.7rem;
     transform: scale(1,1);
     transition: transform 0.3s ease;
     /* width: 19%; */
@@ -44,9 +51,9 @@ html {
     overflow: hidden;
     background-color: white;
     box-shadow: rgba(31, 31, 32, 0.2) 0px 7px 29px 0px;
-    margin-right: 0.5rem;
-    margin-bottom: 1rem;
-    transform: scale(1.04 ,1);
+    margin-right: -0.5rem;
+    margin-bottom: 0.7rem;
+    transform: scale(1.04 ,1.04);
     transition: transform 0.3s ease;
     cursor: pointer;
     /* width: 19%; */

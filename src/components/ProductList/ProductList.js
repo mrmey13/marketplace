@@ -5,9 +5,9 @@ import cs from "../../const";
 import Product from "./Product";
 import Pagin from "../../components/shared/Pagin";
 const URL = cs.BaseURL + "/api/seller/shop/detail";
+const Product_URL = cs.BaseURL + "/api/seller/product/list";
 const mediaURL = cs.MediaURL + "/material";
 function ProductList() {
-  const getProductListUrl = cs.BaseURL + "/api/course/list";
   const [shopDetail, setShopDetail] = useState({
     numberOfFollowers: 0,
     pertcentageOfChatFeedbacks: 0,
@@ -22,21 +22,12 @@ function ProductList() {
     createdTime: "",
     shopId: 1,
     id: 0,
+    productId: 0,
   });
   const [productList, setProductList] = useState([
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
   ]);
-  //Pagin
-  const [postsPerPage, setpostPerPage] = useState(6);
-  const [currentPage, setCurrentPage] = useState(1);
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = productList.slice(indexOfFirstPost, indexOfLastPost);
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    // console.log(currentPage);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  console.log("productlist", productList);
 
   const [sortTab, setSortTab] = useState("popular");
   const [sortProduct, setSortProduct] = useState({
@@ -61,20 +52,48 @@ function ProductList() {
       // console.log("res", response.data.data);
     }
   };
+  const loadProductList = async (conditions) => {
+    const response = await axios({
+      method: "get",
+      url: `${Product_URL}?page=${currentPage}&size=0`,
+      headers: {
+        Authorization: localStorage.getItem(cs.System_Code + "-token"),
+      },
+    });
+    if (
+      response.data.error_desc === "Success" &&
+      response.data.data.length != 0
+    ) {
+      setProductList(response.data.data);
+      console.log("res", response.data.data);
+    }
+  };
   useEffect(() => {
     loadShopDetail();
+    loadProductList();
   }, []);
+  //Pagin
+  const [postsPerPage, setpostPerPage] = useState(6);
+  const [currentPage, setCurrentPage] = useState(1);
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = productList.slice(indexOfFirstPost, indexOfLastPost);
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    // console.log(currentPage);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
-  const [sortSlary, setSortSalary] = useState({ value1: "", value2: "" });
-  console.log(sortSlary);
+  const [sortPrice, setSortPrice] = useState({ value1: "", value2: "" });
+  console.log(sortPrice);
   function onChange(e) {
     const re = /^[0-9\b]+$/;
     if (e.target.value === "" || re.test(e.target.value)) {
-      setSortSalary({ ...sortSlary, [e.target.name]: e.target.value });
+      setSortPrice({ ...sortPrice, [e.target.name]: e.target.value });
     }
   }
   return (
-    <div>
+    <div className="product-container-saleplus">
       <div className=" mb-3 component-top-title">
         <h3>PRODUCT LIST</h3>{" "}
       </div>
@@ -256,9 +275,9 @@ function ProductList() {
                   type="text"
                   placeholder=" Từ"
                   size="20"
-                  maxlength="12"
+                  maxLength="12"
                   name="value1"
-                  value={sortSlary.value1}
+                  value={sortPrice.value1}
                   onChange={(e) => onChange(e)}
                   // onkeypress={(event) => isNumberKey(event)}
                   style={{ width: "100px", height: "35px" }}
@@ -268,10 +287,10 @@ function ProductList() {
                   className="sort-salary"
                   type="text"
                   placeholder=" Đến"
-                  maxlength="12"
+                  maxLength="12"
                   size="20"
                   name="value2"
-                  value={sortSlary.value2}
+                  value={sortPrice.value2}
                   onChange={(e) => onChange(e)}
                   style={{ width: "100px", height: "35px" }}
                 />
@@ -487,9 +506,9 @@ function ProductList() {
             </div>
           </div>
           <div className="product-card">
-            <div className="row g-0">
+            <div className="row g-0 ">
               {currentPosts.map((data) => (
-                <Product data={data} />
+                <Product data={data} useFor="seller" />
               ))}
             </div>
             <div className="saleplus-credito pagin-card mt-5 d-flex justify-content-center ">

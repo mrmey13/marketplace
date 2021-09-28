@@ -17,18 +17,50 @@ html {
     --columns: 6;
     --subtitle: 13px;
   }
+  button:focus{
+    box-shadow: none !important;
+  }
+  input:focus{
+    box-shadow: none !important;
+    
+  }
+  /* br{
+    margin: 15px;
+  } */
+  /* .product-container-saleplus{
+    min-width: 100%;
+  } */
+  .shop-view-container{
+    min-width: 1150px;
+  }
   .card-course {
     position: relative;
     border-radius: 10px;
     overflow: hidden;
     background-color: white;
     box-shadow: rgba(31, 31, 32, 0.2) 0px 7px 29px 0px;
-    margin-right: 0.5rem;
-    margin-bottom: 1rem;
+    margin-right: -0.5rem;
+    margin-bottom: 0.7rem;
+    transform: scale(1,1);
+    transition: transform 0.3s ease;
+    /* width: 19%; */
+  }
+  .card-course:hover {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: rgba(31, 31, 32, 0.2) 0px 7px 29px 0px;
+    margin-right: -0.5rem;
+    margin-bottom: 0.7rem;
+    transform: scale(1.04 ,1.04);
+    transition: transform 0.3s ease;
+    cursor: pointer;
     /* width: 19%; */
   }
   .card-img-top {
     object-fit: cover;
+    height:150px;
   }
   .card-top {
       padding-bottom: 1rem;
@@ -143,7 +175,9 @@ html {
     width:fit-content;
   }
 
-  /* Course List */
+  .shop-infor-description{
+    max-width: 400px;
+  }
   .component-top{
     justify-content: space-between;
   }
@@ -261,4 +295,68 @@ html {
   padding-left: 3px;
   width: fit-content;
   word-break: break-word;
+}
+
+
+
+.product-detail-container{
+  min-width: 1200px;
+}
+.info-product-detail-intro div div{
+  width: fit-content
+}
+.share-product-detail-intro{
+  display: flex;
+  flex-direction: row;
+}
+.product-product-detail-name{
+  font-size: 25px;
+  font-weight: bold;
+}
+.product-product-detail-rate{
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+}
+.product-product-detail-rate div{
+  margin-left: 10px;
+  padding-right: 5px;
+  border-right: 1px solid black;
+}
+.product-product-detail-price{
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  height: fit-content;
+  font-size: 30px;
+  color: var(--tanhide);
+  background-color: rgb(243, 243, 243);
+}
+.card-product-detail-title{
+  text-align: center;
+  font-weight: bold;
+  background-color: var(--corvette);
+  height: 50px;
+  padding-top: 10px;
+  /* margin: 0px 2px */
+}
+.sort-rate-button{
+  background-color: white;
+  border: 1px solid black;
+  transform: scale(1,1);
+  width: fit-content;
+  margin: 8px;
+  color: black;
+  padding: 5px;
+  transform: scale(1,1);
+  transition: transform 0.3s ease;
+}
+.rate-active{
+  border: 2px solid var(--christine);
+  color: var(--christine);
+  font-weight: bold;
+  transform: scale(1.2,1.2);
+  transition: transform 0.3s ease;
 }

@@ -20,10 +20,16 @@ import MyAddresses from "./settings/MyAdresses";
 import CreateProduct from "./Product/CreateProduct";
 import ProductList from "./ProductList/ProductList";
 import ProductCategory from "./ProductCategory/ProductCategory";
-import AllProducts from "./AllProducts/AllProducts"
 import ApproveProduct from './AllProducts/ApproveProduct';
 import Attribute from "./Administration/AttributeManage/Attribute";
 import AttributeManage from "./Administration/AttributeManage/AttributeManage";
+import AllProducts from "./AllProducts/AllProducts";
+import SellerProducts from "./SellerProducts/SellerProducts";
+import ProductDetail from "./ProductList/ProductDetail";
+import MyAccount from "./MyAccount/MyAccount";
+
+import HomePage from "./HomePage/HomePage";
+import EditProduct from "./Product/EditProduct";
 
 const styles = (theme) => ({
   tableContainer: {
@@ -32,10 +38,7 @@ const styles = (theme) => ({
 });
 
 export class AppRoute extends Component {
-  constructor(props) {
-    super(props);
-    // console.log("AppRoute props", props);
-  }
+  
   render(props) {
     const { t, i18n } = this.props;
     return (
@@ -49,7 +52,22 @@ export class AppRoute extends Component {
           component={() => ShopProfileArea(t, i18n)}
         />
 
-        <Route exact path="/shop/setting" component={() => ShopSetting(t, i18n)} />
+        <Route
+          exact
+          path="/shop/setting"
+          component={() => ShopSetting(t, i18n)}
+        />
+        <Route
+          exact
+          path="/product_detail/:productId"
+          component={() => ProductDetail(t, i18n)}
+        />
+
+        <Route
+          exact
+          path="/my_account"
+          component={() => MyAccount(t, i18n)}
+        />
 
         {/* Administration */}
         <Route exact path="/attribute/list" component={Attribute} />
@@ -61,11 +79,7 @@ export class AppRoute extends Component {
         {/* Settings */}
         <Route exact path="/settings/address" component={MyAddresses} />
 
-        <Route
-          exact
-          path="/product/category"
-          component={ProductCategoryArea}
-        />
+        <Route exact path="/product/category" component={ProductCategoryArea} />
 
         <Route
           // exact
@@ -73,11 +87,17 @@ export class AppRoute extends Component {
           component={() => AllProductsArea(t, i18n)}
         />
 
-        {/* <Route
+        <Route
           exact
-          path="/approve-product/:productId"
-          component={ApproveProduct}
-        /> */}
+          path="/seller-product-list"
+          component={() => SellerProductsArea(t, i18n)}
+        />
+
+        <Route
+          // exact
+          path="/product/edit/:productId"
+          component={EditProduct}
+        />
       </ToastProvider>
     );
   }
@@ -88,6 +108,7 @@ const DashboardArea = (t, i18n) => (
     <Typography component="div" className={styles.tableContainer}>
       {/* E-Training Home */}
       {t("app_route.dashboard")}
+      <HomePage />
     </Typography>
   </div>
 );
@@ -119,6 +140,17 @@ const AllProductsArea = (t, i18n) => (
       {/* {t("app_route.shop-profile")} */}
       <AllProducts />
     </Typography>
+  </div>
+);
+
+const SellerProductsArea = (t, i18n) => (
+  <div>
+    <Typography variant="h5" gutterBottom component="h2">
+      {t("all_products.title")}
+    </Typography>
+    <div className={styles.tableContainer}>
+      <SellerProducts />
+    </div>
   </div>
 );
 

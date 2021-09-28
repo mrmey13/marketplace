@@ -87,7 +87,7 @@ function ShopView() {
   }
   console.log("tab", tab);
   return (
-    <div>
+    <div className="shop-view-container">
       <div className="row infor-row">
         <div className="col-4 col-avatar">
           <div
@@ -144,7 +144,7 @@ function ShopView() {
             marginBottom: "5px",
           }}
         >
-          <div className="row-title">
+          <div className="row-title-shopview">
             <img
               className="icon-item"
               src="https://cdn-icons-png.flaticon.com/512/2827/2827585.png"
@@ -152,7 +152,7 @@ function ShopView() {
             Sản Phẩm:{" "}
             <b style={{ color: "black" }}>{shopDetail.numberOfProducts}</b>
           </div>
-          <div className="row-title">
+          <div className="row-title-shopview">
             <img
               className="icon-item"
               src="https://cdn-icons-png.flaticon.com/512/748/748004.png"
@@ -160,7 +160,7 @@ function ShopView() {
             Đang Theo Dõi:{" "}
             <b style={{ color: "black" }}>{shopDetail.numberOfReviews}</b>
           </div>
-          <div className="row-title">
+          <div className="row-title-shopview">
             <img
               className="icon-item"
               src="https://cdn-icons-png.flaticon.com/512/892/892228.png"
@@ -178,7 +178,7 @@ function ShopView() {
             marginBottom: "5px",
           }}
         >
-          <div className="row-title">
+          <div className="row-title-shopview">
             <img
               className="icon-item"
               src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png"
@@ -186,7 +186,7 @@ function ShopView() {
             Đánh Giá:{" "}
             <b style={{ color: "black" }}>{shopDetail.averageRating}</b>
           </div>
-          <div className="row-title">
+          <div className="row-title-shopview">
             <img
               className="icon-item"
               src="https://cdn-icons-png.flaticon.com/512/2097/2097705.png"
@@ -194,7 +194,7 @@ function ShopView() {
             Người Theo Dõi:{" "}
             <b style={{ color: "black" }}>{shopDetail.numberOfFollowers}</b>
           </div>
-          <div className="row-title">
+          <div className="row-title-shopview">
             <img
               className="icon-item"
               src="https://cdn-icons-png.flaticon.com/512/747/747310.png"
@@ -381,7 +381,7 @@ function ShopView() {
             </button>
           </div>
         </div>
-        <div className="col-4 shop-infor-description d-block  ">
+        <div className="col-3 shop-infor-description d-block  ">
           <div
             className="row row-title "
             style={{ fontSize: "20px", marginBottom: "2%" }}

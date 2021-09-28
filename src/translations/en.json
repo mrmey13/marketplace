@@ -29,8 +29,7 @@
     "nested_list": {
         "shop_menu": {
             "title": "Shop Management",
-            "profile": "Shop Profile",
-            "setting": "Shop Settings"
+            "profile": "Shop Profile"
         },
         "product_menu": {
             "title": "Product Management",

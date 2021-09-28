@@ -21,9 +21,13 @@ import CreateProduct from "./Product/CreateProduct";
 import ProductList from "./ProductList/ProductList";
 import ProductCategory from "./ProductCategory/ProductCategory";
 import AllProducts from "./AllProducts/AllProducts";
-import ApproveProduct from "./AllProducts/ApproveProduct";
+import SellerProducts from "./SellerProducts/SellerProducts";
 import ProductDetail from "./ProductList/ProductDetail";
+import MyAccount from "./MyAccount/MyAccount";
+
 import HomePage from "./HomePage/HomePage";
+import EditProduct from "./Product/EditProduct";
+
 const styles = (theme) => ({
   tableContainer: {
     height: 320,
@@ -31,10 +35,7 @@ const styles = (theme) => ({
 });
 
 export class AppRoute extends Component {
-  constructor(props) {
-    super(props);
-    // console.log("AppRoute props", props);
-  }
+  
   render(props) {
     const { t, i18n } = this.props;
     return (
@@ -61,8 +62,8 @@ export class AppRoute extends Component {
 
         <Route
           exact
-          path="/shop/setting"
-          component={() => ShopSetting(t, i18n)}
+          path="/my_account"
+          component={() => MyAccount(t, i18n)}
         />
 
         {/* Product */}
@@ -79,11 +80,17 @@ export class AppRoute extends Component {
           component={() => AllProductsArea(t, i18n)}
         />
 
-        {/* <Route
+        <Route
           exact
-          path="/approve-product/:productId"
-          component={ApproveProduct}
-        /> */}
+          path="/seller-product-list"
+          component={() => SellerProductsArea(t, i18n)}
+        />
+
+        <Route
+          // exact
+          path="/product/edit/:productId"
+          component={EditProduct}
+        />
       </ToastProvider>
     );
   }
@@ -126,6 +133,17 @@ const AllProductsArea = (t, i18n) => (
       {/* {t("app_route.shop-profile")} */}
       <AllProducts />
     </Typography>
+  </div>
+);
+
+const SellerProductsArea = (t, i18n) => (
+  <div>
+    <Typography variant="h5" gutterBottom component="h2">
+      {t("all_products.title")}
+    </Typography>
+    <div className={styles.tableContainer}>
+      <SellerProducts />
+    </div>
   </div>
 );
 

@@ -24,6 +24,14 @@ html {
     box-shadow: none !important;
     
   }
+  .path-link a{
+    text-decoration: none; 
+  }
+  .path-link a:hover{
+    transform: scale(1.05,1.05);
+    transition: transform 0.3 ease;
+    font-weight: bold;
+  }
   /* br{
     margin: 15px;
   } */
@@ -284,8 +292,9 @@ html {
   scrollbar-width: thin;
 }
 .collection-filter_collection{
-  border-bottom: 1px solid var(--color);
+  border-bottom: 1px solid silver;
   margin-top: 5px;
+  padding: 3px;
 }
 /* .collection-filter_collection:active{
   color: var(--color)

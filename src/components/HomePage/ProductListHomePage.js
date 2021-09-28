@@ -1,10 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Product from "../ProductList/Product";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 function ProductListHomePage() {
   const [listType, setListType] = useState(1);
-  const List = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+  const [productList, setProductList] = useState([]);
+  const loadProductList = async (conditions) => {
+    const response = await axios({
+      method: "post",
+      url: `http://192.168.1.127:9555/api/buyer/product/list`,
+      //   headers: {
+      //     Authorization: localStorage.getItem(cs.System_Code + "-token"),
+      //   },
+      data: {
+        categoryLevel1Id: 100017,
+        page: 0,
+        size: 0,
+      },
+    });
+    if (
+      response.data.error_desc === "Success" &&
+      response.data.data.length != 0
+    ) {
+      setProductList(response.data.data);
+      console.log("res", response.data.data);
+    }
+  };
+  useEffect(() => {
+    loadProductList();
+  }, []);
   return (
-    <div className="container homepage-product-list-container">
+    <div
+      className="container homepage-product-list-container"
+      style={{ minWidth: "1320px", marginLeft: "27px" }}
+    >
       <div
         className="container homepage-product-list-tab"
         style={{
@@ -12,6 +41,7 @@ function ProductListHomePage() {
           height: "85px",
           fontSize: "25px",
           paddingTop: "20px",
+          minWidth: "1320px",
         }}
       >
         <button
@@ -21,6 +51,7 @@ function ProductListHomePage() {
               : "btn btn-outline-none tab-button"
           }
           onClick={() => setListType(1)}
+          style={{ fontSize: "17px" }}
         >
           GỢI Ý HÔM NAY
         </button>
@@ -31,13 +62,20 @@ function ProductListHomePage() {
               : "btn btn-outline-none tab-button"
           }
           onClick={() => setListType(2)}
+          style={{ fontSize: "17px" }}
         >
           SIÊU SALE 10 THÁNG 10
         </button>
       </div>
-      <div className="container homepage-product-list-product-list mt-3 p-0">
-        <div className="row homepage-product-list-product-list-row">
-          {List.map((item) => (
+      <div
+        className="container homepage-product-list-product-list mt-3 p-0"
+        style={{ minWidth: "1320px" }}
+      >
+        <div
+          className="row homepage-product-list-product-list-row"
+          style={{ minWidth: "1320px" }}
+        >
+          {productList.map((item) => (
             <Product useFor="none" />
           ))}
         </div>

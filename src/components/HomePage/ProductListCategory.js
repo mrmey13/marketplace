@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react";
 import Color from "../../theme/color";
 import axios from "axios";
 import cs from "../../const";
-import Product from "./Product";
+import "../ProductList/Product.css";
+import Product from "../ProductList/Product";
 import Pagin from "../../components/shared/Pagin";
+import { useParams } from "react-router-dom";
 const URL = cs.BaseURL + "/api/seller/shop/detail";
 const Product_URL = cs.BaseURL + "/api/seller/product/list";
 const mediaURL = cs.MediaURL + "/material";
-function ProductList() {
+function ProductListCategory() {
+  const { name, id } = useParams();
+  console.log(id);
   const [shopDetail, setShopDetail] = useState({
     numberOfFollowers: 0,
     pertcentageOfChatFeedbacks: 0,
@@ -24,10 +28,7 @@ function ProductList() {
     id: 0,
     productId: 0,
   });
-  const [productList, setProductList] = useState([
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-  ]);
-  console.log("productlist", productList);
+  const [productList, setProductList] = useState([]);
 
   const [sortTab, setSortTab] = useState("popular");
   const [sortProduct, setSortProduct] = useState({
@@ -54,10 +55,15 @@ function ProductList() {
   };
   const loadProductList = async (conditions) => {
     const response = await axios({
-      method: "get",
-      url: `${Product_URL}?page=${currentPage}&size=0`,
-      headers: {
-        Authorization: localStorage.getItem(cs.System_Code + "-token"),
+      method: "post",
+      url: `http://192.168.1.127:9555/api/buyer/product/list`,
+      //   headers: {
+      //     Authorization: localStorage.getItem(cs.System_Code + "-token"),
+      //   },
+      data: {
+        categoryLevel1Id: id,
+        page: 0,
+        size: 0,
       },
     });
     if (
@@ -68,7 +74,26 @@ function ProductList() {
       console.log("res", response.data.data);
     }
   };
+  const [categoriesList, setCategoriesList] = useState([1, 2, 3, 4]);
+  const loadCategoryList = async (conditions) => {
+    const response = await axios({
+      method: "get",
+      url: `http://192.168.1.127:9555/api/common/product/category/list`,
+      //   headers: {
+      //     Authorization: localStorage.getItem(cs.System_Code + "-token"),
+      //   },
+    });
+    if (
+      response.data.error_desc === "Success" &&
+      response.data.data.length != 0
+    ) {
+      setCategoriesList(response.data.data);
+      console.log("cate", categoriesList);
+    }
+  };
+
   useEffect(() => {
+    loadCategoryList();
     loadShopDetail();
     loadProductList();
   }, []);
@@ -95,115 +120,25 @@ function ProductList() {
   return (
     <div className="product-container-saleplus" style={{ minWidth: "1420px" }}>
       <div className=" mb-3 component-top-title">
-        <h3>PRODUCT LIST</h3>{" "}
+        <h3>PRODUCT LIST CATEGORY</h3>{" "}
       </div>
       <div class="row" style={{ minWidth: "1420px" }}>
         <div class="col-2 scroller" data-bs-spy="scroll">
-          <div
-            className="card card-shop-intro"
-            style={{
-              height: "fit-content",
-              width: "100%",
-              marginLeft: "0",
-              marginRight: "5px",
-
-              // backgroundImage:
-              //   "url(" + cs.MediaURL + "/media/" + shopDetail.coverPath + ")",
-            }}
-          >
-            <div
-              className="card-body"
-              style={{
-                borderRadius: "10px",
-                backgroundImage:
-                  "url(" + cs.MediaURL + "/media/" + shopDetail.coverPath + ")",
-              }}
-            >
-              <div className="card-body-shop">
-                <img
-                  className="shop-avatar"
-                  src={`${cs.MediaURL}/media/${shopDetail.avatarPath}`}
-                  // src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80"
-                  alt="shop avatar"
-                  style={{
-                    width: "85px",
-                    height: "85px",
-                  }}
-                />
-                <div
-                  className="row-title"
-                  style={{
-                    width: "fit-content",
-                    color: "black",
-                  }}
-                >
-                  <h6>{shopDetail.shopName}</h6>
-                  {/* <h6>
-                    <sub>Online:</sub>
-                  </h6> */}
-                </div>
-              </div>
-              {/* <div className="card-body-bottom d-xl-flex mt-2 justify-content-between d-none">
-                  <button className="btn btn-outline-light text-black">
-                    <img
-                      src="https://cdn-icons-png.flaticon.com/512/2097/2097705.png"
-                      className="icon-button"
-                    />
-                    Theo dõi
-                  </button>
-                  <button className="btn btn-outline-light text-black">
-                    <img
-                      src="https://cdn-icons-png.flaticon.com/512/589/589708.png"
-                      className="icon-button"
-                    />
-                    Chat
-                  </button>
-                </div> */}
-            </div>
-          </div>
           <div className="marketplace-credito-filter mt-2">
-            <b>DANH MỤC SHOP</b>
-            <div className="collection-filter_collection active">Quần áo</div>
-            <div className="collection-filter_collection">Quần áo</div>
-            {/* <div className="d-flex" style={{ borderBottom: "1px solid black" }}>
-             
-              <ul
-                class="nav nav-pills fex-column mb-3"
-                id="pills-tab"
-                role="tablist"
+            <b>TẤT CẢ DANH MỤC</b>
+            {categoriesList.map((item) => (
+              <div
+                className={
+                  name == item.categoryEngName
+                    ? "collection-filter_collection active"
+                    : "collection-filter_collection "
+                }
               >
-                <li class="nav-item" role="presentation">
-                  <button
-                    class="nav-link text-black"
-                    id="pills-home-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#pills-home"
-                    type="button"
-                    role="tab"
-                    aria-controls="pills-home"
-                    aria-selected="true"
-                  >
-                    Home
-                  </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button
-                    class="nav-link text-black"
-                    id="pills-profile-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#pills-profile"
-                    type="button"
-                    role="tab"
-                    aria-controls="pills-profile"
-                    aria-selected="false"
-                  >
-                    Profile
-                  </button>
-                </li>
-              </ul>
-            </div> */}
+                {item.categoryEngName}
+              </div>
+            ))}
           </div>
-          <div className="marketplace-credito-filter facet-filter mt-2">
+          {/* <div className="marketplace-credito-filter facet-filter mt-2">
             <b>THEO DANH MỤC</b>
             <div class="form-check products-checkbox-filter pt-2">
               <input
@@ -216,7 +151,7 @@ function ProductList() {
                 Quần Áo Nam
               </label>
             </div>
-          </div>
+          </div> */}
           <div className="marketplace-credito-filter location-filter mt-2">
             <b>NƠI BÁN</b>
             <div class="form-check products-checkbox-filter pt-2">
@@ -335,7 +270,7 @@ function ProductList() {
           <div className="marketplace-credito-filter rate-filter  mt-2">
             <b>ĐÁNH GIÁ</b>
             <div>
-              <button className="btn rate-button 5-star">
+              <button className="btn rate-button 5-star d-flex flex-row justify-content-start">
                 <img
                   className="sort-star-img"
                   src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png"
@@ -362,7 +297,7 @@ function ProductList() {
                   alt=""
                 />
               </button>
-              <button className="btn rate-button 4-star">
+              <button className="btn rate-button 4-star d-flex flex-row justify-content-start">
                 <img
                   className="sort-star-img"
                   src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png"
@@ -384,7 +319,7 @@ function ProductList() {
                   alt=""
                 />
               </button>
-              <button className="btn rate-button 3-star">
+              <button className="btn rate-button 3-star d-flex flex-row justify-content-start">
                 <img
                   className="sort-star-img"
                   src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png"
@@ -401,7 +336,7 @@ function ProductList() {
                   alt=""
                 />
               </button>
-              <button className="btn rate-button 2-star">
+              <button className="btn rate-button 2-star d-flex flex-row justify-content-start">
                 <img
                   className="sort-star-img"
                   src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png"
@@ -413,7 +348,7 @@ function ProductList() {
                   alt=""
                 />
               </button>
-              <button className="btn rate-button 1-star">
+              <button className="btn rate-button 1-star d-flex flex-row justify-content-start">
                 <img
                   className="sort-star-img"
                   src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png"
@@ -526,4 +461,4 @@ function ProductList() {
   );
 }
 
-export default ProductList;
+export default ProductListCategory;

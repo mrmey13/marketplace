@@ -26,6 +26,8 @@ import ProductDetail from "./ProductList/ProductDetail";
 import MyAccount from "./MyAccount/MyAccount";
 
 import HomePage from "./HomePage/HomePage";
+import ProductListHomePage from "./HomePage/ProductListHomePage";
+import ProductListCategory from "./HomePage/ProductListCategory";
 import EditProduct from "./Product/EditProduct";
 
 const styles = (theme) => ({
@@ -35,14 +37,18 @@ const styles = (theme) => ({
 });
 
 export class AppRoute extends Component {
-  
   render(props) {
     const { t, i18n } = this.props;
     return (
       <ToastProvider autoDismissTimeout={5000} placement="bottom-center">
-        <Route exact path="/" component={() => DashboardArea(t, i18n)} />
+        <Route exact path="/" component={() => HomePage(t, i18n)} />
         <Route exact path="/shop_view" component={() => ShopView(t, i18n)} />
         <Route exact path="/products" component={() => ProductList(t, i18n)} />
+        <Route
+          exact
+          path="/category/:name/:id"
+          component={() => ProductListCategory(t, i18n)}
+        />
         <Route
           // exact
           path="/shop/profile"
@@ -60,11 +66,7 @@ export class AppRoute extends Component {
           component={() => ProductDetail(t, i18n)}
         />
 
-        <Route
-          exact
-          path="/my_account"
-          component={() => MyAccount(t, i18n)}
-        />
+        <Route exact path="/my_account" component={() => MyAccount(t, i18n)} />
 
         {/* Product */}
         <Route exact path="/product/new" component={CreateProduct} />
@@ -100,7 +102,7 @@ const DashboardArea = (t, i18n) => (
   <div>
     <Typography component="div" className={styles.tableContainer}>
       {/* E-Training Home */}
-      {t("app_route.dashboard")}
+      {/* {t("app_route.dashboard")} */}
       <HomePage />
     </Typography>
   </div>

@@ -55,44 +55,54 @@ const formatData = (variationArray, inventoryArray) => {
 
 const SalesInformation = ({ form, onChangeData,
 	variationArray, setVariationArray,
-	inventoryArray, setInventoryArray }) => {
+	inventoryArray, setInventoryArray, salesData }) => {
 
-	let { level1Attribute, level1, level2Attribute, level2Options, level2 } = formatData(variationArray, inventoryArray);
-	console.log("level1Attrbute", level1Attribute);
-	console.log("level1", level1);
-	console.log("level2Attrbute", level2Attribute);
-	console.log("level2Options", level2Options);
-	console.log("level2", level2);
+	// let { level1Attribute, level1, level2Attribute, level2Options, level2 } = formatData(variationArray, inventoryArray);
+	let { level1Attribute, level1, level2Attribute, level2Options, level2 } = salesData;
+	// console.log("level1Attrbute", level1Attribute ? level1Attribute : "");
+	// console.log("level1", level1);
+	// console.log("level2Attrbute", level2Attribute);
+	// console.log("level2Options", level2Options);
+	// console.log("level2", level2);
 
 	const [autoPrice, setAutoPrice] = useState(0);
 	const [autoInventoryCount, setAutoInventoryCount] = useState(0);
 	const [autoSKU, setAutoSKU] = useState("");
 	const { t, i18n } = useTranslation();
 
-	const [Attribute1, setAttribute1] = useState("");
-	const [Attribute2, setAttribute2] = useState("");
 	const [hidden1, sethidden1] = useState(false);
 	const [hidden2, sethidden2] = useState(false);
+
+	const [Attribute1, setAttribute1] = useState("");
+	const [Attribute2, setAttribute2] = useState("");
+
 	const [ValueList1, setValueList1] = useState([""]);
 	const [ValueList2, setValueList2] = useState([]);
 	const [inputList, setInputList] = useState([{ valueName: "", price: 0, inventoryCount: 0, sku: "" }]);
-	// const [inputList2, setInputList2] = useState([{ valueName1: "", valueName2: "", price: 0, inventoryCount: 0, sku: "" }]);
 	const [inputList2, setInputList2] = useState([]);
 
 	console.log("inputList", inputList);
 
 	useEffect(() => {
-		let { level1Attribute, level1, level2Attribute, level2Options, level2 } = formatData(variationArray, inventoryArray);
-		console.log("level1Attribute", level1Attribute);
+		// let { level1Attribute, level1, level2Attribute, level2Options, level2 } = formatData(variationArray, inventoryArray);
+		// console.log("level1Attribute", level1Attribute);
 		console.log("level1", level1);
-		console.log("level2Attribute", level2Attribute);
-		console.log("level2Options", level2Options);
+		// console.log("level2Attribute", level2Attribute);
+		// console.log("level2Options", level2Options);
 		console.log("level2", level2);
-		setAttribute1(level1Attribute);
-		setAttribute2(level2Attribute);
-		sethidden1(level1 == null);
-		sethidden2(level2 == null);
-	}, [])
+		setAttribute1(level1Attribute || "");
+		setAttribute2(level2Attribute || "");
+		sethidden1(level1 != null);
+		sethidden2(level2 != null);
+		if (level1 != null) {
+			setInputList(level1);
+		}
+		if (level2 != null) {
+			setValueList2(level2Options);
+			setInputList2(level2);
+		}
+
+	}, [salesData])
 
 	const handleInputChangeLevel1 = (e, idx) => {
 		console.log("ADD TO inputList");
@@ -297,7 +307,7 @@ const SalesInformation = ({ form, onChangeData,
 	}
 
 	return <div className="card card-body mb-3 shadow">
-		<h5>SalesInformation</h5>
+		<h5>SalesInformation {level1Attribute} {level2Attribute}</h5>
 		<div className="row">
 			<div className="row mb-2" hidden={hidden1}>
 				<label className="col-3 form-label text-muted text-end" for="product-price">* Product Price</label>

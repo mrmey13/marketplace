@@ -59,7 +59,6 @@ const MyAddresses = ({ t, i18n }) => {
     district: 0,
     ward: 0,
     detailAddress: "",
-    type: [],
     defaultAddress: false,
     pickupAddress: false,
     returnAddress: false,
@@ -79,7 +78,6 @@ const MyAddresses = ({ t, i18n }) => {
       district: 0,
       ward: 0,
       detailAddress: "",
-      type: [],
       defaultAddress: false,
       pickupAddress: false,
       returnAddress: false,
@@ -124,7 +122,16 @@ const MyAddresses = ({ t, i18n }) => {
   };
 
   const handleConfirmAddClick = async () => {
-    setModalForm({ ...modalForm, type: "" });
+    if (!modalForm.fullname || !modalForm.telephone || !modalForm.detailAddress) {
+      setResponseMessage({ type: "warning", content: "Please fill in empty fields" });
+      setOpenMessage(true);
+      return;
+    }
+    if (!modalForm.city || !modalForm.district || !modalForm.ward) {
+      setResponseMessage({ type: "warning", content: "Please select your address" });
+      setOpenMessage(true);
+      return;
+    }
     try {
       const response = await axios({
         method: "post",
@@ -144,8 +151,8 @@ const MyAddresses = ({ t, i18n }) => {
           latitude: modalForm.latitude
         }
       });
-      console.log(response.data);
-      console.log("modalForm", modalForm);
+      // console.log(response.data);
+      // console.log("modalForm", modalForm);
       if (response.data.error_desc === "Success") {
         loadAddressesData();
         setResponseMessage({ type: "success", content: "Create Success!" });
@@ -168,7 +175,6 @@ const MyAddresses = ({ t, i18n }) => {
       district: item.districtId,
       ward: item.communeId,
       detailAddress: item.fullAddress,
-      type: [], // can chinh here
       defaultAddress: item.isDefault,
       pickupAddress: item.isPickUp,
       returnAddress: item.isReturn,
@@ -180,6 +186,16 @@ const MyAddresses = ({ t, i18n }) => {
   };
 
   const handleConfirmModClick = async () => {
+    if (!modalForm.fullname || !modalForm.telephone || !modalForm.detailAddress) {
+      setResponseMessage({ type: "warning", content: "Please fill in empty fields" });
+      setOpenMessage(true);
+      return;
+    }
+    if (!modalForm.city || !modalForm.district || !modalForm.ward) {
+      setResponseMessage({ type: "warning", content: "Please select your address" });
+      setOpenMessage(true);
+      return;
+    }
     try {
       const response = await axios({
         method: "post",
@@ -200,8 +216,8 @@ const MyAddresses = ({ t, i18n }) => {
           latitude: modalForm.latitude
         }
       });
-      console.log(response.data);
-      console.log("modalForm", modalForm);
+      // console.log(response.data);
+      // console.log("modalForm", modalForm);
       if (response.data.error_desc === "Success") {
         loadAddressesData();
         setResponseMessage({ type: "success", content: "Edit Success!" });
@@ -230,7 +246,7 @@ const MyAddresses = ({ t, i18n }) => {
           Authorization: localStorage.getItem(cs.System_Code + "-token")
         }
       });
-      console.log(response.data);
+      // console.log(response.data);
       if (response.data.error_desc === "Success") {
         loadAddressesData();
         setResponseMessage({ type: "success", content: "Delete Success!" });
@@ -259,7 +275,7 @@ const MyAddresses = ({ t, i18n }) => {
           Authorization: localStorage.getItem(cs.System_Code + "-token")
         }
       });
-      console.log("addresses", response.data);
+      // console.log("addresses", response.data);
       setAddressList(response.data.data);
     } catch (error) {
       console.log(error);
@@ -341,7 +357,7 @@ const MyAddresses = ({ t, i18n }) => {
     <ThemeContext.Consumer>
       {({ isDark }) => {
         return <div className="container-fluid w-80vw minw-80em my-3">
-          <div className="card card-body d-flex flex-row">
+          <div className="card card-body d-flex flex-row shadow">
             <div className="p-3" style={{ width: "75%" }}>
               <h4 className="fw-bold">My Addresses</h4>
               <p className="text-muted">Manage your shipping and pickup addresses </p>
@@ -355,7 +371,7 @@ const MyAddresses = ({ t, i18n }) => {
               </button>
             </div>
           </div>
-          <div className="card pb-2">
+          <div className="card pb-2 shadow">
             {addressList.map(item => {
               return <div className="card-body row">
                 <div className="col-1 text-end">

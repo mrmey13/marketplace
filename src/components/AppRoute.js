@@ -20,6 +20,9 @@ import MyAddresses from "./settings/MyAdresses";
 import CreateProduct from "./Product/CreateProduct";
 import ProductList from "./ProductList/ProductList";
 import ProductCategory from "./ProductCategory/ProductCategory";
+import ApproveProduct from './AllProducts/ApproveProduct';
+import Attribute from "./Administration/AttributeManage/Attribute";
+import AttributeManage from "./Administration/AttributeManage/AttributeManage";
 import AllProducts from "./AllProducts/AllProducts";
 import SellerProducts from "./SellerProducts/SellerProducts";
 import ProductDetail from "./ProductList/ProductDetail";
@@ -67,6 +70,10 @@ export class AppRoute extends Component {
         />
 
         <Route exact path="/my_account" component={() => MyAccount(t, i18n)} />
+
+        {/* Administration */}
+        <Route exact path="/attribute/list" component={Attribute} />
+        <Route exact path="/attribute/config" component={AttributeManage} />
 
         {/* Product */}
         <Route exact path="/product/new" component={CreateProduct} />

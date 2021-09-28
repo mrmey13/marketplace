@@ -33,6 +33,56 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const formatData = (variationArray, inventoryArray) => {
+  let level1 = null;
+  let level1Attribute = null;
+  let level2 = null;
+  let level2Options = null;
+  let level2Attribute = null;
+
+  if (variationArray) {
+    if (variationArray.length == 1) {
+      level1Attribute = variationArray[0].name;
+      level1 = inventoryArray.map((e, i) => ({
+        valueName: e.variationName || "",
+        price: e.price || 0,
+        inventoryCount: e.inventoryCount || 0,
+        sku: e.sku || ""
+      }));
+    }
+
+    if (variationArray.length == 2) {
+      level1Attribute = variationArray[0].name;
+      level2Attribute = variationArray[1].name;
+      console.log("HERE", variationArray[0].options);
+      level1 = variationArray[0].options.map((e, i) => ({
+        valueName: e.optionValue || "",
+        price: 0,
+        inventoryCount: 0,
+        sku: ""
+      }))
+      // level1 = inventoryArray.map((e, i) => ({
+      // 	valueName: e.variationName.split("_")[0],
+      // 	price: 0,
+      // 	inventoryCount: 0,
+      // 	sku: ""
+      // }))
+      level2Options = variationArray[1].options.map((e, i) => ({ valueName: e.optionValue }))
+      level2 = inventoryArray.map((e, i) => {
+        return ({
+          valueName1: e.variationName.split("_")[0] || "",
+          valueName2: e.variationName.split("_")[1] || "",
+          price: e.price || 0,
+          inventoryCount: e.inventoryCount || 0,
+          sku: e.sku || ""
+        });
+      })
+    }
+  }
+
+  return { level1Attribute, level1, level2Attribute, level2Options, level2 };
+}
+
 const CreateProduct = (props) => {
 
   const classes = useStyles();
@@ -132,41 +182,10 @@ const CreateProduct = (props) => {
     console.log("variationArray", variationArray);
     console.log("inventoryArray", inventoryArray);
     //error mess
-    try {
-      const response = await axios({
-        method: "post",
-        url: `http://192.168.1.127:9555/api/seller/product/create`,
-        headers: {
-          Authorization: localStorage.getItem(cs.System_Code + '-token'),
-        },
-        data: {
-          categoryId: form.categoryId,
-          name: form.name,
-          description: form.description,
-          price: form.price,
-          inventoryCount: form.inventoryCount,
-          weight: form.weight,
-          width: form.width,
-          height: form.height,
-          depth: form.depth,
-          isPreorderedProduct: form.isPreorderedProduct,
-          isNewProduct: form.isNewProduct,
-          videoYoutubeURL: form.videoUrl,
-        }
-      })
-      console.log(response.data);
-      if (response.data.error_desc === "Success") {
-        let productId = response.data.data.productId;
-        saveCoverImage(productId);
-        saveImages(productId);
-        editVariationURL(productId);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    editVariation(productId)
   }
 
-  const editVariationURL = async (productId) => {
+  const editVariation = async (productId) => {
     let requestBody = {
       productId,
       variationArray,
@@ -245,7 +264,28 @@ const CreateProduct = (props) => {
     });
     console.log(response.data.data);
     let data = response.data.data;
+    // let tmp = {
+    //   categoryId: "",
+    //   categoryPath: "",
+    //   name: item.productName,
+    //   description: "",
+    //   price: 1000,
+    //   inventoryCount: 10,
+    //   weight: 1,
+    //   width: 2,
+    //   height: 3,
+    //   depth: 4,
+    //   isPreorderedProduct: 1,
+    //   isNewProduct: 1,
+    //   videoUrl: "",
+    //   imgFile: [],
+    //   imgFileUrl: [],
+    //   videoFile: {},
+    // };
     let tmp = {...form};
+    tmp.name = data.productName;
+    tmp.description = data.productDescription;
+    setForm(tmp);
     console.log(tmp);
     setVariationArray(data.variationArray);
     setInventoryArray(data.inventoryArray);
@@ -272,6 +312,7 @@ const CreateProduct = (props) => {
         inventoryArray={inventoryArray}
         setVariationArray={setVariationArray}
         setInventoryArray={setInventoryArray}
+        salesData={formatData(variationArray, inventoryArray)}
       />
       <Shipping />
       <Others />

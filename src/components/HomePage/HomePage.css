@@ -1,0 +1,26 @@
+body{
+    --height-category: 370px;
+}
+.categories-list-path{
+    align-items: center;
+}
+.start-path{
+    align-items: center;
+}
+.homepage-category-card:hover{
+    /* transform: scale(1.05, 1.05);
+    transition: transform 0.3s ease; */
+    background-color: #ffffef;
+}
+.btn-category {
+    font-size:40px;
+    width: 30px;
+    height: 60px;
+    padding-top: 20px;
+    /* margin-top: 50px ; */
+}
+.btn-category:hover {
+    /* transform: scale(1.05, 1.05);
+    transition: transform 0.3s ease; */
+    background-color: silver;
+}

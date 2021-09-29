@@ -70,7 +70,8 @@
             "contraband": "Hàng cấm",
             "violatesRules": "Vi phạm",
             "accepted": "Chấp nhận",
-            "notAccepted": "Không chấp nhận"
+            "notAccepted": "Không chấp nhận",
+            "soldout":"Hết hàng"
         }
     },
     "shop_settings": {

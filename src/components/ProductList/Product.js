@@ -17,7 +17,7 @@ function Product({ data, useFor }) {
       className={
         useFor == "bestseller"
           ? "product_container"
-          : "col-lg-2 col-sm-4 col-6 col-md-3 product_container"
+          : "col-2  product_container"
       }
     >
       <div

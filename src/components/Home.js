@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import "../components/ProductList/Product.css";
+import Color from "../theme/color";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { withStyles } from "@material-ui/core/styles";
@@ -62,6 +64,8 @@ const styles = (theme) => ({
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
     backgroundColor: color.tanhide,
+    display: "flex",
+    justifyContent: "space-between",
   },
   toolbarHeader: {
     display: "flex",
@@ -178,7 +182,6 @@ const NavbarTitle = ({ title }) => {
         color: "white",
         fontSize: "20px",
         width: "30px",
-        textAlign: "left",
       }}
       to="/"
     >
@@ -204,7 +207,7 @@ class Home extends React.Component {
     //this.loadData();
   }
 
-  loadData() { }
+  loadData() {}
   handleDrawerOpen = () => {
     this.setState({ open: true });
   };
@@ -267,10 +270,10 @@ class Home extends React.Component {
               className={classNames(
                 classes.appBar,
                 this.state.open &&
-                getRole() != cs.Role_Solo_Buyer &&
-                window.location.pathname != "/products" &&
-                // window.location.pathname != "/" &&
-                classes.appBarShift
+                  getRole() != cs.Role_Solo_Buyer &&
+                  window.location.pathname != "/products" &&
+                  !window.location.pathname.includes("/product_detail") &&
+                  classes.appBarShift
               )}
             >
               <Toolbar
@@ -289,7 +292,71 @@ class Home extends React.Component {
                   <MenuIcon />
                 </IconButton>
 
-                <NavbarTitle title={"MARKETPLACE"} />
+                {/* <NavbarTitle title={"MARKETPLACE"} /> */}
+                <div>
+                  <Link
+                    to="/"
+                    style={{
+                      textDecoration: "none",
+                      color: "white",
+                      fontSize: "20px",
+                    }}
+                  >
+                    MARKETPLACE
+                  </Link>
+                </div>
+                {getRole() == cs.Role_Solo_Buyer && (
+                  <form
+                    className="search-form d-flex "
+                    style={{ backgroundColor: "white", alignItems: "center" }}
+                  >
+                    <input
+                      className="form-control search-input"
+                      type="search"
+                      placeholder="Search"
+                      aria-label="Search"
+                      style={{ border: "none", width: "400px" }}
+                    />
+                    <button
+                      className="btn btn-light btn-search"
+                      style={{
+                        border: "none",
+                        fontSize: "20px",
+                        backgroundColor: Color.tanhide,
+                        margin: "2px",
+                        color: "white",
+                      }}
+                    >
+                      <ion-icon name="search-outline"></ion-icon>
+                    </button>
+                  </form>
+                )}
+                {getRole() == cs.Role_Solo_Buyer && (
+                  <div
+                    className="cart-button text-white"
+                    style={{
+                      fontSize: "35px",
+                      paddingTop: "15px",
+                      position: "relative",
+                    }}
+                  >
+                    <span
+                      class="position-absolute  start-100 translate-middle px-2 py-1 bg-danger border border-light"
+                      style={{
+                        fontSize: "10px",
+                        borderRadius: "5px",
+                        width: "fit-content",
+                        height: "fit-content",
+                        zIndex: 1,
+                        top: "40",
+                      }}
+                    >
+                      1
+                    </span>
+                    <ion-icon name="cart-outline"></ion-icon>
+                  </div>
+                )}
+
                 <div>
                   <Link
                     to="/"
@@ -319,7 +386,8 @@ class Home extends React.Component {
             </AppBar>
 
             {getRole() != cs.Role_Solo_Buyer &&
-              window.location.pathname != "/products" && (
+              window.location.pathname != "/products" &&
+              !window.location.pathname.includes("/product_detail") && (
                 <Drawer
                   variant="permanent"
                   classes={{
@@ -335,7 +403,7 @@ class Home extends React.Component {
                   <div className={classes.toolbarHeader}>
                     <Avatar
                       className={classes.avatar}
-                    // src={require("../img/LOGO-Credito.png")}
+                      // src={require("../img/LOGO-Credito.png")}
                     />
                     <Typography variant="body" className={classes.username}>
                       {username}

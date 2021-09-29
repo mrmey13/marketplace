@@ -191,7 +191,7 @@ class SellerProducts extends Component {
             currentTab
         } = this.state;
 
-        let productStatus = 0;
+        let productStatus = null;
 
         switch (currentTab) {
             case 'new':
@@ -215,16 +215,20 @@ class SellerProducts extends Component {
             case 'notAccepted':
                 productStatus = 10;
                 break;
+            case 'soldout':
+                productStatus = 20;
+                break;
             // case 'new':
             //     productStatus = 1;
             //     break;
             default:
-                productStatus = 0;
                 break;
         }
 
         let queryString = `${productListURL}?size=${pageSize}&page=${currentPage + 1}`;
-
+        if (productStatus) {
+            queryString += `&status=${productStatus}`;
+        }
         const columnSorting = sorting[0];
         // if (columnSorting) {
         //     queryString = `${queryString}&orderby=${columnSorting.columnName}`;
@@ -324,6 +328,111 @@ class SellerProducts extends Component {
 
         return (
             <div>
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "500px" }}>
+                    <Button
+                        className={this.state.currentTab === 'all' ? classes.tabBtnSelected : classes.tabBtn}
+
+                        variant={"contained"}
+                        // component={Link} to="/product/all"
+                        onClick={() => { window.location.href = "/seller-product-list/all"; }}
+                    >
+                        {t("all_products.tabs.all")}
+                    </Button>
+                    {/* <Button
+                                className={this.state.currentTab === 'new' ? classes.tabBtnSelected : classes.tabBtn}
+
+                                variant={"contained"}
+                                // component={Link} to="/product/new"
+                                onClick={() => { window.location.href = "/seller-product-list/new"; }}
+                            >
+                                {t("all_products.tabs.new")}
+                            </Button>
+                            <Button
+                                className={this.state.currentTab === 'justChanged' ? classes.tabBtnSelected : classes.tabBtn}
+
+                                variant={"contained"}
+                                onClick={() => { window.location.href = "/seller-product-list/justChanged"; }}
+                            >
+                                {t("all_products.tabs.justChanged")}
+                            </Button> */}
+                    {/* <Button
+                                className={this.state.currentTab === 'deleted' ? classes.tabBtnSelected : classes.tabBtn}
+
+                                variant={"contained"}
+                                onClick={() => { window.location.href = "/seller-product-list/deleted"; }}
+                            >
+                                {t("all_products.tabs.deleted")}
+                            </Button> */}
+                    {/* <Button
+                                className={this.state.currentTab === 'contraband' ? classes.tabBtnSelected : classes.tabBtn}
+
+                                variant={"contained"}
+                                onClick={() => { window.location.href = "/seller-product-list/contraband"; }}
+                            >
+                                {t("all_products.tabs.contraband")}
+                            </Button> */}
+                    <Button
+                        className={this.state.currentTab === 'violatesRules' ? classes.tabBtnSelected : classes.tabBtn}
+
+                        variant={"contained"}
+                        onClick={() => { window.location.href = "/seller-product-list/violatesRules"; }}
+                    >
+                        {t("all_products.tabs.violatesRules")}
+                    </Button>
+                    <Button
+                        className={this.state.currentTab === 'accepted' ? classes.tabBtnSelected : classes.tabBtn}
+
+                        variant={"contained"}
+                        onClick={() => { window.location.href = "/seller-product-list/accepted"; }}
+                    >
+                        {t("all_products.tabs.accepted")}
+                    </Button>
+                    <Button
+                        className={this.state.currentTab === 'soldout' ? classes.tabBtnSelected : classes.tabBtn}
+                        // component={Link} to="/product/soldout"
+                        onClick={() => { window.location.href = "/seller-product-list/soldout"; }}
+                    >
+                        {t("all_products.tabs.soldout")}
+                    </Button>
+                    {/* <Button
+                                className={this.state.currentTab === 'notAccepted' ? classes.tabBtnSelected : classes.tabBtn}
+
+                                variant={"contained"}
+                                onClick={() => { window.location.href = "/seller-product-list/notAccepted"; }}
+                            >
+                                {t("all_products.tabs.notAccepted")}
+                            </Button> */}
+                    {/* <Button
+                                className={this.state.currentTab === 'active' ? classes.tabBtnSelected : classes.tabBtn}
+                                // component={Link} to="/product/active"
+                                onClick={() => { window.location.href = "/seller-product-list/active"; }}
+                            >
+                                Đang hoạt động
+                            </Button>
+                            <Button
+                                className={this.state.currentTab === 'soldout' ? classes.tabBtnSelected : classes.tabBtn}
+                                // component={Link} to="/product/soldout"
+                                onClick={() => { window.location.href = "/seller-product-list/soldout"; }}
+                            >
+                                Hết hàng
+                            </Button>
+                            <Button
+                                className={this.state.currentTab === 'banned' ? classes.tabBtnSelected : classes.tabBtn}
+                                // component={Link} to="/product/banned"
+                                onClick={() => { window.location.href = "/seller-product-list/banned"; }}
+                            >
+                                Vi phạm
+                            </Button>
+                            <Button
+                                className={this.state.currentTab === 'unlisted' ? classes.tabBtnSelected : classes.tabBtn}
+                                // component={Link} to="/product/unlisted"
+                                onClick={() => { window.location.href = "/seller-product-list/unlisted"; }}
+                            >
+                                Đã ẩn
+                            </Button> */}
+                </div>
+
+
                 <div>
                     <DataTable
                         rows={rows}
@@ -411,7 +520,7 @@ class ActionCell extends React.Component {
                             // to={`/course_lectures/${this.props.row.courseId}/edit/${this.props.row.lectureOrderNumber}`}
                             to={{
                                 pathname: `/product/edit/${this.props.row.productId}`,
-                                state: { previous: `/seller-product-list` }
+                                state: { previous: `/seller-product-list/all` }
                             }}
                         >
                             <Icon>edit</Icon>
@@ -449,7 +558,7 @@ class ActionCell extends React.Component {
                         }}
                         component={Link}
                         to={{
-                            pathname: `/product-list/${this.props.row.courseId}/delete/${this.props.row.testOrderNumber}`,
+                            pathname: `/seller-product-list/${this.props.row.courseId}/delete/${this.props.row.testOrderNumber}`,
                             state: { previous: `/course_exams/${this.props.row.courseId}` }
                         }}
                     >

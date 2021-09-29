@@ -90,8 +90,8 @@ export class AppRoute extends Component {
         />
 
         <Route
-          exact
-          path="/seller-product-list"
+          // exact
+          path="/seller-product-list/:type"
           component={() => SellerProductsArea(t, i18n)}
         />
 

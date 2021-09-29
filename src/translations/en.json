@@ -70,7 +70,8 @@
             "contraband": "Contraband",
             "violatesRules": "Violates Rules",
             "accepted": "Accepted",
-            "notAccepted": "Not Accepted"
+            "notAccepted": "Not Accepted",
+            "soldout":"Sold-out"
         }
     },
     "shop_settings": {

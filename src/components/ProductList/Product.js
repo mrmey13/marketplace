@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { Popover, Button, OverlayTrigger } from "react-bootstrap";
 import "./Product.css";
 import Color from "../../theme/color";
+import cs from "../../const";
 import { Link } from "react-router-dom";
+const mediaURL = cs.MediaURL + "/material";
 function Product({ data, useFor }) {
   const List = [
     "https://images.unsplash.com/photo-1521093470119-a3acdc43374a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80",
@@ -22,14 +24,18 @@ function Product({ data, useFor }) {
     >
       <div
         className="card-course"
-        style={useFor == "seller" ? { marginRight: "10px" } : null}
+        style={
+          useFor == "seller" || useFor == "buyer"
+            ? { marginRight: "10px" }
+            : null
+        }
       >
         <Link
           className="h5 text-dark fw-bold text-decoration-none stretched-link"
           to={
             useFor == "seller"
-              ? "/product_detail/" + data.productId
-              : "/product_detail"
+              ? "/seller" + "/product_detail/" + data.productId
+              : "/product_detail/" + data.productId
           }
         ></Link>
         <span
@@ -41,7 +47,11 @@ function Product({ data, useFor }) {
             <b>20%</b>
           </div>
         </span>
-        <img src={Statement} className="card-img-top" alt="..." />
+        <img
+          src={`${cs.MediaURL}/media/${data.productImageCover}`}
+          className="card-img-top"
+          alt="................."
+        />
         <div className="card-body">
           <div className="card-content">
             <div className="card-top">
@@ -55,9 +65,9 @@ function Product({ data, useFor }) {
               </button>
               <h6
                 className="card-title card-product-name"
-                style={{ fontSize: "14px" }}
+                style={{ fontSize: "14px", textTransform: "capitalize" }}
               >
-                Giày thể thao Nike mới nhất trong năm 2021 thanh vu dinh
+                {data.productName}
               </h6>
               {/* <div className="card-user">
                 <img
@@ -109,7 +119,7 @@ function Product({ data, useFor }) {
                       marginRight: "5px",
                     }}
                   >
-                    150000
+                    {data.price}
                     <sub
                       style={{
                         width: "fit-content",

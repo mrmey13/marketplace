@@ -332,28 +332,103 @@ class Home extends React.Component {
                   </form>
                 )}
                 {getRole() == cs.Role_Solo_Buyer && (
-                  <div
-                    className="cart-button text-white"
-                    style={{
-                      fontSize: "35px",
-                      paddingTop: "15px",
-                      position: "relative",
-                    }}
-                  >
-                    <span
-                      class="position-absolute  start-100 translate-middle px-2 py-1 bg-danger border border-light"
+                  <div className="dropdown">
+                    <button
+                      className="btn btn-outline-none bg-transparent cart-button text-white dropbtn"
                       style={{
-                        fontSize: "10px",
-                        borderRadius: "5px",
+                        fontSize: "35px",
+                        paddingTop: "15px",
+                        position: "relative",
                         width: "fit-content",
                         height: "fit-content",
-                        zIndex: 1,
-                        top: "40",
                       }}
                     >
-                      1
-                    </span>
-                    <ion-icon name="cart-outline"></ion-icon>
+                      <span
+                        class="position-absolute  start-25 translate-middle px-2 py-1 bg-danger border border-light"
+                        style={{
+                          fontSize: "10px",
+                          borderRadius: "5px",
+                          width: "fit-content",
+                          height: "fit-content",
+                          zIndex: 1,
+                          top: "40",
+                        }}
+                      >
+                        1
+                      </span>
+                      <ion-icon name="cart-outline"></ion-icon>
+                    </button>
+                    <div
+                      className="icon-popover"
+                      style={{
+                        fontSize: "30px",
+                        backgroundColor: "transparent",
+                      }}
+                    >
+                      <ion-icon name="caret-up-outline"></ion-icon>
+                    </div>
+                    <div class="dropdown-content">
+                      <div className="m-3">Sản Phẩm Mới Thêm</div>
+                      <Link
+                        class="d-flex align-items-center product-item-cart"
+                        to="/"
+                      >
+                        <div class="flex-shrink-0">
+                          <img
+                            style={{ width: "50px", height: "50px" }}
+                            src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80"
+                            alt="..."
+                          />
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                          This is some content from a media component.
+                        </div>
+                      </Link>
+                      <Link
+                        class="d-flex align-items-center product-item-cart"
+                        to="/aaa"
+                      >
+                        <div class="flex-shrink-0">
+                          <img
+                            style={{ width: "50px", height: "50px" }}
+                            src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80"
+                            alt="..."
+                          />
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                          This is some content from a media component.
+                        </div>
+                      </Link>
+                      <Link
+                        class="d-flex align-items-center product-item-cart"
+                        to="/aa"
+                      >
+                        <div class="flex-shrink-0">
+                          <img
+                            style={{ width: "50px", height: "50px" }}
+                            src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80"
+                            alt="..."
+                          />
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                          This is some content from a media component.
+                        </div>
+                      </Link>
+                      <div className="d-flex flex-row justify-content-end">
+                        <Button
+                          className="button-view-cart"
+                          component={Link}
+                          to="/a"
+                          style={{
+                            backgroundColor: Color.tanhide,
+                            margin: "10px",
+                          }}
+                        >
+                          {" "}
+                          Xem Giỏ Hàng{" "}
+                        </Button>
+                      </div>
+                    </div>
                   </div>
                 )}
 

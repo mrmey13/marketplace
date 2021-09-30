@@ -9,7 +9,7 @@ const URL = cs.BaseURL + "/api/seller/shop/detail";
 const Seller_product_detail = cs.BaseURL + "/api/seller/product/detail";
 const Buyer_product_detail = cs.BaseURL + "/api/buyer/product/detail";
 const mediaURL = cs.MediaURL + "/media/";
-function ProductDetail() {
+function ShopProductDetail() {
   const { productId } = useParams();
   // console.log("productId", productId);
   const [quantityProduct, setQuantityProduct] = useState(1);
@@ -23,13 +23,7 @@ function ProductDetail() {
   const [buttonRateState, setButtonRateState] = useState("all");
   const [introImage, setIntroImage] = useState("");
   const [firstImage, setFirstImage] = useState("");
-  const [productImage, setProductImage] = useState([
-    { path: "", id: 0 },
-    { path: "", id: 0 },
-    { path: "", id: 0 },
-    { path: "", id: 0 },
-    { path: "", id: 0 },
-  ]);
+  const [productImage, setProductImage] = useState([{ path: "", id: 0 }]);
 
   const [imagesPerPage, setimagesPerPage] = useState(4);
   const [curPage, setCurPage] = useState(1);
@@ -80,7 +74,7 @@ function ProductDetail() {
   const loadProductDetail = async (conditions) => {
     const response = await axios({
       method: "get",
-      url: `http://192.168.1.127:9555/api/buyer/product/detail?productId=${productId}`,
+      url: `http://192.168.1.127:9555/api/seller/product/detail?productId=${productId}`,
       headers: {
         Authorization: localStorage.getItem(cs.System_Code + "-token"),
       },
@@ -181,7 +175,7 @@ function ProductDetail() {
                 <button
                   class={
                     curPage == 1
-                      ? "btn btn-category visually-hidden category-next"
+                      ? "btn btn-category opacity-0 category-next"
                       : "btn btn-category category-next"
                   }
                   type="button"
@@ -244,7 +238,7 @@ function ProductDetail() {
               <button
                 class={
                   curPage == Math.ceil(productImage.length / imagesPerPage)
-                    ? "btn btn-category visually-hidden category-next "
+                    ? "btn btn-category opacity-0 category-next "
                     : "btn btn-category category-next "
                 }
                 type="button"
@@ -849,4 +843,4 @@ function ProductDetail() {
   );
 }
 
-export default ProductDetail;
+export default ShopProductDetail;

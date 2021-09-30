@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import Product from "../ProductList/Product";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import cs from "../../const";
+const URL = cs.BaseURL + "/api/buyer/product/list";
 function ProductListHomePage() {
   const [listType, setListType] = useState(1);
   const [productList, setProductList] = useState([]);
   const loadProductList = async (conditions) => {
     const response = await axios({
       method: "post",
-      url: `http://192.168.1.127:9555/api/buyer/product/list`,
+      url: `${URL}`,
       //   headers: {
       //     Authorization: localStorage.getItem(cs.System_Code + "-token"),
       //   },
@@ -76,7 +78,7 @@ function ProductListHomePage() {
           style={{ minWidth: "1320px" }}
         >
           {productList.map((item) => (
-            <Product useFor="none" />
+            <Product useFor="buyer" data={item} />
           ))}
         </div>
       </div>

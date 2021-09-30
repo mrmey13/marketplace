@@ -240,7 +240,7 @@ function ShopView() {
                 ? "btn btn-outline-none tab-button active-tab"
                 : "btn btn-outline-none tab-button"
             }
-            href="/products"
+            href="/seller/products"
             onClick={() => setTab(2)}
             // style={
             //   tab == 2

@@ -5,7 +5,6 @@ import cs from "../../../const";
 import { makeStyles, Snackbar } from "@material-ui/core";
 import Modal from "@material-ui/core/Snackbar";
 
-const http = 0;
 const getAttributeDataUrl = cs.BaseURL + "/api/manager/attribute/list?";
 const createAttributeUrl = cs.BaseURL + "/api/manager/attribute/create";
 const editAttributeUrl = cs.BaseURL + "/api/manager/attribute/edit";
@@ -14,6 +13,9 @@ const getAttributeValueDataUrl = cs.BaseURL + "/api/manager/attribute-option/lis
 const addAttributeValueUrl = cs.BaseURL + "/api/manager/attribute-option/create";
 const editAttributeValueUrl = cs.BaseURL + "/api/manager/attribute-option/edit";
 const deleteAttributeValueUrl = cs.BaseURL + "/api/manager/attribute-option/delete?";
+const addCategoryAttributeUrl = cs.BaseURL + "/api/manager/category-attribute/create";
+const editCategoryAttributeUrl = cs.BaseURL + "/api/manager/category-attribute/edit";
+const deleteCategoryAttributeUrl = cs.BaseURL + "/api/manager/category-attribute/delete?";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -173,6 +175,7 @@ const AttributeManage = ({ t, i18n, history }) => {
       loadAttributeData={loadAttributeData}
     />}
     {tab === "apply" && <Apply
+      attributeList={attributeList}
       handleOpenMessage={handleOpenMessage}
     />}
 
@@ -761,13 +764,407 @@ const Delete = ({ form, resetData, attributeList, onChangeData, loadAttributeDat
   </div>
 }
 
-const Apply = ({ }) => {
+const Apply = ({ attributeList, handleOpenMessage }) => {
+
+  const classes = useStyles();
+
+  const [modalForm, setModalForm] = useState({
+    categoryId: "",
+    categoryAttributeId: "",
+    attributeId: ""
+  });
+  const [reqType, setReqType] = useState("");
+  const [openModal, setOpenModal] = useState(false);
+  const onChangeForm = (event) => {
+    setModalForm({ ...modalForm, [event.target.name]: event.target.value });
+  }
+  const handleCloseModal = () => {
+    setModalForm({ ...modalForm, attributeId: "", categoryAttributeId: "" });
+    setOpenModal(false);
+  }
+  const handleAddClick = () => {
+    setReqType("add");
+    setOpenModal(true);
+  }
+
+  const handleConfirmAddClick = async () => {
+    try {
+      const response = await axios({
+        method: "post",
+        url: `${addCategoryAttributeUrl}`,
+        headers: {
+          Authorization: localStorage.getItem(cs.System_Code + "-token"),
+        },
+        data: {
+          categoryId: modalForm.categoryId,
+          attributeId: modalForm.attributeId
+        }
+      });
+      // console.log(response.data)
+      if (response.data.error_desc === "Success") {
+        handleOpenMessage("success", "Add success");
+        // setModalForm({ ...modalForm, attributeId: "", categoryAttributeId: "" });
+        loadAttributeOfCategoryData();
+        handleCloseModal();
+      } else {
+        handleOpenMessage("error", response.data.error_desc)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleEditClick = (item) => {
+    setModalForm({ ...modalForm, categoryAttributeId: item.categoryAttributeId })
+    setReqType("edit");
+    setOpenModal(true);
+  }
+
+  const handleConfirmEditClick = async () => {
+    try {
+      const response = await axios({
+        method: "post",
+        url: `${editCategoryAttributeUrl}`,
+        headers: {
+          Authorization: localStorage.getItem(cs.System_Code + "-token"),
+        },
+        data: {
+          categoryAttributeId: modalForm.categoryAttributeId,
+          attributeId: modalForm.attributeId
+        }
+      });
+      // console.log(response.data);
+      if (response.data.error_desc === "Success") {
+        handleOpenMessage("success", "Edit success");
+        // setModalForm({ ...modalForm, attributeId: "", categoryAttributeId: "" });
+        loadAttributeOfCategoryData();
+        handleCloseModal();
+      } else {
+        handleOpenMessage("error", response.data.error_desc)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleDelClick = (item) => {
+    setModalForm({ ...modalForm, categoryAttributeId: item.categoryAttributeId })
+    setReqType("delete");
+    setOpenModal(true);
+  }
+
+  const handleConfirmDelClick = async () => {
+    try {
+      const response = await axios({
+        method: "get",
+        url: `${deleteCategoryAttributeUrl}categoryAttributeId=${modalForm.categoryAttributeId}`,
+        headers: {
+          Authorization: localStorage.getItem(cs.System_Code + "-token"),
+        }
+      });
+      // console.log(response.data)
+      if (response.data.error_desc === "Success") {
+        handleOpenMessage("success", "Delete success");
+        // setModalForm({ ...modalForm, attributeId: "", categoryAttributeId: "" });
+        loadAttributeOfCategoryData();
+        handleCloseModal();
+      } else {
+        handleOpenMessage("error", response.data.error_desc)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const [categoryList, setCategoryList] = useState([]);
+  const [attributeListOfCategory, setAttributeListOfCategory] = useState([]);
+
+
+  const loadCategoryData = async () => {
+    try {
+      const response = await axios({
+        method: "get",
+        url: `http://192.168.1.127:9555/api/common/product/category/list?categoryLevel=0&hasNoChild=true`,
+        headers: {
+          Authorization: localStorage.getItem(cs.System_Code + "-token"),
+        }
+      });
+      // console.log("cate-nochild", response.data);
+      setCategoryList(response.data.data);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const loadAttributeOfCategoryData = async () => {
+    try {
+      const response = await axios({
+        method: "get",
+        url: `http://192.168.1.127:9555/api/manager/category-attribute/list?categoryId=${modalForm.categoryId}&page=0&size=0`,
+        headers: {
+          Authorization: localStorage.getItem(cs.System_Code + "-token"),
+        }
+      })
+      // console.log(response.data);
+      setAttributeListOfCategory(response.data.data);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    loadCategoryData();
+    loadAttributeOfCategoryData();
+  }, [modalForm.categoryId])
+
   return <div className="card card-body d-flex flex-row shadow">
     <div className="container-fluid">
       <div className="row mb-2">
         <h4>Apply Attribute</h4>
       </div>
+      <div className="row mb-2">
+        <label className="col-2" for="categoryId">Category</label>
+        <div className="col-10">
+          <select
+            className="form-control"
+            id="categoryId"
+            name="categoryId"
+            value={modalForm.categoryId}
+            onChange={onChangeForm}
+          >
+            <option value={""}>Select category</option>
+            {categoryList.map(item => <option value={item.categoryId}>{item.categoryEngName}</option>)}
+          </select>
+        </div>
+      </div>
+      {
+        !modalForm.categoryId && <div className="mt-5 mb-3 text-center">Please select category</div>
+      }
+      {
+        modalForm.categoryId && <div>
+          <table className="table table-sm table-striped table-hover">
+            <thead
+              className="text-white"
+              style={{
+                backgroundColor: "#F69756",
+                fontSize: "15px",
+                color: "black",
+              }}
+            >
+              <tr>
+                <th className="" style={{ width: "5%" }} scope="col">#</th>
+                <th className="">attributeEngName</th>
+                <th className="">attributeVieName</th>
+                <th className="" style={{ width: "5%" }} scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {attributeListOfCategory.map((item, index) => <tr key={item}>
+                <td>{index + 1}</td>
+                <td>{item.attributeEngName}</td>
+                <td>{item.attributeViName}</td>
+                <td className="d-flex flex-column align-items-start">
+                  <button
+                    className="p-0 btn btn-sm text-end link-btn"
+                    onClick={() => {
+                      handleEditClick(item);
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="p-0 btn btn-sm text-end link-btn"
+                    onClick={() => {
+                      handleDelClick(item);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+              )}
+              <tr>
+                <td colSpan={5} className="text-center">
+                  <button
+                    className="p-0 btn btn-sm link-btn"
+                    style={{ width: "100%" }}
+                    onClick={() => {
+                      handleAddClick()
+                    }}
+                  >
+                    Add attribute
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      }
     </div>
+
+    <Modal
+      style={{ top: 0 }}
+      open={openModal}
+      onClose={handleCloseModal}
+      aria-labelledby="simple-modal-title"
+      aria-describedby="simple-modal-description"
+    >
+      <div className={classes.paper}>
+        <h4 className="mb-4">
+          {reqType === "add" && "Add a new Attribute"}
+          {reqType === "edit" && "Edit Attribute of Category"}
+          {reqType === "delete" && "Delete Attribute of Category"}
+        </h4>
+        {reqType === "add" && <div>
+          <div className="row mb-2">
+            <label className="col-2" for="category-Id">Category</label>
+            <div className="col-10">
+              <select
+                className="form-control"
+                id="category-Id"
+                name="categoryId"
+                value={modalForm.categoryId}
+                onChange={onChangeForm}
+                disabled
+              >
+                <option value={""}>Select category</option>
+                {categoryList.map(item => <option value={item.categoryId}>{item.categoryEngName}</option>)}
+              </select>
+            </div>
+          </div>
+          <div className="row mb-2">
+            <label className="col-2" for="attribute-Id">Attribute</label>
+            <div className="col-10">
+              <select
+                className="form-control"
+                id="attribute-Id"
+                name="attributeId"
+                value={modalForm.attributeId}
+                onChange={onChangeForm}
+              >
+                <option value={""}>Select attribute</option>
+                {attributeList.map(item => <option value={item.attributeId}>{item.attributeEngName}</option>)}
+              </select>
+            </div>
+          </div>
+        </div>}
+        {reqType === "edit" && <div>
+          <div className="row mb-2">
+            <label className="col-2" for="category-Id">Category</label>
+            <div className="col-10">
+              <select
+                className="form-control"
+                id="category-Id"
+                name="categoryId"
+                value={modalForm.categoryId}
+                onChange={onChangeForm}
+                disabled
+              >
+                <option value={""}>Select category</option>
+                {categoryList.map(item => <option value={item.categoryId}>{item.categoryEngName}</option>)}
+              </select>
+            </div>
+          </div>
+          <div className="row mb-2">
+            <label className="col-2" for="categoryAttributeId-Id">Current Attribute</label>
+            <div className="col-10">
+              <select
+                className="form-control"
+                id="categoryAttributeId-Id"
+                name="categoryAttributeId"
+                value={modalForm.categoryAttributeId}
+                onChange={onChangeForm}
+              >
+                <option value={""}>Select attribute</option>
+                {attributeListOfCategory.map(item => <option value={item.categoryAttributeId}>{item.attributeEngName}</option>)}
+              </select>
+            </div>
+          </div>
+          <div className="row mb-2">
+            <label className="col-2" for="attribute-Id">New Attribute</label>
+            <div className="col-10">
+              <select
+                className="form-control"
+                id="attribute-Id"
+                name="attributeId"
+                value={modalForm.attributeId}
+                onChange={onChangeForm}
+              >
+                <option value={""}>Select attribute</option>
+                {attributeList.map(item => <option value={item.attributeId}>{item.attributeEngName}</option>)}
+              </select>
+            </div>
+          </div>
+        </div>}
+        {reqType === "delete" && <div>
+          <div className="row mb-2">
+            <label className="col-2" for="category-Id">Category</label>
+            <div className="col-10">
+              <select
+                className="form-control"
+                id="category-Id"
+                name="categoryId"
+                value={modalForm.categoryId}
+                onChange={onChangeForm}
+                disabled
+              >
+                <option value={""}>Select category</option>
+                {categoryList.map(item => <option value={item.categoryId}>{item.categoryEngName}</option>)}
+              </select>
+            </div>
+          </div>
+          <div className="row mb-2">
+            <label className="col-2" for="categoryAttributeId-Id">Attribute</label>
+            <div className="col-10">
+              <select
+                className="form-control"
+                id="categoryAttributeId-Id"
+                name="categoryAttributeId"
+                value={modalForm.categoryAttributeId}
+                onChange={onChangeForm}
+              >
+                <option value={""}>Select attribute</option>
+                {attributeListOfCategory.map(item => <option value={item.categoryAttributeId}>{item.attributeEngName}</option>)}
+              </select>
+            </div>
+          </div>
+        </div>}
+        <div className="d-flex justify-content-end">
+          {reqType === "add" && <button
+            type="button"
+            className="btn btn-sm btn-primary me-1"
+            style={{ width: "60px" }}
+            onClick={() => handleConfirmAddClick()}
+          >
+            {"Save"}
+          </button>}
+          {reqType === "edit" && <button
+            type="button"
+            className="btn btn-sm btn-primary me-1"
+            style={{ width: "60px" }}
+            onClick={() => handleConfirmEditClick()}
+          >
+            {"Save"}
+          </button>}
+          {reqType === "delete" && <button
+            type="button"
+            className="btn btn-sm btn-primary me-1"
+            style={{ width: "60px" }}
+            onClick={() => handleConfirmDelClick()}
+          >
+            {"Delete"}
+          </button>}
+          <button
+            type="button"
+            className="btn btn-sm btn-danger"
+            style={{ width: "60px" }}
+            onClick={handleCloseModal}
+          >
+            {"Cancel"}
+          </button>
+        </div>
+      </div>
+    </Modal>
   </div>
 }
 

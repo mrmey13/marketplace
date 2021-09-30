@@ -52,11 +52,11 @@ const product_menu = [
         icon: <LocalMall/>,
         title: 'nested_list.product_menu.title',
         items: [
-            // {
-            //     // icon: <Icon color="disable">shop</Icon>,
-            //     to: '/product-list/all',
-            //     title: 'nested_list.product_menu.all_products'
-            // },
+            {
+                // icon: <Icon color="disable">shop</Icon>,
+                to: '/seller-product-list/all',
+                title: 'nested_list.product_menu.all_products'
+            },
             {
                 // icon: <Icon color="disable">shop</Icon>,
                 to: '/product/category',

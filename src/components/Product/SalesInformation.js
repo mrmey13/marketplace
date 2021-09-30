@@ -24,7 +24,7 @@ const formatData = (variationArray, inventoryArray) => {
 		if (variationArray.length == 2) {
 			level1Attribute = variationArray[0].name;
 			level2Attribute = variationArray[1].name;
-			console.log("HERE", variationArray[0].options);
+			// console.log("HERE", variationArray[0].options);
 			level1 = variationArray[0].options.map((e, i) => ({
 				valueName: e.optionValue,
 				price: 0,
@@ -56,7 +56,7 @@ const formatData = (variationArray, inventoryArray) => {
 const SalesInformation = ({ form, onChangeData,
 	variationArray, setVariationArray,
 	inventoryArray, setInventoryArray, salesData }) => {
-
+	// console.log("salesData", salesData);
 	// let { level1Attribute, level1, level2Attribute, level2Options, level2 } = formatData(variationArray, inventoryArray);
 	// let { level1Attribute, level1, level2Attribute, level2Options, level2 } = {
 	// 	...salesData,
@@ -94,27 +94,36 @@ const SalesInformation = ({ form, onChangeData,
 	const [inputList, setInputList] = useState([{ valueName: "", price: 0, inventoryCount: 0, sku: "" }]);
 	const [inputList2, setInputList2] = useState([]);
 
-	console.log("inputList", inputList);
+	// console.log("hidden1", hidden1);
+	// console.log("hidden2", hidden2);
 
 	useEffect(() => {
 		// let { level1Attribute, level1, level2Attribute, level2Options, level2 } = formatData(variationArray, inventoryArray);
 		// console.log("level1Attribute", level1Attribute);
-		console.log("level1", level1);
+		// console.log("level1", level1);
 		// console.log("level2Attribute", level2Attribute);
 		// console.log("level2Options", level2Options);
-		console.log("level2", level2);
-		if (salesData) {
-			setAttribute1(level1Attribute || "");
-			setAttribute2(level2Attribute || "");
-			sethidden1(level1 != null);
-			sethidden2(level2 != null);
-			if (level1 != null) {
-				setInputList(level1);
+		// console.log("level2", level2);
+		// console.log(inventoryArray, variationArray);
+		if (inventoryArray && variationArray) {
+			if (salesData) {
+				setAttribute1(level1Attribute || "");
+				setAttribute2(level2Attribute || "");
+				if (level1 != null && level1.length > 0) {
+					sethidden1(true);
+					sethidden2(false);
+					// console.log("HERE");
+					setInputList(level1);
+					if (level2 != null && level2.length > 0) {
+						// console.log("HERE level2", level2);
+						sethidden2(true);
+						setValueList2(level2Options);
+						setInputList2(level2);
+					}
+				}
 			}
-			if (level2 != null) {
-				setValueList2(level2Options);
-				setInputList2(level2);
-			}
+		} else {
+
 		}
 
 	}, [salesData])
@@ -130,13 +139,13 @@ const SalesInformation = ({ form, onChangeData,
 		let value1Length = tmp.length;
 		let value2Length = ValueList2.length;
 		tmp2.forEach((element, index) => {
-			console.log("HERE", element, index, value2Length, idx);
-			console.log("element", element);
-			console.log("value2Length", value2Length);
-			console.log("index", index);
-			console.log("idx", idx);
+			// console.log("HERE", element, index, value2Length, idx);
+			// console.log("element", element);
+			// console.log("value2Length", value2Length);
+			// console.log("index", index);
+			// console.log("idx", idx);
 			if (index >= idx * value2Length && index < (idx + 1) * value2Length) {
-				console.log("THERE", element);
+				// console.log("THERE", element);
 				// element.valueName1 = value;
 				tmp2[index].valueName1 = value;
 			}
@@ -202,13 +211,13 @@ const SalesInformation = ({ form, onChangeData,
 		let value1Length = tmp.length;
 		let value2Length = ValueList2.length;
 		tmp2.forEach((element, index) => {
-			console.log("HERE", element, index, value2Length, idx);
-			console.log("element", element);
-			console.log("value2Length", value2Length);
-			console.log("index", index);
-			console.log("idx", idx);
+			// console.log("HERE", element, index, value2Length, idx);
+			// console.log("element", element);
+			// console.log("value2Length", value2Length);
+			// console.log("index", index);
+			// console.log("idx", idx);
 			if (index % value2Length === idx) {
-				console.log("THERE", element);
+				// console.log("THERE", element);
 				// element.valueName1 = value;
 				tmp2[index].valueName2 = value;
 			}
@@ -270,9 +279,9 @@ const SalesInformation = ({ form, onChangeData,
 	}
 
 	const saveData = () => {
-		if (Attribute1 == "") {
-			return;
-		}
+		// if (salesData && Attribute1 == "") {
+		// 	return;
+		// }
 		let variationArray = [];
 		let inventoryArray = [];
 
@@ -303,7 +312,7 @@ const SalesInformation = ({ form, onChangeData,
 			}
 		}
 
-		console.log(variationArray);
+		// console.log("variationArray", variationArray);
 		setVariationArray(variationArray);
 
 		let tmpData = [...(inputList2.length > 0 && inputList2 || inputList)];
@@ -361,7 +370,10 @@ const SalesInformation = ({ form, onChangeData,
 						<button
 							className="btn btn-outline-secondary btn-sm me-3"
 							style={{ width: "inherit" }}
-							onClick={() => sethidden1(true)}
+							onClick={() => {
+								sethidden1(true);
+								setInputList([{ valueName: "", price: 0, inventoryCount: 0, sku: "" }]);
+							}}
 						>
 							Thêm nhóm phân loại
 						</button>
@@ -386,7 +398,7 @@ const SalesInformation = ({ form, onChangeData,
 								setAttribute2("");
 								sethidden1(false);
 								sethidden2(false);
-								setInputList([{ valueName: "", price: 0, inventoryCount: 0, sku: "" }]);
+								setInputList([]);
 								setInputList2([]);
 							}}
 						>

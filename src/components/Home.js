@@ -16,9 +16,13 @@ import Divider from "@material-ui/core/Divider";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import MenuItem from "@material-ui/core/MenuItem";
 import MenuIcon from "@material-ui/icons/Menu";
+import DragIndicator from "@material-ui/icons/DragIndicator";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { ToastProvider } from "react-toast-notifications";
+
 
 import { useParams } from "react-router";
 import cs from "../const";
@@ -31,6 +35,7 @@ import AppRoute from "./AppRoute";
 
 import { useTranslation, withTranslation } from "react-i18next";
 import { getRole, isSoloUser } from "../service";
+import { Grid, Menu } from "@material-ui/core";
 
 const URL = cs.BaseURL + "/user/detail";
 const revokeTokenURL = cs.BaseURL + "/api/auth/logout";
@@ -167,7 +172,20 @@ const styles = (theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    flexDirection: "column"
   },
+  customMenuPopover: {
+    // take note of !important because default z-index is applied inline
+    zIndex: "1900 !important"
+  },
+  input1: {
+    height: 5,
+    width: 150
+  },
+  input2: {
+    height: 20,
+    fontSize: "3em"
+  }
 });
 
 const NavbarTitle = ({ title }) => {
@@ -197,6 +215,7 @@ class Home extends React.Component {
       user: {},
       open: true,
       showChangePassword: false,
+      anchorEl: null
     };
     console.log("HOME props", props);
     var user = localStorage.getItem(cs.System_Code + "-user");
@@ -207,7 +226,7 @@ class Home extends React.Component {
     //this.loadData();
   }
 
-  loadData() {}
+  loadData() { }
   handleDrawerOpen = () => {
     this.setState({ open: true });
   };
@@ -270,10 +289,10 @@ class Home extends React.Component {
               className={classNames(
                 classes.appBar,
                 this.state.open &&
-                  getRole() != cs.Role_Solo_Buyer &&
-                  window.location.pathname != "/products" &&
-                  !window.location.pathname.includes("/product_detail") &&
-                  classes.appBarShift
+                getRole() != cs.Role_Solo_Buyer &&
+                window.location.pathname != "/products" &&
+                !window.location.pathname.includes("/product_detail") &&
+                classes.appBarShift
               )}
             >
               <Toolbar
@@ -305,6 +324,9 @@ class Home extends React.Component {
                     MARKETPLACE
                   </Link>
                 </div>
+
+
+
                 {getRole() == cs.Role_Solo_Buyer && (
                   <form
                     className="search-form d-flex "
@@ -357,12 +379,55 @@ class Home extends React.Component {
                   </div>
                 )}
 
-                <div>
+
+
+                <div style={{ display: "flex" }}>
+                  <div>
+                    <IconButton
+                      size="large"
+                      aria-label="account of current user"
+                      aria-controls="menu-appbar"
+                      aria-haspopup="true"
+                      onClick={(e) => {
+                        this.setState({ anchorEl: e.target })
+                      }}
+                      color="inherit"
+                    >
+                      <DragIndicator />
+                    </IconButton>
+                    <Menu
+                      id="menu-appbar"
+                      anchorEl={this.state.anchorEl}
+                      anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                      keepMounted
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                      open={Boolean(this.state.anchorEl)}
+                      onClose={() => this.setState({ anchorEl: null })}
+                    >
+                      <MenuItem onClick={() => {
+                        this.setState({ anchorEl: null });
+                        window.location.href = "http://192.168.1.127:3001/";
+
+                      }}>HR Management</MenuItem>
+                      <MenuItem onClick={() => {
+                        this.setState({ anchorEl: null })
+                        window.location.href = "http://192.168.1.127:3000/";
+                      }}>E-Training</MenuItem>
+                    </Menu>
+                  </div>
+
                   <Link
                     to="/"
                     style={{
                       textDecoration: "none",
                       color: "white",
+                      marginTop: "5px"
                     }}
                   >
                     <Button
@@ -403,7 +468,7 @@ class Home extends React.Component {
                   <div className={classes.toolbarHeader}>
                     <Avatar
                       className={classes.avatar}
-                      // src={require("../img/LOGO-Credito.png")}
+                    // src={require("../img/LOGO-Credito.png")}
                     />
                     <Typography variant="body" className={classes.username}>
                       {username}
@@ -437,21 +502,50 @@ class Home extends React.Component {
             </main>
           </div>
         </Router>
+
         <div className={classes.footer}>
-          {Object.keys(lngs).map((lng) => (
-            <button
-              key={lng}
-              style={{ fontWeight: i18n.language === lng ? "bold" : "normal" }}
-              type="submit"
-              onClick={() => {
-                i18n.changeLanguage(lng);
-                localStorage.setItem("currentLanguage", lng);
-              }}
-            >
-              {t(lngs[lng].nativeName)}
-            </button>
-          ))}
+          <div >
+            {Object.keys(lngs).map((lng) => (
+              <button
+                key={lng}
+                style={{ fontWeight: i18n.language === lng ? "bold" : "normal" }}
+                type="submit"
+                onClick={() => {
+                  i18n.changeLanguage(lng);
+                  localStorage.setItem("currentLanguage", lng);
+                }}
+              >
+                {t(lngs[lng].nativeName)}
+              </button>
+            ))}
+          </div>
+
+
+
+          <Grid
+            container
+            direction="row"
+            justify="space-between"
+            alignItems="flex-start"
+          // spacing={4}
+          >
+            <Grid item >
+
+            </Grid>
+            <Grid item >
+              <div >
+                <a style={{ textDecoration: "none" }} href="http://192.168.1.127:3000/">Etraining</a>
+              </div>
+            </Grid>
+            <Grid item >
+              <div  >
+                <a style={{ textDecoration: "none" }} href="http://192.168.1.127:3001/">HR Managment</a>
+              </div>
+            </Grid>
+            <Grid item ></Grid>
+          </Grid>
         </div>
+
       </div>
     );
   }

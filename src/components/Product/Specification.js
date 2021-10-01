@@ -104,7 +104,7 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n }) => {
           <label className="col-2 text-muted text-end p-2" for="category-Id">{categoryAttributeList[index].attributeEngName}</label>
           <div className="col-4 mb-2">
             {
-              item.attributeData.length !== 0 && <div className="dropdown">
+              item.attributeData.length !== 0 && <div className="dropdown" style={{ width: "100%"}}>
                 <button
                   className="form-control text-start"
                   id="dropdownMenuButton1"

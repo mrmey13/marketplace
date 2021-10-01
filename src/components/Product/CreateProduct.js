@@ -8,6 +8,7 @@ import { Link, withRouter, useLocation, useHistory, Route } from 'react-router-d
 
 import cs from "../../const";
 import SalesInformation from "./SalesInformation";
+import Specification from "./Specification";
 
 const LIMIT_IMAGE_UPLOAD = 9;
 const createVariationURL = cs.BaseURL + "/api/seller/product/variation/create"
@@ -41,7 +42,7 @@ const CreateProduct = (props) => {
     categoryPath: "",
     name: "",
     description: "",
-    price: 1000,
+    price: 0,
     inventoryCount: 10,
     weight: 1,
     width: 2,
@@ -57,6 +58,8 @@ const CreateProduct = (props) => {
 
   const [variationArray, setVariationArray] = useState([]);
   const [inventoryArray, setInventoryArray] = useState([]);
+
+  const [attributeData, setAttributeData] = useState([]);
 
   const onChangeData = (event) => {
     console.log(event.target);
@@ -123,8 +126,8 @@ const CreateProduct = (props) => {
 
   const createProduct = async () => {
     console.log(form);
-    console.log("variationArray",variationArray);
-    console.log("inventoryArray",inventoryArray);
+    console.log("variationArray", variationArray);
+    console.log("inventoryArray", inventoryArray);
     //error mess
     try {
       const response = await axios({
@@ -154,6 +157,8 @@ const CreateProduct = (props) => {
         saveCoverImage(productId);
         saveImages(productId);
         createVariation(productId);
+        createAttributeProduct(productId);
+        createCustomAttributeProduct(productId);
       }
     } catch (error) {
       console.log(error);
@@ -228,6 +233,69 @@ const CreateProduct = (props) => {
     }
   }
 
+  const getArrayAttribute = () => {
+    let resultArr = [];
+    for (let item of attributeData) {
+      if (item.chosenAttributeValue.attributeOptionId) {
+        resultArr = resultArr.concat(item.chosenAttributeValue.attributeOptionId);
+      }
+    }
+    return resultArr;
+  }
+
+  const getArrayCustomAttribute = () => {
+    let resultArr = [];
+    for (let item of attributeData) {
+      if (item.inputAttributeValue) {
+        resultArr = resultArr.concat({
+          attributeId: item.attributeId,
+          attributeValue: item.inputAttributeValue
+        });
+      }
+    }
+    return resultArr;
+  }
+
+  const createAttributeProduct = async (productId) => {
+    // console.log(getArrayAttribute())
+    try {
+      const response = await axios({
+        method: "post",
+        url: `http://192.168.1.127:9555/api/seller/product/attribute/create`,
+        headers: {
+          Authorization: localStorage.getItem(cs.System_Code + '-token'),
+        },
+        data: {
+          productId: productId,
+          attributeOptionIdList: getArrayAttribute()
+        }
+      });
+      console.log("attr-value", response.data)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const createCustomAttributeProduct = async (productId) => {
+    // console.log(getArrayCustomAttribute())
+    try {
+      const response = await axios({
+        method: "post",
+        url: `http://192.168.1.127:9555/api/seller/product/attribute-custom/create`,
+        headers: {
+          Authorization: localStorage.getItem(cs.System_Code + '-token'),
+        },
+        data: {
+          productId: productId,
+          customAttributes: getArrayCustomAttribute()
+        }
+      });
+      console.log("custom-attr-value", response.data)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const loadData = () => {
     const { location, history } = props;
     if (location.state !== undefined) {
@@ -251,7 +319,12 @@ const CreateProduct = (props) => {
         handleChangeCategoryPath={handleChangeCategoryPath}
         setModalVideo={setModalVideo}
       />
-      <Specification />
+      <Specification
+        {...props}
+        form={form}
+        attributeData={attributeData}
+        setAttributeData={setAttributeData}
+      />
       <SalesInformation
         form={form}
         onChangeData={onChangeData}
@@ -268,7 +341,7 @@ const CreateProduct = (props) => {
         </button>
         <button
           className="btn border bg-white me-2"
-        // onClick={saveImages(11111)}
+        // onClick={() => { createAttributeProduct(); createCustomAttributeProduct() }}
         >
           Save and Delish
         </button>
@@ -421,34 +494,6 @@ const BasicInformation = ({ imageList, form, onChangeData, onChangeFile, handleC
     </div>
   </div>
 }
-
-const Specification = () => {
-  let fakeList = [];
-
-  return <div className="card card-body mb-3 shadow">
-    <h5>Specification</h5>
-    <div className="row">
-      <div className="col-2 text-muted text-end">
-        * Brand
-      </div>
-      <div className="col-4">
-        Photo
-      </div>
-      {fakeList.map(item => {
-        return <>
-          <div className="col-2 text-muted text-end">
-            Specification Name
-          </div>
-          <div className="col-4">
-            Photo
-          </div>
-        </>
-      })}
-    </div>
-  </div>
-}
-
-
 
 const Shipping = () => {
   return <div className="card card-body mb-3 shadow">

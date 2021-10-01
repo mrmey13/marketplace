@@ -5,7 +5,7 @@ import cs from "../../const";
 import "../ProductList/Product.css";
 import Product from "../ProductList/Product";
 import Pagin from "../../components/shared/Pagin";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 const URL = cs.BaseURL + "/api/seller/shop/detail";
 const Product_URL = cs.BaseURL + "/api/seller/product/list";
 const mediaURL = cs.MediaURL + "/material";
@@ -124,18 +124,24 @@ function ProductListCategory() {
       </div>
       <div class="row" style={{ minWidth: "1420px" }}>
         <div class="col-2 scroller" data-bs-spy="scroll">
-          <div className="marketplace-credito-filter mt-2">
+          <div className="marketplace-credito-filter mt-2 d-flex flex-column">
             <b>TẤT CẢ DANH MỤC</b>
             {categoriesList.map((item) => (
-              <div
+              <a
+                component={Link}
                 className={
                   name == item.categoryEngName
                     ? "collection-filter_collection active"
-                    : "collection-filter_collection "
+                    : "collection-filter_collection text-black "
                 }
+                style={{ textDecoration: "none" }}
+                href={
+                  "/category/" + item.categoryEngName + "/" + item.categoryId
+                }
+                onClick={() => loadProductList()}
               >
-                {item.categoryEngName}
-              </div>
+                {item.categoryEngName}{" "}
+              </a>
             ))}
           </div>
           {/* <div className="marketplace-credito-filter facet-filter mt-2">
@@ -443,7 +449,7 @@ function ProductListCategory() {
           <div className="product-card">
             <div className="row g-0 ">
               {currentPosts.map((data) => (
-                <Product data={data} useFor="seller" />
+                <Product data={data} useFor="buyer" />
               ))}
             </div>
             <div className="saleplus-credito pagin-card mt-5 d-flex justify-content-center ">

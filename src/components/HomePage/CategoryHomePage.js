@@ -68,7 +68,7 @@ function CategoryHomePage() {
           <button
             class={
               curPage == 1
-                ? "btn btn-category visually-hidden category-next"
+                ? "btn btn-category opacity-0 category-next"
                 : "btn btn-category category-next"
             }
             type="button"
@@ -139,7 +139,7 @@ function CategoryHomePage() {
         <button
           class={
             curPage == Math.floor(List.length / categoriesPerPage)
-              ? "btn btn-category visually-hidden category-next "
+              ? "btn btn-category opacity-0 category-next "
               : "btn btn-category category-next "
           }
           type="button"

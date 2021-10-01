@@ -16,9 +16,13 @@ import Divider from "@material-ui/core/Divider";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import MenuItem from "@material-ui/core/MenuItem";
 import MenuIcon from "@material-ui/icons/Menu";
+import DragIndicator from "@material-ui/icons/DragIndicator";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { ToastProvider } from "react-toast-notifications";
+
 
 import { useParams } from "react-router";
 import cs from "../const";
@@ -31,6 +35,7 @@ import AppRoute from "./AppRoute";
 
 import { useTranslation, withTranslation } from "react-i18next";
 import { getRole, isSoloUser } from "../service";
+import { Grid, Menu } from "@material-ui/core";
 
 const URL = cs.BaseURL + "/user/detail";
 const revokeTokenURL = cs.BaseURL + "/api/auth/logout";
@@ -167,7 +172,20 @@ const styles = (theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    flexDirection: "column"
   },
+  customMenuPopover: {
+    // take note of !important because default z-index is applied inline
+    zIndex: "1900 !important"
+  },
+  input1: {
+    height: 5,
+    width: 150
+  },
+  input2: {
+    height: 20,
+    fontSize: "3em"
+  }
 });
 
 const NavbarTitle = ({ title }) => {
@@ -197,6 +215,7 @@ class Home extends React.Component {
       user: {},
       open: true,
       showChangePassword: false,
+      anchorEl: null
     };
     console.log("HOME props", props);
     var user = localStorage.getItem(cs.System_Code + "-user");
@@ -207,7 +226,7 @@ class Home extends React.Component {
     //this.loadData();
   }
 
-  loadData() {}
+  loadData() { }
   handleDrawerOpen = () => {
     this.setState({ open: true });
   };
@@ -270,10 +289,10 @@ class Home extends React.Component {
               className={classNames(
                 classes.appBar,
                 this.state.open &&
-                  getRole() != cs.Role_Solo_Buyer &&
-                  window.location.pathname != "/products" &&
-                  !window.location.pathname.includes("/product_detail") &&
-                  classes.appBarShift
+                getRole() != cs.Role_Solo_Buyer &&
+                window.location.pathname != "/products" &&
+                !window.location.pathname.includes("/product_detail") &&
+                classes.appBarShift
               )}
             >
               <Toolbar
@@ -305,6 +324,9 @@ class Home extends React.Component {
                     MARKETPLACE
                   </Link>
                 </div>
+
+
+
                 {getRole() == cs.Role_Solo_Buyer && (
                   <form
                     className="search-form d-flex "
@@ -332,37 +354,155 @@ class Home extends React.Component {
                   </form>
                 )}
                 {getRole() == cs.Role_Solo_Buyer && (
-                  <div
-                    className="cart-button text-white"
-                    style={{
-                      fontSize: "35px",
-                      paddingTop: "15px",
-                      position: "relative",
-                    }}
-                  >
-                    <span
-                      class="position-absolute  start-100 translate-middle px-2 py-1 bg-danger border border-light"
+                  <div className="dropdown">
+                    <button
+                      className="btn btn-outline-none bg-transparent cart-button text-white dropbtn"
                       style={{
-                        fontSize: "10px",
-                        borderRadius: "5px",
+                        fontSize: "35px",
+                        paddingTop: "15px",
+                        position: "relative",
                         width: "fit-content",
                         height: "fit-content",
-                        zIndex: 1,
-                        top: "40",
                       }}
                     >
-                      1
-                    </span>
-                    <ion-icon name="cart-outline"></ion-icon>
+                      <span
+                        class="position-absolute  start-25 translate-middle px-2 py-1 bg-danger border border-light"
+                        style={{
+                          fontSize: "10px",
+                          borderRadius: "5px",
+                          width: "fit-content",
+                          height: "fit-content",
+                          zIndex: 1,
+                          top: "40",
+                        }}
+                      >
+                        1
+                      </span>
+                      <ion-icon name="cart-outline"></ion-icon>
+                    </button>
+                    <div
+                      className="icon-popover"
+                      style={{
+                        fontSize: "30px",
+                        backgroundColor: "transparent",
+                      }}
+                    >
+                      <ion-icon name="caret-up-outline"></ion-icon>
+                    </div>
+                    <div class="dropdown-content">
+                      <div className="m-3">Sản Phẩm Mới Thêm</div>
+                      <Link
+                        class="d-flex align-items-center product-item-cart"
+                        to="/"
+                      >
+                        <div class="flex-shrink-0">
+                          <img
+                            style={{ width: "50px", height: "50px" }}
+                            src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80"
+                            alt="..."
+                          />
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                          This is some content from a media component.
+                        </div>
+                      </Link>
+                      <Link
+                        class="d-flex align-items-center product-item-cart"
+                        to="/aaa"
+                      >
+                        <div class="flex-shrink-0">
+                          <img
+                            style={{ width: "50px", height: "50px" }}
+                            src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80"
+                            alt="..."
+                          />
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                          This is some content from a media component.
+                        </div>
+                      </Link>
+                      <Link
+                        class="d-flex align-items-center product-item-cart"
+                        to="/aa"
+                      >
+                        <div class="flex-shrink-0">
+                          <img
+                            style={{ width: "50px", height: "50px" }}
+                            src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80"
+                            alt="..."
+                          />
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                          This is some content from a media component.
+                        </div>
+                      </Link>
+                      <div className="d-flex flex-row justify-content-end">
+                        <Button
+                          className="button-view-cart"
+                          component={Link}
+                          to="/a"
+                          style={{
+                            backgroundColor: Color.tanhide,
+                            margin: "10px",
+                          }}
+                        >
+                          {" "}
+                          Xem Giỏ Hàng{" "}
+                        </Button>
+                      </div>
+                    </div>
                   </div>
                 )}
 
-                <div>
+
+
+                <div style={{ display: "flex" }}>
+                  <div>
+                    <IconButton
+                      size="large"
+                      aria-label="account of current user"
+                      aria-controls="menu-appbar"
+                      aria-haspopup="true"
+                      onClick={(e) => {
+                        this.setState({ anchorEl: e.target })
+                      }}
+                      color="inherit"
+                    >
+                      <DragIndicator />
+                    </IconButton>
+                    <Menu
+                      id="menu-appbar"
+                      anchorEl={this.state.anchorEl}
+                      anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                      keepMounted
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                      open={Boolean(this.state.anchorEl)}
+                      onClose={() => this.setState({ anchorEl: null })}
+                    >
+                      <MenuItem onClick={() => {
+                        this.setState({ anchorEl: null });
+                        window.location.href = "http://192.168.1.127:3001/";
+
+                      }}>HR Management</MenuItem>
+                      <MenuItem onClick={() => {
+                        this.setState({ anchorEl: null })
+                        window.location.href = "http://192.168.1.127:3000/";
+                      }}>E-Training</MenuItem>
+                    </Menu>
+                  </div>
+
                   <Link
                     to="/"
                     style={{
                       textDecoration: "none",
                       color: "white",
+                      marginTop: "5px"
                     }}
                   >
                     <Button
@@ -403,7 +543,7 @@ class Home extends React.Component {
                   <div className={classes.toolbarHeader}>
                     <Avatar
                       className={classes.avatar}
-                      // src={require("../img/LOGO-Credito.png")}
+                    // src={require("../img/LOGO-Credito.png")}
                     />
                     <Typography variant="body" className={classes.username}>
                       {username}
@@ -437,21 +577,50 @@ class Home extends React.Component {
             </main>
           </div>
         </Router>
+
         <div className={classes.footer}>
-          {Object.keys(lngs).map((lng) => (
-            <button
-              key={lng}
-              style={{ fontWeight: i18n.language === lng ? "bold" : "normal" }}
-              type="submit"
-              onClick={() => {
-                i18n.changeLanguage(lng);
-                localStorage.setItem("currentLanguage", lng);
-              }}
-            >
-              {t(lngs[lng].nativeName)}
-            </button>
-          ))}
+          <div >
+            {Object.keys(lngs).map((lng) => (
+              <button
+                key={lng}
+                style={{ fontWeight: i18n.language === lng ? "bold" : "normal" }}
+                type="submit"
+                onClick={() => {
+                  i18n.changeLanguage(lng);
+                  localStorage.setItem("currentLanguage", lng);
+                }}
+              >
+                {t(lngs[lng].nativeName)}
+              </button>
+            ))}
+          </div>
+
+
+
+          <Grid
+            container
+            direction="row"
+            justify="space-between"
+            alignItems="flex-start"
+          // spacing={4}
+          >
+            <Grid item >
+
+            </Grid>
+            <Grid item >
+              <div >
+                <a style={{ textDecoration: "none" }} href="http://192.168.1.127:3000/">Etraining</a>
+              </div>
+            </Grid>
+            <Grid item >
+              <div  >
+                <a style={{ textDecoration: "none" }} href="http://192.168.1.127:3001/">HR Managment</a>
+              </div>
+            </Grid>
+            <Grid item ></Grid>
+          </Grid>
         </div>
+
       </div>
     );
   }

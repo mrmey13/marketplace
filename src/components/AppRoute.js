@@ -20,7 +20,7 @@ import MyAddresses from "./settings/MyAdresses";
 import CreateProduct from "./Product/CreateProduct";
 import ProductList from "./ProductList/ProductList";
 import ProductCategory from "./ProductCategory/ProductCategory";
-import ApproveProduct from './AllProducts/ApproveProduct';
+import ApproveProduct from "./AllProducts/ApproveProduct";
 import Attribute from "./Administration/AttributeManage/Attribute";
 import AttributeManage from "./Administration/AttributeManage/AttributeManage";
 import AllProducts from "./AllProducts/AllProducts";
@@ -32,6 +32,7 @@ import HomePage from "./HomePage/HomePage";
 import ProductListHomePage from "./HomePage/ProductListHomePage";
 import ProductListCategory from "./HomePage/ProductListCategory";
 import EditProduct from "./Product/EditProduct";
+import ShopProductDetail from "./ProductList/ShopProductDetail";
 
 const styles = (theme) => ({
   tableContainer: {
@@ -46,7 +47,11 @@ export class AppRoute extends Component {
       <ToastProvider autoDismissTimeout={5000} placement="bottom-center">
         <Route exact path="/" component={() => HomePage(t, i18n)} />
         <Route exact path="/shop_view" component={() => ShopView(t, i18n)} />
-        <Route exact path="/products" component={() => ProductList(t, i18n)} />
+        <Route
+          exact
+          path="/seller/products"
+          component={() => ProductList(t, i18n)}
+        />
         <Route
           exact
           path="/category/:name/:id"
@@ -62,6 +67,11 @@ export class AppRoute extends Component {
           exact
           path="/shop/setting"
           component={() => ShopSetting(t, i18n)}
+        />
+        <Route
+          exact
+          path="/seller/product_detail/:productId"
+          component={() => ShopProductDetail(t, i18n)}
         />
         <Route
           exact

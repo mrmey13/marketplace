@@ -1,7 +1,7 @@
 @import '../theme/color.css';
 
 body {  
-    background-image: url('../img/login-bg.jpg');
+    /* background-image: url('../img/login-bg.jpg'); */
     background-position: top;
 }
 .login-title {
@@ -13,3 +13,51 @@ body {
       -webkit-text-fill-color: transparent;
       text-align: center;
   }
+   .input-login {
+    padding: 0 20px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    width: 100%;
+    height: 50px;
+    transition: 0.25s ease;
+  }
+  .input-login:focus {
+    border-color: #6a5a9f;
+    box-shadow: none;
+  }
+  .form-field {
+    position: relative;
+    margin: 15px;
+  }
+  .label-login {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 21px;
+    user-select: none;
+    color: #999;
+    pointer-events: none;
+    transition: 0.25s ease;
+  }
+  .input-login:not(:placeholder-shown) + .label-login,
+  .input-login:focus + .label-login {
+    color:#6a5a9f;
+    top: 0;
+    padding: 4px;
+    display: inline-block;
+    background-color: #fff;
+  }
+
+  .topnav {
+    overflow: hidden;
+  }
+
+  .topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 5px 5px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+

@@ -13,6 +13,9 @@ import {
 
 import cs from "../../const";
 import SalesInformation from "./SalesInformation";
+import Specification from "./Specification";
+import Shipping from "./Shipping";
+import Others from "./Others";
 
 const LIMIT_IMAGE_UPLOAD = 9;
 const editVariationURL = cs.BaseURL + "/api/seller/product/variation/edit"
@@ -93,8 +96,16 @@ const CreateProduct = (props) => {
   // console.log(location.state);
   // console.log(history);
   const [form, setForm] = useState({
-    categoryId: "",
-    categoryPath: "",
+    category: {
+      categoryId: 0,
+      categoryLevel1Id: 0,
+      categoryLevel2Id: 0,
+      categoryLevel3Id: 0,
+      categoryLevel4Id: 0,
+      categoryLevel5Id: 0,
+      categoryEngPath: "",
+      categoryViePath: ""
+    },
     name: "",
     description: "",
     price: 1000,
@@ -113,6 +124,8 @@ const CreateProduct = (props) => {
 
   const [variationArray, setVariationArray] = useState([]);
   const [inventoryArray, setInventoryArray] = useState([]);
+
+  const [attributeData, setAttributeData] = useState([]);
 
   const onChangeData = (event) => {
     console.log(event.target);
@@ -174,7 +187,11 @@ const CreateProduct = (props) => {
   }
 
   const handleChangeCategoryPath = () => {
-    props.history.push("/product/category", { productName: form.name })
+    props.history.push("/product/category", {
+      productId: productId,
+      productName: form.name,
+      category: form.category,
+    })
   }
 
   const createProduct = async () => {
@@ -253,6 +270,45 @@ const CreateProduct = (props) => {
     }
   }
 
+  const loadCategory = (product) => {
+    let tmp = {
+      categoryId: 0,
+      categoryLevel1Id: product.categoryLevel1Id,
+      categoryLevel2Id: product.categoryLevel2Id,
+      categoryLevel3Id: product.categoryLevel3Id,
+      categoryLevel4Id: product.categoryLevel4Id,
+      categoryLevel5Id: product.categoryLevel5Id,
+      categoryEngPath: "",
+      categoryViePath: ""
+    };
+    if (product.categoryLevel1Id !== 0) {
+      tmp.categoryId = product.categoryLevel1Id;
+      tmp.categoryEngPath = product.categoryLevel1EngName;
+      tmp.categoryViePath = product.categoryLevel1VieName;
+    }
+    if (product.categoryLevel2Id !== 0) {
+      tmp.categoryId = product.categoryLevel2Id;
+      tmp.categoryEngPath += " > " + product.categoryLevel2EngName;
+      tmp.categoryViePath += " > " + product.categoryLevel2VieName;
+    }
+    if (product.categoryLevel3Id !== 0) {
+      tmp.categoryId = product.categoryLevel3Id;
+      tmp.categoryEngPath += " > " + product.categoryLevel3EngName;
+      tmp.categoryViePath += " > " + product.categoryLevel3VieName;
+    }
+    if (product.categoryLevel4Id !== 0) {
+      tmp.categoryId = product.categoryLevel4Id;
+      tmp.categoryEngPath += " > " + product.categoryLevel4EngName;
+      tmp.categoryViePath += " > " + product.categoryLevel4VieName;
+    }
+    if (product.categoryLevel5Id !== 0) {
+      tmp.categoryId = product.categoryLevel5Id;
+      tmp.categoryEngPath += " > " + product.categoryLevel5EngName;
+      tmp.categoryViePath += " > " + product.categoryLevel5VieName;
+    }
+    return tmp;
+  }
+
   const loadData = async () => {
     const response = await axios({
       method: "get",
@@ -263,33 +319,27 @@ const CreateProduct = (props) => {
       }
     });
     console.log(response.data.data);
+    console.log("pr", props.location.state.productName);
     let data = response.data.data;
-    // let tmp = {
-    //   categoryId: "",
-    //   categoryPath: "",
-    //   name: item.productName,
-    //   description: "",
-    //   price: 1000,
-    //   inventoryCount: 10,
-    //   weight: 1,
-    //   width: 2,
-    //   height: 3,
-    //   depth: 4,
-    //   isPreorderedProduct: 1,
-    //   isNewProduct: 1,
-    //   videoUrl: "",
-    //   imgFile: [],
-    //   imgFileUrl: [],
-    //   videoFile: {},
-    // };
-    let tmp = {...form};
-    tmp.name = data.productName;
+    let tmp = { ...form };
+    tmp.name = (props.location.state.productName) ? props.location.state.productName : data.productName;
     tmp.description = data.productDescription;
+    tmp.category = (props.location.state.category) ? props.location.state.category : loadCategory(data);
+    tmp.price = data.price;
+    tmp.inventoryCount = data.inventoryCount;
+    tmp.isNewProduct = data.isNewProduct;
+    tmp.isPreorderedProduct = data.isPreorderedProduct;
+    tmp.weight = data.weight;
+    tmp.width = data.width;
+    tmp.height = data.height;
+    tmp.depth = data.depth;
+    tmp.videoUrl = data.videoYoutubeURL;
     setForm(tmp);
     console.log(tmp);
     setVariationArray(data.variationArray);
     setInventoryArray(data.inventoryArray);
   }
+
   useEffect(() => {
     loadData();
   }, [])
@@ -297,6 +347,7 @@ const CreateProduct = (props) => {
   return <div className="d-flex flex-row justify-content-center align-items-baseline">
     <div className="container-fluid w-70vw minw-80em my-3">
       <BasicInformation
+        {...props}
         imageList={imageList}
         form={form}
         onChangeData={onChangeData}
@@ -304,7 +355,12 @@ const CreateProduct = (props) => {
         handleChangeCategoryPath={handleChangeCategoryPath}
         setModalVideo={setModalVideo}
       />
-      <Specification />
+      <Specification
+        {...props}
+        form={form}
+        attributeData={attributeData}
+        setAttributeData={setAttributeData}
+      />
       <SalesInformation
         form={form}
         onChangeData={onChangeData}
@@ -314,8 +370,16 @@ const CreateProduct = (props) => {
         setInventoryArray={setInventoryArray}
         salesData={formatData(variationArray, inventoryArray)}
       />
-      <Shipping />
-      <Others />
+      <Shipping
+        {...props}
+        form={form}
+        onChangeData={onChangeData}
+      />
+      <Others
+        {...props}
+        form={form}
+        onChangeData={onChangeData}
+      />
       <div className="d-flex justify-content-end">
         <button
           className="btn border bg-white me-2"
@@ -387,7 +451,7 @@ const CreateProduct = (props) => {
   </div>
 }
 
-const BasicInformation = ({ imageList, form, onChangeData, onChangeFile, handleChangeCategoryPath, setModalVideo }) => {
+const BasicInformation = ({ imageList, form, onChangeData, onChangeFile, handleChangeCategoryPath, setModalVideo, i18n, t }) => {
   // console.log(form.videoFile);
   return <div className="card card-body mb-3 shadow">
     <h5>Basic Information</h5>
@@ -467,7 +531,9 @@ const BasicInformation = ({ imageList, form, onChangeData, onChangeFile, handleC
         Category
       </div>
       <div className="col-9">
-        {form.categoryPath} <button
+        {i18n.language === "en" && form.category.categoryEngPath}
+        {i18n.language === "vi" && form.category.categoryViePath}
+        <button
           className="btn p-0 ms-2"
           onClick={() => handleChangeCategoryPath()}
         >
@@ -477,78 +543,5 @@ const BasicInformation = ({ imageList, form, onChangeData, onChangeFile, handleC
     </div>
   </div>
 }
-
-const Specification = () => {
-  let fakeList = [];
-
-  return <div className="card card-body mb-3 shadow">
-    <h5>Specification</h5>
-    <div className="row">
-      <div className="col-2 text-muted text-end">
-        * Brand
-      </div>
-      <div className="col-4">
-        Photo
-      </div>
-      {fakeList.map(item => {
-        return <>
-          <div className="col-2 text-muted text-end">
-            Specification Name
-          </div>
-          <div className="col-4">
-            Photo
-          </div>
-        </>
-      })}
-    </div>
-  </div>
-}
-
-
-
-const Shipping = () => {
-  return <div className="card card-body mb-3 shadow">
-    <h5>Shipping</h5>
-    <div className="row">
-      <div className="col-3 text-muted text-end">
-        Product images
-      </div>
-      <div className="col-9">
-        Photo
-      </div>
-
-      <div className="col-3 text-muted text-end">
-        Product Video
-      </div>
-      <div className="col-9">
-        Photo
-      </div>
-
-    </div>
-  </div>
-}
-
-const Others = () => {
-  return <div className="card card-body mb-3 shadow">
-    <h5>Others</h5>
-    <div className="row">
-      <div className="col-3 text-muted text-end">
-        Product images
-      </div>
-      <div className="col-9">
-        Photo
-      </div>
-
-      <div className="col-3 text-muted text-end">
-        Product Video
-      </div>
-      <div className="col-9">
-        Photo
-      </div>
-    </div>
-  </div>
-}
-
-
 
 export default withTranslation()(CreateProduct);

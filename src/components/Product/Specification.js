@@ -47,7 +47,7 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n }) => {
     try {
       const response = await axios({
         method: "get",
-        url: `${getCategoryAttributeUrl}categoryId=${form.categoryId}&page=0&size=0`,
+        url: `${getCategoryAttributeUrl}categoryId=${form.category.categoryId}&page=0&size=0`,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + '-token'),
         }
@@ -91,7 +91,7 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n }) => {
 
   useEffect(() => {
     loadCategoryAttributeData();
-  }, [form.categoryId])
+  }, [form.category.categoryId])
 
   useEffect(() => {
     loadAttributeData();

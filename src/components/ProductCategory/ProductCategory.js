@@ -96,10 +96,21 @@ class ProductCategory extends Component {
 
     constructor(props) {
         super(props);
+        console.log("props", props)
         this.state = {
-            productName: "",
+            productName: (props.location.state) ? props.location.state.productName : "",
             categoryName: "",
-            categoryId: "",
+            categoryId: (props.location.state) ? props.location.state.category.categoryId : "",
+            category: (props.location.state) ? props.location.state.category : {
+                categoryId: 0,
+                categoryLevel1Id: 0,
+                categoryLevel2Id: 0,
+                categoryLevel3Id: 0,
+                categoryLevel4Id: 0,
+                categoryLevel5Id: 0,
+                categoryEngPath: "",
+                categoryViePath: ""
+            },
             valid: false,
             layer1: "",
             layer1Data: [],
@@ -113,31 +124,28 @@ class ProductCategory extends Component {
             layer5Data: []
         };
         this.tmpData = [];
+
     }
 
     componentWillMount() {
         console.log(this.props.history);
-
         this.loadData();
-        this.loadStateData();
-    }
-
-    loadStateData = () => {
-        const { location, history } = this.props;
-        if (location.state !== undefined) {
-            const { state } = location;
-            this.setState({ productName: state.productName })
+        for (let layer = 1; layer <= 4; layer++) {
+            if (this.state.category[`categoryLevel${layer}Id`]) {
+                this.loadData(this.state.category[`categoryLevel${layer}Id`], layer + 1)
+            }
         }
     }
 
     loadData = async (parentId, categoryLevel) => {
-        console.log("params", parentId, categoryLevel);
+        // console.log("params", parentId, categoryLevel);
+        // console.log("states", this.state)
         if (!categoryLevel) {
             categoryLevel = 1;
         }
         let url = productCategoryUrl;
         if (parentId) {
-            console.log("HERE", parentId, categoryLevel);
+            // console.log("HERE", parentId, categoryLevel);
             url += `?parentId=${parentId}&categoryLevel=${categoryLevel}`;
         }
 
@@ -151,8 +159,19 @@ class ProductCategory extends Component {
             });
             console.log(response.data.data);
             if (response.data.data && response.data.data.length > 0) {
-                console.log("HERE");
+                // console.log("HERE");
                 this.setState({ [`layer${categoryLevel}Data`]: response.data.data });
+                // console.log("layerData", this.state[`layer${categoryLevel}Data`])
+                if (this.state.category[`categoryLevel${categoryLevel}Id`] !== 0) {
+                    const tmpItem = this.state[`layer${categoryLevel}Data`].find(
+                        item => item.categoryId === this.state.category[`categoryLevel${categoryLevel}Id`]
+                    );
+                    this.setState({
+                        [`layer${categoryLevel}`]: tmpItem,
+                        valid: (!tmpItem.hasChildren)
+                    })
+                }
+
                 if (categoryLevel === 1) {
                     this.tmpData = response.data.data;
                 }
@@ -166,6 +185,7 @@ class ProductCategory extends Component {
     handleCategory = (layer, item) => {
         console.log(layer, item, item.notAllowed === "true");
         let {
+            category,
             layer1, layer1Data,
             layer2, layer2Data,
             layer3, layer3Data,
@@ -175,8 +195,18 @@ class ProductCategory extends Component {
 
         switch (layer) {
             case 1:
+
                 this.setState({
                     valid: (!item.hasChildren),
+                    category: {
+                        ...category,
+                        categoryId: item.categoryId,
+                        categoryLevel1Id: item.categoryId,
+                        categoryLevel2Id: 0,
+                        categoryLevel3Id: 0,
+                        categoryLevel4Id: 0,
+                        categoryLevel5Id: 0,
+                    },
                     layer1: item,
                     layer2: "",
                     // layer2Data: [],
@@ -191,6 +221,14 @@ class ProductCategory extends Component {
             case 2:
                 this.setState({
                     valid: (!item.hasChildren),
+                    category: {
+                        ...category,
+                        categoryId: item.categoryId,
+                        categoryLevel2Id: item.categoryId,
+                        categoryLevel3Id: 0,
+                        categoryLevel4Id: 0,
+                        categoryLevel5Id: 0,
+                    },
                     layer2: item,
                     layer3: "",
                     layer3Data: [],
@@ -203,6 +241,13 @@ class ProductCategory extends Component {
             case 3:
                 this.setState({
                     valid: (!item.hasChildren),
+                    category: {
+                        ...category,
+                        categoryId: item.categoryId,
+                        categoryLevel3Id: item.categoryId,
+                        categoryLevel4Id: 0,
+                        categoryLevel5Id: 0,
+                    },
                     layer3: item,
                     layer4: "",
                     layer4Data: [],
@@ -213,6 +258,12 @@ class ProductCategory extends Component {
             case 4:
                 this.setState({
                     valid: (!item.hasChildren),
+                    category: {
+                        ...category,
+                        categoryId: item.categoryId,
+                        categoryLevel4Id: item.categoryId,
+                        categoryLevel5Id: 0,
+                    },
                     layer4: item,
                     layer5: "",
                     layer5Data: []
@@ -221,6 +272,11 @@ class ProductCategory extends Component {
             case 5:
                 this.setState({
                     valid: (!item.hasChildren),
+                    category: {
+                        ...category,
+                        categoryId: item.categoryId,
+                        categoryLevel5Id: item.categoryId,
+                    },
                     layer5: item
                 });
                 break;
@@ -279,21 +335,25 @@ class ProductCategory extends Component {
         const { classes, t, i18n } = this.props;
         let language = i18n.language;
         // item.categoryEngName : item.categoryVieName
-        let pathStr = "";
+        let pathStr = {
+            categoryEngPath: "",
+            categoryViePath: ""
+        };
         if (this.state.layer1) {
-            pathStr += language === "en" ? this.state.layer1.categoryEngName : this.state.layer1.categoryVieName;
+            pathStr.categoryEngPath += this.state.layer1.categoryEngName;
+            pathStr.categoryViePath += this.state.layer1.categoryVieName;
             if (this.state.layer2) {
-                pathStr += " > ";
-                pathStr += language === "en" ? this.state.layer2.categoryEngName : this.state.layer2.categoryVieName;
+                pathStr.categoryEngPath += " > " + this.state.layer2.categoryEngName;
+                pathStr.categoryViePath += " > " + this.state.layer2.categoryVieName;
                 if (this.state.layer3) {
-                    pathStr += " > ";
-                    pathStr += language === "en" ? this.state.layer3.categoryEngName : this.state.layer3.categoryVieName;
+                    pathStr.categoryEngPath += " > " + this.state.layer3.categoryEngName;
+                    pathStr.categoryViePath += " > " + this.state.layer3.categoryVieName;
                     if (this.state.layer4) {
-                        pathStr += " > ";
-                        pathStr += language === "en" ? this.state.layer4.categoryEngName : this.state.layer4.categoryVieName;
+                        pathStr.categoryEngPath += " > " + this.state.layer4.categoryEngName;
+                        pathStr.categoryViePath += " > " + this.state.layer4.categoryVieName;
                         if (this.state.layer5) {
-                            pathStr += " > ";
-                            pathStr += language === "en" ? this.state.layer5.categoryEngName : this.state.layer5.categoryVieName;
+                            pathStr.categoryEngPath += " > " + this.state.layer5.categoryEngName;
+                            pathStr.categoryViePath += " > " + this.state.layer5.categoryVieName;
                         }
                     }
                 }
@@ -301,36 +361,23 @@ class ProductCategory extends Component {
         }
         return pathStr;
     }
-    handleNext(){
-        let {
-            productName,
-            layer1, layer1Data,
-            layer2, layer2Data,
-            layer3, layer3Data,
-            layer4, layer4Data,
-            layer5, layer5Data
-        } = this.state;
-
-        let lastItem = layer5 || layer4 || layer3 || layer2 || layer1;
-        console.log("lastItem",lastItem);
-
-        this.props.history.push({
-            pathname: '/product/new',
-            state: { 
-                name: productName,
-                category: lastItem
-            }
-        });
-    }
 
     handleNextClick = () => {
+        const { history, location } = this.props;
         const state = {
-            categoryId: this.state.categoryId,
-            categoryPath: this.getPath(),
             productName: this.state.productName,
+            category: {
+                ...this.state.category,
+                categoryEngPath: this.getPath().categoryEngPath,
+                categoryViePath: this.getPath().categoryViePath
+            },
         }
-        // console.log(state)
-        this.props.history.push('/product/new', state)
+        if (location.state.productId) {
+            history.push(`/product/edit/${location.state.productId}`, state)
+        } else {
+            history.push('/product/new', state)
+        }
+
     }
 
     render() {
@@ -527,7 +574,9 @@ class ProductCategory extends Component {
                                 </div>
 
                                 <div style={{ marginTop: "20px" }}>
-                                    {t("product_category.selectedPath")}:  {this.getPath()}
+                                    {t("product_category.selectedPath")}: {" "}
+                                    {i18n.language === "en" && this.getPath().categoryEngPath}
+                                    {i18n.language === "vi" && this.getPath().categoryViePath}
                                 </div>
 
                                 <div style={{ display: "flex", justifyContent: "end" }}>

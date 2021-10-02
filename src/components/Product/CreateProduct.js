@@ -9,6 +9,8 @@ import { Link, withRouter, useLocation, useHistory, Route } from 'react-router-d
 import cs from "../../const";
 import SalesInformation from "./SalesInformation";
 import Specification from "./Specification";
+import Shipping from "./Shipping";
+import Others from "./Others";
 
 const LIMIT_IMAGE_UPLOAD = 9;
 const createVariationURL = cs.BaseURL + "/api/seller/product/variation/create"
@@ -29,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CreateProduct = (props) => {
-
+  console.log("props", props)
   const classes = useStyles();
 
   let imageList = []
@@ -38,16 +40,24 @@ const CreateProduct = (props) => {
   // console.log(location.state);
   // console.log(history);
   const [form, setForm] = useState({
-    categoryId: "",
-    categoryPath: "",
+    category: {
+      categoryId: 0,
+      categoryLevel1Id: 0,
+      categoryLevel2Id: 0,
+      categoryLevel3Id: 0,
+      categoryLevel4Id: 0,
+      categoryLevel5Id: 0,
+      categoryEngPath: "",
+      categoryViePath: ""
+    },
     name: "",
     description: "",
     price: 0,
     inventoryCount: 10,
-    weight: 1,
-    width: 2,
-    height: 3,
-    depth: 4,
+    weight: "",
+    width: "",
+    height: "",
+    depth: "",
     isPreorderedProduct: 1,
     isNewProduct: 1,
     videoUrl: "",
@@ -121,7 +131,10 @@ const CreateProduct = (props) => {
   }
 
   const handleChangeCategoryPath = () => {
-    props.history.push("/product/category", { productName: form.name })
+    props.history.push("/product/category", {
+      productName: form.name,
+      category: form.category
+    })
   }
 
   const createProduct = async () => {
@@ -137,7 +150,7 @@ const CreateProduct = (props) => {
           Authorization: localStorage.getItem(cs.System_Code + '-token'),
         },
         data: {
-          categoryId: form.categoryId,
+          categoryId: form.category.categoryId,
           name: form.name,
           description: form.description,
           price: form.price,
@@ -300,7 +313,11 @@ const CreateProduct = (props) => {
     const { location, history } = props;
     if (location.state !== undefined) {
       const { state } = location;
-      setForm({ ...form, categoryId: state.categoryId, categoryPath: state.categoryPath, name: state.productName })
+      setForm({
+        ...form,
+        category: state.category,
+        name: state.productName
+      })
     } else {
       history.push("/product/category")
     }
@@ -312,6 +329,7 @@ const CreateProduct = (props) => {
   return <div className="d-flex flex-row justify-content-center align-items-baseline">
     <div className="container-fluid w-70vw minw-80em my-3">
       <BasicInformation
+        {...props}
         imageList={imageList}
         form={form}
         onChangeData={onChangeData}
@@ -331,8 +349,16 @@ const CreateProduct = (props) => {
         setVariationArray={setVariationArray}
         setInventoryArray={setInventoryArray}
       />
-      <Shipping />
-      <Others />
+      <Shipping
+        {...props}
+        form={form}
+        onChangeData={onChangeData}
+      />
+      <Others
+        {...props}
+        form={form}
+        onChangeData={onChangeData}
+      />
       <div className="d-flex justify-content-end">
         <button
           className="btn border bg-white me-2"
@@ -404,7 +430,7 @@ const CreateProduct = (props) => {
   </div>
 }
 
-const BasicInformation = ({ imageList, form, onChangeData, onChangeFile, handleChangeCategoryPath, setModalVideo }) => {
+const BasicInformation = ({ imageList, form, onChangeData, onChangeFile, handleChangeCategoryPath, setModalVideo, t, i18n }) => {
   // console.log(form.videoFile);
   return <div className="card card-body mb-3 shadow">
     <h5>Basic Information</h5>
@@ -484,7 +510,9 @@ const BasicInformation = ({ imageList, form, onChangeData, onChangeFile, handleC
         Category
       </div>
       <div className="col-9">
-        {form.categoryPath} <button
+        {i18n.language === "en" && form.category.categoryEngPath}
+        {i18n.language === "vi" && form.category.categoryViePath}
+        <button
           className="btn p-0 ms-2"
           onClick={() => handleChangeCategoryPath()}
         >
@@ -494,50 +522,5 @@ const BasicInformation = ({ imageList, form, onChangeData, onChangeFile, handleC
     </div>
   </div>
 }
-
-const Shipping = () => {
-  return <div className="card card-body mb-3 shadow">
-    <h5>Shipping</h5>
-    <div className="row">
-      <div className="col-3 text-muted text-end">
-        Product images
-      </div>
-      <div className="col-9">
-        Photo
-      </div>
-
-      <div className="col-3 text-muted text-end">
-        Product Video
-      </div>
-      <div className="col-9">
-        Photo
-      </div>
-
-    </div>
-  </div>
-}
-
-const Others = () => {
-  return <div className="card card-body mb-3 shadow">
-    <h5>Others</h5>
-    <div className="row">
-      <div className="col-3 text-muted text-end">
-        Product images
-      </div>
-      <div className="col-9">
-        Photo
-      </div>
-
-      <div className="col-3 text-muted text-end">
-        Product Video
-      </div>
-      <div className="col-9">
-        Photo
-      </div>
-    </div>
-  </div>
-}
-
-
 
 export default withTranslation()(CreateProduct);

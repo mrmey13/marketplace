@@ -144,16 +144,23 @@ class Login extends React.Component {
     const { classes, t, i18n } = this.props;
 
     return (
-      <div className={classes.main_container}>
-        <Card
-          style={{
-            width: "30%",
-            boxShadow: "3px 5px 1px 1px silver",
-            marginTop: "10%",
-          }}
-        >
-          {/* <CardHeader title="E-Training" /> */}
-          <h3
+      <div>
+        <div className="topnav" style={{ backgroundColor: color.tanhide }}>
+          <a class="active" href="http://www.credito.vn">Marketplace</a>
+          <a href="http://hr.credito.vn">HR</a>
+          <a href="http://etraining.credito.vn">eTraining</a>
+          <a href="http://wwww.credito.vn">CRM</a>
+        </div>
+        <div className={classes.main_container}>
+          <Card
+            style={{
+              width: "30%",
+              boxShadow: "3px 5px 1px 1px silver",
+              marginTop: "10%",
+            }}
+          >
+            {/* <CardHeader title="E-Training" /> */}
+            {/* <h3
             className="login-title"
             style={{
               textAlign: "center",
@@ -162,87 +169,89 @@ class Login extends React.Component {
             }}
           >
             MARKETPLACE
-          </h3>
-          {/* <img
+          </h3> */}
+            {/* <img
             src="https://image.flaticon.com/icons/png/512/2996/2996170.png"
             className={classes.logo}
           /> */}
-          <CardContent>
-            <Grid
-              container
-              direction="column"
-              justify="space-between"
-              alignItems="center"
-              spacing={36}
-            >
-              <Typography
-                style={{ fontWeight: "bold", marginBottom: "10px" }}
-                variant="h5"
+            <CardContent>
+              <Grid
+                container
+                direction="column"
+                justify="space-between"
+                alignItems="center"
+                spacing={36}
               >
-                {t("LOGIN")}
-              </Typography>
-              <div className="form-field">
-                <label for="name" className="form-label">
-                  Tài khoản
-                </label>
-                <input
-                  id="order_code"
-                  autoFocus
-                  type="search"
-                  value={this.state.username}
-                  className="form-control form-input"
-                  placeholder=" "
-                  name="domain"
-                  onChange={this._handleUserNameChange}
-                  required={true}
-                  onKeyPress={(ev) => {
-                    if (ev.key === "Enter") {
-                      this._handleLogin();
-                      ev.preventDefault();
-                    }
-                  }}
-                />
+                <Typography
+                  style={{ fontWeight: "bold", marginBottom: "10px", color: color.tanhide }}
+                  variant="h5"
+                >
+                  {/* {t("LOGIN")} */}
+                  Marketplace
+                </Typography>
+                <div className="form-field">
+                  <label for="name" className="form-label">
+                    Tài khoản
+                  </label>
+                  <input
+                    id="order_code"
+                    autoFocus
+                    type="search"
+                    value={this.state.username}
+                    className="form-control form-input"
+                    placeholder=" "
+                    name="domain"
+                    onChange={this._handleUserNameChange}
+                    required={true}
+                    onKeyPress={(ev) => {
+                      if (ev.key === "Enter") {
+                        this._handleLogin();
+                        ev.preventDefault();
+                      }
+                    }}
+                  />
 
-              </div>
-              <div className="form-field">
-                <label for="name" className="form-label">
-                  Mật khẩu
-                </label>
-                <input
-                  id="product_code"
-                  type="search"
-                  className="form-control form-input"
-                  placeholder=" "
-                  name="domain"
-                  value={this.state.password}
-                  onChange={this._handlePasswordChange}
-                  onKeyPress={(ev) => {
-                    if (ev.key === "Enter") {
-                      this._handleLogin();
-                      ev.preventDefault();
-                    }
-                  }}
-                  required={true}
-                  type="password"
-                />
+                </div>
+                <div className="form-field">
+                  <label for="name" className="form-label">
+                    Mật khẩu
+                  </label>
+                  <input
+                    id="product_code"
+                    type="search"
+                    className="form-control form-input"
+                    placeholder=" "
+                    name="domain"
+                    value={this.state.password}
+                    onChange={this._handlePasswordChange}
+                    onKeyPress={(ev) => {
+                      if (ev.key === "Enter") {
+                        this._handleLogin();
+                        ev.preventDefault();
+                      }
+                    }}
+                    required={true}
+                    type="password"
+                  />
 
-              </div>
+                </div>
 
-              <Typography variant="caption" className={classes.error_message}>
-                {this.state.error_message ? this.state.error_message : ""}
-              </Typography>
+                <Typography variant="caption" className={classes.error_message}>
+                  {this.state.error_message ? this.state.error_message : ""}
+                </Typography>
 
-              <Button
-                className={classes.login_button}
-                variant="contained"
-                color="primary"
-                onClick={this._handleLogin}
-              >
-                ĐĂNG NHẬP
-              </Button>
-            </Grid>
-          </CardContent>
-        </Card>
+                <Button
+                  className={classes.login_button}
+                  variant="contained"
+                  color="primary"
+                  onClick={this._handleLogin}
+                >
+                  ĐĂNG NHẬP
+                </Button>
+              </Grid>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     );
   }

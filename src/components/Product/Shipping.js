@@ -9,6 +9,7 @@ const Shipping = ({ form, onChangeData, t, i18n }) => {
       <div className="col-6">
         <div className="input-group">
           <input
+            type="number"
             className="form-control form-control-sm"
             id="weight"
             name="weight"
@@ -25,7 +26,7 @@ const Shipping = ({ form, onChangeData, t, i18n }) => {
       <div className="col-2">
         <div className="input-group">
           <input
-            type="text"
+            type="number"
             className="form-control"
             name="width"
             value={form.width}
@@ -38,7 +39,7 @@ const Shipping = ({ form, onChangeData, t, i18n }) => {
       <div className="col-2">
         <div className="input-group">
           <input
-            type="text"
+            type="number"
             className="form-control"
             name="depth"
             value={form.depth}
@@ -50,7 +51,8 @@ const Shipping = ({ form, onChangeData, t, i18n }) => {
       </div>
       <div className="col-2">
         <div className="input-group">
-          <input type="text"
+          <input
+            type="number"
             className="form-control"
             name="height"
             value={form.height}

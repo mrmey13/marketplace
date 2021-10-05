@@ -81,6 +81,7 @@
 }
 
 .link-btn {
+  box-shadow: none !important;
   color: rgb(0, 89, 255);
 }
 

@@ -3,6 +3,7 @@
     flex-grow: 1;
     width: 980px;
     box-sizing: border-box;
+    margin-top: 1em;
     margin-left: 8rem;
     min-width: 0;
     background: #fff;

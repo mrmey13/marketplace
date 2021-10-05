@@ -27,12 +27,14 @@ import AllProducts from "./AllProducts/AllProducts";
 import SellerProducts from "./SellerProducts/SellerProducts";
 import ProductDetail from "./ProductList/ProductDetail";
 import MyAccount from "./MyAccount/MyAccount";
+import MyAddress from "./MyAccount/MyAddress";
 
 import HomePage from "./HomePage/HomePage";
 import ProductListHomePage from "./HomePage/ProductListHomePage";
 import ProductListCategory from "./HomePage/ProductListCategory";
 import EditProduct from "./Product/EditProduct";
 import ShopProductDetail from "./ProductList/ShopProductDetail";
+import MyPassword from "./MyAccount/MyPassword";
 
 const styles = (theme) => ({
   tableContainer: {
@@ -80,6 +82,8 @@ export class AppRoute extends Component {
         />
 
         <Route exact path="/my_account" component={() => MyAccount(t, i18n)} />
+        <Route exact path="/user/address" component={MyAddress} />
+        <Route exact path="/user/password" component={MyPassword} />
 
         {/* Administration */}
         <Route exact path="/attribute/list" component={Attribute} />

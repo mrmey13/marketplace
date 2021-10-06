@@ -292,8 +292,8 @@ class Home extends React.Component {
                 this.state.open &&
                 getRole() != cs.Role_Solo_Buyer &&
                 window.location.pathname != "/products" &&
-                !window.location.pathname.includes("/product_detail") &&
-                classes.appBarShift
+                !window.location.pathname.includes("/product_detail") 
+                //&& classes.appBarShift
               )}
             >
               <Toolbar
@@ -328,7 +328,7 @@ class Home extends React.Component {
 
 
                  {/* search bar */}
-                {getRole() === cs.Role_Solo_Buyer && (
+                { (
                   <form
                     className="search-form d-flex "
                     style={{ backgroundColor: "white", alignItems: "center" }}

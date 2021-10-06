@@ -293,8 +293,8 @@ class HomeShop extends React.Component {
                 this.state.open &&
                 getRole() != cs.Role_Solo_Buyer &&
                 window.location.pathname != "/products" &&
-                !window.location.pathname.includes("/product_detail") &&
-                classes.appBarShift
+                !window.location.pathname.includes("/product_detail") 
+                //&& classes.appBarShift
               )}
             >
               <Toolbar

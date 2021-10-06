@@ -4,10 +4,15 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './i18n';
+import { createBrowserHistory } from 'history';
+import { BrowserRouter as Router } from 'react-router-dom';
 
+const history = createBrowserHistory();
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router history={history}>
+      <App history={history}/>
+    </Router>  
   </React.StrictMode>,
   document.getElementById('root')
 );

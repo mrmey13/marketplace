@@ -7,6 +7,8 @@ import Loadable from 'react-loadable';
 import Home from './components/Home';
 import { MyThemeProvider } from './components/contexts/ThemeContext';
 import { TableSettingProvider } from './components/contexts/TableSettingContext';
+import {Router,Switch,Route} from "react-router-dom";
+import HomeShop from './components/HomeShop';
 
 const LazyLoadLogin = Loadable({
 	loader: () => import('./components/Login'),
@@ -33,10 +35,23 @@ function App() {
 	var token = localStorage.getItem(cs.System_Code + '-token');
 	if (!token || token == null || token == 'null' || token == undefined) {
 		return <LazyLoadLogin />;
+		// return (
+		// 	<MyThemeProvider>
+		// 		<TableSettingProvider>
+		// 			<Home />
+		// 		</TableSettingProvider>
+		// 	</MyThemeProvider>
+		// );
 	} else return (
+		
 		<MyThemeProvider>
 			<TableSettingProvider>
-				<Home />
+				
+					<Switch>
+						<Route exact path="/" component={Home} />
+						<Route exact path="/shop" component={HomeShop} />
+					</Switch>
+				
 			</TableSettingProvider>
 		</MyThemeProvider>
 	);

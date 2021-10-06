@@ -68,5 +68,21 @@ export default {
     FunctionRole_Seller: 32,
     FunctionRole_Marketplace_Executive: 41,
     FunctionRole_Marketplace_Leader: 42,
-    FunctionRole_Marketplace_Director: 43
+    FunctionRole_Marketplace_Director: 43,
+
+    // Dev
+    ShopUrl:"http://localhost:3002/shop",
+    EtrainingUrl:"http://192.168.1.127:3000",
+    HRUrl:"http://192.168.1.127:3001",
+
+    // Deploy locally
+    // ShopUrl:"http://192.168.1.127:3002/shop_home",
+    // EtrainingUrl:"http://192.168.1.127:3000",
+    // HRUrl:"http://192.168.1.127:3001",
+
+    // production
+    // ShopUrl:"http://salesplus.vn/shop_home",
+    // EtrainingUrl:"http://etraining.salesplus.vn",
+    // HRUrl:"http://hr.salesplus.vn",
+
 }

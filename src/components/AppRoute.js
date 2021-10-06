@@ -35,6 +35,7 @@ import ProductListCategory from "./HomePage/ProductListCategory";
 import EditProduct from "./Product/EditProduct";
 import ShopProductDetail from "./ProductList/ShopProductDetail";
 import MyPassword from "./MyAccount/MyPassword";
+import ShopDashboard from "./HomePage/ShopDashboard";
 
 const styles = (theme) => ({
   tableContainer: {
@@ -48,6 +49,7 @@ export class AppRoute extends Component {
     return (
       <ToastProvider autoDismissTimeout={5000} placement="bottom-center">
         <Route exact path="/" component={() => HomePage(t, i18n)} />
+        <Route exact path="/shop" component={() => ShopDashboard(t,i18n)} />
         <Route exact path="/shop_view" component={() => ShopView(t, i18n)} />
         <Route
           exact

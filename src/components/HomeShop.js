@@ -36,6 +36,7 @@ import AppRoute from "./AppRoute";
 import { useTranslation, withTranslation } from "react-i18next";
 import { getRole, isSoloUser } from "../service";
 import { Grid, Menu } from "@material-ui/core";
+import { red } from "@material-ui/core/colors";
 
 const URL = cs.BaseURL + "/user/detail";
 const revokeTokenURL = cs.BaseURL + "/api/auth/logout";
@@ -208,7 +209,7 @@ const NavbarTitle = ({ title }) => {
   );
 };
 
-class Home extends React.Component {
+class HomeShop extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -272,7 +273,7 @@ class Home extends React.Component {
   };
 
   render() {
-    console.log ("This is Home");
+    
     const { classes, t, i18n } = this.props;
     var username = "";
     var user = localStorage.getItem(cs.System_Code + "-user");
@@ -282,7 +283,7 @@ class Home extends React.Component {
     console.log(isSoloUser());
     return (
       <div>
-        {/* <Router> */}
+        <Router>
           <div className={classes.root}>
             <CssBaseline />
             <AppBar
@@ -315,7 +316,7 @@ class Home extends React.Component {
                 {/* <NavbarTitle title={"MARKETPLACE"} /> */}
                 <div>
                   <Link
-                    to="/"
+                    to="/shop"
                     style={{
                       textDecoration: "none",
                       color: "white",
@@ -328,7 +329,7 @@ class Home extends React.Component {
 
 
                  {/* search bar */}
-                { (
+                {getRole() === cs.Role_Solo_Buyer && (
                   <form
                     className="search-form d-flex "
                     style={{ backgroundColor: "white", alignItems: "center" }}
@@ -531,15 +532,55 @@ class Home extends React.Component {
               </Toolbar>
             </AppBar>
 
-            
+            {getRole() != cs.Role_Solo_Buyer &&
+              window.location.pathname != "/products" &&
+              !window.location.pathname.includes("/product_detail") && (
+                <Drawer
+                  variant="permanent"
+                  classes={{
+                    paper: classNames(
+                      classes.drawerPaper,
+                      !this.state.open && classes.drawerPaperClose
+                    ),
+                  }}
+                  onEscapeKeyDown={this.handleDrawerClose}
+                  onBackdropClick={this.handleDrawerClose}
+                  open={this.state.open}
+                >
+                  <div className={classes.toolbarHeader}>
+                    <Avatar
+                      className={classes.avatar}
+                    // src={require("../img/LOGO-Credito.png")}
+                    />
+                    <Typography variant="body" className={classes.username}>
+                      {username}
+                    </Typography>
+                  </div>
+                  <Divider />
+                  <List grouped={true} collapsibleGroups={true}>
+                    <NestedList
+                      multilingual={true}
+                      menu={menu}
+                      closeMenuTab={this.handleDrawerClose}
+                    />
+                  </List>
+                </Drawer>
+              )}
 
             <main className={classes.content}> 
               <div className={classes.appBarSpacer} />
+
+              {/* <AppRoute userrole={this.userrole} /> */}
               <AppRoute />
-             
+              {/* <ToastProvider autoDismissTimeout={5000} placement="bottom-center">
+              <ChangePassword
+                open={this.state.showChangePassword}
+                onClose={this.handleCloseChangePassword}
+              />
+            </ToastProvider> */}
             </main>
           </div>
-        {/* </Router> */}
+        </Router>
 
         <div className={classes.footer}>
           <div >
@@ -557,31 +598,6 @@ class Home extends React.Component {
               </button>
             ))}
           </div>
-
-
-
-          <Grid
-            container
-            direction="row"
-            justify="space-between"
-            alignItems="flex-start"
-          // spacing={4}
-          >
-            <Grid item >
-
-            </Grid>
-            <Grid item >
-              <div >
-                <a style={{ textDecoration: "none" }} href="http://192.168.1.127:3000/">Etraining</a>
-              </div>
-            </Grid>
-            <Grid item >
-              <div  >
-                <a style={{ textDecoration: "none" }} href="http://192.168.1.127:3001/">HR Managment</a>
-              </div>
-            </Grid>
-            <Grid item ></Grid>
-          </Grid>
         </div>
 
       </div>
@@ -589,8 +605,8 @@ class Home extends React.Component {
   }
 }
 
-Home.propTypes = {
+HomeShop.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withTranslation()(Home));
+export default withStyles(styles)(withTranslation()(HomeShop));

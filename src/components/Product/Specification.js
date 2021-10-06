@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useTranslation, withTranslation } from "react-i18next";
+import { CheckIcon, XIcon } from "@primer/octicons-react";
 import cs from "../../const";
 
 const getCategoryAttributeUrl = cs.BaseURL + "/api/manager/category-attribute/list?"
@@ -20,16 +21,51 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n }) => {
       } else {
         newArr[index].chosenAttributeValue = newArr[index].chosenAttributeValue.filter(e => e.attributeOptionId !== item.attributeOptionId)
       }
-      console.log(newArr[index].chosenAttributeValue)
+      // console.log(newArr[index].chosenAttributeValue)
     } else {
       newArr[index].inputAttributeValue = event.target.value;
     }
     setAttributeData(newArr);
   }
 
-  const onChangeSearchInput = (event, index) => {
+  const onChangeCustomAttributeData = (event, index, item) => {
     let newArr = [...attributeData];
-    newArr[index].searchInput = event.target.value;
+    let check = !newArr[index].chosenCustomAttributeValue.filter(e => e === item).length;
+    if (check) {
+      newArr[index].chosenCustomAttributeValue = newArr[index].chosenCustomAttributeValue.concat(item);
+    } else {
+      newArr[index].chosenCustomAttributeValue = newArr[index].chosenCustomAttributeValue.filter(e => e !== item);
+    }
+    setAttributeData(newArr);
+  }
+
+  const onChangeInput = (event, index) => {
+    let newArr = [...attributeData];
+    newArr[index][event.target.name] = event.target.value;
+    setAttributeData(newArr);
+  }
+
+  const onAddAttributeItem = (index) => {
+    let newArr = [...attributeData];
+    newArr[index].customBoxInput = true;
+    setAttributeData(newArr);
+  }
+
+  const onConfirmAddAttributeItem = (index) => {
+    let newArr = [...attributeData];
+    let temp = newArr[index].customInput;
+    newArr[index].customValueData = newArr[index].customValueData.concat(temp);
+    newArr[index].customInput = "";
+    newArr[index].customBoxInput = false;
+    // console.log(newArr);
+    setAttributeData(newArr);
+  }
+
+  const onCancelAddAttributeItem = (index) => {
+    let newArr = [...attributeData];
+    newArr[index].customInput = "";
+    newArr[index].customBoxInput = false;
+    // console.log(newArr);
     setAttributeData(newArr);
   }
 
@@ -45,6 +81,10 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n }) => {
         return attribute.attributeData.filter(e => e.attributeEngValue.toLowerCase().includes(attribute.searchInput.toLowerCase()));
         break;
     }
+  }
+
+  const getFilterCustomAttributeData = (attribute) => {
+    return attribute.customValueData.filter(e => e.toLowerCase().includes(attribute.searchInput.toLowerCase()));
   }
 
   const loadCategoryAttributeData = async () => {
@@ -81,10 +121,14 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n }) => {
         if (response.data.error_desc === "Success") {
           result = result.concat({
             attributeId: item.attributeId,
+            searchInput: "",
             attributeData: response.data.data,
             chosenAttributeValue: [],
             inputAttributeValue: "",
-            searchInput: ""
+            customValueData: [], //["string", ...]
+            chosenCustomAttributeValue: [],
+            customInput: "",
+            customBoxInput: false,
           })
         }
       } catch (error) {
@@ -119,7 +163,7 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n }) => {
                   data-bs-auto-close="outside"
                 >
                   {
-                    (!attributeData[index].chosenAttributeValue.length) && "Please select"
+                    (!(attributeData[index].chosenAttributeValue.length || attributeData[index].chosenCustomAttributeValue.length)) && "Please select"
                   }
                   {i18n.language === "en" && attributeData[index].chosenAttributeValue.map((e) => <span>
                     {e.attributeEngValue + ", "}
@@ -127,6 +171,10 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n }) => {
                   {i18n.language === "vi" && attributeData[index].chosenAttributeValue.map((e) => <span>
                     {e.attributeViValue + ", "}
                   </span>)}
+                  {attributeData[index].chosenCustomAttributeValue.map(e => <span>
+                    {e + ", "}
+                  </span>
+                  )}
                 </button>
 
                 <div className="dropdown-menu dropdown-menu-end mt-2 shadow" aria-labelledby="dropdownMenuButton1" style={{ width: "100%" }}>
@@ -136,8 +184,9 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n }) => {
                       className="form-control form-control-sm"
                       // style={{ width: "95%" }}
                       placeholder="Please input"
+                      name="searchInput"
                       value={item.searchInput}
-                      onChange={(event) => onChangeSearchInput(event, index)}
+                      onChange={(event) => onChangeInput(event, index)}
                     />
                   </div>
                   <div
@@ -160,30 +209,56 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n }) => {
                       {i18n.language === "vi" && obj.attributeViValue}
                     </button>
                     )}
-                  </div>
-                  <div
-                    className="dropdown-header"
-                  >
-                    Self-fill Option
+                    {item.customValueData.length !== 0 && <div
+                      className="dropdown-header"
+                    >
+                      Self-fill Option
+                    </div>}
+                    {getFilterCustomAttributeData(item).map(obj => <button
+                      className={
+                        (item.chosenCustomAttributeValue.filter(e => e === obj).length)
+                          ? "dropdown-item text-danger"
+                          : "dropdown-item"
+                      }
+                      onClick={(event) => onChangeCustomAttributeData(event, index, obj)}
+                    >
+                      {obj}
+                    </button>
+                    )}
+
                   </div>
                   <hr class="dropdown-divider" />
                   <button
                     className="dropdown-item"
-                    hidden={false}
+                    hidden={item.customBoxInput}
+                    onClick={() => onAddAttributeItem(index)}
                   >
                     + Add a New item
                   </button>
-                  <div className="px-2 d-flex">
+                  <div
+                    className="px-2 d-flex"
+                  >
                     <input
                       type="text"
-                      className="form-control form-control-sm"
+                      className="form-control form-control-sm me-1"
                       // style={{ width: "95%" }}
                       placeholder="Please input"
-                      value={item.searchInput}
-                      onChange={(event) => onChangeSearchInput(event, index)}
+                      name="customInput"
+                      value={item.customInput}
+                      onChange={(event) => onChangeInput(event, index)}
+                      hidden={!item.customBoxInput}
                     />
-                    <button className="btn-outline-secondary btn-sm">v</button>
-                    <button className="btn-outline-secondary btn-sm">v</button>
+                    <button
+                      className="btn-outline-secondary btn-sm me-1"
+                      onClick={() => onConfirmAddAttributeItem(index)}
+                      disabled={!item.customInput}
+                      hidden={!item.customBoxInput}
+                    ><CheckIcon size={12} /></button>
+                    <button
+                      className="btn-outline-secondary btn-sm"
+                      onClick={() => onCancelAddAttributeItem(index)}
+                      hidden={!item.customBoxInput}
+                    ><XIcon size={12} /></button>
                   </div>
                 </div>
               </div>

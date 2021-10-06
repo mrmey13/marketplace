@@ -269,7 +269,14 @@ const CreateProduct = (props) => {
           attributeValue: item.inputAttributeValue
         });
       }
+      for (let element of item.chosenCustomAttributeValue) {
+        resultArr = resultArr.concat({
+          attributeId: item.attributeId,
+          attributeValue: element,
+        })
+      }
     }
+    console.log("custom-value", resultArr);
     return resultArr;
   }
 

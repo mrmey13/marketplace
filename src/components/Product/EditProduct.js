@@ -318,13 +318,22 @@ const CreateProduct = (props) => {
         Authorization: localStorage.getItem(cs.System_Code + "-token")
       }
     });
-    console.log(response.data.data);
-    console.log("pr", props.location.state.productName);
+    console.log("data", response.data.data);
+    // console.log("pr", props.location.state.productName);
     let data = response.data.data;
     let tmp = { ...form };
-    tmp.name = (props.location.state.productName) ? props.location.state.productName : data.productName;
+    // console.log(props.location)
+    if (props.location.state) {
+      tmp.name = (props.location.state.productName) ? props.location.state.productName : data.productName;
+      tmp.category = (props.location.state.category) ? props.location.state.category : loadCategory(data);
+    } else {
+      console.log("ss", props.location.state)
+      tmp.name= data.productName;
+      tmp.category= loadCategory(data);
+    }
+    // tmp.name = (props.location.state.productName !== undefined) ? props.location.state.productName : data.productName;
+    // tmp.category = (props.location.state.category) ? props.location.state.category : loadCategory(data);
     tmp.description = data.productDescription;
-    tmp.category = (props.location.state.category) ? props.location.state.category : loadCategory(data);
     tmp.price = data.price;
     tmp.inventoryCount = data.inventoryCount;
     tmp.isNewProduct = data.isNewProduct;
@@ -340,7 +349,22 @@ const CreateProduct = (props) => {
     setInventoryArray(data.inventoryArray);
   }
 
+  const loadAttributeData = async () => {
+    try {
+      const response = await axios({
+        method: 'get',
+        url: `http://192.168.1.127:9555/api/seller/product/attribute/detail?productId=${productId}`,
+        headers: {
+          Authorization: localStorage.getItem(cs.System_Code + "-token"),
+        }
+      });
+      console.log("attr-data", response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
   useEffect(() => {
+    loadAttributeData();
     loadData();
   }, [])
 

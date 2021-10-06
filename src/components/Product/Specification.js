@@ -14,8 +14,13 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n }) => {
   const onChangeAttributeData = (event, index, item) => {
     let newArr = [...attributeData];
     if (newArr[index].attributeData.length) {
-      newArr[index].chosenAttributeValue = item;
-      // console.log(item)
+      let check = !newArr[index].chosenAttributeValue.filter(e => e.attributeOptionId === item.attributeOptionId).length;
+      if (check) {
+        newArr[index].chosenAttributeValue = newArr[index].chosenAttributeValue.concat(item)
+      } else {
+        newArr[index].chosenAttributeValue = newArr[index].chosenAttributeValue.filter(e => e.attributeOptionId !== item.attributeOptionId)
+      }
+      console.log(newArr[index].chosenAttributeValue)
     } else {
       newArr[index].inputAttributeValue = event.target.value;
     }
@@ -77,7 +82,7 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n }) => {
           result = result.concat({
             attributeId: item.attributeId,
             attributeData: response.data.data,
-            chosenAttributeValue: {},
+            chosenAttributeValue: [],
             inputAttributeValue: "",
             searchInput: ""
           })
@@ -104,21 +109,24 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n }) => {
           <label className="col-2 text-muted text-end p-2" for="category-Id">{categoryAttributeList[index].attributeEngName}</label>
           <div className="col-4 mb-2">
             {
-              item.attributeData.length !== 0 && <div className="dropdown" style={{ width: "100%"}}>
+              item.attributeData.length !== 0 && <div className="dropdown" style={{ width: "100%" }}>
                 <button
-                  className="form-control text-start"
+                  className="form-control text-start overflow-hidden text-nowrap"
                   id="dropdownMenuButton1"
                   // data-bs-auto-close="true"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
+                  data-bs-auto-close="outside"
                 >
                   {
-                    (!attributeData[index].chosenAttributeValue.attributeEngValue
-                      || !attributeData[index].chosenAttributeValue.attributeViValue)
-                    && "Please select"
+                    (!attributeData[index].chosenAttributeValue.length) && "Please select"
                   }
-                  {i18n.language === "en" && attributeData[index].chosenAttributeValue.attributeEngValue}
-                  {i18n.language === "vi" && attributeData[index].chosenAttributeValue.attributeViValue}
+                  {i18n.language === "en" && attributeData[index].chosenAttributeValue.map((e) => <span>
+                    {e.attributeEngValue + ", "}
+                  </span>)}
+                  {i18n.language === "vi" && attributeData[index].chosenAttributeValue.map((e) => <span>
+                    {e.attributeViValue + ", "}
+                  </span>)}
                 </button>
 
                 <div className="dropdown-menu dropdown-menu-end mt-2 shadow" aria-labelledby="dropdownMenuButton1" style={{ width: "100%" }}>
@@ -139,17 +147,44 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n }) => {
                       overflow: "auto"
                     }}
                   >
-                    {getFilterAttributeData(item).map(item => <button
-                      className="dropdown-item"
+                    {getFilterAttributeData(item).map(obj => <button
+                      className={
+                        (item.chosenAttributeValue.filter(e => e.attributeOptionId === obj.attributeOptionId).length)
+                          ? "dropdown-item text-danger"
+                          : "dropdown-item"
+                      }
                       // value={item}
-                      onClick={(event) => onChangeAttributeData(event, index, item)}
+                      onClick={(event) => onChangeAttributeData(event, index, obj)}
                     >
-                      {i18n.language === "en" && item.attributeEngValue}
-                      {i18n.language === "vi" && item.attributeViValue}
+                      {i18n.language === "en" && obj.attributeEngValue}
+                      {i18n.language === "vi" && obj.attributeViValue}
                     </button>
                     )}
                   </div>
+                  <div
+                    className="dropdown-header"
+                  >
+                    Self-fill Option
+                  </div>
                   <hr class="dropdown-divider" />
+                  <button
+                    className="dropdown-item"
+                    hidden={false}
+                  >
+                    + Add a New item
+                  </button>
+                  <div className="px-2 d-flex">
+                    <input
+                      type="text"
+                      className="form-control form-control-sm"
+                      // style={{ width: "95%" }}
+                      placeholder="Please input"
+                      value={item.searchInput}
+                      onChange={(event) => onChangeSearchInput(event, index)}
+                    />
+                    <button className="btn-outline-secondary btn-sm">v</button>
+                    <button className="btn-outline-secondary btn-sm">v</button>
+                  </div>
                 </div>
               </div>
             }

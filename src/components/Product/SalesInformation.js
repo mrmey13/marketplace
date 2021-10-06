@@ -337,6 +337,7 @@ const SalesInformation = ({ form, onChangeData,
 				<label className="col-3 form-label text-muted text-end" for="product-price">* Product Price</label>
 				<div className="col-9">
 					<input
+						type="number"
 						className="form-control form-control-sm"
 						id="product-price"
 						name="price"

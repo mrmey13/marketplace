@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CreateProduct = (props) => {
-  console.log("props", props)
+  // console.log("props", props)
   const classes = useStyles();
 
   let imageList = []
@@ -54,10 +54,10 @@ const CreateProduct = (props) => {
     description: "",
     price: 0,
     inventoryCount: 10,
-    weight: "",
-    width: "",
-    height: "",
-    depth: "",
+    weight: 0,
+    width: 0,
+    height: 0,
+    depth: 0,
     isPreorderedProduct: 1,
     isNewProduct: 1,
     videoUrl: "",
@@ -72,7 +72,7 @@ const CreateProduct = (props) => {
   const [attributeData, setAttributeData] = useState([]);
 
   const onChangeData = (event) => {
-    console.log(event.target);
+    // console.log(event.target);
     setForm({ ...form, [event.target.name]: event.target.value })
   }
 
@@ -138,9 +138,9 @@ const CreateProduct = (props) => {
   }
 
   const createProduct = async () => {
-    console.log(form);
-    console.log("variationArray", variationArray);
-    console.log("inventoryArray", inventoryArray);
+    // console.log(form);
+    // console.log("variationArray", variationArray);
+    // console.log("inventoryArray", inventoryArray);
     //error mess
     try {
       const response = await axios({
@@ -164,7 +164,7 @@ const CreateProduct = (props) => {
           videoYoutubeURL: form.videoUrl,
         }
       })
-      console.log(response.data);
+      console.log("create", response.data);
       if (response.data.error_desc === "Success") {
         let productId = response.data.data.productId;
         saveCoverImage(productId);
@@ -184,7 +184,7 @@ const CreateProduct = (props) => {
       variationArray,
       inventoryArray
     }
-    console.log(requestBody);
+    // console.log(requestBody);
     try {
       const response = await axios({
         method: "POST",
@@ -194,7 +194,7 @@ const CreateProduct = (props) => {
         },
         data: requestBody
       })
-      console.log(response.data);
+      // console.log(response.data);
       if (response.data.error_desc === "Success") {
 
       }
@@ -242,17 +242,21 @@ const CreateProduct = (props) => {
       // console.log("formData", formData)
       console.log("saveImages", response.data)
     } catch (error) {
-      console.log("image", error)
+      console.log(error)
     }
   }
 
   const getArrayAttribute = () => {
     let resultArr = [];
     for (let item of attributeData) {
-      if (item.chosenAttributeValue.attributeOptionId) {
-        resultArr = resultArr.concat(item.chosenAttributeValue.attributeOptionId);
+      // console.log("item", item)
+      for (let element of item.chosenAttributeValue) {
+        // console.log("e", element)
+        resultArr = resultArr.concat(element.attributeOptionId);
       }
     }
+    // console.log(attributeData);
+    console.log(resultArr)
     return resultArr;
   }
 
@@ -367,7 +371,7 @@ const CreateProduct = (props) => {
         </button>
         <button
           className="btn border bg-white me-2"
-        // onClick={() => { createAttributeProduct(); createCustomAttributeProduct() }}
+          onClick={() => { getArrayAttribute() }}
         >
           Save and Delish
         </button>

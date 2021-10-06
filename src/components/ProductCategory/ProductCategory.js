@@ -129,8 +129,8 @@ class ProductCategory extends Component {
 
     componentWillMount() {
         console.log(this.props.history);
-        this.loadData();
-        for (let layer = 1; layer <= 4; layer++) {
+        for (let layer = 0; layer <= 4; layer++) {
+            this.loadData();
             if (this.state.category[`categoryLevel${layer}Id`]) {
                 this.loadData(this.state.category[`categoryLevel${layer}Id`], layer + 1)
             }
@@ -167,9 +167,11 @@ class ProductCategory extends Component {
                         item => item.categoryId === this.state.category[`categoryLevel${categoryLevel}Id`]
                     );
                     this.setState({
+                        valid: (!tmpItem.hasChildren),
                         [`layer${categoryLevel}`]: tmpItem,
-                        valid: (!tmpItem.hasChildren)
                     })
+                    // console.log("s", this.state, "lv", categoryLevel);
+
                 }
 
                 if (categoryLevel === 1) {
@@ -372,7 +374,7 @@ class ProductCategory extends Component {
                 categoryViePath: this.getPath().categoryViePath
             },
         }
-        if (location.state.productId) {
+        if (location.state && location.state.productId) {
             history.push(`/product/edit/${location.state.productId}`, state)
         } else {
             history.push('/product/new', state)

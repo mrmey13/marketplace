@@ -1,5 +1,5 @@
-import { makeStyles } from "@material-ui/core";
 import Modal from "@material-ui/core/Snackbar";
+import { makeStyles, Snackbar } from "@material-ui/core";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useTranslation, withTranslation } from "react-i18next";
@@ -662,6 +662,16 @@ const MyAddress = () => {
         </div>
       </div>
     </Modal>
+
+    <Snackbar
+      open={openMessage}
+      autoHideDuration={2000}
+      onClose={handleCloseMessage}
+    >
+      <div className={"alert-popup text-" + responseMessage.type}>
+        {responseMessage.content}
+      </div>
+    </Snackbar>
   </div>
 }
 

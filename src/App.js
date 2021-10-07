@@ -47,10 +47,76 @@ function App() {
 		<MyThemeProvider>
 			<TableSettingProvider>
 				
-					<Switch>
-						<Route exact path="/" component={Home} />
-						<Route exact path="/shop" component={HomeShop} />
-					</Switch>
+				<Switch>
+					<Route exact path="/" component={Home} />
+					<Route exact path="/shop" component={HomeShop} />
+					<Route exact path="/shop_view" component={Home} />
+					<Route
+						exact
+						path="/seller/products"
+						component={Home}
+					/>
+					<Route
+						exact
+						path="/category/:name/:id"
+						component={Home}
+					/>
+					<Route
+						// exact
+						path="/shop/profile"
+						component={HomeShop}
+					/>
+
+					<Route
+						exact
+						path="/shop/setting"
+						component={HomeShop}
+					/>
+					<Route
+						exact
+						path="/seller/product_detail/:productId"
+						component={HomeShop}
+					/>
+					<Route
+						exact
+						path="/product_detail/:productId"
+						component={Home}
+					/>
+					{/*Ho so cua shop*/}
+					<Route exact path="/my_account" component={HomeShop} />
+					<Route exact path="/user/address" component={Home} />
+					<Route exact path="/user/password" component={Home} />
+
+					{/* Administration */}
+					<Route exact path="/attribute/list" component={HomeShop} />
+					<Route exact path="/attribute/config" component={HomeShop} />
+
+					{/* Product */}
+					<Route exact path="/product/new" component={HomeShop} />
+
+					{/* Settings */}
+					<Route exact path="/settings/address" component={HomeShop} />
+
+					<Route exact path="/product/category" component={HomeShop} />
+
+					<Route
+						// exact
+						path="/product-list/:type"
+						component={Home}
+					/>
+
+					<Route
+						// exact
+						path="/seller-product-list/:type"
+						component={HomeShop}
+					/>
+
+					<Route
+						// exact
+						path="/product/edit/:productId"
+						component={HomeShop}
+					/>
+				</Switch>
 				
 			</TableSettingProvider>
 		</MyThemeProvider>

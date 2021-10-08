@@ -4,6 +4,8 @@
         "button": {
             "save": "Lưu",
             "logout": "Đăng xuất",
+            "login" : "Đăng nhập",
+            "signup": "Đăng ký",
             "change_password": "Đổi mật khẩu",
             "confirm": "Xác nhận",
             "cancel": "Bỏ qua",
@@ -23,7 +25,7 @@
     },
     "language": {
         "title": "Ngôn ngữ: ",
-        "english": "Tiếng Anh",
+        "english": "English",
         "vietnamese": "Tiếng Việt"
     },
     "nested_list": {

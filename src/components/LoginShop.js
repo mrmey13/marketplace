@@ -5,13 +5,12 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import { withToastManager } from "react-toast-notifications";
-import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import "./Login.css";
 import cs from "../const.js";
 import Grid from "@material-ui/core/Grid";
 import color from '../theme/color';
-import { useTranslation, withTranslation } from 'react-i18next';
+import {withTranslation } from 'react-i18next';
 
 
 const loginURL = cs.BaseURL + "/api/auth/login";
@@ -53,7 +52,7 @@ const styles = (theme) => ({
   },
 });
 
-class Login extends React.Component {
+class LoginShop extends React.Component {
   constructor(props) {
     super(props);
 
@@ -121,11 +120,8 @@ class Login extends React.Component {
             localStorage.setItem(cs.System_Code + '-expireDate', data.data.expireDate);
             localStorage.setItem(cs.System_Code + '-funtionRoles', JSON.parse(JSON.stringify(data.data.functionRoles)));
             console.log(data.data);
-            // console.log(data.data.functionRoles);
-            // console.log(JSON.stringify(data.data.functionRoles));
-            //window.location.reload();
-            //window.location.reload();
-            this.props.history.push('/');
+            // go to shop management page after logging in
+            this.props.history.push('/shop');
           } else {
             this.setState({
               username: "",
@@ -151,10 +147,10 @@ class Login extends React.Component {
     return (
       <div>
         <div className="topnav" style={{ backgroundColor: color.tanhide }}>
-          <a class="active" href="http://www.credito.vn">SALESPLUS</a>
-          <a href="http://hr.credito.vn">HR</a>
-          <a href="http://etraining.credito.vn">eTraining</a>
-          <a href="http://wwww.credito.vn">CRM</a>
+          <a class="active" href="http://www.salesplus.asia">SALESPLUS</a>
+          <a href="http://hr.salesplus.asia">HR</a>
+          <a href="http://etraining.salesplus.asia">eTraining</a>
+          <a href="http://wwww.salesplus.asia">CRM</a>
         </div>
         <div className={classes.main_container}>
           <Card
@@ -164,21 +160,6 @@ class Login extends React.Component {
               marginTop: "10%",
             }}
           >
-            {/* <CardHeader title="E-Training" /> */}
-            {/* <h3
-            className="login-title"
-            style={{
-              textAlign: "center",
-              color: "#F89A0C",
-              fontWeight: "bold",
-            }}
-          >
-            MARKETPLACE
-          </h3> */}
-            {/* <img
-            src="https://image.flaticon.com/icons/png/512/2996/2996170.png"
-            className={classes.logo}
-          /> */}
             <CardContent>
               <Grid
                 container
@@ -192,7 +173,7 @@ class Login extends React.Component {
                   variant="h5"
                 >
                   {/* {t("LOGIN")} */}
-                  Marketplace
+                  Bán hàng cùng Salesplus
                 </Typography>
                 <div className="form-field">
                   <label for="name" className="form-label">
@@ -262,8 +243,8 @@ class Login extends React.Component {
   }
 }
 
-Login.propTypes = {
+LoginShop.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withToastManager(withStyles(styles)(withTranslation()(Login)));
+export default withToastManager(withStyles(styles)(withTranslation()(LoginShop)));

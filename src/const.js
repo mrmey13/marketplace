@@ -84,5 +84,9 @@ export default {
     // ShopUrl:"http://salesplus.vn/shop_home",
     // EtrainingUrl:"http://etraining.salesplus.vn",
     // HRUrl:"http://hr.salesplus.vn",
+};
 
-}
+export const openInNewTab = (url) => {
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+    if (newWindow) newWindow.opener = null;
+};

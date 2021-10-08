@@ -24,14 +24,17 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { ToastProvider } from "react-toast-notifications";
 
 
+
 import { useParams } from "react-router";
 import cs from "../const";
+import { openInNewTab } from "../const";
 import color from "../theme/color";
 
 // import ChangePassword from "./auth/ChangePassword";
 import NestedList from "./shared/NestedList/NestedList";
 import { menu } from "./menu.js";
 import AppRoute from "./AppRoute";
+import Login from "./Login";
 
 import { useTranslation, withTranslation } from "react-i18next";
 import { getRole, isSoloUser } from "../service";
@@ -218,9 +221,7 @@ class HomeShop extends React.Component {
       showChangePassword: false,
       anchorEl: null
     };
-    console.log("HOME props", props);
     var user = localStorage.getItem(cs.System_Code + "-user");
-    // this.userrole = JSON.parse(String(user)).role;
 
     this.handleShowChangePassword = this.handleShowChangePassword.bind(this);
     this.handleCloseChangePassword = this.handleCloseChangePassword.bind(this);
@@ -258,10 +259,6 @@ class HomeShop extends React.Component {
         localStorage.clear();
         window.location.reload();
       });
-
-    // sessionStorage.clear();
-    // localStorage.clear();
-    // window.location.reload();
   };
 
   handleShowChangePassword = () => {
@@ -277,10 +274,18 @@ class HomeShop extends React.Component {
     const { classes, t, i18n } = this.props;
     var username = "";
     var user = localStorage.getItem(cs.System_Code + "-user");
+    var token = localStorage.getItem(cs.System_Code + '-token');
     if (user) username = JSON.parse(String(user)).fullname;
     if (!username && user) username = JSON.parse(String(user)).name;
     console.log(getRole());
     console.log(isSoloUser());
+    if (!token|| token == null || token == 'null' || token == undefined) {
+      return (
+        <div>
+          <Login />
+        </div>
+      )
+    } else
     return (
       <div>
         <Router>
@@ -323,7 +328,7 @@ class HomeShop extends React.Component {
                       fontSize: "20px",
                     }}
                   >
-                    MARKETPLACE
+                    SALESPLUS
                   </Link>
                 </div>
 
@@ -488,24 +493,21 @@ class HomeShop extends React.Component {
                       onClose={() => this.setState({ anchorEl: null })}
                     >
                       <MenuItem onClick={() => {
-                        this.setState({ anchorEl: null });
-                        window.location.href = cs.ShopUrl;
+                        openInNewTab(cs.ShopUrl) ;
                       }}>Bán hàng với Salesplus</MenuItem>
 
                       <MenuItem onClick={() => {
-                        this.setState({ anchorEl: null });
-                        window.location.href = cs.HRUrl;
+                        openInNewTab(cs.HRUrl);
 
                       }}>HR Management</MenuItem>
                       <MenuItem onClick={() => {
-                        this.setState({ anchorEl: null })
-                        window.location.href = cs.EtrainingUrl;
-                      }}>E-Training</MenuItem>
+                         openInNewTab(cs.EtrainingUr);
+                      }}>eTraining</MenuItem>
                     </Menu>
                   </div>
 
-                  <Link
-                    to="/"
+                  {token && (<Link
+                    to="/shop/login"
                     style={{
                       textDecoration: "none",
                       color: "white",
@@ -522,13 +524,14 @@ class HomeShop extends React.Component {
                       aria-label="Đăng xuất"
                       onClick={this.handleLogOut}
                     >
-                      <Icon> exit_to_app </Icon>
                       <span style={{ marginLeft: 10 }}>
                         {t("commons.button.logout")}
                       </span>
                     </Button>
-                  </Link>
-                </div>
+                  </Link> )}
+
+                
+                </div> 
               </Toolbar>
             </AppBar>
 
@@ -569,15 +572,8 @@ class HomeShop extends React.Component {
 
             <main className={classes.content}> 
               <div className={classes.appBarSpacer} />
-
-              {/* <AppRoute userrole={this.userrole} /> */}
               <AppRoute />
-              {/* <ToastProvider autoDismissTimeout={5000} placement="bottom-center">
-              <ChangePassword
-                open={this.state.showChangePassword}
-                onClose={this.handleCloseChangePassword}
-              />
-            </ToastProvider> */}
+              
             </main>
           </div>
         </Router>

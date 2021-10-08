@@ -3,7 +3,9 @@
     "commons": {
         "button": {
             "save": "Save",
-            "logout": "Logout",
+            "logout": "Log out",
+            "login" : "Log in",
+            "signup": "Sign up",
             "change_password": "Change password",
             "confirm": "Confirm",
             "cancel": "Cancel",
@@ -24,7 +26,7 @@
     "language": {
         "title": "Language: ",
         "english": "English",
-        "vietnamese": "Vietnamese"
+        "vietnamese": "Tiếng Việt"
     },
     "nested_list": {
         "shop_menu": {

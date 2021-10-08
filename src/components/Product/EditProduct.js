@@ -12,12 +12,14 @@ import {
 } from 'react-router-dom';
 
 import cs from "../../const";
+import { LIMIT_IMAGE_UPLOAD } from "./CreateProduct";
+
+import BasicInformation from "./BasicInformation";
 import SalesInformation from "./SalesInformation";
 import Specification from "./Specification";
 import Shipping from "./Shipping";
 import Others from "./Others";
 
-const LIMIT_IMAGE_UPLOAD = 9;
 const editVariationURL = cs.BaseURL + "/api/seller/product/variation/edit"
 const productDetailURL = cs.BaseURL + "/api/seller/product/detail";
 
@@ -57,7 +59,7 @@ const formatData = (variationArray, inventoryArray) => {
     if (variationArray.length == 2) {
       level1Attribute = variationArray[0].name;
       level2Attribute = variationArray[1].name;
-      console.log("HERE", variationArray[0].options);
+      // console.log("HERE", variationArray[0].options);
       level1 = variationArray[0].options.map((e, i) => ({
         valueName: e.optionValue || "",
         price: 0,
@@ -86,12 +88,12 @@ const formatData = (variationArray, inventoryArray) => {
   return { level1Attribute, level1, level2Attribute, level2Options, level2 };
 }
 
-const CreateProduct = (props) => {
+const EditProduct = (props) => {
 
   const classes = useStyles();
   const { productId } = useParams();
   let imageList = []
-  for (let i = 0; i < LIMIT_IMAGE_UPLOAD; i++) imageList.push(i)
+  for (let i = 0; i < LIMIT_IMAGE_UPLOAD - 1; i++) imageList.push(i)
 
   // console.log(location.state);
   // console.log(history);
@@ -117,10 +119,14 @@ const CreateProduct = (props) => {
     isPreorderedProduct: 1,
     isNewProduct: 1,
     videoUrl: "",
-    imgFile: [],
-    imgFileUrl: [],
     videoFile: {},
   });
+
+  const [imgData, setImgData] = useState({
+    coverImg: { file: null, path: "" },
+    imgs: [], // [{ file: {}, path: "", id: "" }, ...]
+    delImgsId: [] // [id, ...]
+  })
 
   const [variationArray, setVariationArray] = useState([]);
   const [inventoryArray, setInventoryArray] = useState([]);
@@ -141,51 +147,6 @@ const CreateProduct = (props) => {
     setModalVideo(false);
   }
 
-  const removeDuplicate = (imageList) => {
-    let checkDup = false;
-    let dupElement = {};
-    for (const iterator of imageList) {
-      for (const iterator2 of form.imgFile) {
-        if (iterator.name === iterator2.name
-          && iterator.lastModified === iterator2.lastModified
-          && iterator.size === iterator2.size
-          && iterator.type === iterator2.type
-        ) {
-          dupElement = iterator;
-          checkDup = true;
-          break;
-        }
-      }
-    }
-    if (checkDup) {
-      return removeDuplicate(imageList.filter(element => element != dupElement));
-      //mess
-    } else {
-      return imageList
-    }
-  }
-
-  const onChangeFile = (event) => {
-    // console.log([])
-    const fileList = event.target.files
-    const newImageList = removeDuplicate([...fileList]);
-    let newImageListUrl = [];
-    for (const iterator of newImageList) {
-      newImageListUrl = newImageListUrl.concat(URL.createObjectURL(iterator));
-    }
-    // console.log(newImageListUrl);
-    if (form.imgFileUrl.length + newImageListUrl.length <= LIMIT_IMAGE_UPLOAD) {
-      setForm({
-        ...form,
-        imgFileUrl: form.imgFileUrl.concat(newImageListUrl),
-        imgFile: [...form.imgFile, ...newImageList],
-      });
-    } else {
-      //mess
-    }
-    // console.log(form.imgFileUrl)
-  }
-
   const handleChangeCategoryPath = () => {
     props.history.push("/product/category", {
       productId: productId,
@@ -194,12 +155,43 @@ const CreateProduct = (props) => {
     })
   }
 
-  const createProduct = async () => {
-    console.log(form);
-    console.log("variationArray", variationArray);
-    console.log("inventoryArray", inventoryArray);
+  const editProduct = async () => {
     //error mess
-    editVariation(productId)
+    editBasicInformation();
+    editVariation(productId);
+    changeCoverImage();
+    deleteImages();
+    addImages();
+  }
+
+  const editBasicInformation = async () => {
+    console.log("form", form)
+    try {
+      const response = await axios({
+        method: "post",
+        url: `http://192.168.1.127:9555/api/seller/product/edit`,
+        headers: {
+          Authorization: localStorage.getItem(cs.System_Code + '-token'),
+        },
+        data: {
+          productId: productId,
+          name: form.name,
+          videoYoutubeURL: form.videoUrl,
+          description: form.description,
+          price: form.price,
+          inventoryCount: form.inventoryCount,
+          weight: form.weight,
+          width: form.width,
+          height: form.height,
+          depth: form.depth,
+          isPreorderedProduct: form.isPreorderedProduct,
+          isNewProduct: form.isNewProduct,
+        }
+      })
+      console.log("basicInf", response.data)
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const editVariation = async (productId) => {
@@ -208,7 +200,7 @@ const CreateProduct = (props) => {
       variationArray,
       inventoryArray
     }
-    console.log(requestBody);
+    // console.log(requestBody);
     try {
       const response = await axios({
         method: "POST",
@@ -218,7 +210,7 @@ const CreateProduct = (props) => {
         },
         data: requestBody
       })
-      console.log(response.data);
+      // console.log(response.data);
       if (response.data.error_desc === "Success") {
 
       }
@@ -227,31 +219,57 @@ const CreateProduct = (props) => {
     }
   }
 
-  const saveCoverImage = async (productId) => {
+  const changeCoverImage = async () => {
+    if (!imgData.coverImg.path) {
+      console.log("CoverImages ?");
+      return;
+    }
+    if (imgData.coverImg.file === null) {
+      console.log("No Change");
+      return;
+    }
     const formData = new FormData();
-    console.log(form.imgFile[0])
-    formData.append('file', form.imgFile[0]);
+    formData.append('file', imgData.coverImg.file);
     formData.append('productId', productId);
     try {
       const response = await axios({
         method: "post",
-        url: `http://192.168.1.127:9555/api/seller/product/cover-image/upload`,
+        url: `http://192.168.1.127:9555/api/seller/product/cover-image/edit`,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + '-token'),
         },
         data: formData,
       })
-      console.log("saveCoverImage", response.data)
+      console.log("changeCoverImage", response.data)
     } catch (error) {
       console.log(error);
     }
   }
 
-  const saveImages = async (productId) => {
+  const deleteImages = async () => {
+    try {
+      const response = await axios({
+        method: "post",
+        url: `http://192.168.1.127:9555/api/seller/product/image/delete`,
+        headers: {
+          Authorization: localStorage.getItem(cs.System_Code + '-token'),
+        },
+        data: {
+          productId: productId,
+          imageIdList: imgData.delImgsId
+        }
+      });
+      console.log("delImg", response.data);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const addImages = async () => {
     const formData = new FormData();
-    console.log("files", form.imgFile.slice(1, form.imgFile.length))
-    const files = form.imgFile.slice(1, form.imgFile.length);
-    files.forEach(file => { formData.append("files", file) })
+    // console.log("files", form.imgFile.slice(1, form.imgFile.length))
+    // const files = form.imgFile.slice(1, form.imgFile.length);
+    imgData.imgs.forEach(img => { if (img.file !== null) formData.append("files", img.file) });
     formData.append('productId', productId);
     // formData.append('files', form.imgFile.slice(1, form.imgFile.length));
     try {
@@ -264,7 +282,7 @@ const CreateProduct = (props) => {
         data: formData,
       })
       // console.log("formData", formData)
-      console.log("saveImages", response.data)
+      console.log("addImages", response.data)
     } catch (error) {
       console.log("image", error)
     }
@@ -319,20 +337,16 @@ const CreateProduct = (props) => {
       }
     });
     console.log("data", response.data.data);
-    // console.log("pr", props.location.state.productName);
     let data = response.data.data;
+
     let tmp = { ...form };
-    // console.log(props.location)
     if (props.location.state) {
       tmp.name = (props.location.state.productName) ? props.location.state.productName : data.productName;
       tmp.category = (props.location.state.category) ? props.location.state.category : loadCategory(data);
     } else {
-      console.log("ss", props.location.state)
-      tmp.name= data.productName;
-      tmp.category= loadCategory(data);
+      tmp.name = data.productName;
+      tmp.category = loadCategory(data);
     }
-    // tmp.name = (props.location.state.productName !== undefined) ? props.location.state.productName : data.productName;
-    // tmp.category = (props.location.state.category) ? props.location.state.category : loadCategory(data);
     tmp.description = data.productDescription;
     tmp.price = data.price;
     tmp.inventoryCount = data.inventoryCount;
@@ -342,9 +356,23 @@ const CreateProduct = (props) => {
     tmp.width = data.width;
     tmp.height = data.height;
     tmp.depth = data.depth;
-    tmp.videoUrl = data.videoYoutubeURL;
+    tmp.videoUrl = data.videoyoutubeURL;
     setForm(tmp);
-    console.log(tmp);
+
+    let tmpImgs = { ...imgData }
+    tmpImgs.coverImg = {
+      file: null,
+      path: `${cs.MediaURL}/media/${data.productImageCover}`
+    }
+    for (let img of data.productImages) {
+      tmpImgs.imgs = tmpImgs.imgs.concat({
+        file: null,
+        path: `${cs.MediaURL}/media/${img.path}`,
+        id: img.id,
+      });
+    };
+    setImgData(tmpImgs);
+
     setVariationArray(data.variationArray);
     setInventoryArray(data.inventoryArray);
   }
@@ -373,9 +401,11 @@ const CreateProduct = (props) => {
       <BasicInformation
         {...props}
         imageList={imageList}
+        limitImg={LIMIT_IMAGE_UPLOAD}
         form={form}
+        imgData={imgData}
+        setImgData={setImgData}
         onChangeData={onChangeData}
-        onChangeFile={onChangeFile}
         handleChangeCategoryPath={handleChangeCategoryPath}
         setModalVideo={setModalVideo}
       />
@@ -411,16 +441,10 @@ const CreateProduct = (props) => {
           Cancel
         </button>
         <button
-          className="btn border bg-white me-2"
-        // onClick={saveImages(11111)}
-        >
-          Save and Delish
-        </button>
-        <button
           className="btn btn-danger"
-          onClick={createProduct}
+          onClick={editProduct}
         >
-          Save and Publish
+          Update
         </button>
       </div>
     </div>
@@ -475,97 +499,4 @@ const CreateProduct = (props) => {
   </div>
 }
 
-const BasicInformation = ({ imageList, form, onChangeData, onChangeFile, handleChangeCategoryPath, setModalVideo, i18n, t }) => {
-  // console.log(form.videoFile);
-  return <div className="card card-body mb-3 shadow">
-    <h5>Basic Information</h5>
-    <div className="row mb-2">
-      <div className="col-3 text-muted text-end">
-        Product images
-      </div>
-      <div className="col-9 row">
-        {imageList.map((item, index) => <div className="col-2 d-flex flex-column align-items-center">
-          <div className="border" style={{ width: "90px", height: "90px" }}>
-            {form.imgFileUrl[index] && <img style={{ width: "89px", height: "89px", objectFit: "contain" }} src={form.imgFileUrl[index] || ""} />}
-            {!form.imgFileUrl[index] && <label className="d-flex justify-content-center align-items-center" style={{ width: "100%", height: "100%" }}>
-              <img src="https://img.icons8.com/material-outlined/24/000000/add.png" />
-              <input
-                type="file"
-                accept="image/*"
-                // id="input-file"
-                hidden
-                multiple
-                onChange={onChangeFile}
-              />
-            </label>}
-          </div>
-          <div className="text-center">{!index || "Image"} {index || "* Cover Image"}</div>
-        </div>
-        )}
-      </div>
-    </div>
-    <div className="row mb-2">
-      <div className="col-3 text-muted text-end">
-        Product Video
-      </div>
-      <div className="col-9 d-flex align-items-baseline">
-        <div className="">
-          <button
-            className="btn btn-outline-secondary btn-sm me-3"
-            onClick={() => setModalVideo(true)}
-          >
-            Browse
-          </button>
-        </div>
-        <div className="">
-          {
-            form.videoUrl && <a href={form.videoUrl} >{form.videoUrl}</a>
-            || form.videoFile.name && <div>{form.videoFile.name}</div>
-          }
-        </div>
-      </div>
-    </div>
-    <div className="row mb-2">
-      <label className="col-3 form-label text-muted text-end" for="product-name">* Product Name</label>
-      <div className="col-9">
-        <input
-          className="form-control form-control-sm"
-          id="product-name"
-          name="name"
-          value={form.name}
-          onChange={onChangeData}
-        />
-      </div>
-    </div>
-    <div className="row mb-2">
-      <label className="col-3 text-muted text-end" for="product-description">* Product Description</label>
-      <div className="col-9">
-        <textarea
-          className="form-control form-control-sm"
-          id="product-description"
-          rows={5}
-          name="description"
-          value={form.description}
-          onChange={onChangeData}
-        />
-      </div>
-    </div>
-    <div className="row mb-2">
-      <div className="col-3 text-muted text-end">
-        Category
-      </div>
-      <div className="col-9">
-        {i18n.language === "en" && form.category.categoryEngPath}
-        {i18n.language === "vi" && form.category.categoryViePath}
-        <button
-          className="btn p-0 ms-2"
-          onClick={() => handleChangeCategoryPath()}
-        >
-          <img src="https://img.icons8.com/fluency-systems-regular/16/000000/pencil--v1.png" />
-        </button>
-      </div>
-    </div>
-  </div>
-}
-
-export default withTranslation()(CreateProduct);
+export default withTranslation()(EditProduct);

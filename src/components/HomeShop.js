@@ -32,6 +32,7 @@ import color from "../theme/color";
 import NestedList from "./shared/NestedList/NestedList";
 import { menu } from "./menu.js";
 import AppRoute from "./AppRoute";
+import Login from "./Login";
 
 import { useTranslation, withTranslation } from "react-i18next";
 import { getRole, isSoloUser } from "../service";
@@ -282,6 +283,13 @@ class HomeShop extends React.Component {
     if (!username && user) username = JSON.parse(String(user)).name;
     console.log(getRole());
     console.log(isSoloUser());
+    if (!token|| token == null || token == 'null' || token == undefined) {
+      return (
+        <div>
+          <Login />
+        </div>
+      )
+    } else
     return (
       <div>
         <Router>

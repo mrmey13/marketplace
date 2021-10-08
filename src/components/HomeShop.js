@@ -332,7 +332,7 @@ class HomeShop extends React.Component {
                       fontSize: "20px",
                     }}
                   >
-                    MARKETPLACE
+                    SALESPLUS
                   </Link>
                 </div>
 
@@ -514,7 +514,7 @@ class HomeShop extends React.Component {
                   </div>
 
                   {token && (<Link
-                    to="/login"
+                    to="/shop/login"
                     style={{
                       textDecoration: "none",
                       color: "white",

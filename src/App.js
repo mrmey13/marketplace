@@ -11,6 +11,7 @@ import {Router,Switch,Route} from "react-router-dom";
 import HomeShop from './components/HomeShop';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
+import LoginShop from './components/LoginShop';
 
 const LazyLoadLogin = Loadable({
 	loader: () => import('./components/Login'),
@@ -53,6 +54,7 @@ function App() {
 				<Switch>
 					<Route exact path="/signup" component={SignUp} />
 					<Route exact path="/login"  component={Login} />
+					<Route exact path="/shop/login" component={LoginShop} />
 					<Route exact path="/" component={Home} />
 					<Route exact path="/shop" component={HomeShop} />
 					<Route exact path="/shop_view" component={Home} />

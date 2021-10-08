@@ -327,7 +327,7 @@ class Home extends React.Component {
                       fontSize: "20px",
                     }}
                   >
-                    MARKETPLACE
+                    SALESPLUS
                   </Link>
                 </div>
 

@@ -2,8 +2,86 @@ import React from "react";
 import { useTranslation, withTranslation } from "react-i18next";
 import { TrashIcon } from "@primer/octicons-react";
 
-const BasicInformation = ({ imageList, form, onChangeData, onChangeFile, handleDeleteFile, handleChangeCategoryPath, setModalVideo, t, i18n }) => {
-  // console.log(form.videoFile);
+const BasicInformation = ({ imageList, form, limitImg, onChangeData, imgData, setImgData, handleChangeCategoryPath, setModalVideo, t, i18n }) => {
+
+  const handleAddCoverImage = (event) => {
+    let tmpCoverImg = imgData.coverImg;
+    tmpCoverImg.file = event.target.files[0];
+    tmpCoverImg.path = URL.createObjectURL(event.target.files[0]);
+    setImgData({
+      ...imgData,
+      coverImg: tmpCoverImg,
+    });
+  }
+
+  const handleDelCoverImg = () => {
+    setImgData({
+      ...imgData,
+      coverImg: {
+        file: null,
+        path: ""
+      }
+    })
+  }
+
+  const removeDuplicate = (imageList) => {
+    let checkDup = false;
+    let dupElement = {};
+    for (const iterator of imageList) {
+      for (const iterator2 of imgData.imgs) {
+        if (iterator2.file !== null
+          && iterator.name === iterator2.file.name
+          && iterator.lastModified === iterator2.file.lastModified
+          && iterator.size === iterator2.file.size
+          && iterator.type === iterator2.file.type
+        ) {
+          dupElement = iterator;
+          checkDup = true;
+          break;
+        }
+      }
+    }
+    if (checkDup) {
+      return removeDuplicate(imageList.filter(element => element != dupElement));
+    } else {
+      return imageList
+    }
+  }
+
+  const handleAddImg = (event) => {
+    const fileList = event.target.files
+    const newImageList = removeDuplicate([...fileList]);
+    let newImgs = [];
+    for (const iterator of newImageList) {
+      newImgs = newImgs.concat({
+        file: iterator,
+        path: URL.createObjectURL(iterator),
+        id: "",
+      });
+    }
+    // console.log(newImageListUrl);
+    if (imgData.imgs.length + newImgs.length < limitImg) {
+      setImgData({
+        ...imgData,
+        imgs: imgData.imgs.concat(newImgs)
+      })
+    } else {
+      // mess
+    }
+  }
+
+  const handleDelImg = (event, index) => {
+    let tmpImgs = [...imgData.imgs];
+    let tmpDelImgsId = [...imgData.delImgsId]
+    tmpDelImgsId = (tmpImgs[index].id !== "") ? tmpDelImgsId.concat(tmpImgs[index].id) : tmpDelImgsId;
+    tmpImgs = tmpImgs.filter((img, idx) => idx != index);
+    setImgData({
+      ...imgData,
+      imgs: tmpImgs,
+      delImgsId: tmpDelImgsId,
+    })
+  }
+
   return <div className="card card-body mb-3 shadow">
     <h5>Basic Information</h5>
     <div className="row mb-2">
@@ -11,34 +89,67 @@ const BasicInformation = ({ imageList, form, onChangeData, onChangeFile, handleD
         Product images
       </div>
       <div className="col-9 row">
-        {imageList.map((item, index) => <div className="col-2 d-flex flex-column align-items-center">
+        <div className="col-2 d-flex flex-column align-items-center">
           <div className="border" style={{ width: "90px", height: "90px" }}>
-            {form.imgFileUrl[index] && <div className="overlay-container">
-              <img style={{ width: "89px", height: "89px", objectFit: "contain" }} src={form.imgFileUrl[index] || ""} />
+            {imgData.coverImg.path && <div className="overlay-container">
+              <img style={{ width: "89px", height: "89px", objectFit: "contain" }} src={imgData.coverImg.path || ""} />
               <div className="overlay">
                 <div className="overlay-content text-white d-flex justify-content-center p-1" style={{ width: "100%" }}>
                   <button
                     className="btn btn-sm"
-                    onClick={(event) => handleDeleteFile(event, index)}
+                    onClick={() => handleDelCoverImg()}
                   >
                     <TrashIcon size={18} fill="white" />
                   </button>
                 </div>
               </div>
             </div>}
-            {!form.imgFileUrl[index] && <label className="d-flex justify-content-center align-items-center" style={{ width: "100%", height: "100%" }}>
+            {!imgData.coverImg.path && <label className="d-flex justify-content-center align-items-center" style={{ width: "100%", height: "100%" }}>
               <img src="https://img.icons8.com/material-outlined/24/000000/add.png" />
               <input
                 type="file"
                 accept="image/*"
                 // id="input-file"
                 hidden
-                multiple
-                onChange={onChangeFile}
+                onChange={(event) => handleAddCoverImage(event)}
               />
             </label>}
           </div>
-          <div className="text-center">{!index || "Image"} {index || "* Cover Image"}</div>
+          <div className="text-center">{"* Cover Image"}</div>
+        </div>
+
+        {imageList.map((item, index) => <div className="col-2 d-flex flex-column align-items-center">
+          <div className="border" style={{ width: "90px", height: "90px" }}>
+            {imgData.imgs[index]
+              && imgData.imgs[index].path
+              && <div className="overlay-container">
+                <img style={{ width: "89px", height: "89px", objectFit: "contain" }} src={imgData.imgs[index].path || ""} />
+                <div className="overlay">
+                  <div className="overlay-content text-white d-flex justify-content-center p-1" style={{ width: "100%" }}>
+                    <button
+                      className="btn btn-sm"
+                      onClick={(event) => handleDelImg(event, index)}
+                    >
+                      <TrashIcon size={18} fill="white" />
+                    </button>
+                  </div>
+                </div>
+              </div>}
+            {!(imgData.imgs[index]
+              && imgData.imgs[index].path)
+              && <label className="d-flex justify-content-center align-items-center" style={{ width: "100%", height: "100%" }}>
+                <img src="https://img.icons8.com/material-outlined/24/000000/add.png" />
+                <input
+                  type="file"
+                  accept="image/*"
+                  // id="input-file"
+                  hidden
+                  multiple
+                  onChange={handleAddImg}
+                />
+              </label>}
+          </div>
+          <div className="text-center">{"Image " + (index + 1)}</div>
         </div>
         )}
       </div>

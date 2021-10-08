@@ -15,7 +15,8 @@ import Specification from "./Specification";
 import Shipping from "./Shipping";
 import Others from "./Others";
 
-const LIMIT_IMAGE_UPLOAD = 9;
+export const LIMIT_IMAGE_UPLOAD = 9;
+
 const createVariationURL = cs.BaseURL + "/api/seller/product/variation/create"
 
 const useStyles = makeStyles((theme) => ({
@@ -38,7 +39,7 @@ const CreateProduct = (props) => {
   const classes = useStyles();
 
   let imageList = []
-  for (let i = 0; i < LIMIT_IMAGE_UPLOAD; i++) imageList.push(i)
+  for (let i = 0; i < LIMIT_IMAGE_UPLOAD - 1; i++) imageList.push(i)
 
   // console.log(location.state);
   // console.log(history);
@@ -64,10 +65,14 @@ const CreateProduct = (props) => {
     isPreorderedProduct: 1,
     isNewProduct: 1,
     videoUrl: "",
-    imgFile: [],
-    imgFileUrl: [],
     videoFile: {},
   });
+
+  const [imgData, setImgData] = useState({
+    coverImg: { file: null, path: "" },
+    imgs: [], // [{ file: {}, path: "", id: "" }, ...]
+    delImgsId: [] // [id, ...]
+  })
 
   const [variationArray, setVariationArray] = useState([]);
   const [inventoryArray, setInventoryArray] = useState([]);
@@ -86,63 +91,6 @@ const CreateProduct = (props) => {
   }
   const handleSaveVideo = () => {
     setModalVideo(false);
-  }
-
-  const removeDuplicate = (imageList) => {
-    let checkDup = false;
-    let dupElement = {};
-    for (const iterator of imageList) {
-      for (const iterator2 of form.imgFile) {
-        if (iterator.name === iterator2.name
-          && iterator.lastModified === iterator2.lastModified
-          && iterator.size === iterator2.size
-          && iterator.type === iterator2.type
-        ) {
-          dupElement = iterator;
-          checkDup = true;
-          break;
-        }
-      }
-    }
-    if (checkDup) {
-      return removeDuplicate(imageList.filter(element => element != dupElement));
-      //mess
-    } else {
-      return imageList
-    }
-  }
-
-  const onChangeFile = (event) => {
-    // console.log([])
-    const fileList = event.target.files
-    const newImageList = removeDuplicate([...fileList]);
-    let newImageListUrl = [];
-    for (const iterator of newImageList) {
-      newImageListUrl = newImageListUrl.concat(URL.createObjectURL(iterator));
-    }
-    // console.log(newImageListUrl);
-    if (form.imgFileUrl.length + newImageListUrl.length <= LIMIT_IMAGE_UPLOAD) {
-      setForm({
-        ...form,
-        imgFileUrl: form.imgFileUrl.concat(newImageListUrl),
-        imgFile: [...form.imgFile, ...newImageList],
-      });
-    } else {
-      //mess
-    }
-    // console.log(form.imgFileUrl)
-  }
-
-  const handleDeleteFile = (event, index) => {
-    let tmpFileUrl = [...form.imgFileUrl];
-    let tmpFile = [...form.imgFile];
-    tmpFileUrl = tmpFileUrl.filter((img, idx) => idx != index);
-    tmpFile = tmpFile.filter((img, idx) => idx != index);
-    setForm({
-      ...form,
-      imgFileUrl: tmpFileUrl,
-      imgFile: tmpFile,
-    })
   }
 
   const handleChangeCategoryPath = () => {
@@ -220,8 +168,8 @@ const CreateProduct = (props) => {
 
   const saveCoverImage = async (productId) => {
     const formData = new FormData();
-    console.log(form.imgFile[0])
-    formData.append('file', form.imgFile[0]);
+    console.log(imgData.coverImg.file)
+    formData.append('file', imgData.coverImg.file);
     formData.append('productId', productId);
     try {
       const response = await axios({
@@ -239,12 +187,9 @@ const CreateProduct = (props) => {
   }
 
   const saveImages = async (productId) => {
-    const formData = new FormData();
-    console.log("files", form.imgFile.slice(1, form.imgFile.length))
-    const files = form.imgFile.slice(1, form.imgFile.length);
-    files.forEach(file => { formData.append("files", file) })
+    const formData = new FormData()
+    imgData.imgs.forEach(img => formData.append("files", img.file));
     formData.append('productId', productId);
-    // formData.append('files', form.imgFile.slice(1, form.imgFile.length));
     try {
       const response = await axios({
         method: "post",
@@ -270,8 +215,6 @@ const CreateProduct = (props) => {
         resultArr = resultArr.concat(element.attributeOptionId);
       }
     }
-    // console.log(attributeData);
-    console.log(resultArr)
     return resultArr;
   }
 
@@ -357,10 +300,11 @@ const CreateProduct = (props) => {
       <BasicInformation
         {...props}
         imageList={imageList}
+        limitImg={LIMIT_IMAGE_UPLOAD}
         form={form}
+        imgData={imgData}
+        setImgData={setImgData}
         onChangeData={onChangeData}
-        onChangeFile={onChangeFile}
-        handleDeleteFile={handleDeleteFile}
         handleChangeCategoryPath={handleChangeCategoryPath}
         setModalVideo={setModalVideo}
       />
@@ -393,16 +337,10 @@ const CreateProduct = (props) => {
           Cancel
         </button>
         <button
-          className="btn border bg-white me-2"
-          onClick={() => { getArrayAttribute() }}
-        >
-          Save and Delish
-        </button>
-        <button
           className="btn btn-danger"
           onClick={createProduct}
         >
-          Save and Publish
+          Save
         </button>
       </div>
     </div>

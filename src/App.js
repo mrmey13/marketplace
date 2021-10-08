@@ -10,6 +10,7 @@ import { TableSettingProvider } from './components/contexts/TableSettingContext'
 import {Router,Switch,Route} from "react-router-dom";
 import HomeShop from './components/HomeShop';
 import SignUp from './components/SignUp';
+import Login from './components/Login';
 
 const LazyLoadLogin = Loadable({
 	loader: () => import('./components/Login'),
@@ -34,23 +35,24 @@ function App() {
 	}
 
 	var token = localStorage.getItem(cs.System_Code + '-token');
-	if (!token || token == null || token == 'null' || token == undefined) {
-		return <LazyLoadLogin />;
-		// return (
-		// 	<MyThemeProvider>
-		// 		<TableSettingProvider>
-		// 			<Home />
-		// 		</TableSettingProvider>
-		// 	</MyThemeProvider>
-		// );
-	} else return (
+	// if (!token || token == null || token == 'null' || token == undefined) {
+	// 	return <LazyLoadLogin />;
+	// 	// return (
+	// 	// 	<MyThemeProvider>
+	// 	// 		<TableSettingProvider>
+	// 	// 			<Home />
+	// 	// 		</TableSettingProvider>
+	// 	// 	</MyThemeProvider>
+	// 	// );
+	// } else 
+	return (
 		
 		<MyThemeProvider>
 			<TableSettingProvider>
 				
 				<Switch>
 					<Route exact path="/signup" component={SignUp} />
-
+					<Route exact path="/login"  component={Login} />
 					<Route exact path="/" component={Home} />
 					<Route exact path="/shop" component={HomeShop} />
 					<Route exact path="/shop_view" component={Home} />

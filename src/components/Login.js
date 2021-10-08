@@ -13,6 +13,7 @@ import Grid from "@material-ui/core/Grid";
 import color from '../theme/color';
 import { useTranslation, withTranslation } from 'react-i18next';
 
+
 const loginURL = cs.BaseURL + "/api/auth/login";
 
 const styles = (theme) => ({
@@ -61,10 +62,12 @@ class Login extends React.Component {
       password: "",
       error_message: null,
     };
+    
     this._handleUserNameChange = this._handleUserNameChange.bind(this);
     this._handlePasswordChange = this._handlePasswordChange.bind(this);
     this._handleLogin = this._handleLogin.bind(this);
   }
+ 
 
   _handleUserNameChange(e) {
     this.setState({ username: e.target.value });
@@ -81,6 +84,7 @@ class Login extends React.Component {
     });
 
     let queryString = `${loginURL}`;
+   
 
     fetch(queryString, {
       method: "POST",
@@ -119,8 +123,9 @@ class Login extends React.Component {
             console.log(data.data);
             // console.log(data.data.functionRoles);
             // console.log(JSON.stringify(data.data.functionRoles));
-            window.location.reload();
-            window.location.reload();
+            //window.location.reload();
+            //window.location.reload();
+            this.props.history.push('/');
           } else {
             this.setState({
               username: "",

@@ -215,9 +215,11 @@ class Home extends React.Component {
       user: {},
       open: true,
       showChangePassword: false,
-      anchorEl: null
+      anchorEl: null,
+      isLoggedIn: false
     };
     console.log("HOME props", props);
+    let token = localStorage.getItem(cs.System_Code + '-token');
     var user = localStorage.getItem(cs.System_Code + "-user");
     // this.userrole = JSON.parse(String(user)).role;
 
@@ -251,11 +253,13 @@ class Home extends React.Component {
         sessionStorage.clear();
         localStorage.clear();
         window.location.reload();
+        this.setState({ isLoggedIn: false });
       })
       .catch(() => {
         sessionStorage.clear();
         localStorage.clear();
         window.location.reload();
+        this.setState({ isLoggedIn: false });
       });
 
     // sessionStorage.clear();
@@ -276,6 +280,7 @@ class Home extends React.Component {
     const { classes, t, i18n } = this.props;
     var username = "";
     var user = localStorage.getItem(cs.System_Code + "-user");
+    var token = localStorage.getItem(cs.System_Code + '-token');
     if (user) username = JSON.parse(String(user)).fullname;
     if (!username && user) username = JSON.parse(String(user)).name;
     console.log(getRole());
@@ -503,7 +508,7 @@ class Home extends React.Component {
                     </Menu>
                   </div>
 
-                  <Link
+                  {token && (<Link
                     to="/"
                     style={{
                       textDecoration: "none",
@@ -521,12 +526,37 @@ class Home extends React.Component {
                       aria-label="Đăng xuất"
                       onClick={this.handleLogOut}
                     >
-                      <Icon> exit_to_app </Icon>
                       <span style={{ marginLeft: 10 }}>
                         {t("commons.button.logout")}
                       </span>
                     </Button>
-                  </Link>
+                  </Link>)}
+
+                  {!token && (<Link
+                    to="/login"
+                    style={{
+                      textDecoration: "none",
+                      color: "white",
+                      marginTop: "5px"
+                    }}
+                  >
+                    <Button
+                      color="inherit"
+                      iconStyle={{
+                        height: 200,
+                        width: 200,
+                        fontSize: "48px",
+                      }}
+                      aria-label="Đăng nhập"
+                      // onClick={this.handleLogOut}
+                    >
+                      <span style={{ marginLeft: 10 }}>
+                        {t("commons.button.login")}
+                      </span>
+                    </Button>
+                  </Link>)}
+
+                  
                 </div>
               </Toolbar>
             </AppBar>
@@ -560,7 +590,7 @@ class Home extends React.Component {
 
 
 
-          <Grid
+          {/* <Grid
             container
             direction="row"
             justify="space-between"
@@ -581,7 +611,7 @@ class Home extends React.Component {
               </div>
             </Grid>
             <Grid item ></Grid>
-          </Grid>
+          </Grid> */}
         </div>
 
       </div>

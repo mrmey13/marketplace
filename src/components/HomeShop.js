@@ -277,6 +277,7 @@ class HomeShop extends React.Component {
     const { classes, t, i18n } = this.props;
     var username = "";
     var user = localStorage.getItem(cs.System_Code + "-user");
+    var token = localStorage.getItem(cs.System_Code + '-token');
     if (user) username = JSON.parse(String(user)).fullname;
     if (!username && user) username = JSON.parse(String(user)).name;
     console.log(getRole());
@@ -504,8 +505,8 @@ class HomeShop extends React.Component {
                     </Menu>
                   </div>
 
-                  <Link
-                    to="/"
+                  {token && (<Link
+                    to="/login"
                     style={{
                       textDecoration: "none",
                       color: "white",
@@ -522,13 +523,14 @@ class HomeShop extends React.Component {
                       aria-label="Đăng xuất"
                       onClick={this.handleLogOut}
                     >
-                      <Icon> exit_to_app </Icon>
                       <span style={{ marginLeft: 10 }}>
                         {t("commons.button.logout")}
                       </span>
                     </Button>
-                  </Link>
-                </div>
+                  </Link> )}
+
+                
+                </div> 
               </Toolbar>
             </AppBar>
 
@@ -569,15 +571,8 @@ class HomeShop extends React.Component {
 
             <main className={classes.content}> 
               <div className={classes.appBarSpacer} />
-
-              {/* <AppRoute userrole={this.userrole} /> */}
               <AppRoute />
-              {/* <ToastProvider autoDismissTimeout={5000} placement="bottom-center">
-              <ChangePassword
-                open={this.state.showChangePassword}
-                onClose={this.handleCloseChangePassword}
-              />
-            </ToastProvider> */}
+              
             </main>
           </div>
         </Router>

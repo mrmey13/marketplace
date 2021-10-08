@@ -3,7 +3,8 @@
     "commons": {
         "button": {
             "save": "Save",
-            "logout": "Logout",
+            "logout": "Log out",
+            "login" : "Log in",
             "change_password": "Change password",
             "confirm": "Confirm",
             "cancel": "Cancel",

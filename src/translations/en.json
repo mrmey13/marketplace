@@ -5,6 +5,7 @@
             "save": "Save",
             "logout": "Log out",
             "login" : "Log in",
+            "signup": "Sign up",
             "change_password": "Change password",
             "confirm": "Confirm",
             "cancel": "Cancel",

@@ -533,6 +533,30 @@ class Home extends React.Component {
                   </Link>)}
 
                   {!token && (<Link
+                    to="/signup"
+                    style={{
+                      textDecoration: "none",
+                      color: "white",
+                      marginTop: "5px"
+                    }}
+                  >
+                    <Button
+                      color="inherit"
+                      iconStyle={{
+                        height: 200,
+                        width: 200,
+                        fontSize: "48px",
+                      }}
+                      aria-label="Đăng ký"
+                    >
+                      <span style={{ marginLeft: 10 }}>
+                        {t("commons.button.signup")}
+                      </span>
+                    </Button>
+                  </Link>)}    
+
+                  {/* button đăng nhập     */}
+                  {!token && (<Link
                     to="/login"
                     style={{
                       textDecoration: "none",

@@ -26,6 +26,7 @@ import { ToastProvider } from "react-toast-notifications";
 
 import { useParams } from "react-router";
 import cs from "../const";
+import { openInNewTab } from "../const";
 import color from "../theme/color";
 
 // import ChangePassword from "./auth/ChangePassword";
@@ -215,14 +216,9 @@ class Home extends React.Component {
       user: {},
       open: true,
       showChangePassword: false,
-      anchorEl: null,
-      isLoggedIn: false
+      anchorEl: null   
     };
-    console.log("HOME props", props);
-    let token = localStorage.getItem(cs.System_Code + '-token');
-    var user = localStorage.getItem(cs.System_Code + "-user");
-    // this.userrole = JSON.parse(String(user)).role;
-
+    
     this.handleShowChangePassword = this.handleShowChangePassword.bind(this);
     this.handleCloseChangePassword = this.handleCloseChangePassword.bind(this);
     //this.loadData();
@@ -252,19 +248,13 @@ class Home extends React.Component {
       .then((data) => {
         sessionStorage.clear();
         localStorage.clear();
-        window.location.reload();
-        this.setState({ isLoggedIn: false });
+        window.location.reload();       
       })
       .catch(() => {
         sessionStorage.clear();
         localStorage.clear();
         window.location.reload();
-        this.setState({ isLoggedIn: false });
       });
-
-    // sessionStorage.clear();
-    // localStorage.clear();
-    // window.location.reload();
   };
 
   handleShowChangePassword = () => {
@@ -492,19 +482,17 @@ class Home extends React.Component {
                       onClose={() => this.setState({ anchorEl: null })}
                     >
                       <MenuItem onClick={() => {
-                        this.setState({ anchorEl: null });
-                        window.location.href = cs.ShopUrl;
+                        // this.setState({ anchorEl: null });
+                        // window.location.href = cs.ShopUrl;
+                        openInNewTab (cs.ShopUrl);
                       }}>Bán hàng với Salesplus</MenuItem>
 
                       <MenuItem onClick={() => {
-                        this.setState({ anchorEl: null });
-                        window.location.href = cs.HRUrl;
-
+                        openInNewTab (cs.HRUrl);
                       }}>HR Management</MenuItem>
                       <MenuItem onClick={() => {
-                        this.setState({ anchorEl: null })
-                        window.location.href = cs.EtrainingUrl;
-                      }}>E-Training</MenuItem>
+                        openInNewTab (cs.EtrainingUrl);
+                      }}>eTraining</MenuItem>
                     </Menu>
                   </div>
 
@@ -572,21 +560,15 @@ class Home extends React.Component {
                         fontSize: "48px",
                       }}
                       aria-label="Đăng nhập"
-                      // onClick={this.handleLogOut}
                     >
                       <span style={{ marginLeft: 10 }}>
                         {t("commons.button.login")}
                       </span>
                     </Button>
-                  </Link>)}
-
-                  
+                  </Link>)}                 
                 </div>
               </Toolbar>
             </AppBar>
-
-            
-
             <main className={classes.content}> 
               <div className={classes.appBarSpacer} />
               <AppRoute />

@@ -3,6 +3,8 @@ import "./HomePage.css";
 import Color from "../../theme/color";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import cs from "../../const";
+
 
 function CategoryHomePage() {
   const List = [
@@ -14,14 +16,14 @@ function CategoryHomePage() {
   const loadCategoryList = async (conditions) => {
     const response = await axios({
       method: "get",
-      url: `http://192.168.1.127:9555/api/common/product/category/list`,
+      url: `${cs.BaseURL}`+"/api/common/product/category/list",
       //   headers: {
       //     Authorization: localStorage.getItem(cs.System_Code + "-token"),
       //   },
     });
     if (
       response.data.error_desc === "Success" &&
-      response.data.data.length != 0
+      response.data.data.length !== 0
     ) {
       setCategoriesList(response.data.data);
     }
@@ -52,10 +54,11 @@ function CategoryHomePage() {
         className="container homepage-category-title-container mb-2"
         style={{
           height: "40px",
-          borderBottom: "1px solid" + Color.tanhide,
-          fontSize: "17px",
+          borderBottom: "2px solid", //+ Color.tanhide,
+          color: Color.tanhide,
+          fontSize: "18px",
           fontWeight: "bold",
-          minWidth: "1300px",
+          minWidth: "1320px",
         }}
       >
         DANH MỤC
@@ -67,7 +70,7 @@ function CategoryHomePage() {
         <div className="d-flex flex-row start-path ">
           <button
             class={
-              curPage == 1
+              curPage === 1
                 ? "btn btn-category opacity-0 category-next"
                 : "btn btn-category category-next"
             }
@@ -98,7 +101,8 @@ function CategoryHomePage() {
                     textDecoration: "none",
                     display: "flex",
                     alignItems: "center",
-                    color: Color.tanhide,
+                    //color: Color.tanhide,
+                    color: "black",
                     width: "123px",
                     height: "150px",
                   }}
@@ -128,7 +132,7 @@ function CategoryHomePage() {
                       textAlign: "center",
                     }}
                   >
-                    {data.categoryEngName}
+                    {data.categoryVieName}
                   </div>
                 </Link>
               </div>
@@ -139,8 +143,8 @@ function CategoryHomePage() {
         <button
           class={
             curPage == Math.floor(List.length / categoriesPerPage)
-              ? "btn btn-category opacity-0 category-next "
-              : "btn btn-category category-next "
+              ? "btn btn-category opacity-0 "
+              : "btn btn-category  "
           }
           type="button"
           //   style={{ marginTop: "100px" }}

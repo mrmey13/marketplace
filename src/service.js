@@ -123,8 +123,8 @@ export const isSeller = () => {
         element.functionRoleId === cs.FunctionRole_Seller
     );
     
-    if ((userRole && userRole === cs.Role_Solo_Seller)
-        || tmp && tmp.length > 0
+    if ((userRole && (userRole === cs.Role_Solo_Seller))
+        || (tmp && tmp.length > 0)
     ) {
         return true
     }

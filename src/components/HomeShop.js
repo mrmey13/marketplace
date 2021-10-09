@@ -501,7 +501,7 @@ class HomeShop extends React.Component {
 
                       }}>HR Management</MenuItem>
                       <MenuItem onClick={() => {
-                         openInNewTab(cs.EtrainingUr);
+                         openInNewTab(cs.EtrainingUrl);
                       }}>eTraining</MenuItem>
                     </Menu>
                   </div>

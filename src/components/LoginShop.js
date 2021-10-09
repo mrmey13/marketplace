@@ -150,7 +150,7 @@ class LoginShop extends React.Component {
           <a class="active" href="http://www.salesplus.asia">SALESPLUS</a>
           <a href="http://hr.salesplus.asia">HR</a>
           <a href="http://etraining.salesplus.asia">eTraining</a>
-          <a href="http://wwww.salesplus.asia">CRM</a>
+          <a href="http://sales.salesplus.asia">Sales</a>
         </div>
         <div className={classes.main_container}>
           <Card

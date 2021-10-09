@@ -72,10 +72,10 @@ const SignUp = () => {
 
   return <div>
     <div className="topnav" style={{ backgroundColor: color.tanhide }}>
-      <a class="active" href="http://www.credito.vn">Marketplace</a>
-      <a href="http://hr.credito.vn">HR</a>
-      <a href="http://etraining.credito.vn">eTraining</a>
-      <a href="http://wwww.credito.vn">CRM</a>
+      <a class="active" href="http://www.salesplus.asia">SALESPLUS</a>
+      <a href="http://hr.salesplus.asia">HR</a>
+      <a href="http://etraining.salesplus.asia">eTraining</a>
+      <a href="http://sales.salesplus.asia">Sales </a>
     </div>
     <div className="" style={{ height: "80vh" }}>
       <div className="container-fluid d-flex" style={{ width: "90%", height: "100%" }}>

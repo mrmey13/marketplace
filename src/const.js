@@ -76,14 +76,14 @@ export default {
     HRUrl:"http://192.168.1.127:3001",
 
     // Deploy locally
-    // ShopUrl:"http://192.168.1.127:3002/shop_home",
+    // ShopUrl:"http://192.168.1.127:3002/shop",
     // EtrainingUrl:"http://192.168.1.127:3000",
     // HRUrl:"http://192.168.1.127:3001",
 
     // production
-    // ShopUrl:"http://salesplus.vn/shop_home",
-    // EtrainingUrl:"http://etraining.salesplus.vn",
-    // HRUrl:"http://hr.salesplus.vn",
+    // ShopUrl:"http://salesplus.asia/shop",
+    // EtrainingUrl:"http://etraining.salesplus.asia",
+    // HRUrl:"http://hr.salesplus.asia",
 };
 
 export const openInNewTab = (url) => {

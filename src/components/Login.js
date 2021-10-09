@@ -151,10 +151,10 @@ class Login extends React.Component {
     return (
       <div>
         <div className="topnav" style={{ backgroundColor: color.tanhide }}>
-          <a class="active" href="http://www.credito.vn">SALESPLUS</a>
-          <a href="http://hr.credito.vn">HR</a>
-          <a href="http://etraining.credito.vn">eTraining</a>
-          <a href="http://wwww.credito.vn">CRM</a>
+          <a class="active" href="http://www.salesplus.asia">SALESPLUS</a>
+          <a href="http://hr.salesplus.asia">HR</a>
+          <a href="http://etraining.salesplus.asia">eTraining</a>
+          <a href="http://sales.salesplus.asia">Sales</a>
         </div>
         <div className={classes.main_container}>
           <Card
@@ -192,7 +192,7 @@ class Login extends React.Component {
                   variant="h5"
                 >
                   {/* {t("LOGIN")} */}
-                  Marketplace
+                  Salesplus
                 </Typography>
                 <div className="form-field">
                   <label for="name" className="form-label">

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Product from "../ProductList/Product";
-import { useParams } from "react-router-dom";
 import axios from "axios";
 import cs from "../../const";
 const URL = cs.BaseURL + "/api/buyer/product/list";
@@ -22,7 +21,7 @@ function ProductListHomePage() {
     });
     if (
       response.data.error_desc === "Success" &&
-      response.data.data.length != 0
+      response.data.data.length !== 0
     ) {
       setProductList(response.data.data);
       console.log("res", response.data.data);
@@ -48,7 +47,7 @@ function ProductListHomePage() {
       >
         <button
           className={
-            listType == 1
+            listType === 1
               ? "btn btn-outline-none tab-button active-tab"
               : "btn btn-outline-none tab-button"
           }
@@ -59,7 +58,7 @@ function ProductListHomePage() {
         </button>
         <button
           className={
-            listType == 2
+            listType === 2
               ? "btn btn-outline-none tab-button active-tab"
               : "btn btn-outline-none tab-button"
           }

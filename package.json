@@ -2,7 +2,7 @@
 		"name": "marketplace_fe",
 		"version": "0.1.0",
 		"private": true,
-		"homepage": "http://credito.vn",
+		"homepage": "http://salesplus.asia",
 		"dependencies": {
 				"@devexpress/dx-core": "^2.7.3",
 				"@devexpress/dx-react-chart": "^2.7.3",

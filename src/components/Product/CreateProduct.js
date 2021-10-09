@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Snackbar } from "@material-ui/core";
 import Modal from "@material-ui/core/Snackbar";
 import "./Product.css";
 
@@ -17,7 +17,12 @@ import Others from "./Others";
 
 export const LIMIT_IMAGE_UPLOAD = 9;
 
-const createVariationURL = cs.BaseURL + "/api/seller/product/variation/create"
+const createVariationURL = cs.BaseURL + "/api/seller/product/variation/create";
+const createProductUrl = cs.BaseURL + "/api/seller/product/create";
+const createCoverImageUrl = cs.BaseURL + "/api/seller/product/image/upload";
+const createImagesUrl = cs.BaseURL + "/api/seller/product/image/upload";
+const createAttributeUrl = cs.BaseURL + "/api/seller/product/attribute/create";
+const createCustomAttributeUrl = cs.BaseURL + "/api/seller/product/attribute-custom/create";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -35,14 +40,31 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CreateProduct = (props) => {
-  // console.log("props", props)
   const classes = useStyles();
+
+  const [responseMessage, setResponseMessage] = useState({
+    type: "",
+    content: "",
+  });
+  const [openMessage, setOpenMessage] = useState(false);
+  const handleOpenMessage = (type, message) => {
+    setResponseMessage({
+      type: type,
+      content: message,
+    });
+    setOpenMessage(true);
+  }
+  const handleCloseMessage = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setResponseMessage({ type: "", content: "" });
+    setOpenMessage(false);
+  };
 
   let imageList = []
   for (let i = 0; i < LIMIT_IMAGE_UPLOAD - 1; i++) imageList.push(i)
 
-  // console.log(location.state);
-  // console.log(history);
   const [form, setForm] = useState({
     category: {
       categoryId: 0,
@@ -57,7 +79,7 @@ const CreateProduct = (props) => {
     name: "",
     description: "",
     price: 0,
-    inventoryCount: 10,
+    inventoryCount: 0,
     weight: 0,
     width: 0,
     height: 0,
@@ -78,9 +100,19 @@ const CreateProduct = (props) => {
   const [inventoryArray, setInventoryArray] = useState([]);
 
   const [attributeData, setAttributeData] = useState([]);
+  // [{
+  //   attributeId: item.attributeId,
+  //   searchInput: "",
+  //   attributeData: response.data.data,
+  //   chosenAttributeValue: [],
+  //   inputAttributeValue: "",
+  //   customValueData: [], //[{ value: "string", id: }, ...]
+  //   chosenCustomAttributeValue: [],
+  //   customInput: "",
+  //   customBoxInput: false,
+  // }, {...}]
 
   const onChangeData = (event) => {
-    // console.log(event.target);
     setForm({ ...form, [event.target.name]: event.target.value })
   }
 
@@ -101,14 +133,35 @@ const CreateProduct = (props) => {
   }
 
   const createProduct = async () => {
-    // console.log(form);
-    // console.log("variationArray", variationArray);
-    // console.log("inventoryArray", inventoryArray);
+    if (!imgData.coverImg.path) {
+      handleOpenMessage("warning", "Please choose cover image")
+      return;
+    }
+    if (!form.name) {
+      handleOpenMessage("warning", "Please enter product name")
+      return;
+    }
+    if (!form.description) {
+      handleOpenMessage("warning", "Please enter product description")
+      return;
+    }
+    if (form.price == 0) {
+      handleOpenMessage("warning", "Please enter product price")
+      return;
+    }
+    if (form.inventoryCount == 0) {
+      handleOpenMessage("warning", "Please enter inventory count")
+      return;
+    }
+    if (form.weight == 0) {
+      handleOpenMessage("warning", "Please enter product weight")
+      return;
+    }
     //error mess
     try {
       const response = await axios({
         method: "post",
-        url: `http://192.168.1.127:9555/api/seller/product/create`,
+        url: createProductUrl,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + '-token'),
         },
@@ -127,7 +180,7 @@ const CreateProduct = (props) => {
           videoYoutubeURL: form.videoUrl,
         }
       })
-      console.log("create", response.data);
+      // console.log("create", response.data);
       if (response.data.error_desc === "Success") {
         let productId = response.data.data.productId;
         saveCoverImage(productId);
@@ -135,6 +188,7 @@ const CreateProduct = (props) => {
         createVariation(productId);
         createAttributeProduct(productId);
         createCustomAttributeProduct(productId);
+        props.history.push("/seller-product-list/all");
       }
     } catch (error) {
       console.log(error);
@@ -168,19 +222,19 @@ const CreateProduct = (props) => {
 
   const saveCoverImage = async (productId) => {
     const formData = new FormData();
-    console.log(imgData.coverImg.file)
+    // console.log(imgData.coverImg.file)
     formData.append('file', imgData.coverImg.file);
     formData.append('productId', productId);
     try {
       const response = await axios({
         method: "post",
-        url: `http://192.168.1.127:9555/api/seller/product/cover-image/upload`,
+        url: createCoverImageUrl,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + '-token'),
         },
         data: formData,
       })
-      console.log("saveCoverImage", response.data)
+      // console.log("saveCoverImage", response.data)
     } catch (error) {
       console.log(error);
     }
@@ -193,14 +247,13 @@ const CreateProduct = (props) => {
     try {
       const response = await axios({
         method: "post",
-        url: `http://192.168.1.127:9555/api/seller/product/image/upload`,
+        url: createImagesUrl,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + '-token'),
         },
         data: formData,
       })
-      // console.log("formData", formData)
-      console.log("saveImages", response.data)
+      // console.log("saveImages", response.data)
     } catch (error) {
       console.log(error)
     }
@@ -230,11 +283,11 @@ const CreateProduct = (props) => {
       for (let element of item.chosenCustomAttributeValue) {
         resultArr = resultArr.concat({
           attributeId: item.attributeId,
-          attributeValue: element,
+          attributeValue: element.value,
         })
       }
     }
-    console.log("custom-value", resultArr);
+    // console.log("custom-value", resultArr);
     return resultArr;
   }
 
@@ -243,7 +296,7 @@ const CreateProduct = (props) => {
     try {
       const response = await axios({
         method: "post",
-        url: `http://192.168.1.127:9555/api/seller/product/attribute/create`,
+        url: createAttributeUrl,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + '-token'),
         },
@@ -252,7 +305,7 @@ const CreateProduct = (props) => {
           attributeOptionIdList: getArrayAttribute()
         }
       });
-      console.log("attr-value", response.data)
+      // console.log("attr-value", response.data)
     } catch (error) {
       console.log(error);
     }
@@ -263,7 +316,7 @@ const CreateProduct = (props) => {
     try {
       const response = await axios({
         method: "post",
-        url: `http://192.168.1.127:9555/api/seller/product/attribute-custom/create`,
+        url: createCustomAttributeUrl,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + '-token'),
         },
@@ -272,7 +325,7 @@ const CreateProduct = (props) => {
           customAttributes: getArrayCustomAttribute()
         }
       });
-      console.log("custom-attr-value", response.data)
+      // console.log("custom-attr-value", response.data)
     } catch (error) {
       console.log(error);
     }
@@ -392,6 +445,16 @@ const CreateProduct = (props) => {
         </div>
       </div>
     </Modal>
+
+    <Snackbar
+      open={openMessage}
+      autoHideDuration={2000}
+      onClose={handleCloseMessage}
+    >
+      <div className={"alert-popup text-" + responseMessage.type}>
+        {responseMessage.content}
+      </div>
+    </Snackbar>
   </div>
 }
 

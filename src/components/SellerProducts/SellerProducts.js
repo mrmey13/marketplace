@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createContext } from 'react'
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { useTranslation, withTranslation } from "react-i18next";
@@ -62,9 +62,7 @@ const styles = (theme) => ({
     }
 });
 
-
-
-
+export const TabHoldContext = createContext("all");
 class SellerProducts extends Component {
     constructor(props) {
         super(props);
@@ -210,10 +208,10 @@ class SellerProducts extends Component {
                 productStatus = 5;
                 break;
             case 'accepted':
-                productStatus = 9;
+                productStatus = 10;
                 break;
             case 'notAccepted':
-                productStatus = 10;
+                productStatus = 9;
                 break;
             case 'soldout':
                 productStatus = 20;
@@ -327,18 +325,19 @@ class SellerProducts extends Component {
         } = this.state;
 
         return (
-            <div>
-                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "500px" }}>
-                    <Button
-                        className={this.state.currentTab === 'all' ? classes.tabBtnSelected : classes.tabBtn}
+            <TabHoldContext.Provider value={this.state.currentTab}>
+                <div>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "500px" }}>
+                        <Button
+                            className={this.state.currentTab === 'all' ? classes.tabBtnSelected : classes.tabBtn}
 
-                        variant={"contained"}
-                        // component={Link} to="/product/all"
-                        onClick={() => { window.location.href = "/seller-product-list/all"; }}
-                    >
-                        {t("all_products.tabs.all")}
-                    </Button>
-                    {/* <Button
+                            variant={"contained"}
+                            // component={Link} to="/product/all"
+                            onClick={() => { window.location.href = "/seller-product-list/all"; }}
+                        >
+                            {t("all_products.tabs.all")}
+                        </Button>
+                        {/* <Button
                                 className={this.state.currentTab === 'new' ? classes.tabBtnSelected : classes.tabBtn}
 
                                 variant={"contained"}
@@ -355,7 +354,7 @@ class SellerProducts extends Component {
                             >
                                 {t("all_products.tabs.justChanged")}
                             </Button> */}
-                    {/* <Button
+                        {/* <Button
                                 className={this.state.currentTab === 'deleted' ? classes.tabBtnSelected : classes.tabBtn}
 
                                 variant={"contained"}
@@ -363,7 +362,7 @@ class SellerProducts extends Component {
                             >
                                 {t("all_products.tabs.deleted")}
                             </Button> */}
-                    {/* <Button
+                        {/* <Button
                                 className={this.state.currentTab === 'contraband' ? classes.tabBtnSelected : classes.tabBtn}
 
                                 variant={"contained"}
@@ -371,30 +370,30 @@ class SellerProducts extends Component {
                             >
                                 {t("all_products.tabs.contraband")}
                             </Button> */}
-                    <Button
-                        className={this.state.currentTab === 'violatesRules' ? classes.tabBtnSelected : classes.tabBtn}
+                        <Button
+                            className={this.state.currentTab === 'violatesRules' ? classes.tabBtnSelected : classes.tabBtn}
 
-                        variant={"contained"}
-                        onClick={() => { window.location.href = "/seller-product-list/violatesRules"; }}
-                    >
-                        {t("all_products.tabs.violatesRules")}
-                    </Button>
-                    <Button
-                        className={this.state.currentTab === 'accepted' ? classes.tabBtnSelected : classes.tabBtn}
+                            variant={"contained"}
+                            onClick={() => { window.location.href = "/seller-product-list/violatesRules"; }}
+                        >
+                            {t("all_products.tabs.violatesRules")}
+                        </Button>
+                        <Button
+                            className={this.state.currentTab === 'accepted' ? classes.tabBtnSelected : classes.tabBtn}
 
-                        variant={"contained"}
-                        onClick={() => { window.location.href = "/seller-product-list/accepted"; }}
-                    >
-                        {t("all_products.tabs.accepted")}
-                    </Button>
-                    <Button
-                        className={this.state.currentTab === 'soldout' ? classes.tabBtnSelected : classes.tabBtn}
-                        // component={Link} to="/product/soldout"
-                        onClick={() => { window.location.href = "/seller-product-list/soldout"; }}
-                    >
-                        {t("all_products.tabs.soldout")}
-                    </Button>
-                    {/* <Button
+                            variant={"contained"}
+                            onClick={() => { window.location.href = "/seller-product-list/accepted"; }}
+                        >
+                            {t("all_products.tabs.accepted")}
+                        </Button>
+                        <Button
+                            className={this.state.currentTab === 'soldout' ? classes.tabBtnSelected : classes.tabBtn}
+                            // component={Link} to="/product/soldout"
+                            onClick={() => { window.location.href = "/seller-product-list/soldout"; }}
+                        >
+                            {t("all_products.tabs.soldout")}
+                        </Button>
+                        {/* <Button
                                 className={this.state.currentTab === 'notAccepted' ? classes.tabBtnSelected : classes.tabBtn}
 
                                 variant={"contained"}
@@ -402,7 +401,7 @@ class SellerProducts extends Component {
                             >
                                 {t("all_products.tabs.notAccepted")}
                             </Button> */}
-                    {/* <Button
+                        {/* <Button
                                 className={this.state.currentTab === 'active' ? classes.tabBtnSelected : classes.tabBtn}
                                 // component={Link} to="/product/active"
                                 onClick={() => { window.location.href = "/seller-product-list/active"; }}
@@ -430,30 +429,31 @@ class SellerProducts extends Component {
                             >
                                 Đã ẩn
                             </Button> */}
-                </div>
+                    </div>
 
 
-                <div>
-                    <DataTable
-                        rows={rows}
-                        columns={columns}
-                        columnWidths={tableColumnExtensions}
-                        pageSizes={pageSizes}
-                        pageSize={pageSize}
-                        currentPage={currentPage}
-                        // loading={loading}
-                        sorting={sorting}
-                        totalCount={totalCount}
-                        selection={selection}
-                        changeCurrentPage={this.changeCurrentPage}
-                        changePageSize={this.changePageSize}
-                        changeSorting={this.changeSorting}
-                        CellComponent={CellComponent}
-                        autoLoadData={this.loadData}
-                        handleSelections={this.handleSelections}
-                    />
+                    <div>
+                        <DataTable
+                            rows={rows}
+                            columns={columns}
+                            columnWidths={tableColumnExtensions}
+                            pageSizes={pageSizes}
+                            pageSize={pageSize}
+                            currentPage={currentPage}
+                            // loading={loading}
+                            sorting={sorting}
+                            totalCount={totalCount}
+                            selection={selection}
+                            changeCurrentPage={this.changeCurrentPage}
+                            changePageSize={this.changePageSize}
+                            changeSorting={this.changeSorting}
+                            CellComponent={CellComponent}
+                            autoLoadData={this.loadData}
+                            handleSelections={this.handleSelections}
+                        />
+                    </div>
                 </div>
-            </div>
+            </TabHoldContext.Provider>
         )
     }
 }
@@ -501,6 +501,8 @@ class CellComponent extends React.Component {
 }
 
 class ActionCell extends React.Component {
+    static contextType = TabHoldContext;
+
     render() {
         return (
             <Table.Cell style={{
@@ -520,7 +522,7 @@ class ActionCell extends React.Component {
                             // to={`/course_lectures/${this.props.row.courseId}/edit/${this.props.row.lectureOrderNumber}`}
                             to={{
                                 pathname: `/product/edit/${this.props.row.productId}`,
-                                state: { previous: `/seller-product-list/all` }
+                                state: { previous: `/seller-product-list/${this.context}` }
                             }}
                         >
                             <Icon>edit</Icon>

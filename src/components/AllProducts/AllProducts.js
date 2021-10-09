@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createContext, useState } from 'react'
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { useTranslation, withTranslation } from "react-i18next";
@@ -62,11 +62,12 @@ const styles = (theme) => ({
     }
 });
 
-
+export const TabHoldContext = createContext("all");
 
 class AllProducts extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
             openApproveModal: false,
             currentTab: this.props.match.params.type || "all", // all, active, soldout, banned, unlisted
@@ -129,7 +130,7 @@ class AllProducts extends Component {
         };
 
         if (isSoloUser()) {
-            window.location.href="/";
+            window.location.href = "/";
         }
         this.tmpData = [];
 
@@ -141,7 +142,7 @@ class AllProducts extends Component {
 
     componentDidMount() {
         if (isSoloUser()) {
-            window.location.href="/";
+            window.location.href = "/";
         }
         this.loadStatus();
         this.loadData();
@@ -209,10 +210,10 @@ class AllProducts extends Component {
                 productStatus = 5;
                 break;
             case 'accepted':
-                productStatus = 9;
+                productStatus = 10;
                 break;
             case 'notAccepted':
-                productStatus = 10;
+                productStatus = 9;
                 break;
             // case 'new':
             //     productStatus = 1;
@@ -329,84 +330,85 @@ class AllProducts extends Component {
         } = this.state;
 
         return (
-            <div>
-                <div className={"card"}>
-                    <div className="card-body shadow">
-                        <div className="d-flex align-items-baseline">
-                            <h4 className="card-title mb-4 text-uppercase">
-                                {t("all_products.title")}
-                                {/* PRODUCT LIST */}
-                            </h4>
-                        </div>
+            <TabHoldContext.Provider value={this.state.currentTab}>
+                <div>
+                    <div className={"card"}>
+                        <div className="card-body shadow">
+                            <div className="d-flex align-items-baseline">
+                                <h4 className="card-title mb-4 text-uppercase">
+                                    {t("all_products.title")}
+                                    {/* PRODUCT LIST */}
+                                </h4>
+                            </div>
 
-                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "1200px" }}>
-                            <Button
-                                className={this.state.currentTab === 'all' ? classes.tabBtnSelected : classes.tabBtn}
+                            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", width: "1200px" }}>
+                                <Button
+                                    className={this.state.currentTab === 'all' ? classes.tabBtnSelected : classes.tabBtn}
 
-                                variant={"contained"}
-                                // component={Link} to="/product/all"
-                                onClick={() => { window.location.href = "/product-list/all"; }}
-                            >
-                                {t("all_products.tabs.all")}
-                            </Button>
-                            <Button
-                                className={this.state.currentTab === 'new' ? classes.tabBtnSelected : classes.tabBtn}
+                                    variant={"contained"}
+                                    // component={Link} to="/product/all"
+                                    onClick={() => { window.location.href = "/product-list/all"; }}
+                                >
+                                    {t("all_products.tabs.all")}
+                                </Button>
+                                <Button
+                                    className={this.state.currentTab === 'new' ? classes.tabBtnSelected : classes.tabBtn}
 
-                                variant={"contained"}
-                                // component={Link} to="/product/new"
-                                onClick={() => { window.location.href = "/product-list/new"; }}
-                            >
-                                {t("all_products.tabs.new")}
-                            </Button>
-                            <Button
-                                className={this.state.currentTab === 'justChanged' ? classes.tabBtnSelected : classes.tabBtn}
+                                    variant={"contained"}
+                                    // component={Link} to="/product/new"
+                                    onClick={() => { window.location.href = "/product-list/new"; }}
+                                >
+                                    {t("all_products.tabs.new")}
+                                </Button>
+                                <Button
+                                    className={this.state.currentTab === 'justChanged' ? classes.tabBtnSelected : classes.tabBtn}
 
-                                variant={"contained"}
-                                onClick={() => { window.location.href = "/product-list/justChanged"; }}
-                            >
-                                {t("all_products.tabs.justChanged")}
-                            </Button>
-                            <Button
-                                className={this.state.currentTab === 'deleted' ? classes.tabBtnSelected : classes.tabBtn}
+                                    variant={"contained"}
+                                    onClick={() => { window.location.href = "/product-list/justChanged"; }}
+                                >
+                                    {t("all_products.tabs.justChanged")}
+                                </Button>
+                                <Button
+                                    className={this.state.currentTab === 'deleted' ? classes.tabBtnSelected : classes.tabBtn}
 
-                                variant={"contained"}
-                                onClick={() => { window.location.href = "/product-list/deleted"; }}
-                            >
-                                {t("all_products.tabs.deleted")}
-                            </Button>
-                            <Button
-                                className={this.state.currentTab === 'contraband' ? classes.tabBtnSelected : classes.tabBtn}
+                                    variant={"contained"}
+                                    onClick={() => { window.location.href = "/product-list/deleted"; }}
+                                >
+                                    {t("all_products.tabs.deleted")}
+                                </Button>
+                                <Button
+                                    className={this.state.currentTab === 'contraband' ? classes.tabBtnSelected : classes.tabBtn}
 
-                                variant={"contained"}
-                                onClick={() => { window.location.href = "/product-list/contraband"; }}
-                            >
-                                {t("all_products.tabs.contraband")}
-                            </Button>
-                            <Button
-                                className={this.state.currentTab === 'violatesRules' ? classes.tabBtnSelected : classes.tabBtn}
+                                    variant={"contained"}
+                                    onClick={() => { window.location.href = "/product-list/contraband"; }}
+                                >
+                                    {t("all_products.tabs.contraband")}
+                                </Button>
+                                <Button
+                                    className={this.state.currentTab === 'violatesRules' ? classes.tabBtnSelected : classes.tabBtn}
 
-                                variant={"contained"}
-                                onClick={() => { window.location.href = "/product-list/violatesRules"; }}
-                            >
-                                {t("all_products.tabs.violatesRules")}
-                            </Button>
-                            <Button
-                                className={this.state.currentTab === 'accepted' ? classes.tabBtnSelected : classes.tabBtn}
+                                    variant={"contained"}
+                                    onClick={() => { window.location.href = "/product-list/violatesRules"; }}
+                                >
+                                    {t("all_products.tabs.violatesRules")}
+                                </Button>
+                                <Button
+                                    className={this.state.currentTab === 'accepted' ? classes.tabBtnSelected : classes.tabBtn}
 
-                                variant={"contained"}
-                                onClick={() => { window.location.href = "/product-list/accepted"; }}
-                            >
-                                {t("all_products.tabs.accepted")}
-                            </Button>
-                            <Button
-                                className={this.state.currentTab === 'notAccepted' ? classes.tabBtnSelected : classes.tabBtn}
+                                    variant={"contained"}
+                                    onClick={() => { window.location.href = "/product-list/accepted"; }}
+                                >
+                                    {t("all_products.tabs.accepted")}
+                                </Button>
+                                <Button
+                                    className={this.state.currentTab === 'notAccepted' ? classes.tabBtnSelected : classes.tabBtn}
 
-                                variant={"contained"}
-                                onClick={() => { window.location.href = "/product-list/notAccepted"; }}
-                            >
-                                {t("all_products.tabs.notAccepted")}
-                            </Button>
-                            {/* <Button
+                                    variant={"contained"}
+                                    onClick={() => { window.location.href = "/product-list/notAccepted"; }}
+                                >
+                                    {t("all_products.tabs.notAccepted")}
+                                </Button>
+                                {/* <Button
                                 className={this.state.currentTab === 'active' ? classes.tabBtnSelected : classes.tabBtn}
                                 // component={Link} to="/product/active"
                                 onClick={() => { window.location.href = "/product-list/active"; }}
@@ -434,12 +436,12 @@ class AllProducts extends Component {
                             >
                                 Đã ẩn
                             </Button> */}
-                        </div>
+                            </div>
 
 
-                        <div>
-                            <div className=" card card-body">
-                                {/* <Grid
+                            <div>
+                                <div className=" card card-body">
+                                    {/* <Grid
                                         container
                                         direction="row"
                                         justify="space-between"
@@ -541,32 +543,32 @@ class AllProducts extends Component {
                                         Search
                                     </Button> */}
 
-                                <DataTable
-                                    rows={rows}
-                                    columns={columns}
-                                    columnWidths={tableColumnExtensions}
-                                    pageSizes={pageSizes}
-                                    pageSize={pageSize}
-                                    currentPage={currentPage}
-                                    // loading={loading}
-                                    sorting={sorting}
-                                    totalCount={totalCount}
-                                    selection={selection}
-                                    changeCurrentPage={this.changeCurrentPage}
-                                    changePageSize={this.changePageSize}
-                                    changeSorting={this.changeSorting}
-                                    CellComponent={CellComponent}
-                                    autoLoadData={this.loadData}
-                                    handleSelections={this.handleSelections}
-                                />
+                                    <DataTable
+                                        rows={rows}
+                                        columns={columns}
+                                        columnWidths={tableColumnExtensions}
+                                        pageSizes={pageSizes}
+                                        pageSize={pageSize}
+                                        currentPage={currentPage}
+                                        // loading={loading}
+                                        sorting={sorting}
+                                        totalCount={totalCount}
+                                        selection={selection}
+                                        changeCurrentPage={this.changeCurrentPage}
+                                        changePageSize={this.changePageSize}
+                                        changeSorting={this.changeSorting}
+                                        CellComponent={CellComponent}
+                                        autoLoadData={this.loadData}
+                                        handleSelections={this.handleSelections}
+                                    />
+                                </div>
                             </div>
+
                         </div>
-
                     </div>
-                </div>
 
-                <Route exact path="/product-list/:type/approve/:productId/" component={ApproveProduct} />
-                {/* <Dialog open={this.state.openApproveModal} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+                    <Route exact path="/product-list/:type/approve/:productId/" component={ApproveProduct} />
+                    {/* <Dialog open={this.state.openApproveModal} onClose={this.handleClose} aria-labelledby="form-dialog-title">
                     <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
@@ -591,7 +593,8 @@ class AllProducts extends Component {
                         </Button>
                     </DialogActions>
                 </Dialog> */}
-            </div>
+                </div>
+            </TabHoldContext.Provider>
         )
     }
 }
@@ -615,6 +618,7 @@ class AllProducts extends Component {
 // };
 
 class CellComponent extends React.Component {
+    static contextType = TabHoldContext;
     constructor(props) {
         super(props);
     }
@@ -639,6 +643,8 @@ class CellComponent extends React.Component {
 }
 
 class ActionCell extends React.Component {
+    static contextType = TabHoldContext;
+
     render() {
         return (
             <Table.Cell style={{
@@ -659,8 +665,8 @@ class ActionCell extends React.Component {
                             component={Link}
                             // to={`/course_lectures/${this.props.row.courseId}/edit/${this.props.row.lectureOrderNumber}`}
                             to={{
-                                pathname: `/product-list/all/approve/${this.props.row.productId}`,
-                                state: { previous: `/product-list/all` }
+                                pathname: `/product-list/${this.context}/approve/${this.props.row.productId}`,
+                                state: { previous: `/product-list/${this.context}` }
                             }}
                         >
                             <Icon>check</Icon>

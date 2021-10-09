@@ -17,7 +17,7 @@ function Product({ data, useFor }) {
   return (
     <div
       className={
-        useFor == "bestseller"
+        useFor === "bestseller"
           ? "product_container"
           : "col-2  product_container"
       }
@@ -25,7 +25,7 @@ function Product({ data, useFor }) {
       <div
         className="card-course"
         style={
-          useFor == "seller" || useFor == "buyer"
+          useFor === "seller" || useFor === "buyer"
             ? { marginRight: "10px" }
             : null
         }
@@ -33,12 +33,14 @@ function Product({ data, useFor }) {
         <Link
           className="h5 text-dark fw-bold text-decoration-none stretched-link"
           to={
-            useFor == "seller"
+            useFor === "seller"
               ? "/seller" + "/product_detail/" + data.productId
               : "/product_detail/" + data.productId
           }
         ></Link>
-        <span
+        
+        {/* discount badge */}
+        {/* <span
           class="badge discount-badge"
           style={{ backgroundColor: Color.christine }}
         >
@@ -46,17 +48,19 @@ function Product({ data, useFor }) {
           <div style={{ color: "black", marginTop: "2px", fontSize: "12px" }}>
             <b>20%</b>
           </div>
-        </span>
+        </span> */}
+
+
         <img
           src={`${cs.MediaURL}/media/${data.productImageCover}`}
           className="card-img-top"
-          alt="................."
+          alt=""
         />
         <div className="card-body">
           <div className="card-content">
             <div className="card-top">
               <button className="card-star">
-                <b style={{ marginLeft: "5px" }}>3,4</b>
+                <b style={{ marginLeft: "2px" }}>5,0</b>
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png"
                   alt="star-icon"

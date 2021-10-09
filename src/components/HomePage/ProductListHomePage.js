@@ -14,9 +14,9 @@ function ProductListHomePage() {
       //     Authorization: localStorage.getItem(cs.System_Code + "-token"),
       //   },
       data: {
-        categoryLevel1Id: 100017,
+        //categoryLevel1Id: 100017,
         page: 0,
-        size: 0,
+        size: 96,
       },
     });
     if (
@@ -56,7 +56,7 @@ function ProductListHomePage() {
         >
           GỢI Ý HÔM NAY
         </button>
-        <button
+        {/* <button
           className={
             listType === 2
               ? "btn btn-outline-none tab-button active-tab"
@@ -66,7 +66,7 @@ function ProductListHomePage() {
           style={{ fontSize: "17px" }}
         >
           SIÊU SALE 10 THÁNG 10
-        </button>
+        </button> */}
       </div>
       <div
         className="container homepage-product-list-product-list mt-3 p-0"

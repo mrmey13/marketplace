@@ -47,7 +47,7 @@ function ProductListCategory() {
     });
     if (
       response.data.error_desc === "Success" &&
-      response.data.data.length != 0
+      response.data.data.length !== 0
     ) {
       setShopDetail(response.data.data);
       // console.log("res", response.data.data);
@@ -56,7 +56,7 @@ function ProductListCategory() {
   const loadProductList = async (conditions) => {
     const response = await axios({
       method: "post",
-      url: `http://192.168.1.127:9555/api/buyer/product/list`,
+      url: `${cs.BaseURL}/api/buyer/product/list`,
       //   headers: {
       //     Authorization: localStorage.getItem(cs.System_Code + "-token"),
       //   },
@@ -68,7 +68,7 @@ function ProductListCategory() {
     });
     if (
       response.data.error_desc === "Success" &&
-      response.data.data.length != 0
+      response.data.data.length !== 0
     ) {
       setProductList(response.data.data);
       console.log("res", response.data.data);
@@ -78,14 +78,14 @@ function ProductListCategory() {
   const loadCategoryList = async (conditions) => {
     const response = await axios({
       method: "get",
-      url: `http://192.168.1.127:9555/api/common/product/category/list`,
+      url: `${cs.BaseURL}/api/common/product/category/list`,
       //   headers: {
       //     Authorization: localStorage.getItem(cs.System_Code + "-token"),
       //   },
     });
     if (
       response.data.error_desc === "Success" &&
-      response.data.data.length != 0
+      response.data.data.length !== 0
     ) {
       setCategoriesList(response.data.data);
       console.log("cate", categoriesList);
@@ -110,7 +110,7 @@ function ProductListCategory() {
   };
 
   const [sortPrice, setSortPrice] = useState({ value1: "", value2: "" });
-  console.log(sortPrice);
+  //console.log(sortPrice);
   function onChange(e) {
     const re = /^[0-9\b]+$/;
     if (e.target.value === "" || re.test(e.target.value)) {
@@ -119,9 +119,9 @@ function ProductListCategory() {
   }
   return (
     <div className="product-container-saleplus" style={{ minWidth: "1420px" }}>
-      <div className=" mb-3 component-top-title">
+      {/* <div className=" mb-3 component-top-title">
         <h3>PRODUCT LIST CATEGORY</h3>{" "}
-      </div>
+      </div> */}
       <div class="row" style={{ minWidth: "1420px" }}>
         <div class="col-2 scroller" data-bs-spy="scroll">
           <div className="marketplace-credito-filter mt-2 d-flex flex-column">
@@ -130,7 +130,7 @@ function ProductListCategory() {
               <a
                 component={Link}
                 className={
-                  name == item.categoryEngName
+                  name === item.categoryEngName
                     ? "collection-filter_collection active"
                     : "collection-filter_collection text-black "
                 }
@@ -140,7 +140,7 @@ function ProductListCategory() {
                 }
                 onClick={() => loadProductList()}
               >
-                {item.categoryEngName}{" "}
+                {item.categoryVieName}{" "}
               </a>
             ))}
           </div>
@@ -172,7 +172,7 @@ function ProductListCategory() {
               </label>
             </div>
           </div>
-          <div className="marketplace-credito-filter logistics-filter mt-2">
+          {/* <div className="marketplace-credito-filter logistics-filter mt-2">
             <b>ĐƠN VỊ VẬN CHUYỂN</b>
             <div class="form-check products-checkbox-filter pt-2">
               <input
@@ -185,7 +185,7 @@ function ProductListCategory() {
                 Grab
               </label>
             </div>
-          </div>
+          </div> */}
           <div className="marketplace-credito-filter brands-filter mt-2">
             <b>THƯƠNG HIỆU</b>
             <div class="form-check products-checkbox-filter pt-2">
@@ -412,7 +412,7 @@ function ProductListCategory() {
               <button
                 className="btn btn-outline-dark btn-sort"
                 style={
-                  sortTab == "selling"
+                  sortTab === "selling"
                     ? {
                         width: "fit-content",
                         backgroundColor: "#F69756",

@@ -6,7 +6,7 @@ i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
     resources,
-    lng: localStorage.getItem("currentLanguage") || "en", // language to use, more information here: https://www.i18next.com/overview/configuration-options#languages-namespaces-resources
+    lng: localStorage.getItem("currentLanguage") || "vi", // language to use, more information here: https://www.i18next.com/overview/configuration-options#languages-namespaces-resources
     // if you're using a language detector, do not define the lng option
 
     interpolation: {

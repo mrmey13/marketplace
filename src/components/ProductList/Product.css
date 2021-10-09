@@ -84,10 +84,11 @@ html {
     padding-right: 3px;
     position: absolute;
     /* left: 40%; */
-    top: -50%;
+    top: -45%;
     border: 3px solid #ffffff;
     border-radius: 100rem;
-    background-color: #9756F6;
+    color: #111111;
+    /*background-color: #9756F6; */
   
   }
   .card-product-name {

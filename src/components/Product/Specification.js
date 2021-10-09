@@ -7,9 +7,9 @@ import cs from "../../const";
 const getCategoryAttributeUrl = cs.BaseURL + "/api/manager/category-attribute/list?"
 const getAttributeUrl = cs.BaseURL + "/api/manager/attribute-option/list?"
 
-const Specification = ({ form, attributeData, setAttributeData, t, i18n }) => {
-  // console.log("Specification-pr", i18n)
-  // const [attributeData, setAttributeData] = useState([]);
+const Specification = ({ form, attributeData, setAttributeData, t, i18n, match }) => {
+  const productId = match.params.productId;
+
   const [categoryAttributeList, setCategoryAttributeList] = useState([]);
 
   const onChangeAttributeData = (event, index, item) => {
@@ -21,7 +21,6 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n }) => {
       } else {
         newArr[index].chosenAttributeValue = newArr[index].chosenAttributeValue.filter(e => e.attributeOptionId !== item.attributeOptionId)
       }
-      // console.log(newArr[index].chosenAttributeValue)
     } else {
       newArr[index].inputAttributeValue = event.target.value;
     }
@@ -53,7 +52,7 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n }) => {
 
   const onConfirmAddAttributeItem = (index) => {
     let newArr = [...attributeData];
-    let temp = newArr[index].customInput;
+    let temp = { value: newArr[index].customInput, id: "" };
     newArr[index].customValueData = newArr[index].customValueData.concat(temp);
     newArr[index].customInput = "";
     newArr[index].customBoxInput = false;
@@ -84,11 +83,10 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n }) => {
   }
 
   const getFilterCustomAttributeData = (attribute) => {
-    return attribute.customValueData.filter(e => e.toLowerCase().includes(attribute.searchInput.toLowerCase()));
+    return attribute.customValueData.filter(e => e.value.toLowerCase().includes(attribute.searchInput.toLowerCase()));
   }
 
   const loadCategoryAttributeData = async () => {
-    // console.log("cateId", form.categoryId);
     try {
       const response = await axios({
         method: "get",
@@ -106,9 +104,25 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n }) => {
 
 
   const loadAttributeData = async () => {
+    let tmpAttributeData = [];
+    if (productId) {
+      try {
+        const response = await axios({
+          method: 'get',
+          url: `http://192.168.1.127:9555/api/seller/product/attribute/detail?productId=${productId}`,
+          headers: {
+            Authorization: localStorage.getItem(cs.System_Code + "-token"),
+          }
+        });
+        console.log("attr-data", response.data.data);
+        tmpAttributeData = response.data.data;
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
     let result = []
     for (let item of categoryAttributeList) {
-      // console.log("item", item);
       try {
         const response = await axios({
           method: "get",
@@ -117,19 +131,46 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n }) => {
             Authorization: localStorage.getItem(cs.System_Code + '-token'),
           }
         });
-        // console.log("attr-value-data", response.data);
         if (response.data.error_desc === "Success") {
-          result = result.concat({
-            attributeId: item.attributeId,
-            searchInput: "",
-            attributeData: response.data.data,
-            chosenAttributeValue: [],
-            inputAttributeValue: "",
-            customValueData: [], //["string", ...]
-            chosenCustomAttributeValue: [],
-            customInput: "",
-            customBoxInput: false,
-          })
+          if (!productId) {
+            result = result.concat({
+              attributeId: item.attributeId,
+              searchInput: "",
+              attributeData: response.data.data,
+              chosenAttributeValue: [],
+              inputAttributeValue: "",
+              customValueData: [], //[{ value: "string", id: }, ...]
+              chosenCustomAttributeValue: [],
+              customInput: "",
+              customBoxInput: false,
+            })
+          } else {
+            let tmpAttributeValueData = tmpAttributeData.filter(e => e.attributeId === item.attributeId)[0];
+            let tmpChosenAttributeValue = (tmpAttributeValueData === undefined)
+              ? []
+              : tmpAttributeValueData.attributeOptions.filter(e => e.attributeOptionId > 0);
+            let tmpChosenCustomAttributeValue = [];
+            if (tmpAttributeValueData !== undefined) {
+              tmpAttributeValueData.attributeOptions.filter(e => e.attributeOptionId < 0).forEach(element => {
+                tmpChosenCustomAttributeValue = tmpChosenCustomAttributeValue.concat({
+                  value: element.attributeEngValue,
+                  id: element.attributeOptionId
+                })
+              });
+            }
+
+            result = result.concat({
+              attributeId: item.attributeId,
+              searchInput: "",
+              attributeData: response.data.data,
+              chosenAttributeValue: tmpChosenAttributeValue,
+              inputAttributeValue: "",
+              customValueData: tmpChosenCustomAttributeValue, //[{ value: "string", id: }, ...]
+              chosenCustomAttributeValue: tmpChosenCustomAttributeValue,
+              customInput: "",
+              customBoxInput: false,
+            })
+          }
         }
       } catch (error) {
         console.log(error);
@@ -153,7 +194,7 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n }) => {
           <label className="col-2 text-muted text-end p-2" for="category-Id">{categoryAttributeList[index].attributeEngName}</label>
           <div className="col-4 mb-2">
             {
-              item.attributeData.length !== 0 && <div className="dropdown" style={{ width: "100%" }}>
+              (item.attributeData.length + item.customValueData.length) !== 0 && <div className="dropdown" style={{ width: "100%" }}>
                 <button
                   className="form-control text-start overflow-hidden text-nowrap"
                   id="dropdownMenuButton1"
@@ -172,7 +213,7 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n }) => {
                     {e.attributeViValue + ", "}
                   </span>)}
                   {attributeData[index].chosenCustomAttributeValue.map(e => <span>
-                    {e + ", "}
+                    {e.value + ", "}
                   </span>
                   )}
                 </button>
@@ -222,7 +263,7 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n }) => {
                       }
                       onClick={(event) => onChangeCustomAttributeData(event, index, obj)}
                     >
-                      {obj}
+                      {obj.value}
                     </button>
                     )}
 

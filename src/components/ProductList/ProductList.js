@@ -46,7 +46,7 @@ function ProductList() {
     });
     if (
       response.data.error_desc === "Success" &&
-      response.data.data.length != 0
+      response.data.data.length !== 0
     ) {
       setShopDetail(response.data.data);
       // console.log("res", response.data.data);
@@ -62,7 +62,7 @@ function ProductList() {
     });
     if (
       response.data.error_desc === "Success" &&
-      response.data.data.length != 0
+      response.data.data.length !== 0
     ) {
       setProductList(response.data.data);
       console.log("res", response.data.data);

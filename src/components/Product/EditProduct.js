@@ -46,7 +46,7 @@ const formatData = (variationArray, inventoryArray) => {
   let level2Attribute = null;
 
   if (variationArray) {
-    if (variationArray.length == 1) {
+    if (variationArray.length === 1) {
       level1Attribute = variationArray[0].name;
       level1 = inventoryArray.map((e, i) => ({
         valueName: e.variationName || "",
@@ -56,7 +56,7 @@ const formatData = (variationArray, inventoryArray) => {
       }));
     }
 
-    if (variationArray.length == 2) {
+    if (variationArray.length === 2) {
       level1Attribute = variationArray[0].name;
       level2Attribute = variationArray[1].name;
       level1 = variationArray[0].options.map((e, i) => ({
@@ -187,15 +187,15 @@ const EditProduct = (props) => {
       handleOpenMessage("warning", "Please enter product description")
       return;
     }
-    if (form.price == 0) {
+    if (form.price === 0) {
       handleOpenMessage("warning", "Please enter product price")
       return;
     }
-    if (form.inventoryCount == 0) {
+    if (form.inventoryCount === 0) {
       handleOpenMessage("warning", "Please enter inventory count")
       return;
     }
-    if (form.weight == 0) {
+    if (form.weight === 0) {
       handleOpenMessage("warning", "Please enter product weight")
       return;
     }
@@ -212,7 +212,7 @@ const EditProduct = (props) => {
     try {
       const response = await axios({
         method: "post",
-        url: `http://192.168.1.127:9555/api/seller/product/edit`,
+        url: `${cs.BaseURL}/api/seller/product/edit`,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + '-token'),
         },
@@ -276,7 +276,7 @@ const EditProduct = (props) => {
     try {
       const response = await axios({
         method: "post",
-        url: `http://192.168.1.127:9555/api/seller/product/cover-image/edit`,
+        url: `${cs.BaseURL}/api/seller/product/cover-image/edit`,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + '-token'),
         },
@@ -292,7 +292,7 @@ const EditProduct = (props) => {
     try {
       const response = await axios({
         method: "post",
-        url: `http://192.168.1.127:9555/api/seller/product/image/delete`,
+        url: `${cs.BaseURL}/api/seller/product/image/delete`,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + '-token'),
         },
@@ -314,7 +314,7 @@ const EditProduct = (props) => {
     try {
       const response = await axios({
         method: "post",
-        url: `http://192.168.1.127:9555/api/seller/product/image/upload`,
+        url: `${cs.BaseURL}/api/seller/product/image/upload`,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + '-token'),
         },
@@ -352,7 +352,7 @@ const EditProduct = (props) => {
     try {
       const response = await axios({
         method: "post",
-        url: `http://192.168.1.127:9555/api/seller/product/attribute/edit`,
+        url: `${cs.BaseURL}/api/seller/product/attribute/edit`,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + "-token")
         },
@@ -394,7 +394,7 @@ const EditProduct = (props) => {
     try {
       const response = await axios({
         method: "post",
-        url: `http://192.168.1.127:9555/api/seller/product/attribute-custom/create`,
+        url: `${cs.BaseURL}/api/seller/product/attribute-custom/create`,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + '-token'),
         },

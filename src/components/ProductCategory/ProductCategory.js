@@ -285,7 +285,7 @@ class ProductCategory extends Component {
             default:
                 break;
         }
-        if (layer != 5 && item.hasChildren) {
+        if (layer !== 5 && item.hasChildren) {
             this.loadData(item.categoryId, layer + 1);
         }
         if (!item.hasChildren) {

@@ -109,7 +109,7 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n, match }
       try {
         const response = await axios({
           method: 'get',
-          url: `http://192.168.1.127:9555/api/seller/product/attribute/detail?productId=${productId}`,
+          url: `${cs.BaseURL}/api/seller/product/attribute/detail?productId=${productId}`,
           headers: {
             Authorization: localStorage.getItem(cs.System_Code + "-token"),
           }

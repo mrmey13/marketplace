@@ -884,7 +884,7 @@ const Apply = ({ attributeList, handleOpenMessage }) => {
     try {
       const response = await axios({
         method: "get",
-        url: `http://192.168.1.127:9555/api/common/product/category/list?categoryLevel=0&hasNoChild=true`,
+        url: `${cs.BaseURL}/api/common/product/category/list?categoryLevel=0&hasNoChild=true`,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + "-token"),
         }
@@ -900,7 +900,7 @@ const Apply = ({ attributeList, handleOpenMessage }) => {
     try {
       const response = await axios({
         method: "get",
-        url: `http://192.168.1.127:9555/api/manager/category-attribute/list?categoryId=${modalForm.categoryId}&page=0&size=0`,
+        url: `${cs.BaseURL}/api/manager/category-attribute/list?categoryId=${modalForm.categoryId}&page=0&size=0`,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + "-token"),
         }

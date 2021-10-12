@@ -27,7 +27,7 @@ class ShopSetting extends React.Component {
   //   try {
   //     const response = await axios({
   //       method: "get",
-  //       url: `http://192.168.1.127:9555/api/common/language_definition`,
+  //       url: `${cs.BaseURL}/api/common/language_definition`,
   //       headers: {
   //         Authorization: localStorage.getItem(cs.System_Code + "-token")
   //       }
@@ -44,7 +44,7 @@ class ShopSetting extends React.Component {
   //   try {
   //     const response = await axios({
   //       method: "get",
-  //       url: `http://192.168.1.127:9555/api/seller/shop-setting`,
+  //       url: `${cs.BaseURL}/api/seller/shop-setting`,
   //       headers: {
   //         Authorization: localStorage.getItem(cs.System_Code + "-token")
   //       }

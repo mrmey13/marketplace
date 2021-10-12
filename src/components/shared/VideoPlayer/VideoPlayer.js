@@ -82,7 +82,7 @@ const VideoPlayer = (props) => {
   useEffect(() => {
     if (props.checkpoints == null) {
       let checkpnts = [];
-      if (props.duration != null && props.stops != null) {
+      if (props.duration !== null && props.stops !== null) {
         let interval = Math.round(props.duration / (props.stops+1));
         console.log(interval, props);
         // for (let i = 1; i <= props.stops; i++){
@@ -126,9 +126,9 @@ const VideoPlayer = (props) => {
     setCurrentTime(0);
     videoRef.current.pause();
     // setCheckPoints(props.checkpoints);
-    if (props.checkpoints == null) {
+    if (props.checkpoints === null) {
       let checkpnts = [];
-      if (props.duration != null && props.stops != null) {
+      if (props.duration !== null && props.stops !== null) {
         let interval = Math.round(props.duration / props.stops+1);
         console.log(interval, props);
         // for (let i = 1; i <= props.stops; i++){

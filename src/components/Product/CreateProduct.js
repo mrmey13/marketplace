@@ -145,15 +145,15 @@ const CreateProduct = (props) => {
       handleOpenMessage("warning", "Please enter product description")
       return;
     }
-    if (form.price == 0) {
+    if (form.price === 0) {
       handleOpenMessage("warning", "Please enter product price")
       return;
     }
-    if (form.inventoryCount == 0) {
+    if (form.inventoryCount === 0) {
       handleOpenMessage("warning", "Please enter inventory count")
       return;
     }
-    if (form.weight == 0) {
+    if (form.weight === 0) {
       handleOpenMessage("warning", "Please enter product weight")
       return;
     }

@@ -41,7 +41,7 @@ function ShopView() {
       /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     var match = url.match(regExp);
 
-    if (match && match[2].length == 11) {
+    if (match && match[2].length === 11) {
       return match[2];
     } else {
       return "error";
@@ -60,7 +60,7 @@ function ShopView() {
     });
     if (
       response.data.error_desc === "Success" &&
-      response.data.data.length != 0
+      response.data.data.length !== 0
     ) {
       setShopDetail(response.data.data);
       setMedia(response.data.data.mediaDescriptionsList);
@@ -74,7 +74,7 @@ function ShopView() {
   function ConvertBR(input) {
     var output = "";
     for (var i = 0; i <= input.length; i++) {
-      if (input.charCodeAt(i) == 13 && input.charCodeAt(i + 1) == 10) {
+      if (input.charCodeAt(i) === 13 && input.charCodeAt(i + 1) === 10) {
         i++;
         output += "<br />";
         console.log(2222);
@@ -236,7 +236,7 @@ function ShopView() {
           </button>
           <a
             className={
-              tab == 2
+              tab === 2
                 ? "btn btn-outline-none tab-button active-tab"
                 : "btn btn-outline-none tab-button"
             }
@@ -252,7 +252,7 @@ function ShopView() {
           </a>
           <button
             className={
-              tab == 3
+              tab === 3
                 ? "btn btn-outline-none tab-button active-tab"
                 : "btn btn-outline-none tab-button"
             }
@@ -267,7 +267,7 @@ function ShopView() {
           </button>
           <button
             className={
-              tab == 4
+              tab === 4
                 ? "btn btn-outline-none tab-button active-tab"
                 : "btn btn-outline-none tab-button"
             }
@@ -282,7 +282,7 @@ function ShopView() {
           </button>
           <button
             className={
-              tab == 5
+              tab === 5
                 ? "btn btn-outline-none tab-button active-tab"
                 : "btn btn-outline-none tab-button"
             }
@@ -329,7 +329,7 @@ function ShopView() {
               {media.map((item, index) => (
                 <div
                   className={
-                    index == 0 ? "carousel-item active" : "carousel-item"
+                    index === 0 ? "carousel-item active" : "carousel-item"
                   }
                 >
                   {item.type === 11 && (

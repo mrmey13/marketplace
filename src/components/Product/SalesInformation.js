@@ -129,7 +129,7 @@ const SalesInformation = ({ form, onChangeData,
 	}, [salesData])
 
 	const handleInputChangeLevel1 = (e, idx) => {
-		console.log("ADD TO inputList");
+		// console.log("ADD TO inputList");
 		const { name, value } = e.target;
 		let tmp = [...inputList];
 		tmp[idx][name] = value;
@@ -166,7 +166,7 @@ const SalesInformation = ({ form, onChangeData,
 				{ valueName1: "", valueName2: element.valueName, price: 0, inventoryCount: 0, sku: "" }
 			)
 		});
-		console.log("ADD TO inputList2", tmp, inputList2);
+		// console.log("ADD TO inputList2", tmp, inputList2);
 		setInputList2([...inputList2, ...tmp]);
 	}
 
@@ -178,7 +178,7 @@ const SalesInformation = ({ form, onChangeData,
 
 		let list2 = [...inputList2];
 		list2 = list2.filter((e, i) => Math.floor(i / value2Length) != idx);
-		console.log("list2", list2);
+		// console.log("list2", list2);
 		setInputList2(list2);
 	}
 
@@ -201,9 +201,9 @@ const SalesInformation = ({ form, onChangeData,
 
 	const handleInputChangeLevel2 = (e, idx) => {
 		const { name, value } = e.target;
-		console.log("EVENT", name, value, idx);
+		// console.log("EVENT", name, value, idx);
 		let tmp = [...ValueList2];
-		console.log("ValueList2:", tmp);
+		// console.log("ValueList2:", tmp);
 		tmp[idx].valueName = value;
 		setValueList2(tmp);
 
@@ -228,7 +228,7 @@ const SalesInformation = ({ form, onChangeData,
 		let value1Length = inputList.length;
 		let value2Length = ValueList2.length;
 
-		console.log("ValueList2", ValueList2);
+		// console.log("ValueList2", ValueList2);
 		setValueList2([...ValueList2, { valueName: "" }]);
 
 		let oldInputList2 = [...inputList2];
@@ -260,7 +260,7 @@ const SalesInformation = ({ form, onChangeData,
 		let list2 = [...inputList2];
 		let value2Length = ValueList2.length
 		list2 = list2.filter((e, i) => Math.floor(i % value2Length) != idx);
-		console.log("list2", list2);
+		// console.log("list2", list2);
 		setInputList2(list2);
 	}
 
@@ -331,10 +331,10 @@ const SalesInformation = ({ form, onChangeData,
 	}
 
 	return <div className="card card-body mb-3 shadow">
-		<h5>SalesInformation {level1Attribute} {level2Attribute}</h5>
+		<h5>{t("product_config.tabs.sales_info")} {level1Attribute} {level2Attribute}</h5>
 		<div className="row">
 			<div className="row mb-2" hidden={hidden1}>
-				<label className="col-3 form-label text-muted text-end" for="product-price">* Product Price</label>
+				<label className="col-3 form-label text-muted text-end" for="product-price">{"* " + t("product_config.fields.product_price")}</label>
 				<div className="col-9">
 					<input
 						type="number"
@@ -347,7 +347,7 @@ const SalesInformation = ({ form, onChangeData,
 				</div>
 			</div>
 			<div className="row mb-2" hidden={hidden1}>
-				<label className="col-3 form-label text-muted text-end" for="inventoryCount">* Inventory count</label>
+				<label className="col-3 form-label text-muted text-end" for="inventoryCount">{"* " + t("product_config.fields.inventory_count")}</label>
 				<div className="col-9">
 					<input
 						type="number"
@@ -364,7 +364,7 @@ const SalesInformation = ({ form, onChangeData,
 
 			<div className="row mb-2" hidden={hidden1}>
 				<div className="col-3 text-muted text-end">
-					Phân loại hàng
+					{t("product_config.fields.variations")}
 				</div>
 				<div className="col-9 d-flex align-items-baseline">
 					<div style={{ width: "800px" }}>
@@ -376,7 +376,7 @@ const SalesInformation = ({ form, onChangeData,
 								setInputList([{ valueName: "", price: 0, inventoryCount: 0, sku: "" }]);
 							}}
 						>
-							Thêm nhóm phân loại
+							{t("product_config.others.enable_variations")}
 						</button>
 					</div>
 
@@ -387,7 +387,7 @@ const SalesInformation = ({ form, onChangeData,
 			<div style={{ backgroundColor: "#FAFAFA", marginBottom: "24px" }} hidden={!hidden1} className="border">
 				<div className="row my-2">
 					<div className="col-3 text-muted text-start">
-						Nhóm phân loại 1
+						{t("product_config.fields.variation") + " 1"}
 					</div>
 					<div className="col-9 text-muted text-end">
 						<button
@@ -410,7 +410,7 @@ const SalesInformation = ({ form, onChangeData,
 
 				<div className="row mb-2">
 					<div className="col-3 text-muted text-end">
-						Tên nhóm phân loại
+						{t("product_config.fields.variation_name")}
 					</div>
 					<div className="col-9">
 						<input
@@ -427,7 +427,7 @@ const SalesInformation = ({ form, onChangeData,
 				{inputList.map((item, idx) => (
 					<div className="row mb-2">
 						<div className="col-3 text-muted text-end">
-							{idx === 0 && 'Phân loại hàng'}
+							{idx === 0 && t("product_config.fields.variation_option")}
 						</div>
 						<div className="col-8">
 							<input
@@ -444,11 +444,13 @@ const SalesInformation = ({ form, onChangeData,
 							idx > 0 &&
 							<div className="col-1">
 								<button
+									className="btn btn-danger btn-sm"
+									style={{ width: "60px" }}
 									onClick={(e) => {
 										deleteLevel1Value(idx)
 									}}
 								>
-									Delete
+									{t("commons.button.delete")}
 								</button>
 							</div>
 						}
@@ -469,7 +471,7 @@ const SalesInformation = ({ form, onChangeData,
 								}}
 
 							>
-								Thêm phân loại hàng
+								{t("product_config.others.add_option")}
 							</button>
 						</div>
 					</div>
@@ -477,7 +479,7 @@ const SalesInformation = ({ form, onChangeData,
 
 				<div className="row mb-2" hidden={hidden2}>
 					<div className="col-3 text-muted text-end">
-						Nhóm phân loại 2
+						{t("product_config.fields.variation") + " 2"}
 					</div>
 					<div className="col-9 d-flex align-items-baseline">
 						<div style={{ width: "800px" }}>
@@ -488,7 +490,7 @@ const SalesInformation = ({ form, onChangeData,
 									addLevel2();
 								}}
 							>
-								Thêm
+								{t("commons.button.add")}
 							</button>
 						</div>
 					</div>
@@ -499,7 +501,7 @@ const SalesInformation = ({ form, onChangeData,
 			<div style={{ backgroundColor: "#FAFAFA", marginBottom: "24px" }} hidden={!hidden2} className="border">
 				<div className="row my-2">
 					<div className="col-3 text-muted text-start">
-						Nhóm phân loại 2
+						{t("product_config.fields.variation") + " 2"}
 					</div>
 					<div className="col-9 text-muted text-end">
 						<button
@@ -520,7 +522,7 @@ const SalesInformation = ({ form, onChangeData,
 
 				<div className="row mb-2">
 					<div className="col-3 text-muted text-end">
-						Tên nhóm phân loại
+						{t("product_config.fields.variation_name")}
 					</div>
 					<div className="col-9">
 						<input
@@ -537,7 +539,7 @@ const SalesInformation = ({ form, onChangeData,
 				{ValueList2.map((item, idx) => (
 					<div className="row mb-2">
 						<div className="col-3 text-muted text-end">
-							{idx === 0 && 'Phân loại hàng'}
+							{idx === 0 && t("product_config.fields.variation_option")}
 						</div>
 						<div className="col-8">
 							<input
@@ -554,6 +556,8 @@ const SalesInformation = ({ form, onChangeData,
 							idx > 0 &&
 							<div className="col-1">
 								<button
+									className="btn btn-danger btn-sm"
+									style={{ width: "60px" }}
 									onClick={(e) => {
 										deleteLevel2Value(idx)
 										// const list = [...inputList2];
@@ -561,7 +565,7 @@ const SalesInformation = ({ form, onChangeData,
 										// setInputList2(list);
 									}}
 								>
-									Delete
+									{t("commons.button.delete")}
 								</button>
 							</div>
 						}
@@ -585,7 +589,7 @@ const SalesInformation = ({ form, onChangeData,
 									addToInputListLevel2()
 								}}
 							>
-								Thêm phân loại hàng
+								{t("product_config.others.add_option")}
 							</button>
 						</div>
 					</div>
@@ -597,10 +601,9 @@ const SalesInformation = ({ form, onChangeData,
 			<div style={{ backgroundColor: "#FAFAFA", marginBottom: "24px" }} hidden={!hidden1} className="border">
 				<div className="row my-2">
 					<div className="col-3 text-muted text-start">
-						Mẹo thiết lập phân loại hàng
+						{t("product_config.fields.variation_information")}
 					</div>
 					<div className="col-9 text-muted text-end">
-
 					</div>
 				</div>
 
@@ -659,7 +662,7 @@ const SalesInformation = ({ form, onChangeData,
 								}
 							}}
 						>
-							ÁP DỤNG
+							{t("commons.button.apply")}
 						</button>
 					</div>
 				</div>
@@ -670,7 +673,7 @@ const SalesInformation = ({ form, onChangeData,
 			<div style={{ backgroundColor: "#FAFAFA", marginBottom: "24px" }} hidden={!hidden1} className="border">
 				<div className="row my-2">
 					<div className="col-3 text-muted text-start">
-						Danh sách phân loại hàng
+						{t("product_config.fields.variation_list")}
 					</div>
 					<div className="col-9 text-muted text-end">
 
@@ -681,10 +684,10 @@ const SalesInformation = ({ form, onChangeData,
 					<table class="table table-bordered">
 						<thead>
 							<tr>
-								<th scope="col" style={{ maxWidth: "90px" }}>{Attribute1 || 'Tên'}</th>
-								<th scope="col">Giá</th>
-								<th scope="col">Kho hàng</th>
-								<th scope="col">SKU phân loại</th>
+								<th scope="col" style={{ maxWidth: "90px" }}>{Attribute1 || t("product_config.fields.variation_name")}</th>
+								<th scope="col">{t("product_config.fields.product_price")}</th>
+								<th scope="col">{t("product_config.fields.inventory_count")}</th>
+								<th scope="col">{t("product_config.fields.SKU")}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -748,11 +751,11 @@ const SalesInformation = ({ form, onChangeData,
 					<table class="table table-bordered">
 						<thead>
 							<tr>
-								<th scope="col" style={{ maxWidth: "90px" }}>{Attribute1 || 'Tên'}</th>
-								<th scope="col" style={{ maxWidth: "90px" }}>{Attribute2 || 'Tên'}</th>
-								<th scope="col">Giá</th>
-								<th scope="col">Kho hàng</th>
-								<th scope="col">SKU phân loại</th>
+								<th scope="col" style={{ maxWidth: "90px" }}>{Attribute1 || t("product_config.fields.variation_name")}</th>
+								<th scope="col" style={{ maxWidth: "90px" }}>{Attribute1 || t("product_config.fields.variation_name")}</th>
+								<th scope="col">{t("product_config.fields.product_price")}</th>
+								<th scope="col">{t("product_config.fields.inventory_count")}</th>
+								<th scope="col">{t("product_config.fields.SKU")}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -817,7 +820,7 @@ const SalesInformation = ({ form, onChangeData,
 
 			<div className="row mb-2">
 				<div className="col-3 text-muted text-end">
-					Mua nhiều giảm giá
+					{t("product_config.fields.wholesale")}
 				</div>
 				<div className="col-9 d-flex align-items-baseline">
 					<div style={{ width: "800px" }}>
@@ -826,7 +829,7 @@ const SalesInformation = ({ form, onChangeData,
 							style={{ width: "inherit" }}
 							onClick={() => { }}
 						>
-							Thêm khoảng giá
+							{t("product_config.others.add_price_tier")}
 						</button>
 					</div>
 				</div>

@@ -4,18 +4,24 @@
         "button": {
             "save": "Lưu",
             "logout": "Đăng xuất",
-            "login" : "Đăng nhập",
+            "login": "Đăng nhập",
             "signup": "Đăng ký",
             "change_password": "Đổi mật khẩu",
             "confirm": "Xác nhận",
-            "cancel": "Bỏ qua",
+            "cancel": "Hủy",
             "refresh": "Làm mới",
             "ok": "OK",
             "create": "Tạo",
             "edit": "Sửa",
             "view": "Xem",
             "delete": "Xóa",
-            "next": "Tiếp theo"
+            "next": "Tiếp theo",
+            "update": "Cập nhật",
+            "browse": "Duyệt",
+            "no": "Không",
+            "yes": "Đồng ý",
+            "add": "Thêm",
+            "apply": "Áp dụng"
         },
         "expansionPanelText": "Tìm kiếm ..."
     },
@@ -38,11 +44,11 @@
             "all_products": "Tất cả sản phẩm",
             "new_product": "Thêm sản phẩm mới"
         },
-        "settings_menu":{
-            "title":"Cài đặt"
+        "settings_menu": {
+            "title": "Cài đặt"
         },
-        "admin_menu":{
-            "title":"Quản trị",
+        "admin_menu": {
+            "title": "Quản trị",
             "all_products": "Phê duyệt sản phẩm"
         }
     },
@@ -73,13 +79,13 @@
             "violatesRules": "Vi phạm",
             "accepted": "Chấp nhận",
             "notAccepted": "Không chấp nhận",
-            "soldout":"Hết hàng"
+            "soldout": "Hết hàng"
         }
     },
     "shop_settings": {
         "setting": "Thiết Lập Shop",
         "shop_settings": "Thiết Lập Shop",
-        "my_addresses":"Địa chỉ",
+        "my_addresses": "Địa chỉ",
         "change_settings": "Thay đổi các cài đặt cho shop của bạn.",
         "basic_settings": {
             "basic_settings": "Thiết Lập Cơ Bản",
@@ -94,5 +100,60 @@
         "privacy_settings": "Cài đặt riêng tư",
         "chat_settings": "Cài đặt chat",
         "notification_settings": "Cài đặt thông báo"
+    },
+    "product_config": {
+        "tabs": {
+            "basic_info": "Thông tin cơ bản",
+            "specification": "Thông tin chi tiết",
+            "sales_info": "Thông tin bán hàng",
+            "shipping": "Vận chuyển",
+            "others": "Thông tin khác"
+        },
+        "fields": {
+            "product_images": "Hình ảnh sản phẩm",
+            "product_video": "Video sản phẩm",
+            "product_name": "Tên sản phẩm",
+            "product_description": "Mô tả sản phẩm",
+            "category": "Danh mục",
+            "product_price": "Giá",
+            "inventory_count": "Kho hàng",
+            "variations": "Phân loại hàng",
+            "wholesale": "Mua nhiều giảm giá",
+            "weight": "Khối lượng",
+            "parcel_size": "Kích thước",
+            "pre_order": "Hàng đặt trước",
+            "condition": "Tình trạng",
+            "video_url": "Video Youtube Url",
+            "variation": "Nhóm phân loại",
+            "variation_name": "Tên nhóm phân loại",
+            "variation_option": "Phân loại hàng",
+            "variation_information": "Mẹo thiết lập phân loại hàng",
+            "variation_list": "Danh sách phân loại hàng",
+            "SKU": "SKU"
+        },
+        "message": {
+            "please_select": "Vui lòng chọn",
+            "please_input": "Vui lòng nhập",
+            "choose_cover_image": "Vui lòng chọn ảnh bìa",
+            "enter_product_name": "Vui lòng nhập trên sản phẩm",
+            "enter_product_description": "Vui lòng nhập mô tả sản phẩm",
+            "enter_product_price": "Vui lòng nhập giá sản phẩm",
+            "enter_inventory_count": "Vui lòng nhập số lượng sản phẩm",
+            "enter_product_weight": "Vui lòng nhập khối lượng sản phẩm"
+        },
+        "others": {
+            "cover_image": "Ảnh bìa",
+            "image": "Ảnh",
+            "new": "Mới",
+            "used": "Đã sử dụng",
+            "width": "R",
+            "length": "D",
+            "height": "C",
+            "self_fill": "Tự điền",
+            "add_new_attribute": "Thêm thuộc tính mới",
+            "enable_variations": "Thêm nhóm phân loại",
+            "add_option": "Thêm phân loại hàng",
+            "add_price_tier": "Thêm khoảng giá"
+        }
     }
 }

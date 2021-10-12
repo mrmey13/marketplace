@@ -187,16 +187,19 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n, match }
     loadAttributeData();
   }, [categoryAttributeList])
   return <div className="card card-body mb-3 shadow">
-    <h5>Specification</h5>
+    <h5>{t("product_config.tabs.specification")}</h5>
     <div className="row">
       {attributeData.map((item, index) => {
         return <>
-          <label className="col-2 text-muted text-end p-2" for="category-Id">{categoryAttributeList[index].attributeEngName}</label>
+          <label className="col-2 text-muted text-end p-2" for="category-Id">
+            {i18n.language === "en" && categoryAttributeList[index].attributeEngName}
+            {i18n.language === "vi" && categoryAttributeList[index].attributeViName}
+          </label>
           <div className="col-4 mb-2">
             {
               (item.attributeData.length + item.customValueData.length) !== 0 && <div className="dropdown" style={{ width: "100%" }}>
                 <button
-                  className="form-control text-start overflow-hidden text-nowrap"
+                  className="form-control text-start overflow-hidden text-nowrap text-muted"
                   id="dropdownMenuButton1"
                   // data-bs-auto-close="true"
                   data-bs-toggle="dropdown"
@@ -204,13 +207,13 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n, match }
                   data-bs-auto-close="outside"
                 >
                   {
-                    (!(attributeData[index].chosenAttributeValue.length || attributeData[index].chosenCustomAttributeValue.length)) && "Please select"
+                    (!(attributeData[index].chosenAttributeValue.length || attributeData[index].chosenCustomAttributeValue.length)) && t("product_config.message.please_select")
                   }
                   {i18n.language === "en" && attributeData[index].chosenAttributeValue.map((e) => <span>
                     {e.attributeEngValue + ", "}
                   </span>)}
                   {i18n.language === "vi" && attributeData[index].chosenAttributeValue.map((e) => <span>
-                    {e.attributeViValue + ", "}
+                    {(e.attributeViValue || e.attributeVieValue) + ", "}
                   </span>)}
                   {attributeData[index].chosenCustomAttributeValue.map(e => <span>
                     {e.value + ", "}
@@ -224,7 +227,7 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n, match }
                       type="text"
                       className="form-control form-control-sm"
                       // style={{ width: "95%" }}
-                      placeholder="Please input"
+                      placeholder={t("product_config.message.please_input")}
                       name="searchInput"
                       value={item.searchInput}
                       onChange={(event) => onChangeInput(event, index)}
@@ -253,7 +256,7 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n, match }
                     {item.customValueData.length !== 0 && <div
                       className="dropdown-header"
                     >
-                      Self-fill Option
+                      {t("product_config.others.self_fill")}
                     </div>}
                     {getFilterCustomAttributeData(item).map(obj => <button
                       className={
@@ -274,7 +277,7 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n, match }
                     hidden={item.customBoxInput}
                     onClick={() => onAddAttributeItem(index)}
                   >
-                    + Add a New item
+                    {"+ " + t("product_config.others.add_new_attribute")}
                   </button>
                   <div
                     className="px-2 d-flex"
@@ -283,7 +286,7 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n, match }
                       type="text"
                       className="form-control form-control-sm me-1"
                       // style={{ width: "95%" }}
-                      placeholder="Please input"
+                      placeholder={t("product_config.message.please_input")}
                       name="customInput"
                       value={item.customInput}
                       onChange={(event) => onChangeInput(event, index)}
@@ -307,8 +310,8 @@ const Specification = ({ form, attributeData, setAttributeData, t, i18n, match }
             {
               !item.attributeData.length && <input
                 type="text"
-                className="form-control"
-                placeholder="Please input"
+                className="form-control text-muted"
+                placeholder={t("product_config.message.please_input")}
                 value={attributeData[index].inputAttributeValue}
                 onChange={(event) => onChangeAttributeData(event, index)}
               />

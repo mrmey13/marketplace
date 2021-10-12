@@ -83,10 +83,10 @@ const BasicInformation = ({ imageList, form, limitImg, onChangeData, imgData, se
   }
 
   return <div className="card card-body mb-3 shadow">
-    <h5>Basic Information</h5>
+    <h5>{t("product_config.tabs.basic_info")}</h5>
     <div className="row mb-2">
       <div className="col-3 text-muted text-end">
-        Product images
+        {t("product_config.fields.product_images")}
       </div>
       <div className="col-9 row">
         <div className="col-2 d-flex flex-column align-items-center">
@@ -115,7 +115,7 @@ const BasicInformation = ({ imageList, form, limitImg, onChangeData, imgData, se
               />
             </label>}
           </div>
-          <div className="text-center">{"* Cover Image"}</div>
+          <div className="text-center">{"* " + t("product_config.others.cover_image")}</div>
         </div>
 
         {imageList.map((item, index) => <div className="col-2 d-flex flex-column align-items-center">
@@ -149,22 +149,23 @@ const BasicInformation = ({ imageList, form, limitImg, onChangeData, imgData, se
                 />
               </label>}
           </div>
-          <div className="text-center">{"Image " + (index + 1)}</div>
+          <div className="text-center">{t("product_config.others.image") + " " + (index + 1)}</div>
         </div>
         )}
       </div>
     </div>
     <div className="row mb-2">
       <div className="col-3 text-muted text-end">
-        Product Video
+        {t("product_config.fields.product_video")}
       </div>
       <div className="col-9 d-flex align-items-baseline">
         <div className="">
           <button
             className="btn btn-outline-secondary btn-sm me-3"
             onClick={() => setModalVideo(true)}
+            style={{ width: "70px"}}
           >
-            Browse
+            {t("commons.button.browse")}
           </button>
         </div>
         <div className="">
@@ -176,7 +177,7 @@ const BasicInformation = ({ imageList, form, limitImg, onChangeData, imgData, se
       </div>
     </div>
     <div className="row mb-2">
-      <label className="col-3 form-label text-muted text-end" for="product-name">* Product Name</label>
+      <label className="col-3 form-label text-muted text-end" for="product-name">{"* " + t("product_config.fields.product_name")}</label>
       <div className="col-9">
         <input
           className="form-control form-control-sm"
@@ -188,7 +189,7 @@ const BasicInformation = ({ imageList, form, limitImg, onChangeData, imgData, se
       </div>
     </div>
     <div className="row mb-2">
-      <label className="col-3 text-muted text-end" for="product-description">* Product Description</label>
+      <label className="col-3 text-muted text-end" for="product-description">{"* " + t("product_config.fields.product_description")}</label>
       <div className="col-9">
         <textarea
           className="form-control form-control-sm"
@@ -202,7 +203,7 @@ const BasicInformation = ({ imageList, form, limitImg, onChangeData, imgData, se
     </div>
     <div className="row mb-2">
       <div className="col-3 text-muted text-end">
-        Category
+        {t("product_config.fields.category")}
       </div>
       <div className="col-9">
         {i18n.language === "en" && form.category.categoryEngPath}

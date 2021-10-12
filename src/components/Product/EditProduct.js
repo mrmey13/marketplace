@@ -88,7 +88,7 @@ const formatData = (variationArray, inventoryArray) => {
 }
 
 const EditProduct = (props) => {
-
+  const { t, i18n } = props;
   const classes = useStyles();
   const { productId } = useParams();
 
@@ -176,27 +176,27 @@ const EditProduct = (props) => {
   const editProduct = async () => {
     //error mess
     if (!imgData.coverImg.path) {
-      handleOpenMessage("warning", "Please choose cover image")
+      handleOpenMessage("warning", t("product_config.message.choose_cover_image"))
       return;
     }
     if (!form.name) {
-      handleOpenMessage("warning", "Please enter product name")
+      handleOpenMessage("warning", t("product_config.message.enter_product_name"))
       return;
     }
     if (!form.description) {
-      handleOpenMessage("warning", "Please enter product description")
+      handleOpenMessage("warning", t("product_config.message.enter_product_description"))
       return;
     }
     if (form.price == 0) {
-      handleOpenMessage("warning", "Please enter product price")
+      handleOpenMessage("warning", t("product_config.message.enter_product_price"))
       return;
     }
     if (form.inventoryCount == 0) {
-      handleOpenMessage("warning", "Please enter inventory count")
+      handleOpenMessage("warning", t("product_config.message.enter_inventory_count"))
       return;
     }
     if (form.weight == 0) {
-      handleOpenMessage("warning", "Please enter product weight")
+      handleOpenMessage("warning", t("product_config.message.enter_product_weight"))
       return;
     }
     editBasicInformation();
@@ -341,9 +341,7 @@ const EditProduct = (props) => {
           resultEle.attributeOptionIdList = resultEle.attributeOptionIdList.concat(element.id);
         }
       }
-      if (resultEle.attributeOptionIdList.length) {
-        resultArr = resultArr.concat(resultEle);
-      }
+      resultArr = resultArr.concat(resultEle);
     }
     return resultArr;
   }
@@ -503,7 +501,7 @@ const EditProduct = (props) => {
   }, [])
 
   return <div className="d-flex flex-row justify-content-center align-items-baseline">
-    <div className="container-fluid w-70vw minw-80em my-3">
+    <div className="container-fluid minw-80em my-3">
       <BasicInformation
         {...props}
         imageList={imageList}
@@ -543,18 +541,19 @@ const EditProduct = (props) => {
       <div className="d-flex justify-content-end">
         <button
           className="btn border bg-white me-2"
+          style={{ width: "90px" }}
         >
-          Cancel
+          {t("commons.button.cancel")}
         </button>
         <button
           className="btn btn-danger"
           onClick={editProduct}
+          style={{ width: "90px" }}
         >
-          Update
+          {t("commons.button.update")}
         </button>
       </div>
     </div>
-    <div className="border card card-body w-20vw maxw-15em">aaa</div>
 
     <Modal
       style={{ top: 0 }}
@@ -572,7 +571,7 @@ const EditProduct = (props) => {
               name="videoUrl"
               value={form.videoUrl}
               onChange={onChangeData}
-              placeholder={"Video Youtube Url"}
+              placeholder={t("product_config.fields.video_url")}
               disabled={!Object.keys(form.videoFile).length === 0}
             />
             <input
@@ -588,7 +587,7 @@ const EditProduct = (props) => {
               style={{ width: "60px" }}
               onClick={() => handleSaveVideo()}
             >
-              {"Save"}
+              {t("commons.button.save")}
             </button>
             <button
               type="button"
@@ -596,7 +595,7 @@ const EditProduct = (props) => {
               style={{ width: "60px" }}
               onClick={handleCloseModalVideo}
             >
-              {"Cancel"}
+              {t("commons.button.cancel")}
             </button>
           </div>
         </div>

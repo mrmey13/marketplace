@@ -3,10 +3,10 @@ import { useTranslation, withTranslation } from "react-i18next";
 
 const Others = ({ form, onChangeData, t, i18n }) => {
   return <div className="card card-body mb-3 shadow">
-    <h5>Others</h5>
+    <h5>{t("product_config.tabs.others")}</h5>
     <div className="row mb-2">
       <div className="col-3 text-muted text-end">
-        {"Pre-Order"}
+        {t("product_config.fields.pre_order")}
       </div>
       <div className="col-9 row">
         <div className="col-2">
@@ -37,7 +37,7 @@ const Others = ({ form, onChangeData, t, i18n }) => {
     </div>
     <div className="row mb-2">
       <div className="col-3 text-muted text-end">
-        {"Condition"}
+        {t("product_config.fields.condition")}
       </div>
       <div className="col-9 row">
         <div className="col-2">
@@ -50,7 +50,7 @@ const Others = ({ form, onChangeData, t, i18n }) => {
             onChange={(event) => { onChangeData(event) }}
             defaultChecked={form.isNewProduct === 1}
           />
-          <label className="ms-2" htmlFor="new">{"New"}</label>
+          <label className="ms-2" htmlFor="new">{t("product_config.others.new")}</label>
         </div>
         <div className="col-2">
           <input
@@ -62,7 +62,7 @@ const Others = ({ form, onChangeData, t, i18n }) => {
             onChange={(event) => { onChangeData(event) }}
             defaultChecked={form.isNewProduct === 0}
           />
-          <label className="ms-2" htmlFor="uesd">{"Used"}</label>
+          <label className="ms-2" htmlFor="uesd">{t("product_config.others.used")}</label>
         </div>
 
       </div>

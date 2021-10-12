@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 const CreateProduct = (props) => {
   const classes = useStyles();
+  const { t, i18n } = props;
 
   const [responseMessage, setResponseMessage] = useState({
     type: "",
@@ -134,27 +135,27 @@ const CreateProduct = (props) => {
 
   const createProduct = async () => {
     if (!imgData.coverImg.path) {
-      handleOpenMessage("warning", "Please choose cover image")
+      handleOpenMessage("warning", t("product_config.message.choose_cover_image"))
       return;
     }
     if (!form.name) {
-      handleOpenMessage("warning", "Please enter product name")
+      handleOpenMessage("warning", t("product_config.message.enter_product_name"))
       return;
     }
     if (!form.description) {
-      handleOpenMessage("warning", "Please enter product description")
+      handleOpenMessage("warning", t("product_config.message.enter_product_description"))
       return;
     }
     if (form.price == 0) {
-      handleOpenMessage("warning", "Please enter product price")
+      handleOpenMessage("warning", t("product_config.message.enter_product_price"))
       return;
     }
     if (form.inventoryCount == 0) {
-      handleOpenMessage("warning", "Please enter inventory count")
+      handleOpenMessage("warning", t("product_config.message.enter_inventory_count"))
       return;
     }
     if (form.weight == 0) {
-      handleOpenMessage("warning", "Please enter product weight")
+      handleOpenMessage("warning", t("product_config.message.enter_product_weight"))
       return;
     }
     //error mess
@@ -348,8 +349,8 @@ const CreateProduct = (props) => {
     loadData();
   }, [])
 
-  return <div className="d-flex flex-row justify-content-center align-items-baseline">
-    <div className="container-fluid w-70vw minw-80em my-3">
+  return <div className="">
+    <div className="container-fluid minw-80em my-3">
       <BasicInformation
         {...props}
         imageList={imageList}
@@ -383,21 +384,23 @@ const CreateProduct = (props) => {
         form={form}
         onChangeData={onChangeData}
       />
-      <div className="d-flex justify-content-end">
-        <button
-          className="btn border bg-white me-2"
-        >
-          Cancel
-        </button>
-        <button
-          className="btn btn-danger"
-          onClick={createProduct}
-        >
-          Save
-        </button>
-      </div>
     </div>
-    <div className="border card card-body w-20vw maxw-15em">aaa</div>
+    <div className="container-fluid d-flex justify-content-end">
+      <button
+        className="btn border bg-white me-2"
+        style={{ width: "90px" }}
+      >
+        {t("commons.button.cancel")}
+      </button>
+      <button
+        className="btn btn-danger"
+        onClick={createProduct}
+        style={{ width: "90px" }}
+      >
+        {t("commons.button.save")}
+      </button>
+    </div>
+
 
     <Modal
       style={{ top: 0 }}
@@ -415,7 +418,7 @@ const CreateProduct = (props) => {
               name="videoUrl"
               value={form.videoUrl}
               onChange={onChangeData}
-              placeholder={"Video Youtube Url"}
+              placeholder={t("product_config.fields.video_url")}
               disabled={!Object.keys(form.videoFile).length === 0}
             />
             <input
@@ -431,7 +434,7 @@ const CreateProduct = (props) => {
               style={{ width: "60px" }}
               onClick={() => handleSaveVideo()}
             >
-              {"Save"}
+              {t("commons.button.save")}
             </button>
             <button
               type="button"
@@ -439,7 +442,7 @@ const CreateProduct = (props) => {
               style={{ width: "60px" }}
               onClick={handleCloseModalVideo}
             >
-              {"Cancel"}
+              {t("commons.button.cancel")}
             </button>
           </div>
         </div>

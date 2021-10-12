@@ -4,7 +4,7 @@
         "button": {
             "save": "Save",
             "logout": "Log out",
-            "login" : "Log in",
+            "login": "Log in",
             "signup": "Sign up",
             "change_password": "Change password",
             "confirm": "Confirm",
@@ -15,7 +15,13 @@
             "edit": "Edit",
             "view": "View",
             "delete": "Delete",
-            "next": "Next"
+            "next": "Next",
+            "update": "Update",
+            "browse": "Browse",
+            "no": "No",
+            "yes": "Yes",
+            "add": "Add",
+            "apply": "Apply"
         },
         "expansionPanelText": "Search ..."
     },
@@ -38,11 +44,11 @@
             "all_products": "All Products",
             "new_product": "Add a new product"
         },
-        "settings_menu":{
-            "title":"Settings"
+        "settings_menu": {
+            "title": "Settings"
         },
-        "admin_menu":{
-            "title":"Administration",
+        "admin_menu": {
+            "title": "Administration",
             "all_products": "Approve Products"
         }
     },
@@ -73,13 +79,13 @@
             "violatesRules": "Violates Rules",
             "accepted": "Accepted",
             "notAccepted": "Not Accepted",
-            "soldout":"Sold-out"
+            "soldout": "Sold-out"
         }
     },
     "shop_settings": {
         "setting": "Shop Settings",
         "shop_settings": "Shop Settings",
-        "my_addresses":"My Addresses",
+        "my_addresses": "My Addresses",
         "change_settings": "Change the settings of your shop.",
         "basic_settings": {
             "basic_settings": "Basic Settings",
@@ -94,5 +100,60 @@
         "privacy_settings": "Privacy Settings",
         "chat_settings": "Chat Settings",
         "notification_settings": "Notification Settings"
+    },
+    "product_config": {
+        "tabs": {
+            "basic_info": "Basic Information",
+            "specification": "Specification",
+            "sales_info": "Sales Information",
+            "shipping": "Shipping",
+            "others": "Others"
+        },
+        "fields": {
+            "product_images": "Product Images",
+            "product_video": "product Video",
+            "product_name": "Product Name",
+            "product_description": "Product Description",
+            "category": "Category",
+            "product_price": "Price",
+            "inventory_count": "Stock",
+            "variations": "Variations",
+            "wholesale": "Wholesale",
+            "weight": "Weight",
+            "parcel_size": "Parcel Size",
+            "pre_order": "Pre-Order",
+            "condition": "Condition",
+            "video_url": "Video Youtube Url",
+            "variation": "Variation",
+            "variation_name": "Variation Name",
+            "variation_option": "Variation Option",
+            "variation_information": "Variation Information",
+            "variation_list": "Variation List",
+            "SKU": "SKU"
+        },
+        "message": {
+            "please_select": "Please select",
+            "please_input": "Please input",
+            "choose_cover_image": "Please choose cover image",
+            "enter_product_name": "Please enter product name",
+            "enter_product_description": "Please enter product description",
+            "enter_product_price": "Please enter product price",
+            "enter_inventory_count": "Please enter inventory count",
+            "enter_product_weight": "Please enter product weight"
+        },
+        "others": {
+            "cover_image": "Cover Image",
+            "image": "Image",
+            "new": "New",
+            "used": "Used",
+            "width": "W",
+            "length": "L",
+            "height": "H",
+            "self_fill": "Self-fill Option",
+            "add_new_attribute": "Add a New item",
+            "enable_variations": "Enable Variations",
+            "add_option": "Add Option",
+            "add_price_tier": "Add Price Tier"
+        }
     }
 }

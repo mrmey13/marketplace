@@ -99,13 +99,12 @@ class Login extends React.Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
           if (
             data &&
             data.data &&
             data.data.token &&
-            data.data.token != "null" &&
-            data.data.token != undefined
+            data.data.token !== "null" &&
+            data.data.token !== undefined
           ) {
             sessionStorage.clear();
             localStorage.setItem(cs.System_Code + "-token", data.data.token);
@@ -133,8 +132,7 @@ class Login extends React.Component {
               error_message: "Tài khoản hoặc mật khẩu không chính xác !",
             });
           }
-        } else {
-        }
+        
       })
       .catch(() => {
         this.setState({

@@ -16,6 +16,8 @@ const deleteAttributeValueUrl = cs.BaseURL + "/api/manager/attribute-option/dele
 const addCategoryAttributeUrl = cs.BaseURL + "/api/manager/category-attribute/create";
 const editCategoryAttributeUrl = cs.BaseURL + "/api/manager/category-attribute/edit";
 const deleteCategoryAttributeUrl = cs.BaseURL + "/api/manager/category-attribute/delete?";
+const loadCategoryDataUrl = cs.BaseURL +"/api/common/product/category/list?categoryLevel=0&hasNoChild=true";
+const loadAttributeOfCategoryDataUrl = cs.BaseURL + "/api/manager/category-attribute/list?";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -32,7 +34,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AttributeManage = ({ t, i18n, history }) => {
+const AttributeManage = (props) => {
+  const { t, i18n, history } = props;
   const [responseMessage, setResponseMessage] = useState({
     type: "",
     content: "",
@@ -94,7 +97,7 @@ const AttributeManage = ({ t, i18n, history }) => {
   return <div className="container-fluid w-80vw minw-80em my-3">
     <div className="card card-body d-flex flex-row shadow">
       <div className="p-3" style={{ width: "50%" }}>
-        <h4 className="fw-bold text-capitalize">Configuration Attribute</h4>
+        <h4 className="fw-bold text-capitalize">{t("attribute.attribute_config")}</h4>
       </div>
       <div className="d-flex m-2 align-items-center justify-content-end" style={{ width: "50%" }}>
         <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
@@ -106,7 +109,7 @@ const AttributeManage = ({ t, i18n, history }) => {
             checked={tab === "add"}
             onClick={() => { setTab("add"); resetData(); }}
           />
-          <label class="btn btn-outline-danger" for="btnradio1">Add</label>
+          <label class="btn btn-outline-danger" for="btnradio1" style={{ minWidth: "70px" }}>{t("commons.button.add")}</label>
 
           <input
             type="radio"
@@ -116,7 +119,7 @@ const AttributeManage = ({ t, i18n, history }) => {
             checked={tab === "edit"}
             onClick={() => { setTab("edit"); resetData(); }}
           />
-          <label class="btn btn-outline-danger" for="btnradio2">Edit</label>
+          <label class="btn btn-outline-danger" for="btnradio2" style={{ minWidth: "70px" }}>{t("commons.button.edit")}</label>
 
           <input
             type="radio"
@@ -126,7 +129,7 @@ const AttributeManage = ({ t, i18n, history }) => {
             checked={tab === "delete"}
             onClick={() => { setTab("delete"); resetData(); }}
           />
-          <label class="btn btn-outline-danger" for="btnradio3">Delete</label>
+          <label class="btn btn-outline-danger" for="btnradio3" style={{ minWidth: "70px" }}>{t("commons.button.delete")}</label>
 
           <input
             type="radio"
@@ -136,7 +139,7 @@ const AttributeManage = ({ t, i18n, history }) => {
             checked={tab === "apply"}
             onClick={() => { setTab("apply"); resetData(); }}
           />
-          <label class="btn btn-outline-danger" for="btnradio4">Apply</label>
+          <label class="btn btn-outline-danger" for="btnradio4" style={{ minWidth: "70px" }}>{t("commons.button.apply")}</label>
 
           <input
             type="radio"
@@ -146,11 +149,12 @@ const AttributeManage = ({ t, i18n, history }) => {
             checked={tab === ""}
             onClick={() => { setTab(""); history.push("/attribute/list") }}
           />
-          <label class="btn btn-outline-danger" for="btnradio5">Go Back Attribute List</label>
+          <label class="btn btn-outline-danger" for="btnradio5">{t("attribute.tabs.go_back_attribute")}</label>
         </div>
       </div>
     </div>
     {tab === "add" && <Add
+      {...props}
       form={form}
       resetData={resetData}
       setTab={setTab}
@@ -159,6 +163,7 @@ const AttributeManage = ({ t, i18n, history }) => {
       loadAttributeData={loadAttributeData}
     />}
     {tab === "edit" && <Edit
+      {...props}
       form={form}
       attributeList={attributeList}
       setForm={setForm}
@@ -167,6 +172,7 @@ const AttributeManage = ({ t, i18n, history }) => {
       loadAttributeData={loadAttributeData}
     />}
     {tab === "delete" && <Delete
+      {...props}
       form={form}
       attributeList={attributeList}
       resetData={resetData}
@@ -175,6 +181,7 @@ const AttributeManage = ({ t, i18n, history }) => {
       loadAttributeData={loadAttributeData}
     />}
     {tab === "apply" && <Apply
+      {...props}
       attributeList={attributeList}
       handleOpenMessage={handleOpenMessage}
     />}
@@ -191,10 +198,10 @@ const AttributeManage = ({ t, i18n, history }) => {
   </div>
 }
 
-const Add = ({ form, resetData, setTab, loadAttributeData, onChangeData, handleOpenMessage }) => {
+const Add = ({ form, resetData, setTab, loadAttributeData, onChangeData, handleOpenMessage, t, i18n }) => {
   const createAttribute = async () => {
     if (!form.attributeVieName || !form.attributeEngName) {
-      handleOpenMessage("warning", "Please fill in empty fields");
+      handleOpenMessage("warning", t("attribute.message.fill_empty_fields"));
       return;
     }
     try {
@@ -211,7 +218,7 @@ const Add = ({ form, resetData, setTab, loadAttributeData, onChangeData, handleO
       });
       // console.log(response.data);
       if (response.data.error_desc === "Success") {
-        handleOpenMessage("success", "Create success");
+        handleOpenMessage("success", t("attribute.message.create_success"));
         loadAttributeData();
         resetData();
         setTab("edit");
@@ -225,10 +232,10 @@ const Add = ({ form, resetData, setTab, loadAttributeData, onChangeData, handleO
   return <div className="card card-body d-flex flex-row shadow">
     <div className="container-fluid">
       <div className="row mb-2">
-        <h4>Add Attribute</h4>
+        <h4>{t("attribute.tabs.add_attribute")}</h4>
       </div>
       <div className="row mb-2">
-        <label className="col-2" for="attributeVieName">attributeVieName</label>
+        <label className="col-2" for="attributeVieName">{t("attribute.fields.attribute_vie_name")}</label>
         <div className="col-10">
           <input
             type="text"
@@ -241,7 +248,7 @@ const Add = ({ form, resetData, setTab, loadAttributeData, onChangeData, handleO
         </div>
       </div>
       <div className="row mb-2">
-        <label className="col-2" for="attributeEngName">attributeEngName</label>
+        <label className="col-2" for="attributeEngName">{t("attribute.fields.attribute_eng_name")}</label>
         <div className="col-10">
           <input
             type="text"
@@ -259,7 +266,7 @@ const Add = ({ form, resetData, setTab, loadAttributeData, onChangeData, handleO
           style={{ width: "80px" }}
           onClick={createAttribute}
         >
-          Save
+          {t("commons.button.save")}
         </button>
         {/* <button
           className="btn btn-outline-secondary text-dark"
@@ -271,7 +278,7 @@ const Add = ({ form, resetData, setTab, loadAttributeData, onChangeData, handleO
   </div>
 }
 
-const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, loadAttributeData }) => {
+const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, loadAttributeData, t, i18n }) => {
   const classes = useStyles();
 
   const [modalForm, setModalForm] = useState({
@@ -299,11 +306,11 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
 
   const editAttribute = async () => {
     if (!form.attributeId) {
-      handleOpenMessage("warning", "Please select attribute");
+      handleOpenMessage("warning", t("attribute.message.select_attribute"));
       return;
     }
     if (!form.attributeVieName || !form.attributeEngName) {
-      handleOpenMessage("warning", "Please fill in empty fields");
+      handleOpenMessage("warning", t("attribute.message.fill_empty_fields"));
       return;
     }
     try {
@@ -321,7 +328,7 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
       });
       // console.log(response.data)
       if (response.data.error_desc === "Success") {
-        handleOpenMessage("success", "Edit success");
+        handleOpenMessage("success", t("attribute.message.edit_success"));
         setForm({ ...form, attributeEngName: "", attributeVieName: "" });
         loadAttributeData();
       } else {
@@ -338,7 +345,7 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
 
   const handleConfirmAddClick = async () => {
     if (!modalForm.attributeEngOption || !modalForm.attributeVieOption) {
-      handleOpenMessage("warning", "Please fill in empty fields");
+      handleOpenMessage("warning", t("attribute.message.fill_empty_fields"));
       return;
     }
     try {
@@ -356,7 +363,7 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
       });
       // console.log(response.data)
       if (response.data.error_desc === "Success") {
-        handleOpenMessage("success", "Create success");
+        handleOpenMessage("success", t("attribute.message.create_success"));
         loadAttributeOptions();
         handleCloseModal();
       } else {
@@ -378,7 +385,7 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
 
   const handleConfirmEditClick = async () => {
     if (!modalForm.attributeEngOption || !modalForm.attributeVieOption) {
-      handleOpenMessage("warning", "Please fill in empty fields");
+      handleOpenMessage("warning", t("attribute.message.fill_empty_fields"));
       return;
     }
     try {
@@ -396,7 +403,7 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
       });
       // console.log(response.data);
       if (response.data.error_desc === "Success") {
-        handleOpenMessage("success", "Edit success");
+        handleOpenMessage("success", t("attribute.message.edit_success"));
         loadAttributeOptions();
         handleCloseModal();
       } else {
@@ -427,7 +434,7 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
       });
       // console.log(response.data);
       if (response.data.error_desc === "Success") {
-        handleOpenMessage("success", "Delete success");
+        handleOpenMessage("success", t("attribute.message.delete_success"));
         loadAttributeOptions();
         handleCloseModal();
       } else {
@@ -462,11 +469,11 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
     <div className="card card-body d-flex flex-row shadow">
       <div className="container-fluid">
         <div className="row mb-2">
-          <h4>Edit Attribute</h4>
+          <h4>{t("attribute.tabs.edit_attribute")}</h4>
         </div>
         <div className="row mb-2">
-          <label className="col-2" for="attributeVieName">attributeVieName</label>
-          <div className="col-10">
+          <label className="col-3" for="attributeVieName">{t("attribute.fields.attribute_vie_name")}</label>
+          <div className="col-9">
             <select
               className="form-control"
               id="attributeVieName"
@@ -474,14 +481,14 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
               value={form.attributeId}
               onChange={onChangeData}
             >
-              <option value={""}>Chọn thuộc tính</option>
+              <option value={""}>{"Chọn thuộc tính"}</option>
               {attributeList.map(item => <option value={item.attributeId}>{item.attributeViName}</option>)}
             </select>
           </div>
         </div>
         <div className="row mb-2">
-          <label className="col-2" for="attributeEngName">attributeEngName</label>
-          <div className="col-10">
+          <label className="col-3" for="attributeEngName">{t("attribute.fields.attribute_eng_name")}</label>
+          <div className="col-9">
             <select
               className="form-control"
               id="attributeEngName"
@@ -489,14 +496,14 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
               value={form.attributeId}
               onChange={onChangeData}
             >
-              <option value={""}>Select attribute</option>
+              <option value={""}>{"Select attribute"}</option>
               {attributeList.map(item => <option value={item.attributeId}>{item.attributeEngName}</option>)}
             </select>
           </div>
         </div>
         <div className="row mb-2">
-          <label className="col-2" for="attributeVieName">attributeVieName</label>
-          <div className="col-10">
+          <label className="col-3" for="attributeVieName">{t("attribute.fields.attribute_new_vie_name")}</label>
+          <div className="col-9">
             <input
               type="text"
               className="form-control"
@@ -508,8 +515,8 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
           </div>
         </div>
         <div className="row mb-2">
-          <label className="col-2" for="attributeEngName">attributeEngName</label>
-          <div className="col-10">
+          <label className="col-3" for="attributeEngName">{t("attribute.fields.attribute_new_eng_name")}</label>
+          <div className="col-9">
             <input
               type="text"
               className="form-control"
@@ -526,7 +533,7 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
             style={{ width: "80px" }}
             onClick={editAttribute}
           >
-            Save
+            {t("commons.button.save")}
           </button>
           {/* <button className="btn btn-outline-secondary text-dark" style={{ width: "80px" }}>
             Cancel
@@ -538,10 +545,10 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
     <div className="card card-body d-flex flex-row shadow">
       <div className="container-fluid">
         <div className="row mb-2">
-          <h4>Detail Attribute</h4>
+          <h4>{t("attribute.tabs.detail_attribute")}</h4>
         </div>
         {
-          !form.attributeId && <div>Please select attribute</div>
+          !form.attributeId && <div>{t("attribute.message.select_attribute")}</div>
         }
         {
           form.attributeId && <div>
@@ -556,8 +563,8 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
               >
                 <tr>
                   <th className="" style={{ width: "5%" }} scope="col">#</th>
-                  <th className="">attributeValueEngName</th>
-                  <th className="">attributeValueVieName</th>
+                  <th className="">{t("attribute.fields.attribute_eng_value")}</th>
+                  <th className="">{t("attribute.fields.attribute_vie_value")}</th>
                   <th className="" style={{ width: "5%" }} scope="col"></th>
                 </tr>
               </thead>
@@ -573,7 +580,7 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
                         handleEditClick(item);
                       }}
                     >
-                      Edit
+                      {t("commons.button.edit")}
                     </button>
                     <button
                       className="p-0 btn btn-sm text-end link-btn"
@@ -581,7 +588,7 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
                         handleDelClick(item);
                       }}
                     >
-                      Delete
+                      {t("commons.button.delete")}
                     </button>
                   </td>
                 </tr>
@@ -595,7 +602,7 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
                         handleAddClick()
                       }}
                     >
-                      Add attribute value
+                      {t("attribute.attribute_value.add_attribute_value")}
                     </button>
                   </td>
                 </tr>
@@ -614,13 +621,13 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
     >
       <div className={classes.paper}>
         <h4 className="mb-4">
-          {reqType === "add" && "Add a new Attribute value"}
-          {reqType === "edit" && "Edit Attribute value"}
-          {reqType === "delete" && "Delete Attribute value"}
+          {reqType === "add" && t("attribute.attribute_value.add_attribute_value")}
+          {reqType === "edit" && t("attribute.attribute_value.edit_attribute_value")}
+          {reqType === "delete" && t("attribute.attribute_value.delete_attribute_value")}
         </h4>
         {reqType !== "delete" && <div>
           <div className="row mb-2">
-            <label className="col-2" for="attributeVieOption">attributeVieOption</label>
+            <label className="col-2" for="attributeVieOption">{t("attribute.fields.attribute_vie_value")}</label>
             <div className="col-10">
               <input
                 type="text"
@@ -633,7 +640,7 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
             </div>
           </div>
           <div className="row mb-2">
-            <label className="col-2" for="attributeEngOption">attributeEngOption</label>
+            <label className="col-2" for="attributeEngOption">{t("attribute.fields.attribute_eng_value")}</label>
             <div className="col-10">
               <input
                 type="text"
@@ -647,7 +654,7 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
           </div>
         </div>}
         {reqType === "delete" && <div>
-          <p className="mt-3 mb-4">{"Are you sure you want to delete"}</p>
+          <p className="mt-3 mb-4">{t("attribute.message.confirm_delete")}</p>
         </div>}
         <div className="d-flex justify-content-end">
           {reqType === "add" && <button
@@ -656,7 +663,7 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
             style={{ width: "60px" }}
             onClick={() => handleConfirmAddClick()}
           >
-            {"Save"}
+            {t("commons.button.save")}
           </button>}
           {reqType === "edit" && <button
             type="button"
@@ -664,7 +671,7 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
             style={{ width: "60px" }}
             onClick={() => handleConfirmEditClick()}
           >
-            {"Save"}
+            {t("commons.button.save")}
           </button>}
           {reqType === "delete" && <button
             type="button"
@@ -672,7 +679,7 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
             style={{ width: "60px" }}
             onClick={() => handleConfirmDelClick()}
           >
-            {"Delete"}
+            {t("commons.button.delete")}
           </button>}
           <button
             type="button"
@@ -680,7 +687,7 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
             style={{ width: "60px" }}
             onClick={handleCloseModal}
           >
-            {"Cancel"}
+            {t("commons.button.cancel")}
           </button>
         </div>
       </div>
@@ -688,10 +695,10 @@ const Edit = ({ form, setForm, handleOpenMessage, attributeList, onChangeData, l
   </>
 }
 
-const Delete = ({ form, resetData, attributeList, onChangeData, loadAttributeData, handleOpenMessage }) => {
+const Delete = ({ form, resetData, attributeList, onChangeData, loadAttributeData, handleOpenMessage, t, i18n }) => {
   const deleteAttribute = async () => {
     if (!form.attributeId) {
-      handleOpenMessage("warning", "Please select attribute");
+      handleOpenMessage("warning", t("attribute.message.select_attribute"));
       return;
     }
     try {
@@ -704,7 +711,7 @@ const Delete = ({ form, resetData, attributeList, onChangeData, loadAttributeDat
       });
       // console.log(response.data);
       if (response.data.error_desc === "Success") {
-        handleOpenMessage("success", "Delete success");
+        handleOpenMessage("success", t("attribute.message.delete_success"));
         loadAttributeData();
       } else {
         handleOpenMessage("error", response.data.error_desc)
@@ -716,10 +723,10 @@ const Delete = ({ form, resetData, attributeList, onChangeData, loadAttributeDat
   return <div className="card card-body d-flex flex-row shadow">
     <div className="container-fluid">
       <div className="row mb-2">
-        <h4>Delete Attribute</h4>
+        <h4>{t("attribute.tabs.delete_attribute")}</h4>
       </div>
       <div className="row mb-2">
-        <label className="col-2" for="attributeVieName">attributeVieName</label>
+        <label className="col-2" for="attributeVieName">{t("attribute.fields.attribute_vie_name")}</label>
         <div className="col-10">
           <select
             className="form-control"
@@ -734,7 +741,7 @@ const Delete = ({ form, resetData, attributeList, onChangeData, loadAttributeDat
         </div>
       </div>
       <div className="row mb-2">
-        <label className="col-2" for="attributeEngName">attributeEngName</label>
+        <label className="col-2" for="attributeEngName">{t("attribute.fields.attribute_eng_name")}</label>
         <div className="col-10">
           <select
             className="form-control"
@@ -754,7 +761,7 @@ const Delete = ({ form, resetData, attributeList, onChangeData, loadAttributeDat
           style={{ width: "80px" }}
           onClick={deleteAttribute}
         >
-          Delete
+          {t("commons.button.delete")}
         </button>
         {/* <button className="btn btn-outline-secondary text-dark" style={{ width: "80px" }}>
           Cancel
@@ -764,7 +771,7 @@ const Delete = ({ form, resetData, attributeList, onChangeData, loadAttributeDat
   </div>
 }
 
-const Apply = ({ attributeList, handleOpenMessage }) => {
+const Apply = ({ attributeList, handleOpenMessage, t, i18n }) => {
 
   const classes = useStyles();
 
@@ -802,7 +809,7 @@ const Apply = ({ attributeList, handleOpenMessage }) => {
       });
       // console.log(response.data)
       if (response.data.error_desc === "Success") {
-        handleOpenMessage("success", "Add success");
+        handleOpenMessage("success", t("attribute.message.add_success"));
         // setModalForm({ ...modalForm, attributeId: "", categoryAttributeId: "" });
         loadAttributeOfCategoryData();
         handleCloseModal();
@@ -835,7 +842,7 @@ const Apply = ({ attributeList, handleOpenMessage }) => {
       });
       // console.log(response.data);
       if (response.data.error_desc === "Success") {
-        handleOpenMessage("success", "Edit success");
+        handleOpenMessage("success", t("attribute.message.edit_success"));
         // setModalForm({ ...modalForm, attributeId: "", categoryAttributeId: "" });
         loadAttributeOfCategoryData();
         handleCloseModal();
@@ -864,7 +871,7 @@ const Apply = ({ attributeList, handleOpenMessage }) => {
       });
       // console.log(response.data)
       if (response.data.error_desc === "Success") {
-        handleOpenMessage("success", "Delete success");
+        handleOpenMessage("success", t("attribute.message.delete_success"));
         // setModalForm({ ...modalForm, attributeId: "", categoryAttributeId: "" });
         loadAttributeOfCategoryData();
         handleCloseModal();
@@ -884,7 +891,7 @@ const Apply = ({ attributeList, handleOpenMessage }) => {
     try {
       const response = await axios({
         method: "get",
-        url: `http://192.168.1.127:9555/api/common/product/category/list?categoryLevel=0&hasNoChild=true`,
+        url: loadCategoryDataUrl,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + "-token"),
         }
@@ -900,7 +907,7 @@ const Apply = ({ attributeList, handleOpenMessage }) => {
     try {
       const response = await axios({
         method: "get",
-        url: `http://192.168.1.127:9555/api/manager/category-attribute/list?categoryId=${modalForm.categoryId}&page=0&size=0`,
+        url: `${loadAttributeOfCategoryDataUrl}categoryId=${modalForm.categoryId}&page=0&size=0`,
         headers: {
           Authorization: localStorage.getItem(cs.System_Code + "-token"),
         }
@@ -920,10 +927,10 @@ const Apply = ({ attributeList, handleOpenMessage }) => {
   return <div className="card card-body d-flex flex-row shadow">
     <div className="container-fluid">
       <div className="row mb-2">
-        <h4>Apply Attribute</h4>
+        <h4>{t("attribute.tabs.apply_attribute")}</h4>
       </div>
       <div className="row mb-2">
-        <label className="col-2" for="categoryId">Category</label>
+        <label className="col-2" for="categoryId">{t("attribute.category")}</label>
         <div className="col-10">
           <select
             className="form-control"
@@ -932,13 +939,16 @@ const Apply = ({ attributeList, handleOpenMessage }) => {
             value={modalForm.categoryId}
             onChange={onChangeForm}
           >
-            <option value={""}>Select category</option>
-            {categoryList.map(item => <option value={item.categoryId}>{item.categoryEngName}</option>)}
+            <option value={""}>{t("attribute.message.select_category")}</option>
+            {categoryList.map(item => <option value={item.categoryId}>
+              {i18n.language == "en" && item.categoryEngName}
+              {i18n.language == "vi" && item.categoryVieName}
+            </option>)}
           </select>
         </div>
       </div>
       {
-        !modalForm.categoryId && <div className="mt-5 mb-3 text-center">Please select category</div>
+        !modalForm.categoryId && <div className="mt-5 mb-3 text-center">{t("attribute.message.please_select_category")}</div>
       }
       {
         modalForm.categoryId && <div>
@@ -953,8 +963,8 @@ const Apply = ({ attributeList, handleOpenMessage }) => {
             >
               <tr>
                 <th className="" style={{ width: "5%" }} scope="col">#</th>
-                <th className="">attributeEngName</th>
-                <th className="">attributeVieName</th>
+                <th className="">{t("attribute.fields.attribute_eng_name")}</th>
+                <th className="">{t("attribute.fields.attribute_vie_name")}</th>
                 <th className="" style={{ width: "5%" }} scope="col"></th>
               </tr>
             </thead>
@@ -970,7 +980,7 @@ const Apply = ({ attributeList, handleOpenMessage }) => {
                       handleEditClick(item);
                     }}
                   >
-                    Edit
+                    {t("commons.button.edit")}
                   </button>
                   <button
                     className="p-0 btn btn-sm text-end link-btn"
@@ -978,7 +988,7 @@ const Apply = ({ attributeList, handleOpenMessage }) => {
                       handleDelClick(item);
                     }}
                   >
-                    Delete
+                    {t("commons.button.delete")}
                   </button>
                 </td>
               </tr>
@@ -992,7 +1002,7 @@ const Apply = ({ attributeList, handleOpenMessage }) => {
                       handleAddClick()
                     }}
                   >
-                    Add attribute
+                    {t("attribute.tabs.add_attribute")}
                   </button>
                 </td>
               </tr>

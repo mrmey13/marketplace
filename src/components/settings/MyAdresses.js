@@ -123,12 +123,12 @@ const MyAddresses = ({ t, i18n }) => {
 
   const handleConfirmAddClick = async () => {
     if (!modalForm.fullname || !modalForm.telephone || !modalForm.detailAddress) {
-      setResponseMessage({ type: "warning", content: "Please fill in empty fields" });
+      setResponseMessage({ type: "warning", content: t("address_settings.message.fill_empty_fields") });
       setOpenMessage(true);
       return;
     }
     if (!modalForm.city || !modalForm.district || !modalForm.ward) {
-      setResponseMessage({ type: "warning", content: "Please select your address" });
+      setResponseMessage({ type: "warning", content: t("address_settings.message.choose_address") });
       setOpenMessage(true);
       return;
     }
@@ -155,7 +155,7 @@ const MyAddresses = ({ t, i18n }) => {
       // console.log("modalForm", modalForm);
       if (response.data.error_desc === "Success") {
         loadAddressesData();
-        setResponseMessage({ type: "success", content: "Create Success!" });
+        setResponseMessage({ type: "success", content: t("address_settings.message.create_success") });
         setOpenMessage(true);
         handleCloseModal();
       } else {
@@ -187,12 +187,12 @@ const MyAddresses = ({ t, i18n }) => {
 
   const handleConfirmModClick = async () => {
     if (!modalForm.fullname || !modalForm.telephone || !modalForm.detailAddress) {
-      setResponseMessage({ type: "warning", content: "Please fill in empty fields" });
+      setResponseMessage({ type: "warning", content: t("address_settings.message.fill_empty_fields") });
       setOpenMessage(true);
       return;
     }
     if (!modalForm.city || !modalForm.district || !modalForm.ward) {
-      setResponseMessage({ type: "warning", content: "Please select your address" });
+      setResponseMessage({ type: "warning", content: t("address_settings.message.choose_address") });
       setOpenMessage(true);
       return;
     }
@@ -220,7 +220,7 @@ const MyAddresses = ({ t, i18n }) => {
       // console.log("modalForm", modalForm);
       if (response.data.error_desc === "Success") {
         loadAddressesData();
-        setResponseMessage({ type: "success", content: "Edit Success!" });
+        setResponseMessage({ type: "success", content: t("address_settings.message.edit_success") });
         setOpenMessage(true);
         handleCloseModal();
       } else {
@@ -249,7 +249,7 @@ const MyAddresses = ({ t, i18n }) => {
       // console.log(response.data);
       if (response.data.error_desc === "Success") {
         loadAddressesData();
-        setResponseMessage({ type: "success", content: "Delete Success!" });
+        setResponseMessage({ type: "success", content: t("address_settings.message.delete_success") });
         setOpenMessage(true);
         handleCloseDelModal();
       } else {
@@ -359,15 +359,15 @@ const MyAddresses = ({ t, i18n }) => {
         return <div className="container-fluid w-80vw minw-80em my-3">
           <div className="card card-body d-flex flex-row shadow">
             <div className="p-3" style={{ width: "75%" }}>
-              <h4 className="fw-bold">My Addresses</h4>
-              <p className="text-muted">Manage your shipping and pickup addresses </p>
+              <h4 className="fw-bold">{t("address_settings.title")}</h4>
+              <p className="text-muted">{t("address_settings.description")}</p>
             </div>
             <div className="d-flex m-2 align-items-center justify-content-end" style={{ width: "25%" }}>
               <button
                 className="btn btn-danger"
                 onClick={handleAddClick}
               >
-                Add a new Address
+                {t("address_settings.add_new_address")}
               </button>
             </div>
           </div>
@@ -378,16 +378,16 @@ const MyAddresses = ({ t, i18n }) => {
                   <img src="https://img.icons8.com/external-flatart-icons-outline-flatarticons/32/000000/external-location-map-location-flatart-icons-outline-flatarticons-13.png" />
                 </div>
                 <div className="col-10 row">
-                  <div className="col-2">Full Name</div>
+                  <div className="col-2">{t("address_settings.fields.fullname")}</div>
                   <div className="col-10 d-flex align-items-baseline">
                     <span className="me-5">{item.fullName}</span>
-                    {item.isDefault === 1 && <span className="d-block mx-1 px-1 text-success" style={{ fontSize: "12px", backgroundColor: "#90ee90", borderRadius: "3px" }}>Default Address</span>}
-                    {item.isPickUp === 1 && <span className="d-block mx-1 px-1 text-danger" style={{ fontSize: "12px", backgroundColor: "#ee9090", borderRadius: "3px" }}>Pickup Address</span>}
-                    {item.isReturn === 1 && <span className="d-block mx-1 px-1 text-warning" style={{ fontSize: "12px", backgroundColor: "#eeee90", borderRadius: "3px" }}>Return Address</span>}
+                    {item.isDefault === 1 && <span className="d-block mx-1 px-1 text-success" style={{ fontSize: "12px", backgroundColor: "#90ee90", borderRadius: "3px" }}>{t("address_settings.fields.default_address")}</span>}
+                    {item.isPickUp === 1 && <span className="d-block mx-1 px-1 text-danger" style={{ fontSize: "12px", backgroundColor: "#ee9090", borderRadius: "3px" }}>{t("address_settings.fields.pickup_address")}</span>}
+                    {item.isReturn === 1 && <span className="d-block mx-1 px-1 text-warning" style={{ fontSize: "12px", backgroundColor: "#eeee90", borderRadius: "3px" }}>{t("address_settings.fields.return_address")}</span>}
                   </div>
-                  <div className="col-2">Phone Number</div>
+                  <div className="col-2">{t("address_settings.fields.phone_number")}</div>
                   <div className="col-10">{item.telephone}</div>
-                  <div className="col-2">Address</div>
+                  <div className="col-2">{t("address_settings.fields.address")}</div>
                   <div className="col-10">{item.fullAddress && `${item.fullAddress}, `} {item.communeName}, {item.districtName}, {item.provinceName}</div>
                 </div>
                 <div className="col-1 p-0 d-flex flex-column justify-content-start align-items-end">
@@ -395,13 +395,13 @@ const MyAddresses = ({ t, i18n }) => {
                     className="p-0 btn btn-sm text-end link-btn"
                     onClick={() => handleModClick(item)}
                   >
-                    Edit
+                    {t("commons.button.edit")}
                   </button>
                   {!(item.isDefault || item.isPickUp || item.isReturn) && <button
                     className="p-0 btn btn-sm text-end link-btn"
                     onClick={() => handleDelClick(item)}
                   >
-                    Delete
+                    {t("commons.button.delete")}
                   </button>}
                 </div>
               </div>
@@ -417,11 +417,11 @@ const MyAddresses = ({ t, i18n }) => {
           >
             <div className={classes.paper}>
               <h4 className="">
-                {reqType === "add" && "Add a new Address"}
-                {reqType === "edit" && "Edit Address"}
+                {reqType === "add" && t("address_settings.add_new_address")}
+                {reqType === "edit" && t("address_settings.edit_address")}
               </h4>
               <div className="row mb-2">
-                <label className="col-2" for="fullname">Full Name: </label>
+                <label className="col-2" for="fullname">{t("address_settings.fields.fullname")}: </label>
                 <div className="col-10">
                   <input
                     className="form-control form-control-sm"
@@ -434,7 +434,7 @@ const MyAddresses = ({ t, i18n }) => {
                 </div>
               </div>
               <div className="row mb-2">
-                <label className="col-2 text-nowrap" for="telephone">Phone Number: </label>
+                <label className="col-2 text-nowrap" for="telephone">{t("address_settings.fields.phone_number")}: </label>
                 <div className="col-10">
                   <input
                     className="form-control form-control-sm"
@@ -447,7 +447,7 @@ const MyAddresses = ({ t, i18n }) => {
                 </div>
               </div>
               <div className="row mb-2">
-                <label className="col-2" for="city">City: </label>
+                <label className="col-2" for="city">{t("address_settings.fields.city")}: </label>
                 <div className="col-10">
                   <select
                     className="form-select form-select-sm"
@@ -456,7 +456,9 @@ const MyAddresses = ({ t, i18n }) => {
                     value={modalForm.city}
                     onChange={(event) => { onChangeModal(event); }}
                   >
-                    <option value={0} onClick={() => setModalForm({ ...modalForm, district: 0, ward: 0 })}>{"city"}</option>
+                    <option value={0}
+                      onClick={() => setModalForm({ ...modalForm, district: 0, ward: 0 })}
+                    >{t("address_settings.message.select_city")}</option>
                     {cityList.map(item =>
                       <option value={item.id} onClick={() => setModalForm({ ...modalForm, district: 0, ward: 0 })}>{item.name}</option>
                     )}
@@ -464,7 +466,7 @@ const MyAddresses = ({ t, i18n }) => {
                 </div>
               </div>
               <div className="row mb-2">
-                <label className="col-2" for="district">District: </label>
+                <label className="col-2" for="district">{t("address_settings.fields.district")}: </label>
                 <div className="col-10">
                   <select
                     className="form-select form-select-sm"
@@ -474,7 +476,7 @@ const MyAddresses = ({ t, i18n }) => {
                     onChange={(event) => { onChangeModal(event); }}
                     disabled={modalForm.city === 0}
                   >
-                    <option value={0}>{"district"}</option>
+                    <option value={0}>{t("address_settings.message.select_district")}</option>
                     {districtList.map(item =>
                       <option value={item.id}>{item.name}</option>
                     )}
@@ -482,7 +484,7 @@ const MyAddresses = ({ t, i18n }) => {
                 </div>
               </div>
               <div className="row mb-2">
-                <label className="col-2" for="ward">Ward: </label>
+                <label className="col-2" for="ward">{t("address_settings.fields.ward")}: </label>
                 <div className="col-10">
                   <select
                     className="form-select form-select-sm"
@@ -492,7 +494,7 @@ const MyAddresses = ({ t, i18n }) => {
                     onChange={onChangeModal}
                     disabled={modalForm.district === 0}
                   >
-                    <option value={0}>{"ward"}</option>
+                    <option value={0}>{t("address_settings.message.select_ward")}</option>
                     {wardList.map(item =>
                       <option value={item.id}>{item.name}</option>
                     )}
@@ -500,7 +502,7 @@ const MyAddresses = ({ t, i18n }) => {
                 </div>
               </div>
               <div className="row mb-2">
-                <label className="col-2 text-nowrap" for="detail-address">Detail Address: </label>
+                <label className="col-2 text-nowrap" for="detail-address">{t("address_settings.fields.detail_address")}: </label>
                 <div className="col-10">
                   <textarea
                     className="form-control form-control-sm"
@@ -513,7 +515,7 @@ const MyAddresses = ({ t, i18n }) => {
                 </div>
               </div>
               <div className="row mb-2">
-                <div className="col-2 text-nowrap">Select Location:</div>
+                <div className="col-2 text-nowrap">{t("address_settings.fields.select_location")}:</div>
                 <div className="col-10">
                   <MyMapComponent
                     isMarkerShown
@@ -538,7 +540,7 @@ const MyAddresses = ({ t, i18n }) => {
                     disabled={!addressList.length || address.isDefault}
                   />
                   <label className="form-label ms-4" for="default-address">
-                    {"Set As Default Address"}
+                    {t("address_settings.fields.set_default_address")}
                   </label>
                 </div>
 
@@ -553,7 +555,7 @@ const MyAddresses = ({ t, i18n }) => {
                     disabled={!addressList.length || address.isPickUp}
                   />
                   <label className="form-label ms-4" for="pickup-address">
-                    {"Set As Pickup Address"}
+                    {t("address_settings.fields.set_pickup_address")}
                   </label>
                 </div>
                 <div className="">
@@ -567,7 +569,7 @@ const MyAddresses = ({ t, i18n }) => {
                     disabled={!addressList.length || address.isReturn}
                   />
                   <label className="form-label ms-4" for="return-address">
-                    {"Set As Return Address"}
+                    {t("address_settings.fields.set_return_address")}
                   </label>
                 </div>
               </div>
@@ -577,14 +579,14 @@ const MyAddresses = ({ t, i18n }) => {
                   style={{ width: "60px" }}
                   onClick={() => { handleConfirmAddClick(); }}
                 >
-                  {"Add"}
+                  {t("commons.button.add")}
                 </button>}
                 {reqType === "edit" && <button
                   className="btn btn-sm btn-primary me-1"
                   style={{ width: "60px" }}
                   onClick={() => { handleConfirmModClick(); }}
                 >
-                  {"Edit"}
+                  {t("commons.button.edit")}
                 </button>}
                 <button
                   type="reset"
@@ -592,7 +594,7 @@ const MyAddresses = ({ t, i18n }) => {
                   style={{ width: "60px" }}
                   onClick={handleCloseModal}
                 >
-                  {"Cancel"}
+                  {t("commons.button.cancel")}
                 </button>
               </div>
             </div>
@@ -607,7 +609,10 @@ const MyAddresses = ({ t, i18n }) => {
           >
             <div className={classes.paper}>
               <div className="container-fluid p-0">
-                <p className="mt-3 mb-4">{"Are you sure you want to delete"}</p>
+                <h4 className="">
+                  {t("address_settings.delete_address")}
+                </h4>
+                <p className="mt-3 mb-4">{t("address_settings.message.confirm_delete")}</p>
                 <div className="d-flex justify-content-end">
                   <button
                     type="button"
@@ -615,7 +620,7 @@ const MyAddresses = ({ t, i18n }) => {
                     style={{ width: "60px" }}
                     onClick={() => handleConfirmDelClick()}
                   >
-                    {"Delete"}
+                    {t("commons.button.delete")}
                   </button>
                   <button
                     type="button"
@@ -623,7 +628,7 @@ const MyAddresses = ({ t, i18n }) => {
                     style={{ width: "60px" }}
                     onClick={handleCloseDelModal}
                   >
-                    {"Cancel"}
+                    {t("commons.button.cancel")}
                   </button>
                 </div>
               </div>

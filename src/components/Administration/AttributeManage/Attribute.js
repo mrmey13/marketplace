@@ -67,13 +67,13 @@ const Attribute = ({ t, i18n, history }) => {
   return <div className="container-fluid w-80vw minw-80em my-3">
     <div className="card card-body shadow">
       <div className="d-flex flex-row py-3">
-        <h4 className="fw-bold">Attribute list</h4>
+        <h4 className="fw-bold">{t("attribute.attribute_list")}</h4>
         <div className="ms-auto">
           <button
             className="btn btn-danger"
             onClick={() => { history.push("/attribute/config") }}
           >
-            Config Attribute
+            {t("attribute.tabs.config_attribute")}
           </button>
         </div>
       </div>
@@ -88,8 +88,8 @@ const Attribute = ({ t, i18n, history }) => {
         >
           <tr>
             <th className="" style={{ width: "5%" }} scope="col">#</th>
-            <th className="">attributeEngName</th>
-            <th className="">attributeVieName</th>
+            <th className="">{t("attribute.fields.attribute_eng_name")}</th>
+            <th className="">{t("attribute.fields.attribute_eng_name")}</th>
           </tr>
         </thead>
         <tbody>
@@ -99,7 +99,7 @@ const Attribute = ({ t, i18n, history }) => {
             <td>{item.attributeViName}</td>
           </tr>
           )}
-          {!attributeList.length && <tr> <td colSpan={5}>No Data</td></tr>}
+          {!attributeList.length && <tr> <td colSpan={5}>{t("commons.no_data")}</td></tr>}
         </tbody>
       </table>
       <div className="d-flex justify-content-center">

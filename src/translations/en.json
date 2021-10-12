@@ -21,9 +21,11 @@
             "no": "No",
             "yes": "Yes",
             "add": "Add",
-            "apply": "Apply"
+            "apply": "Apply",
+            "set_default": "Set Default"
         },
-        "expansionPanelText": "Search ..."
+        "expansionPanelText": "Search ...",
+        "no_data": "No Data"
     },
     "app_route": {
         "dashboard": "Marketplace Home",
@@ -101,6 +103,60 @@
         "chat_settings": "Chat Settings",
         "notification_settings": "Notification Settings"
     },
+    "address_settings": {
+        "title": "My Addresses",
+        "description": "Manage your shipping and pickup addresses",
+        "add_new_address": "Add a New Address",
+        "edit_address": "Edit Address",
+        "delete_address": "Delete Address",
+        "fields": {
+            "fullname": "Full Name",
+            "phone_number": "Phone Number",
+            "address": "Address",
+            "city": "City",
+            "district": "District",
+            "ward": "Ward",
+            "detail_address": "Detail Address",
+            "place_type": "Place Type",
+            "select_location": "Select Location",
+            "default_address": "Default Address",
+            "set_default_address": "Set as Default Address",
+            "pickup_address": "Pickup Address",
+            "set_pickup_address": "Set as Pickup Address",
+            "return_address": "Return Address",
+            "set_return_address": "Set as Return Address",
+            "home": "Home",
+            "company": "Company"
+        },
+        "message": {
+            "confirm_delete": "Are you sure you want to delete?",
+            "fill_empty_fields": "Please fill in empty fields",
+            "choose_address": "Please select your address",
+            "create_success": "Create success",
+            "edit_success": "Edit success",
+            "delete_success": "Delete success",
+            "select_city": "Select city",
+            "select_district": "Select district",
+            "select_ward": "Select ward"
+        }
+    },
+    "password_settings": {
+        "title": "Change Password",
+        "description": "For account security, please do not share your password with others",
+        "fields": {
+            "current_password": "Current Password",
+            "new_password": "New Password",
+            "confirm_password": "Confirm Password"
+        },
+        "message": {
+            "fill_current_password": "Please enter your current password",
+            "fill_new_password": "Please enter a new password",
+            "fill_confirm_password": "Please confirm the password",
+            "password_different": "Password entered is different",
+            "validate_error": "Password must have at least 8 characters with at least 1 Upper Case, 1 lower case, and 1 numeric character",
+            "success": "Change password successfully"
+        }
+    },
     "product_config": {
         "tabs": {
             "basic_info": "Basic Information",
@@ -154,6 +210,44 @@
             "enable_variations": "Enable Variations",
             "add_option": "Add Option",
             "add_price_tier": "Add Price Tier"
+        }
+    },
+    "attribute": {
+        "attribute_list": "Attribute List",
+        "attribute_config": "Attribute Configuration",
+        "category": "Category",
+        "tabs": {
+            "add_attribute": "Add Attribute",
+            "edit_attribute": "Edit Attribute",
+            "detail_attribute": "Detail Attribute",
+            "delete_attribute": "Delete Attribute",
+            "apply_attribute": "Apply Attribute",
+            "go_back_attribute": "Go Back Attribute List",
+            "config_attribute": "Config Attribute"
+        },
+        "attribute_value": {
+            "add_attribute_value": "Add a New Attribute value",
+            "edit_attribute_value": "Edit Attribute value",
+            "delete_attribute_value": "Delete Attribute value"
+        },
+        "fields": {
+            "attribute_vie_name": "Attribute Vietnamese name",
+            "attribute_eng_name": "Attribute English name",
+            "attribute_new_vie_name": "New Attribute Vietnamese name",
+            "attribute_new_eng_name": "New Attribute English name",
+            "attribute_vie_value": "Attribute Vietnamese Value",
+            "attribute_eng_value": "Attribute English Value"
+        },
+        "message": {
+            "fill_empty_fields": "Please fill in empty fields",
+            "create_success": "Create success",
+            "edit_success": "Edit success",
+            "delete_success": "Delete success",
+            "apply_success": "Apply success",
+            "select_attribute": "Please select attribute",
+            "select_category": "Select category",
+            "please_select_category": "Please select category",
+            "confirm_delete": "Are you sure you want to delete?"
         }
     }
 }

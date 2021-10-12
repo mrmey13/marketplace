@@ -5,7 +5,7 @@ import cs from "../../const";
 
 const apiChangePasswordUrl = cs.BaseURL + "/api/buyer/account/change-password"
 
-const MyPassword = () => {
+const MyPassword = ({ t, i18n }) => {
   const [form, setForm] = useState({
     currentPassword: "",
     newPassword: "",
@@ -17,7 +17,7 @@ const MyPassword = () => {
   const validate = () => {
     let reg = new RegExp('^(?=.*[0-9])(?=.*?[A-Z])(?=.*?[a-z])(?=\\S+$).{8,}$');
     if (!reg.test(form.newPassword)) {
-      setMessage("danger", "Password must have at least 8 characters with at least 1 Upper Case, 1 lower case, and 1 numeric character!");
+      setMessage("danger", t("password_settings.message.validate_error"));
       return;
     }
   }
@@ -33,20 +33,20 @@ const MyPassword = () => {
 
   const changePassword = async () => {
     if (!form.currentPassword) {
-      setMessage("danger", "Please enter your current password!");
+      setMessage("danger", t("password_settings.message.fill_current_password"));
       return;
     }
     if (!form.newPassword) {
-      setMessage("danger", "Please enter a new password!");
+      setMessage("danger", t("password_settings.message.fill_new_password"));
       return;
     }
     validate();
     if (!form.confirmPassword) {
-      setMessage("danger", "Please confirm the password!");
+      setMessage("danger", t("password_settings.message.fill_confirm_password"));
       return;
     }
     if (form.newPassword !== form.confirmPassword) {
-      setMessage("danger","Password entered is different!");
+      setMessage("danger", t("password_settings.message.password_different"));
       return;
     }
     try {
@@ -68,7 +68,7 @@ const MyPassword = () => {
           window.location.reload();
         }, 2000)
       } else {
-        setMessage("danger", response.data.error_desc);
+        // setMessage("danger", response.data.error_desc);
       }
     } catch (error) {
       console.log(error)
@@ -79,15 +79,15 @@ const MyPassword = () => {
     <div className="h4QDlo" role="main">
       <div className="_2YiVnW">
         <div className="_2w2H6X">
-          <h1 className="_3iiDCN">Change Password</h1>
+          <h1 className="_3iiDCN">{t("password_settings.title")}</h1>
           <div className="TQG40c">
-            For account security, please do not share your password with others
+            {t("password_settings.description")}
           </div>
         </div>
         <div className="goiz20">
           <div className="pJout2 my-4 row">
             <div className="col-3 text-end text-muted">
-              <label htmlFor="current-password">Current Password</label>
+              <label htmlFor="current-password">{t("password_settings.fields.current_password")}</label>
             </div>
             <div className="col-7 input-with-validator">
               <input
@@ -101,7 +101,7 @@ const MyPassword = () => {
           </div>
           <div className="pJout2 my-4 row">
             <div className="col-3 text-end text-muted">
-              <label htmlFor="new-password">New Password</label>
+              <label htmlFor="new-password">{t("password_settings.fields.new_password")}</label>
             </div>
             <div className="col-7 input-with-validator">
               <input
@@ -115,7 +115,7 @@ const MyPassword = () => {
           </div>
           <div className="pJout2 my-4 row">
             <div className="col-3 text-end text-muted">
-              <label htmlFor="confirm-password">Confirm Password</label>
+              <label htmlFor="confirm-password">{t("password_settings.fields.confirm_password")}</label>
             </div>
             <div className="col-7 input-with-validator">
               <input
@@ -133,8 +133,9 @@ const MyPassword = () => {
               <button
                 className="btn btn-danger"
                 onClick={changePassword}
+                style={{ width: "90px" }}
               >
-                Xác nhận
+                {t("commons.button.confirm")}
               </button>
               <div className={`text-${responseMessage.type} mt-1`}>{responseMessage.content}</div>
             </div>

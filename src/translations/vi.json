@@ -21,9 +21,11 @@
             "no": "Không",
             "yes": "Đồng ý",
             "add": "Thêm",
-            "apply": "Áp dụng"
+            "apply": "Áp dụng",
+            "set_default": "Đặt làm mặc định"
         },
-        "expansionPanelText": "Tìm kiếm ..."
+        "expansionPanelText": "Tìm kiếm ...",
+        "no_data": "Không có dữ liệu"
     },
     "app_route": {
         "dashboard": "Trang chính Marketplace",
@@ -101,6 +103,60 @@
         "chat_settings": "Cài đặt chat",
         "notification_settings": "Cài đặt thông báo"
     },
+    "address_settings": {
+        "title": "Địa chỉ",
+        "description": "Quản lý việc vận chuyển và địa chỉ giao hàng của bạn",
+        "add_new_address": "Thêm địa chỉ mới",
+        "edit_address": "Sửa địa chỉ",
+        "delete_address": "Xóa địa chỉ",
+        "fields": {
+            "fullname": "Họ & Tên",
+            "phone_number": "Số điện thoại",
+            "address": "Địa chỉ",
+            "city": "Tỉnh/Thành phố",
+            "district": "Quận/Huyện",
+            "ward": "Phường/Xã",
+            "detail_address": "Địa chỉ chi tiết",
+            "place_type": "Loại địa chỉ",
+            "select_location": "Chọn địa điểm",
+            "default_address": "Địa chỉ mặc định",
+            "set_default_address": "Đặt làm địa chỉ mặc định",
+            "pickup_address": "Địa chỉ lấy hàng",
+            "set_pickup_address": "Đặt làm địa chỉ lấy hàng",
+            "return_address": "Địa chỉ nhận hàng",
+            "set_return_address": "Đặt làm địa chỉ nhận hàng",
+            "home": "Nhà riêng",
+            "company": "Công ty"
+        },
+        "message": {
+            "confirm_delete": "Bạn chắc chắn muốn xóa?",
+            "fill_empty_fields": "Vui lòng điền vào các trường còn trống",
+            "choose_address": "Vui lòng chọn địa chỉ",
+            "create_success": "Tạo thành công",
+            "edit_success": "Sửa thành công",
+            "delete_success": "Xóa thành công",
+            "select_city": "Chọn tỉnh/thành phố",
+            "select_district": "Chọn quận/huyện",
+            "select_ward": "Chọn phường/xã"
+        }
+    },
+    "password_settings": {
+        "title": "Đổi mật khẩu",
+        "description": "Để bảo mật tài khoản, vui lòng không chia sẻ mật khẩu của bạn với người khác",
+        "fields": {
+            "current_password": "Mật khẩu hiện tại",
+            "new_password": "Mật khẩu mới",
+            "confirm_password": "Xác nhận mật khẩu"
+        },
+        "message": {
+            "fill_current_password": "Vui lòng nhập mật khẩu hiện tại",
+            "fill_new_password": "Vui lòng nhập mật khẩu mới",
+            "fill_confirm_password": "Vui lòng nhập lại mật khẩu",
+            "password_different": "Mật khẩu xác nhận không khớp",
+            "validate_error": "Mật khẩu phải có ít nhất 8 ký tự với ít nhất 1 chữ hoa, 1 chữ thường và 1 ký tự số",
+            "success": "Thay đổi mật khẩu thành công"
+        }
+    },
     "product_config": {
         "tabs": {
             "basic_info": "Thông tin cơ bản",
@@ -154,6 +210,44 @@
             "enable_variations": "Thêm nhóm phân loại",
             "add_option": "Thêm phân loại hàng",
             "add_price_tier": "Thêm khoảng giá"
+        }
+    },
+    "attribute": {
+        "attribute_list": "Danh sách thuộc tính",
+        "attribute_config": "Cấu hình thuộc tính",
+        "category": "Danh mục sản phẩm",
+        "tabs": {
+            "add_attribute": "Thêm thuộc tính",
+            "edit_attribute": "Sửa thuộc tính",
+            "detail_attribute": "Chi tiết thuộc tính",
+            "delete_attribute": "Xóa thuộc tính",
+            "apply_attribute": "Áp dụng thuộc tính",
+            "go_back_attribute": "Quay lại danh sách thuộc tính",
+            "config_attribute": "Cấu hình thuộc tính"
+        },
+        "attribute_value": {
+            "add_attribute_value": "Thêm giá trị thuộc tính",
+            "edit_attribute_value": "Sửa giá trị thuộc tính",
+            "delete_attribute_value": "Xóa giá trị thuộc tính"
+        },
+        "fields": {
+            "attribute_vie_name": "Tên thuộc tính tiếng Việt",
+            "attribute_eng_name": "Tên thuộc tính tiếng Anh",
+            "attribute_new_vie_name": "Tên thuộc tính tiếng Việt mới",
+            "attribute_new_eng_name": "Tên thuộc tính tiếng Anh mới",
+            "attribute_vie_value": "Giá trị thuộc tính tiếng Việt",
+            "attribute_eng_value": "Giá trị thuộc tính tiếng Anh"
+        },
+        "message": {
+            "fill_empty_fields": "Vui lòng điền vào các trường còn trống",
+            "create_success": "Tạo thành công",
+            "edit_success": "Sửa thành công",
+            "delete_success": "Xóa thành công",
+            "apply_success": "Áp dụng thành công",
+            "select_attribute": "Vui lòng chọn thuộc tính",
+            "select_category": "Chọn danh mục sản phẩm",
+            "please_select_category": "Vui lòng chọn danh mục sản phẩm",
+            "confirm_delete": "Bạn chắc chắn muốn xóa?"
         }
     }
 }

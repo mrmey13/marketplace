@@ -38,7 +38,7 @@ function getYoutubeId(url) {
         /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     var match = url.match(regExp);
 
-    if (match && match[2].length == 11) {
+    if (match && match[2].length === 11) {
         return match[2];
     } else {
         return "error";
@@ -98,7 +98,7 @@ class ApproveProduct extends Component {
                 //     window.location.reload();
                 // }
                 console.log(data);
-                if (data && data.error_code != 0 && data.error_desc != "Success") {
+                if (data && data.error_code !== 0 && data.error_desc !== "Success") {
                     this.props.toastManager.add(JSON.stringify(data.error_desc), {
                         appearance: 'error',
                         autoDismiss: true,
@@ -150,7 +150,7 @@ class ApproveProduct extends Component {
     }
 
     handleChange = name => event => {
-        if (name == 'cus_gender') this.setState({ cus_gender: event.target.checked });
+        if (name === 'cus_gender') this.setState({ cus_gender: event.target.checked });
         else
             this.setState(
                 {

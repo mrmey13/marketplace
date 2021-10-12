@@ -34,7 +34,7 @@ const Pagination = ({
             }
           >
             <a
-              style={isDark == "true" ? { backgroundColor: "#685F5F" } : null}
+              style={isDark === "true" ? { backgroundColor: "#685F5F" } : null}
               onClick={() => paginate(number)}
               href="#"
               className="page-link"

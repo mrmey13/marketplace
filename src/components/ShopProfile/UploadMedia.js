@@ -108,7 +108,7 @@ class UploadMedia extends React.Component {
     }
 
     handleChange = name => event => {
-        if (name == 'cus_gender') this.setState({ cus_gender: event.target.checked });
+        if (name === 'cus_gender') this.setState({ cus_gender: event.target.checked });
         else
             this.setState(
                 {
@@ -141,7 +141,7 @@ class UploadMedia extends React.Component {
             .then(data => {
                 console.log(data);
                 var isFileImported = true;
-                if (data && data.error_code != 0 && data.error_desc != "Success") isFileImported = false;
+                if (data && data.error_code !== 0 && data.error_desc !== "Success") isFileImported = false;
                 console.log(isFileImported);
                 
                 if (isFileImported) {

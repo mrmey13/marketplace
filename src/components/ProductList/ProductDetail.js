@@ -70,7 +70,7 @@ function ProductDetail() {
     });
     if (
       response.data.error_desc === "Success" &&
-      response.data.data.length != 0
+      response.data.data.length !== 0
     ) {
       setShopDetail(response.data.data);
       setMedia(response.data.data.mediaDescriptionsList);
@@ -80,14 +80,14 @@ function ProductDetail() {
   const loadProductDetail = async (conditions) => {
     const response = await axios({
       method: "get",
-      url: `http://192.168.1.127:9555/api/buyer/product/detail?productId=${productId}`,
+      url: `${cs.BaseURL}/api/buyer/product/detail?productId=${productId}`,
       headers: {
         Authorization: localStorage.getItem(cs.System_Code + "-token"),
       },
     });
     if (
       response.data.error_desc === "Success" &&
-      response.data.data.length != 0
+      response.data.data.length !== 0
     ) {
       setProductDetail(response.data.data);
       setIntroImage(response.data.data.productImageCover);
@@ -243,7 +243,7 @@ function ProductDetail() {
               </div>
               <button
                 class={
-                  curPage == Math.ceil(productImage.length / imagesPerPage)
+                  curPage === Math.ceil(productImage.length / imagesPerPage)
                     ? "btn btn-category visually-hidden category-next "
                     : "btn btn-category category-next "
                 }
@@ -455,7 +455,7 @@ function ProductDetail() {
                       name={item.id}
                       className={
                         Object.entries(variation).map((it) => {
-                          if ((it[0] = item.id && it[1] == option.optionValue))
+                          if ((it[0] === item.id && it[1] === option.optionValue))
                             return "sort-rate-button rate-active me-3 ";
                           else return "sort-rate-button me-3 ";
                         })
@@ -729,11 +729,11 @@ function ProductDetail() {
                 {productDetail.depth}
               </div>
               <div className="p-2">
-                Tình Trạng: {productDetail.isNewProduct == 1 ? "Mới" : "Cũ"}
+                Tình Trạng: {productDetail.isNewProduct === 1 ? "Mới" : "Cũ"}
               </div>
               <div className="p-2">
                 Cho Đặt Trước:{" "}
-                {productDetail.isPreorderedProduct == 1 ? "Có" : "Không"}
+                {productDetail.isPreorderedProduct === 1 ? "Có" : "Không"}
               </div>
               <div className="p-2">Gửi Từ:</div>
             </div>
@@ -751,7 +751,7 @@ function ProductDetail() {
                 <div className="col-8">
                   <button
                     className={
-                      buttonRateState == "all"
+                      buttonRateState === "all"
                         ? "sort-rate-button rate-active"
                         : "sort-rate-button"
                     }
@@ -761,7 +761,7 @@ function ProductDetail() {
                   </button>
                   <button
                     className={
-                      buttonRateState == "5star"
+                      buttonRateState === "5star"
                         ? "sort-rate-button rate-active"
                         : "sort-rate-button"
                     }
@@ -771,7 +771,7 @@ function ProductDetail() {
                   </button>
                   <button
                     className={
-                      buttonRateState == "4star"
+                      buttonRateState === "4star"
                         ? "sort-rate-button rate-active"
                         : "sort-rate-button"
                     }
@@ -781,7 +781,7 @@ function ProductDetail() {
                   </button>
                   <button
                     className={
-                      buttonRateState == "3star"
+                      buttonRateState === "3star"
                         ? "sort-rate-button rate-active"
                         : "sort-rate-button"
                     }
@@ -791,7 +791,7 @@ function ProductDetail() {
                   </button>
                   <button
                     className={
-                      buttonRateState == "2star"
+                      buttonRateState === "2star"
                         ? "sort-rate-button rate-active"
                         : "sort-rate-button"
                     }
@@ -801,7 +801,7 @@ function ProductDetail() {
                   </button>
                   <button
                     className={
-                      buttonRateState == "1star"
+                      buttonRateState === "1star"
                         ? "sort-rate-button rate-active"
                         : "sort-rate-button"
                     }
@@ -811,7 +811,7 @@ function ProductDetail() {
                   </button>
                   <button
                     className={
-                      buttonRateState == "hascmt"
+                      buttonRateState === "hascmt"
                         ? "sort-rate-button rate-active"
                         : "sort-rate-button"
                     }
@@ -821,7 +821,7 @@ function ProductDetail() {
                   </button>
                   <button
                     className={
-                      buttonRateState == "hasimg"
+                      buttonRateState === "hasimg"
                         ? "sort-rate-button rate-active"
                         : "sort-rate-button"
                     }

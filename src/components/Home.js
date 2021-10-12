@@ -449,16 +449,13 @@ class Home extends React.Component {
                     </div>
                   </div>
                 )}
-
-
-
                 <div style={{ display: "flex" }}>
                   <div>
                     <IconButton
                       size="large"
                       aria-label="account of current user"
                       aria-controls="menu-appbar"
-                      aria-haspopup="true"
+                      aria-haspopup="true"                    
                       onClick={(e) => {
                         this.setState({ anchorEl: e.target })
                       }}
@@ -593,31 +590,6 @@ class Home extends React.Component {
               </button>
             ))}
           </div>
-
-
-
-          {/* <Grid
-            container
-            direction="row"
-            justify="space-between"
-            alignItems="flex-start"
-          // spacing={4}
-          >
-            <Grid item >
-
-            </Grid>
-            <Grid item >
-              <div >
-                <a style={{ textDecoration: "none" }} href="http://192.168.1.127:3000/">Etraining</a>
-              </div>
-            </Grid>
-            <Grid item >
-              <div  >
-                <a style={{ textDecoration: "none" }} href="http://192.168.1.127:3001/">HR Managment</a>
-              </div>
-            </Grid>
-            <Grid item ></Grid>
-          </Grid> */}
         </div>
 
       </div>

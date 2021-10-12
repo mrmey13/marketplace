@@ -64,7 +64,7 @@ function ShopProductDetail() {
     });
     if (
       response.data.error_desc === "Success" &&
-      response.data.data.length != 0
+      response.data.data.length !== 0
     ) {
       setShopDetail(response.data.data);
       setMedia(response.data.data.mediaDescriptionsList);
@@ -74,14 +74,14 @@ function ShopProductDetail() {
   const loadProductDetail = async (conditions) => {
     const response = await axios({
       method: "get",
-      url: `http://192.168.1.127:9555/api/seller/product/detail?productId=${productId}`,
+      url: `${cs.BaseURL}/api/seller/product/detail?productId=${productId}`,
       headers: {
         Authorization: localStorage.getItem(cs.System_Code + "-token"),
       },
     });
     if (
       response.data.error_desc === "Success" &&
-      response.data.data.length != 0
+      response.data.data.length !== 0
     ) {
       setProductDetail(response.data.data);
       setIntroImage(response.data.data.productImageCover);
@@ -174,7 +174,7 @@ function ShopProductDetail() {
               >
                 <button
                   class={
-                    curPage == 1
+                    curPage === 1
                       ? "btn btn-category opacity-0 category-next"
                       : "btn btn-category category-next"
                   }
@@ -196,7 +196,7 @@ function ShopProductDetail() {
                   src={`${cs.MediaURL}/media/${firstImage}`}
                   alt=""
                   style={
-                    imageTab == 0
+                    imageTab === 0
                       ? {
                           width: "87px",
                           height: "80px",
@@ -220,7 +220,7 @@ function ShopProductDetail() {
                     src={`${cs.MediaURL}/media/${item.path}`}
                     alt="productIm"
                     style={
-                      imageTab == item.id
+                      imageTab === item.id
                         ? {
                             width: "87px",
                             height: "80px",
@@ -237,7 +237,7 @@ function ShopProductDetail() {
               </div>
               <button
                 class={
-                  curPage == Math.ceil(productImage.length / imagesPerPage)
+                  curPage === Math.ceil(productImage.length / imagesPerPage)
                     ? "btn btn-category opacity-0 category-next "
                     : "btn btn-category category-next "
                 }
@@ -745,7 +745,7 @@ function ShopProductDetail() {
                 <div className="col-8">
                   <button
                     className={
-                      buttonRateState == "all"
+                      buttonRateState === "all"
                         ? "sort-rate-button rate-active"
                         : "sort-rate-button"
                     }
@@ -755,7 +755,7 @@ function ShopProductDetail() {
                   </button>
                   <button
                     className={
-                      buttonRateState == "5star"
+                      buttonRateState === "5star"
                         ? "sort-rate-button rate-active"
                         : "sort-rate-button"
                     }
@@ -765,7 +765,7 @@ function ShopProductDetail() {
                   </button>
                   <button
                     className={
-                      buttonRateState == "4star"
+                      buttonRateState === "4star"
                         ? "sort-rate-button rate-active"
                         : "sort-rate-button"
                     }
@@ -775,7 +775,7 @@ function ShopProductDetail() {
                   </button>
                   <button
                     className={
-                      buttonRateState == "3star"
+                      buttonRateState === "3star"
                         ? "sort-rate-button rate-active"
                         : "sort-rate-button"
                     }
@@ -785,7 +785,7 @@ function ShopProductDetail() {
                   </button>
                   <button
                     className={
-                      buttonRateState == "2star"
+                      buttonRateState === "2star"
                         ? "sort-rate-button rate-active"
                         : "sort-rate-button"
                     }
@@ -795,7 +795,7 @@ function ShopProductDetail() {
                   </button>
                   <button
                     className={
-                      buttonRateState == "1star"
+                      buttonRateState === "1star"
                         ? "sort-rate-button rate-active"
                         : "sort-rate-button"
                     }
@@ -805,7 +805,7 @@ function ShopProductDetail() {
                   </button>
                   <button
                     className={
-                      buttonRateState == "hascmt"
+                      buttonRateState === "hascmt"
                         ? "sort-rate-button rate-active"
                         : "sort-rate-button"
                     }
@@ -815,7 +815,7 @@ function ShopProductDetail() {
                   </button>
                   <button
                     className={
-                      buttonRateState == "hasimg"
+                      buttonRateState === "hasimg"
                         ? "sort-rate-button rate-active"
                         : "sort-rate-button"
                     }

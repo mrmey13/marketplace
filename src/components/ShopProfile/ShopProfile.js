@@ -32,7 +32,7 @@ function getYoutubeId(url) {
 		/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
 	var match = url.match(regExp);
 
-	if (match && match[2].length == 11) {
+	if (match && match[2].length === 11) {
 		return match[2];
 	} else {
 		return "error";
@@ -145,7 +145,7 @@ class ShopProfile extends Component {
 			.then((response) => response.json())
 			.then((data) => {
 				console.log(data);
-				if (data && data.error_code == 0 && data.error_desc == "Success") {
+				if (data && data.error_code === 0 && data.error_desc === "Success") {
 					this.setState({
 						created: true,
 						shopName: data.data.shopName,
@@ -301,7 +301,7 @@ class ShopProfile extends Component {
 				//     window.location.reload();
 				// }
 
-				if (data && data.error_code != 0 && data.error_desc != "Success") {
+				if (data && data.error_code !== 0 && data.error_desc !== "Success") {
 					this.props.toastManager.add(JSON.stringify(data.error), {
 						appearance: "error",
 						autoDismiss: true,
@@ -340,7 +340,7 @@ class ShopProfile extends Component {
 			.then((data) => {
 				console.log(data);
 				var isFileImported = true;
-				if (data && data.error_code != 0 && data.error_desc != "Success")
+				if (data && data.error_code !== 0 && data.error_desc !== "Success")
 					isFileImported = false;
 				console.log(isFileImported);
 
@@ -375,7 +375,7 @@ class ShopProfile extends Component {
 				.then((response) => response.json())
 				.then((data) => {
 					console.log(data);
-					if (data && data.error_code == 0 && data.error_desc == "Success") {
+					if (data && data.error_code === 0 && data.error_desc === "Success") {
 						window.location.reload();
 					} else {
 						console.log("HERE");

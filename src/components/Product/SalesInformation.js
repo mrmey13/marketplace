@@ -11,7 +11,7 @@ const formatData = (variationArray, inventoryArray) => {
 	let level2Attribute = null;
 
 	if (variationArray) {
-		if (variationArray.length == 1) {
+		if (variationArray.length === 1) {
 			level1Attribute = variationArray[0].name;
 			level1 = inventoryArray.map((e, i) => ({
 				valueName: e.variationName,
@@ -21,7 +21,7 @@ const formatData = (variationArray, inventoryArray) => {
 			}));
 		}
 
-		if (variationArray.length == 2) {
+		if (variationArray.length === 2) {
 			level1Attribute = variationArray[0].name;
 			level2Attribute = variationArray[1].name;
 			// console.log("HERE", variationArray[0].options);

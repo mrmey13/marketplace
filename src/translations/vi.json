@@ -1,5 +1,14 @@
 {
     "LOGIN": "ĐĂNG NHẬP",
+    "logout": {
+        "fields": {
+            "username": "Tên đăng nhập",
+            "password": "Mật khẩu"
+        },
+        "message": {
+            "have_account": "Bạn đã có tài khoản?"
+        }
+    },
     "commons": {
         "button": {
             "save": "Lưu",

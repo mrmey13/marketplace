@@ -7,7 +7,7 @@ import cs from "../const";
 
 const signUpApiUrl = cs.BaseURL + "/api/buyer/account/sign-up"
 
-const SignUp = () => {
+const SignUp = ({ t, i18n }) => {
   const [form, setForm] = useState({
     username: "",
     password: ""
@@ -89,7 +89,7 @@ const SignUp = () => {
         <div className="d-flex align-items-center justify-content-center" style={{ width: "50%" }}>
           <div className="signup-card">
             <div className="mb-3">
-              <h3 style={{ color: color.tanhide, fontWeight: 600 }}>SignUp</h3>
+              <h3 style={{ color: color.tanhide, fontWeight: 600 }}>{t("commons.button.signup")}</h3>
             </div>
             <div className="form-floating mb-3" style={{ width: "85%" }}>
               <input
@@ -101,7 +101,7 @@ const SignUp = () => {
                 onChange={onChangeForm}
                 placeholder="Username"
               />
-              <label for="floatingInput">Username</label>
+              <label for="floatingInput">{t("logout.fields.username")}</label>
             </div>
             <div className="form-floating" style={{ width: "85%" }}>
               <input
@@ -112,7 +112,7 @@ const SignUp = () => {
                 value={form.password}
                 onChange={onChangeForm}
                 placeholder="Password" />
-              <label for="floatingPassword">Password</label>
+              <label for="floatingPassword">{t("logout.fields.password")}</label>
             </div>
             <div
               className="text-danger text-start px-2"
@@ -126,10 +126,10 @@ const SignUp = () => {
               style={{ width: "85%" }}
               onClick={handleSignUp}
             >
-              Sign Up
+              {t("commons.button.signup")}
             </button>
             <div>
-              Have an account? <a href="#aa">Login</a>
+              {t("logout.message.have_account")} <a href="/shop/login" className="text-decoration-none">{t("commons.button.login")}</a>
             </div>
           </div>
         </div>

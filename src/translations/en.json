@@ -1,5 +1,14 @@
 {
     "LOGIN": "LOGIN",
+    "logout": {
+        "fields": {
+            "username": "Username",
+            "password": "Password"
+        },
+        "message": {
+            "have_account": "Have an account?"
+        }
+    },
     "commons": {
         "button": {
             "save": "Save",

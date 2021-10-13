@@ -37,6 +37,8 @@ import ShopProductDetail from "./ProductList/ShopProductDetail";
 import MyPassword from "./MyAccount/MyPassword";
 import ShopDashboard from "./HomePage/ShopDashboard";
 
+import Cart from "./Cart/Cart";
+
 const styles = (theme) => ({
   tableContainer: {
     height: 320,
@@ -116,6 +118,8 @@ export class AppRoute extends Component {
           path="/product/edit/:productId"
           component={EditProduct}
         />
+
+        <Route exact path="/cart" component={Cart} />
       </ToastProvider>
     );
   }

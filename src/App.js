@@ -123,6 +123,8 @@ function App() {
 						path="/product/edit/:productId"
 						component={HomeShop}
 					/>
+
+					<Route exact path="/cart" component={Home} />
 				</Switch>
 				
 			</TableSettingProvider>

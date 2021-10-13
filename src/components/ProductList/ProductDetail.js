@@ -1,36 +1,30 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import cs from "../../const";
-import Color from "../../theme/color";
-import "./Product.css";
-import Product from "./Product";
-import { useParams } from "react-router-dom";
-const URL = cs.BaseURL + "/api/seller/shop/detail";
-const Seller_product_detail = cs.BaseURL + "/api/seller/product/detail";
-const Buyer_product_detail = cs.BaseURL + "/api/buyer/product/detail";
-const mediaURL = cs.MediaURL + "/media/";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import cs from '../../const';
+import Color from '../../theme/color';
+import './Product.css';
+import Product from './Product';
+import { useParams } from 'react-router-dom';
+const URL = cs.BaseURL + '/api/seller/shop/detail';
+const Seller_product_detail = cs.BaseURL + '/api/seller/product/detail';
+const Buyer_product_detail = cs.BaseURL + '/api/buyer/product/detail';
+const mediaURL = cs.MediaURL + '/media/';
+
+const ADD_TO_CART_URL = cs.BaseURL + '/api/buyer/cart/add';
+
 function ProductDetail() {
   const { productId } = useParams();
-  // console.log("productId", productId);
-  const [quantityProduct, setQuantityProduct] = useState(1);
-  const [variation, setVariation] = useState({ 0: "0" });
-  // console.log("variation", variation);
-  const ChooseOption = (e) => {
-    setVariation({ ...variation, [e.target.name]: e.target.value });
-  };
-  // const [chooseOption, setChooseOption] = useState(0);
-  // console.log("setQuantityProduct", quantityProduct);
-  const [buttonRateState, setButtonRateState] = useState("all");
-  const [introImage, setIntroImage] = useState("");
-  const [firstImage, setFirstImage] = useState("");
+  const [quantity, setQuantity] = useState(1);
+  const [buttonRateState, setButtonRateState] = useState('all');
+  const [introImage, setIntroImage] = useState('');
+  const [firstImage, setFirstImage] = useState('');
   const [productImage, setProductImage] = useState([
-    { path: "", id: 0 },
-    { path: "", id: 0 },
-    { path: "", id: 0 },
-    { path: "", id: 0 },
-    { path: "", id: 0 },
+    { path: '', id: 0 },
+    { path: '', id: 0 },
+    { path: '', id: 0 },
+    { path: '', id: 0 },
+    { path: '', id: 0 },
   ]);
-
   const [imagesPerPage, setimagesPerPage] = useState(4);
   const [curPage, setCurPage] = useState(1);
   const indexOfLastImage = curPage * imagesPerPage;
@@ -42,51 +36,53 @@ function ProductDetail() {
     numberOfFollowers: 0,
     pertcentageOfChatFeedbacks: 0,
     numberOfReviews: 0,
-    description: "",
-    shopName: "",
+    description: '',
+    shopName: '',
     numberOfProducts: 0,
-    userName: "",
+    userName: '',
     followingCount: 0,
     averageRating: 0,
     mediaDescriptionsList: [],
-    createdTime: "",
+    createdTime: '',
     shopId: 1,
     id: 0,
     productId: 0,
   });
-  const [productDetail, setProductDetail] = useState({
-    variationArray: [],
-    productName: "",
-  });
+  const [productDetail, setProductDetail] = useState({});
+
+  const [variation1, setVariation1] = useState([]);
+  const [variation2, setVariation2] = useState([]);
+  const [variationIndex1, setVariationIndex1] = useState('');
+  const [variationIndex2, setVariationIndex2] = useState('');
+  const [inventoryArray, setInventoryArray] = useState([]);
 
   const [media, setMedia] = useState([]);
   const loadShopDetail = async (conditions) => {
     const response = await axios({
-      method: "get",
+      method: 'get',
       url: `${URL}`,
       headers: {
-        Authorization: localStorage.getItem(cs.System_Code + "-token"),
+        Authorization: localStorage.getItem(cs.System_Code + '-token'),
       },
     });
     if (
-      response.data.error_desc === "Success" &&
+      response.data.error_desc === 'Success' &&
       response.data.data.length !== 0
     ) {
       setShopDetail(response.data.data);
       setMedia(response.data.data.mediaDescriptionsList);
-      console.log("data", response.data.data);
     }
   };
   const loadProductDetail = async (conditions) => {
     const response = await axios({
-      method: "get",
+      method: 'get',
       url: `${cs.BaseURL}/api/buyer/product/detail?productId=${productId}`,
       headers: {
-        Authorization: localStorage.getItem(cs.System_Code + "-token"),
+        Authorization: localStorage.getItem(cs.System_Code + '-token'),
       },
     });
     if (
-      response.data.error_desc === "Success" &&
+      response.data.error_desc === 'Success' &&
       response.data.data.length !== 0
     ) {
       setProductDetail(response.data.data);
@@ -94,36 +90,68 @@ function ProductDetail() {
       setFirstImage(response.data.data.productImageCover);
       setProductImage(response.data.data.productImages);
       // setProductImage([...productImage, { path: introImage, id: 0 }]);
+      // setVariations([...variations, response.data.data.variationArray]);
+      setVariation1(response.data.data.variationArray.filter((item) => item.id == 1));
+      setVariation2(response.data.data.variationArray.filter((item) => item.id == 2));
+      setInventoryArray(response.data.data.inventoryArray);
     }
   };
   useEffect(() => {
     loadProductDetail();
     loadShopDetail();
   }, []);
-  console.log("introimage", introImage);
-  console.log("intro", productImage);
-  const QuantityFunctionSub = () => {
-    if (quantityProduct > 1) setQuantityProduct(quantityProduct - 1);
-    else setQuantityProduct(quantityProduct);
+  const decreaseQuantity = () => {
+    if (quantity > 1) setQuantity(quantity - 1);
+    else setQuantity(quantity);
   };
-  const QuantityFunctionAdd = () => {
-    if (quantityProduct < 100) setQuantityProduct(quantityProduct + 1);
-    else setQuantityProduct(quantityProduct);
+  const increaseQuantity =async () => {
+    if (quantity <= productDetail.inventoryCount - 1) setQuantity(quantity + 1);
   };
-  function onChange(e) {
-    const re = /^[0-9\b]+$/;
-    if (e.target.value === "" || re.test(e.target.value)) {
-      e.preventDefault();
-      setQuantityProduct(e.target.value);
+
+  const addToCart = async () => {
+    let variationIndex = '';
+    if (variationIndex1 == '') return alert('Chọn phân loại hàng');
+    if (variation2.length != 0) {
+      if (variationIndex2 == '') return alert('Chọn phân loại hàng');
+      variationIndex = variationIndex1 + '_' + variationIndex2;
+    } else {
+      variationIndex = variationIndex1;
     }
-  }
+    const productVariation = inventoryArray.find(
+      (i) => i.variationIndex == variationIndex
+    );
+    const productVariationId = productVariation.productVariationId;
+    try {
+      const res = await axios({
+        method: 'POST',
+        url: `${ADD_TO_CART_URL}?productVariationId=${productVariationId}&quantity=${quantity}`,
+        headers: {
+          Authorization: localStorage.getItem(cs.System_Code + '-token'),
+        },
+      });
+      if (res.data.error_code == 0) {
+        alert('Success');
+      } else {
+        alert('Error');
+      }
+    } catch (error) {}
+  };
+  const [selected, setSelected] = useState(false);
+  const handleVariation1 = (e) => {
+    setVariationIndex1(e.target.value);
+    setSelected(true);
+  };
+  const handleVariation2 = (e) => {
+    setVariationIndex2(e.target.value);
+    setSelected(true);
+  };
 
   const List = [1, 2, 3, 4, 5];
   return (
     <div className="product-detail-container container">
       <div
         className="card path-link d-flex flex-row mb-3 py-2 px-5"
-        style={{ height: "40px" }}
+        style={{ height: '40px' }}
       >
         <a style={{ color: Color.tanhide }} href="/">
           SalePlus
@@ -140,13 +168,13 @@ function ProductDetail() {
           <ion-icon name="chevron-forward-outline"></ion-icon>
         </div>
         <a>{productDetail.categoryLevel3VieName}</a>
-        {productDetail.categoryLevel4VieName != "" && (
+        {productDetail.categoryLevel4VieName != '' && (
           <div className="px-2">
             <ion-icon name="chevron-forward-outline"></ion-icon>
           </div>
         )}
         <a>{productDetail.categoryLevel4VieName}</a>
-        {productDetail.categoryLevel4VieName != "" && (
+        {productDetail.categoryLevel4VieName != '' && (
           <div className="px-2">
             <ion-icon name="chevron-forward-outline"></ion-icon>
           </div>
@@ -157,35 +185,35 @@ function ProductDetail() {
         <div className="row main-row-product-detail d-flex justify-content-between mt-2">
           <div
             className="col-5 img-product-detail-intro "
-            style={{ borderRight: "1px solid black" }}
+            style={{ borderRight: '1px solid black' }}
           >
             <div
               className="img-main-product-detail-intro d-block p-2"
-              style={{ width: "fit-content", margin: "10px auto" }}
+              style={{ width: 'fit-content', margin: '10px auto' }}
             >
               <img
                 className="product-img"
                 src={`${cs.MediaURL}/media/${introImage}`}
                 alt=""
-                style={{ width: "100%", height: "400px" }}
+                style={{ width: '100%', height: '400px' }}
               />
             </div>
             <div
               className="row img-carousel-product-detail-intro m-3 d-flex flex-row justify-content-between"
-              style={{ height: "80px", alignItems: "center" }}
+              style={{ height: '80px', alignItems: 'center' }}
             >
               <div
                 className="d-flex flex-row"
-                style={{ width: "fit-content", alignItems: "center" }}
+                style={{ width: 'fit-content', alignItems: 'center' }}
               >
                 <button
                   class={
                     curPage == 1
-                      ? "btn btn-category visually-hidden category-next"
-                      : "btn btn-category category-next"
+                      ? 'btn btn-category visually-hidden category-next'
+                      : 'btn btn-category category-next'
                   }
                   type="button"
-                  style={{ width: "15px", height: "30px", marginRight: "10px" }}
+                  style={{ width: '15px', height: '30px', marginRight: '10px' }}
                   onClick={() => {
                     if (curPage > 1) setCurPage(curPage - 1);
                   }}
@@ -204,14 +232,14 @@ function ProductDetail() {
                   style={
                     imageTab == 0
                       ? {
-                          width: "87px",
-                          height: "80px",
-                          border: "1px solid" + Color.tanhide,
+                          width: '87px',
+                          height: '80px',
+                          border: '1px solid' + Color.tanhide,
                         }
                       : {
-                          width: "87px",
-                          height: "80px",
-                          border: "1px solid silver",
+                          width: '87px',
+                          height: '80px',
+                          border: '1px solid silver',
                         }
                   }
                 />
@@ -228,14 +256,14 @@ function ProductDetail() {
                     style={
                       imageTab == item.id
                         ? {
-                            width: "87px",
-                            height: "80px",
-                            border: "1px solid" + Color.tanhide,
+                            width: '87px',
+                            height: '80px',
+                            border: '1px solid' + Color.tanhide,
                           }
                         : {
-                            width: "87px",
-                            height: "80px",
-                            border: "1px solid silver",
+                            width: '87px',
+                            height: '80px',
+                            border: '1px solid silver',
                           }
                     }
                   />
@@ -244,11 +272,11 @@ function ProductDetail() {
               <button
                 class={
                   curPage === Math.ceil(productImage.length / imagesPerPage)
-                    ? "btn btn-category visually-hidden category-next "
-                    : "btn btn-category category-next "
+                    ? 'btn btn-category visually-hidden category-next '
+                    : 'btn btn-category category-next '
                 }
                 type="button"
-                style={{ width: "15px", height: "30px" }}
+                style={{ width: '15px', height: '30px' }}
                 onClick={() => {
                   if (curPage < Math.ceil(productImage.length / imagesPerPage))
                     setCurPage(curPage + 1);
@@ -336,37 +364,37 @@ function ProductDetail() {
               /> */}
             </div>
             <div className="row share-product-detail-intro d-flex justify-content-center">
-              <div style={{ width: "fit-content", paddingTop: "10px" }}>
+              <div style={{ width: 'fit-content', paddingTop: '10px' }}>
                 Share
               </div>
               <button
                 className="btn btn-outline-none "
-                style={{ width: "fit-content" }}
+                style={{ width: 'fit-content' }}
               >
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/733/733547.png"
                   alt="fbicon"
-                  style={{ width: "20px", height: "20px" }}
+                  style={{ width: '20px', height: '20px' }}
                 />
               </button>
               <button
                 className="btn btn-outline-none "
-                style={{ width: "fit-content" }}
+                style={{ width: 'fit-content' }}
               >
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png"
                   alt="fbicon"
-                  style={{ width: "20px", height: "20px" }}
+                  style={{ width: '20px', height: '20px' }}
                 />
               </button>
               <button
                 className="btn btn-outline-none "
-                style={{ width: "fit-content" }}
+                style={{ width: 'fit-content' }}
               >
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png"
                   alt="fbicon"
-                  style={{ width: "20px", height: "20px" }}
+                  style={{ width: '20px', height: '20px' }}
                 />
               </button>
             </div>
@@ -374,7 +402,7 @@ function ProductDetail() {
           <div className="col-7 info-product-detail-intro">
             <div
               className="product-product-detail-name"
-              style={{ width: "fit-content", textTransform: "uppercase" }}
+              style={{ width: 'fit-content', textTransform: 'uppercase' }}
             >
               {productDetail.productName}
             </div>
@@ -382,11 +410,11 @@ function ProductDetail() {
               <a
                 style={{
                   color: Color.tanhide,
-                  width: "fit-content",
-                  textDecoration: "none",
-                  marginRight: "10px",
-                  borderRight: "1px solid black",
-                  paddingRight: "5px",
+                  width: 'fit-content',
+                  textDecoration: 'none',
+                  marginRight: '10px',
+                  borderRight: '1px solid black',
+                  paddingRight: '5px',
                 }}
                 href="#rate"
               >
@@ -395,11 +423,11 @@ function ProductDetail() {
               <a
                 style={{
                   color: Color.tanhide,
-                  width: "fit-content",
-                  textDecoration: "none",
-                  marginRight: "10px",
-                  borderRight: "1px solid black",
-                  paddingRight: "5px",
+                  width: 'fit-content',
+                  textDecoration: 'none',
+                  marginRight: '10px',
+                  borderRight: '1px solid black',
+                  paddingRight: '5px',
                 }}
                 href="#rate"
               >
@@ -407,10 +435,10 @@ function ProductDetail() {
               </a>
               <a
                 style={{
-                  width: "fit-content",
-                  textDecoration: "none",
-                  marginRight: "10px",
-                  paddingRight: "5px",
+                  width: 'fit-content',
+                  textDecoration: 'none',
+                  marginRight: '10px',
+                  paddingRight: '5px',
                 }}
               >
                 9 Đã bán
@@ -426,12 +454,12 @@ function ProductDetail() {
               <div className="col-4">Vận Chuyển</div>
               <div className="col-8 ">
                 <div className="free-shipping">
-                  {" "}
+                  {' '}
                   <img
                     className="free-ship-img"
                     src="https://cdn-icons-png.flaticon.com/512/3306/3306060.png"
                     alt="free ship"
-                  />{" "}
+                  />{' '}
                   Miễn Phí Vận Chuyển
                 </div>
                 <div className="free-shipping">
@@ -439,44 +467,70 @@ function ProductDetail() {
                     className="free-ship-img"
                     src="https://cdn-icons-png.flaticon.com/512/664/664468.png"
                     alt="free ship"
-                  />{" "}
+                  />{' '}
                   Vận Chuyển Tới
                 </div>
                 <div className="free-shipping"> Phí Vận Chuyển</div>
               </div>
             </div>
-            {productDetail.variationArray.map((item) => (
+            {variation1.map((item) => (
               <div className="row product-product-detail-variation mt-3">
                 <div className="col-4">{item.name}</div>
                 <div className="col-8">
-                  {item.options.map((option) => (
-                    <input
-                      type="button"
-                      name={item.id}
-                      className={
-                        Object.entries(variation).map((it) => {
-                          if ((it[0] === item.id && it[1] === option.optionValue))
-                            return "sort-rate-button rate-active me-3 ";
-                          else return "sort-rate-button me-3 ";
-                        })
-
-                        // ? "btn sort-rate-button rate-active me-3 "
-                        // : "btn sort-rate-button me-3"}
-                      }
-                      onClick={(e) => {
-                        ChooseOption(e);
-                      }}
-                      value={option.optionValue}
-                      // style={{ backgroundColor: Color.tanhide }}
-                    />
-                  ))}
+<div className="flex items-center _2oeDUI">
+                    {item.options.map((option) => (
+                      <button
+                        className={
+                          !selected
+                            ? 'product-variation'
+                            : 'product-variation--selected'
+                        }
+                        value={option.optionId}
+                        onClick={handleVariation1}
+                      >
+                        {option.optionValue}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}
+            {variation2.map((item) => (
+              <div className="row product-product-detail-variation mt-3">
+                <div className="col-4">{item.name}</div>
+                <div className="col-8">
+                  <div className="flex items-center _2oeDUI">
+                    {item.options.map((option) => (
+                      <button
+                        className={
+                          !selected
+                            ? 'product-variation'
+                            : 'product-variation--selected'
+                        }
+                        value={option.optionId}
+                        onClick={handleVariation2}
+                      >
+                        {option.optionValue}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+
             <div className="row product-product-detail-quantity mt-5">
               <div className="col-4">Số Lượng</div>
+              <button className="_2KdYzP" onClick={decreaseQuantity}>
+                -
+              </button>
+              <div class="_2KdYzP iRO3yj">{quantity}</div>
+              {/* <input class="_2KdYzP iRO3yj" type="text" value={quantity} onChange={onChange}  /> */}
+              <button className="_2KdYzP" onClick={increaseQuantity}>
+                +
+              </button>
+              <div>{productDetail.inventoryCount} sản phẩm có sẵn</div>
               <div className="col-8 ">
-                <button
+                {/* <button
                   className="btn"
                   style={{
                     width: "40px",
@@ -484,7 +538,7 @@ function ProductDetail() {
                     backgroundColor: Color.tanhide,
                     fontSize: "20px",
                   }}
-                  onClick={() => QuantityFunctionSub()}
+                  onClick={decreaseQuantity}
                 >
                   <ion-icon name="remove-outline"></ion-icon>
                 </button>
@@ -518,10 +572,10 @@ function ProductDetail() {
                     height: "35px",
                     backgroundColor: Color.tanhide,
                   }}
-                  onClick={() => QuantityFunctionAdd()}
+                  onClick={increaseQuantity}
                 >
                   <ion-icon name="add-outline"></ion-icon>
-                </button>
+                </button> */}
               </div>
             </div>
 
@@ -530,14 +584,15 @@ function ProductDetail() {
                 className="btn btn-outline-dark py-2 d-flex flex-row"
                 style={{
                   backgroundColor: Color.corvette,
-                  width: "fit-content",
-                  marginRight: "15px",
+                  width: 'fit-content',
+                  marginRight: '15px',
                 }}
+                onClick={addToCart}
               >
                 <ion-icon name="medkit-outline"></ion-icon>
                 <div
                   className=""
-                  style={{ width: "fit-content", marginLeft: "5px" }}
+                  style={{ width: 'fit-content', marginLeft: '5px' }}
                 >
                   Thêm Vào Giỏ Hàng
                 </div>
@@ -546,7 +601,7 @@ function ProductDetail() {
                 className="btn btn-outline-dark py-2"
                 style={{
                   backgroundColor: Color.tanhide,
-                  width: "fit-content",
+                  width: 'fit-content',
                 }}
               >
                 Mua Ngay
@@ -556,14 +611,14 @@ function ProductDetail() {
         </div>
       </div>
       <div className="card card-shop-info-product-detail mt-3">
-        <div className="row infor-row" style={{ borderBottom: "none" }}>
+        <div className="row infor-row" style={{ borderBottom: 'none' }}>
           <div className="col-4 col-avatar">
             <div
               className="card card-shop-avatar"
               style={{
-                height: "fit-content",
+                height: 'fit-content',
                 backgroundImage:
-                  "url(" + cs.MediaURL + "/media/" + shopDetail.coverPath + ")",
+                  'url(' + cs.MediaURL + '/media/' + shopDetail.coverPath + ')',
               }}
             >
               <div className="card-body ">
@@ -576,8 +631,8 @@ function ProductDetail() {
                   <div
                     className="row-title d-none d-sm-block"
                     style={{
-                      width: "fit-content",
-                      color: "black",
+                      width: 'fit-content',
+                      color: 'black',
                     }}
                   >
                     <h5>{shopDetail.shopName}</h5>
@@ -608,8 +663,8 @@ function ProductDetail() {
           <div
             className="col-4"
             style={{
-              borderLeft: "2px solid rgb(219, 97, 16)",
-              marginBottom: "5px",
+              borderLeft: '2px solid rgb(219, 97, 16)',
+              marginBottom: '5px',
             }}
           >
             <div className="row-title-shopview">
@@ -617,24 +672,24 @@ function ProductDetail() {
                 className="icon-item"
                 src="https://cdn-icons-png.flaticon.com/512/2827/2827585.png"
               />
-              Sản Phẩm:{" "}
-              <b style={{ color: "black" }}>{shopDetail.numberOfProducts}</b>
+              Sản Phẩm:{' '}
+              <b style={{ color: 'black' }}>{shopDetail.numberOfProducts}</b>
             </div>
             <div className="row-title-shopview">
               <img
                 className="icon-item"
                 src="https://cdn-icons-png.flaticon.com/512/748/748004.png"
               />
-              Đang Theo Dõi:{" "}
-              <b style={{ color: "black" }}>{shopDetail.numberOfReviews}</b>
+              Đang Theo Dõi:{' '}
+              <b style={{ color: 'black' }}>{shopDetail.numberOfReviews}</b>
             </div>
             <div className="row-title-shopview">
               <img
                 className="icon-item"
                 src="https://cdn-icons-png.flaticon.com/512/892/892228.png"
               />
-              Tỉ Lệ Phản Hồi Chat:{" "}
-              <b style={{ color: "black" }}>
+              Tỉ Lệ Phản Hồi Chat:{' '}
+              <b style={{ color: 'black' }}>
                 {shopDetail.pertcentageOfChatFeedbacks}
               </b>
             </div>
@@ -642,8 +697,8 @@ function ProductDetail() {
           <div
             className="col-4"
             style={{
-              borderLeft: "2px solid rgb(219, 97, 16)",
-              marginBottom: "5px",
+              borderLeft: '2px solid rgb(219, 97, 16)',
+              marginBottom: '5px',
             }}
           >
             <div className="row-title-shopview">
@@ -651,29 +706,29 @@ function ProductDetail() {
                 className="icon-item"
                 src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png"
               />
-              Đánh Giá:{" "}
-              <b style={{ color: "black" }}>{shopDetail.averageRating}</b>
+              Đánh Giá:{' '}
+              <b style={{ color: 'black' }}>{shopDetail.averageRating}</b>
             </div>
             <div className="row-title-shopview">
               <img
                 className="icon-item"
                 src="https://cdn-icons-png.flaticon.com/512/2097/2097705.png"
               />
-              Người Theo Dõi:{" "}
-              <b style={{ color: "black" }}>{shopDetail.numberOfFollowers}</b>
+              Người Theo Dõi:{' '}
+              <b style={{ color: 'black' }}>{shopDetail.numberOfFollowers}</b>
             </div>
             <div className="row-title-shopview">
               <img
                 className="icon-item"
                 src="https://cdn-icons-png.flaticon.com/512/747/747310.png"
               />
-              Tham Gia:{" "}
-              <b style={{ color: "black" }}>
+              Tham Gia:{' '}
+              <b style={{ color: 'black' }}>
                 {shopDetail.createdTime &&
                   shopDetail.createdTime.slice(8, 10) +
-                    " - " +
+                    ' - ' +
                     shopDetail.createdTime.slice(4, 7) +
-                    " - " +
+                    ' - ' +
                     shopDetail.createdTime.slice(23, 28)}
               </b>
             </div>
@@ -693,8 +748,8 @@ function ProductDetail() {
             <div className="card product-detail-product-detail-card p-5">
               <h5 className="card-product-detail-title">Chi Tiết Sản Phẩm</h5>
               <div className="p-2 d-flex flex-row path-link">
-                <a style={{ marginRight: "10px" }}>Danh Mục: </a>
-                {"  "}
+                <a style={{ marginRight: '10px' }}>Danh Mục: </a>
+                {'  '}
                 <a style={{ color: Color.tanhide }} href="/">
                   SalePlus
                 </a>
@@ -710,13 +765,13 @@ function ProductDetail() {
                   <ion-icon name="chevron-forward-outline"></ion-icon>
                 </div>
                 <a>{productDetail.categoryLevel3VieName}</a>
-                {productDetail.categoryLevel4VieName != "" && (
+                {productDetail.categoryLevel4VieName != '' && (
                   <div className="px-2">
                     <ion-icon name="chevron-forward-outline"></ion-icon>
                   </div>
                 )}
                 <a>{productDetail.categoryLevel4VieName}</a>
-                {productDetail.categoryLevel4VieName != "" && (
+                {productDetail.categoryLevel4VieName != '' && (
                   <div className="px-2">
                     <ion-icon name="chevron-forward-outline"></ion-icon>
                   </div>
@@ -725,15 +780,15 @@ function ProductDetail() {
               </div>
               <div className="p-2">Kho Hàng:</div>
               <div className="p-2">
-                Kích Thước(cm): {productDetail.height} X {productDetail.width} X{" "}
+                Kích Thước(cm): {productDetail.height} X {productDetail.width} X{' '}
                 {productDetail.depth}
               </div>
               <div className="p-2">
-                Tình Trạng: {productDetail.isNewProduct === 1 ? "Mới" : "Cũ"}
+                Tình Trạng: {productDetail.isNewProduct == 1 ? 'Mới' : 'Cũ'}
               </div>
               <div className="p-2">
-                Cho Đặt Trước:{" "}
-                {productDetail.isPreorderedProduct === 1 ? "Có" : "Không"}
+                Cho Đặt Trước:{' '}
+                {productDetail.isPreorderedProduct == 1 ? 'Có' : 'Không'}
               </div>
               <div className="p-2">Gửi Từ:</div>
             </div>
@@ -751,81 +806,81 @@ function ProductDetail() {
                 <div className="col-8">
                   <button
                     className={
-                      buttonRateState === "all"
-                        ? "sort-rate-button rate-active"
-                        : "sort-rate-button"
+                      buttonRateState == 'all'
+                        ? 'sort-rate-button rate-active'
+                        : 'sort-rate-button'
                     }
-                    onClick={() => setButtonRateState("all")}
+                    onClick={() => setButtonRateState('all')}
                   >
                     Tất Cả
                   </button>
                   <button
                     className={
-                      buttonRateState === "5star"
-                        ? "sort-rate-button rate-active"
-                        : "sort-rate-button"
+                      buttonRateState == '5star'
+                        ? 'sort-rate-button rate-active'
+                        : 'sort-rate-button'
                     }
-                    onClick={() => setButtonRateState("5star")}
+                    onClick={() => setButtonRateState('5star')}
                   >
                     5 Sao
                   </button>
                   <button
                     className={
-                      buttonRateState === "4star"
-                        ? "sort-rate-button rate-active"
-                        : "sort-rate-button"
+                      buttonRateState == '4star'
+                        ? 'sort-rate-button rate-active'
+                        : 'sort-rate-button'
                     }
-                    onClick={() => setButtonRateState("4star")}
+                    onClick={() => setButtonRateState('4star')}
                   >
                     4 Sao
                   </button>
                   <button
                     className={
-                      buttonRateState === "3star"
-                        ? "sort-rate-button rate-active"
-                        : "sort-rate-button"
+                      buttonRateState == '3star'
+                        ? 'sort-rate-button rate-active'
+                        : 'sort-rate-button'
                     }
-                    onClick={() => setButtonRateState("3star")}
+                    onClick={() => setButtonRateState('3star')}
                   >
                     3 Sao
                   </button>
                   <button
                     className={
-                      buttonRateState === "2star"
-                        ? "sort-rate-button rate-active"
-                        : "sort-rate-button"
+                      buttonRateState == '2star'
+                        ? 'sort-rate-button rate-active'
+                        : 'sort-rate-button'
                     }
-                    onClick={() => setButtonRateState("2star")}
+                    onClick={() => setButtonRateState('2star')}
                   >
                     2 Sao
                   </button>
                   <button
                     className={
-                      buttonRateState === "1star"
-                        ? "sort-rate-button rate-active"
-                        : "sort-rate-button"
+                      buttonRateState == '1star'
+                        ? 'sort-rate-button rate-active'
+                        : 'sort-rate-button'
                     }
-                    onClick={() => setButtonRateState("1star")}
+                    onClick={() => setButtonRateState('1star')}
                   >
                     1 Sao
                   </button>
                   <button
                     className={
-                      buttonRateState === "hascmt"
-                        ? "sort-rate-button rate-active"
-                        : "sort-rate-button"
+                      buttonRateState == 'hascmt'
+                        ? 'sort-rate-button rate-active'
+                        : 'sort-rate-button'
                     }
-                    onClick={() => setButtonRateState("hascmt")}
+                    onClick={() => setButtonRateState('hascmt')}
                   >
                     Có Bình Luận
                   </button>
                   <button
                     className={
-                      buttonRateState === "hasimg"
-                        ? "sort-rate-button rate-active"
-                        : "sort-rate-button"
+                      buttonRateState == 'hasimg'
+                        ? 'sort-rate-button rate-active'
+                        : 'sort-rate-button'
                     }
-                    onClick={() => setButtonRateState("hasimg")}
+                    onClick={() => setButtonRateState('hasimg')}
                   >
                     Có Hình Ảnh/ Video
                   </button>

@@ -374,7 +374,9 @@ class Home extends React.Component {
                       >
                         1
                       </span>
+                    <a href="/cart">
                       <ion-icon name="cart-outline"></ion-icon>
+                    </a>
                     </button>
                     <div
                       className="icon-popover"
@@ -404,7 +406,7 @@ class Home extends React.Component {
                       </Link>
                       <Link
                         class="d-flex align-items-center product-item-cart"
-                        to="/aaa"
+                        to="/"
                       >
                         <div class="flex-shrink-0">
                           <img
@@ -419,7 +421,7 @@ class Home extends React.Component {
                       </Link>
                       <Link
                         class="d-flex align-items-center product-item-cart"
-                        to="/aa"
+                        to="/"
                       >
                         <div class="flex-shrink-0">
                           <img
@@ -436,7 +438,7 @@ class Home extends React.Component {
                         <Button
                           className="button-view-cart"
                           component={Link}
-                          to="/a"
+                          to="/"
                           style={{
                             backgroundColor: Color.tanhide,
                             margin: "10px",

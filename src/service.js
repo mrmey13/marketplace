@@ -7,6 +7,13 @@ export const getRole = () => {
     return userrole;
 };
 
+export const getUser = () => {
+    var user = localStorage.getItem(cs.System_Code + '-user');
+    if (!user) return null;
+    var username = JSON.parse(String(user)).name;
+    return username;
+};
+
 export const getFunctionRoles = () => {
     var user = localStorage.getItem(cs.System_Code + '-user');
     if (!user) return null;

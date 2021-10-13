@@ -29,7 +29,9 @@
     },
     "app_route": {
         "dashboard": "Marketplace Home",
-        "shop-profile": "Shop Profile"
+        "shop-profile": "Shop Profile",
+        "profile": "Profile",
+        "address": "Address"
     },
     "language": {
         "title": "Language: ",

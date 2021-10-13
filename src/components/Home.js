@@ -35,7 +35,7 @@ import { menu } from "./menu.js";
 import AppRoute from "./AppRoute";
 
 import { useTranslation, withTranslation } from "react-i18next";
-import { getRole, isSoloUser } from "../service";
+import { getRole, isSoloUser, getUser } from "../service";
 import { Grid, Menu } from "@material-ui/core";
 
 const URL = cs.BaseURL + "/user/detail";
@@ -493,7 +493,7 @@ class Home extends React.Component {
                     </Menu>
                   </div>
 
-                  {token && (<Link
+                  {/* {token && (<Link
                     to="/"
                     style={{
                       textDecoration: "none",
@@ -515,7 +515,97 @@ class Home extends React.Component {
                         {t("commons.button.logout")}
                       </span>
                     </Button>
-                  </Link>)}
+                  </Link>)} */}
+                  {token && <>
+                      <Button
+                        color="inherit"
+                        onClick={(e) => {
+                          this.setState({ anchorProfile: e.target })
+                        }}
+                        size="small"
+                        sx={{ ml: 2 }}
+                        style={{
+                          textDecoration: "none",
+                          color: "white",
+                          fontSize: "14px"
+                        }}
+                      >
+                        <Avatar style={{ width: "30px", height: "30px" }} /> <span style={{ marginLeft: 10 }}>
+                          {getUser()}
+                        </span>
+                      </Button>
+                      <Menu
+                        anchorEl={this.state.anchorProfile}
+                        open={Boolean(this.state.anchorProfile)}
+                        onClose={() => this.setState({ anchorProfile: null })}
+                        // style={{ marginTop: "42px" }}
+                        anchorOrigin={{
+                          vertical: 'top',
+                          horizontal: 'right',
+                        }}
+                        transformOrigin={{
+                          vertical: 'botton',
+                          horizontal: 'right',
+                        }}
+                      >
+                        <MenuItem>
+                          <Link
+                            to="/my_account"
+                            style={{
+                              textDecoration: "none",
+                              color: "black",
+                            }}
+                          >
+                            <span>
+                              {t("app_route.profile")}
+                            </span>
+                          </Link>
+                        </MenuItem>
+                        <MenuItem>
+                          <Link
+                            to="/user/address"
+                            style={{
+                              textDecoration: "none",
+                              color: "black",
+                            }}
+                          >
+                            <span>
+                              {t("app_route.address")}
+                            </span>
+                          </Link>
+                        </MenuItem>
+                        <MenuItem>
+                          <Link
+                            to="/user/password"
+                            style={{
+                              textDecoration: "none",
+                              color: "black",
+                            }}
+                          >
+                            <span>
+                              {t("commons.button.change_password")}
+                            </span>
+                          </Link>
+                        </MenuItem>
+                        <Divider />
+                        <MenuItem>
+                          <Link
+                            onClick={this.handleLogOut}
+                            to="/shop/login"
+                            style={{
+                              textDecoration: "none",
+                              color: "black",
+                            }}
+                          >
+                            <span>
+                              {t("commons.button.logout")}
+                            </span>
+                          </Link>
+                        </MenuItem>
+                      </Menu>
+                    </>
+                    }
+
 
                   {!token && (<Link
                     to="/signup"

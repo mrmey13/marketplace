@@ -37,7 +37,7 @@ import AppRoute from "./AppRoute";
 import Login from "./Login";
 
 import { useTranslation, withTranslation } from "react-i18next";
-import { getRole, isSoloUser } from "../service";
+import { getRole, isSoloUser, getUser } from "../service";
 import { Grid, Menu } from "@material-ui/core";
 import { red } from "@material-ui/core/colors";
 
@@ -219,7 +219,8 @@ class HomeShop extends React.Component {
       user: {},
       open: true,
       showChangePassword: false,
-      anchorEl: null
+      anchorEl: null,
+      anchorProfile: null
     };
     var user = localStorage.getItem(cs.System_Code + "-user");
 
@@ -270,7 +271,7 @@ class HomeShop extends React.Component {
   };
 
   render() {
-    
+
     const { classes, t, i18n } = this.props;
     var username = "";
     var user = localStorage.getItem(cs.System_Code + "-user");
@@ -279,325 +280,417 @@ class HomeShop extends React.Component {
     if (!username && user) username = JSON.parse(String(user)).name;
     console.log(getRole());
     console.log(isSoloUser());
-    if (!token|| token == null || token == 'null' || token == undefined) {
+    if (!token || token == null || token == 'null' || token == undefined) {
       return (
         <div>
           <Login />
         </div>
       )
     } else
-    return (
-      <div>
-        <Router>
-          <div className={classes.root}>
-            <CssBaseline />
-            <AppBar
-              position="absolute"
-              className={classNames(
-                classes.appBar,
-                this.state.open &&
-                getRole() != cs.Role_Solo_Buyer &&
-                window.location.pathname != "/products" &&
-                !window.location.pathname.includes("/product_detail") 
-                //&& classes.appBarShift
-              )}
-            >
-              <Toolbar
-                disableGutters={!this.state.open}
-                className={classes.toolbar}
-              >
-                <IconButton
-                  color="inherit"
-                  aria-label="Open drawer"
-                  onClick={this.handleDrawerOpen}
-                  className={classNames(
-                    classes.menuButton,
-                    this.state.open && classes.menuButtonHidden
-                  )}
-                >
-                  <MenuIcon />
-                </IconButton>
-
-                {/* <NavbarTitle title={"MARKETPLACE"} /> */}
-                <div>
-                  <Link
-                    to="/shop"
-                    style={{
-                      textDecoration: "none",
-                      color: "white",
-                      fontSize: "20px",
-                    }}
-                  >
-                    SALESPLUS
-                  </Link>
-                </div>
-
-
-                 {/* search bar */}
-                {getRole() === cs.Role_Solo_Buyer && (
-                  <form
-                    className="search-form d-flex "
-                    style={{ backgroundColor: "white", alignItems: "center" }}
-                  >
-                    <input
-                      className="form-control search-input"
-                      type="search"
-                      placeholder="Search"
-                      aria-label="Search"
-                      style={{ border: "none", width: "400px" }}
-                    />
-                    <button
-                      className="btn btn-light btn-search"
-                      style={{
-                        border: "none",
-                        fontSize: "20px",
-                        backgroundColor: Color.tanhide,
-                        margin: "2px",
-                        color: "white",
-                      }}
-                    >
-                      <ion-icon name="search-outline"></ion-icon>
-                    </button>
-                  </form>
+      return (
+        <div>
+          <Router>
+            <div className={classes.root}>
+              <CssBaseline />
+              <AppBar
+                position="absolute"
+                className={classNames(
+                  classes.appBar,
+                  this.state.open &&
+                  getRole() != cs.Role_Solo_Buyer &&
+                  window.location.pathname != "/products" &&
+                  !window.location.pathname.includes("/product_detail")
+                  //&& classes.appBarShift
                 )}
-                {getRole() == cs.Role_Solo_Buyer && (
-                  <div className="dropdown">
-                    <button
-                      className="btn btn-outline-none bg-transparent cart-button text-white dropbtn"
+              >
+                <Toolbar
+                  disableGutters={!this.state.open}
+                  className={classes.toolbar}
+                >
+                  <IconButton
+                    color="inherit"
+                    aria-label="Open drawer"
+                    onClick={this.handleDrawerOpen}
+                    className={classNames(
+                      classes.menuButton,
+                      this.state.open && classes.menuButtonHidden
+                    )}
+                  >
+                    <MenuIcon />
+                  </IconButton>
+
+                  {/* <NavbarTitle title={"MARKETPLACE"} /> */}
+                  <div>
+                    <Link
+                      to="/shop"
                       style={{
-                        fontSize: "35px",
-                        paddingTop: "15px",
-                        position: "relative",
-                        width: "fit-content",
-                        height: "fit-content",
+                        textDecoration: "none",
+                        color: "white",
+                        fontSize: "20px",
                       }}
                     >
-                      <span
-                        class="position-absolute  start-25 translate-middle px-2 py-1 bg-danger border border-light"
+                      SALESPLUS
+                    </Link>
+                  </div>
+
+
+                  {/* search bar */}
+                  {getRole() === cs.Role_Solo_Buyer && (
+                    <form
+                      className="search-form d-flex "
+                      style={{ backgroundColor: "white", alignItems: "center" }}
+                    >
+                      <input
+                        className="form-control search-input"
+                        type="search"
+                        placeholder="Search"
+                        aria-label="Search"
+                        style={{ border: "none", width: "400px" }}
+                      />
+                      <button
+                        className="btn btn-light btn-search"
                         style={{
-                          fontSize: "10px",
-                          borderRadius: "5px",
-                          width: "fit-content",
-                          height: "fit-content",
-                          zIndex: 1,
-                          top: "40",
+                          border: "none",
+                          fontSize: "20px",
+                          backgroundColor: Color.tanhide,
+                          margin: "2px",
+                          color: "white",
                         }}
                       >
-                        1
-                      </span>
-                      <ion-icon name="cart-outline"></ion-icon>
-                    </button>
-                    <div
-                      className="icon-popover"
-                      style={{
-                        fontSize: "30px",
-                        backgroundColor: "transparent",
-                      }}
-                    >
-                      <ion-icon name="caret-up-outline"></ion-icon>
-                    </div>
-                    <div class="dropdown-content">
-                      <div className="m-3">Sản Phẩm Mới Thêm</div>
-                      <Link
-                        class="d-flex align-items-center product-item-cart"
-                        to="/"
+                        <ion-icon name="search-outline"></ion-icon>
+                      </button>
+                    </form>
+                  )}
+                  {getRole() == cs.Role_Solo_Buyer && (
+                    <div className="dropdown">
+                      <button
+                        className="btn btn-outline-none bg-transparent cart-button text-white dropbtn"
+                        style={{
+                          fontSize: "35px",
+                          paddingTop: "15px",
+                          position: "relative",
+                          width: "fit-content",
+                          height: "fit-content",
+                        }}
                       >
-                        <div class="flex-shrink-0">
-                          <img
-                            style={{ width: "50px", height: "50px" }}
-                            src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80"
-                            alt="..."
-                          />
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                          This is some content from a media component.
-                        </div>
-                      </Link>
-                      <Link
-                        class="d-flex align-items-center product-item-cart"
-                        to="/aaa"
-                      >
-                        <div class="flex-shrink-0">
-                          <img
-                            style={{ width: "50px", height: "50px" }}
-                            src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80"
-                            alt="..."
-                          />
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                          This is some content from a media component.
-                        </div>
-                      </Link>
-                      <Link
-                        class="d-flex align-items-center product-item-cart"
-                        to="/aa"
-                      >
-                        <div class="flex-shrink-0">
-                          <img
-                            style={{ width: "50px", height: "50px" }}
-                            src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80"
-                            alt="..."
-                          />
-                        </div>
-                        <div class="flex-grow-1 ms-3">
-                          This is some content from a media component.
-                        </div>
-                      </Link>
-                      <div className="d-flex flex-row justify-content-end">
-                        <Button
-                          className="button-view-cart"
-                          component={Link}
-                          to="/a"
+                        <span
+                          class="position-absolute  start-25 translate-middle px-2 py-1 bg-danger border border-light"
                           style={{
-                            backgroundColor: Color.tanhide,
-                            margin: "10px",
+                            fontSize: "10px",
+                            borderRadius: "5px",
+                            width: "fit-content",
+                            height: "fit-content",
+                            zIndex: 1,
+                            top: "40",
                           }}
                         >
-                          {" "}
-                          Xem Giỏ Hàng{" "}
-                        </Button>
+                          1
+                        </span>
+                        <ion-icon name="cart-outline"></ion-icon>
+                      </button>
+                      <div
+                        className="icon-popover"
+                        style={{
+                          fontSize: "30px",
+                          backgroundColor: "transparent",
+                        }}
+                      >
+                        <ion-icon name="caret-up-outline"></ion-icon>
+                      </div>
+                      <div class="dropdown-content">
+                        <div className="m-3">Sản Phẩm Mới Thêm</div>
+                        <Link
+                          class="d-flex align-items-center product-item-cart"
+                          to="/"
+                        >
+                          <div class="flex-shrink-0">
+                            <img
+                              style={{ width: "50px", height: "50px" }}
+                              src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80"
+                              alt="..."
+                            />
+                          </div>
+                          <div class="flex-grow-1 ms-3">
+                            This is some content from a media component.
+                          </div>
+                        </Link>
+                        <Link
+                          class="d-flex align-items-center product-item-cart"
+                          to="/aaa"
+                        >
+                          <div class="flex-shrink-0">
+                            <img
+                              style={{ width: "50px", height: "50px" }}
+                              src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80"
+                              alt="..."
+                            />
+                          </div>
+                          <div class="flex-grow-1 ms-3">
+                            This is some content from a media component.
+                          </div>
+                        </Link>
+                        <Link
+                          class="d-flex align-items-center product-item-cart"
+                          to="/aa"
+                        >
+                          <div class="flex-shrink-0">
+                            <img
+                              style={{ width: "50px", height: "50px" }}
+                              src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80"
+                              alt="..."
+                            />
+                          </div>
+                          <div class="flex-grow-1 ms-3">
+                            This is some content from a media component.
+                          </div>
+                        </Link>
+                        <div className="d-flex flex-row justify-content-end">
+                          <Button
+                            className="button-view-cart"
+                            component={Link}
+                            to="/a"
+                            style={{
+                              backgroundColor: Color.tanhide,
+                              margin: "10px",
+                            }}
+                          >
+                            {" "}
+                            Xem Giỏ Hàng{" "}
+                          </Button>
+                        </div>
                       </div>
                     </div>
+                  )}
+
+
+
+                  <div style={{ display: "flex" }}>
+                    <div>
+                      <IconButton
+                        size="large"
+                        aria-label="account of current user"
+                        aria-controls="menu-appbar"
+                        aria-haspopup="true"
+                        onClick={(e) => {
+                          this.setState({ anchorEl: e.target })
+                        }}
+                        color="inherit"
+                      >
+                        <DragIndicator />
+                      </IconButton>
+                      <Menu
+                        id="menu-appbar"
+                        anchorEl={this.state.anchorEl}
+                        anchorOrigin={{
+                          vertical: 'top',
+                          horizontal: 'right',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                          vertical: 'top',
+                          horizontal: 'right',
+                        }}
+                        open={Boolean(this.state.anchorEl)}
+                        onClose={() => this.setState({ anchorEl: null })}
+                      >
+                        <MenuItem onClick={() => {
+                          openInNewTab(cs.ShopUrl);
+                        }}>Bán hàng với Salesplus</MenuItem>
+
+                        <MenuItem onClick={() => {
+                          openInNewTab(cs.HRUrl);
+
+                        }}>HR Management</MenuItem>
+                        <MenuItem onClick={() => {
+                          openInNewTab(cs.EtrainingUrl);
+                        }}>eTraining</MenuItem>
+                      </Menu>
+                    </div>
+
+
+                    {token && <>
+                      <Button
+                        color="inherit"
+                        onClick={(e) => {
+                          this.setState({ anchorProfile: e.target })
+                        }}
+                        size="small"
+                        sx={{ ml: 2 }}
+                        style={{
+                          textDecoration: "none",
+                          color: "white",
+                          fontSize: "14px"
+                        }}
+                      >
+                        <Avatar style={{ width: "30px", height: "30px" }} /> <span style={{ marginLeft: 10 }}>
+                          {getUser()}
+                        </span>
+                      </Button>
+                      <Menu
+                        anchorEl={this.state.anchorProfile}
+                        open={Boolean(this.state.anchorProfile)}
+                        onClose={() => this.setState({ anchorProfile: null })}
+                        // style={{ marginTop: "42px" }}
+                        anchorOrigin={{
+                          vertical: 'top',
+                          horizontal: 'right',
+                        }}
+                        transformOrigin={{
+                          vertical: 'botton',
+                          horizontal: 'right',
+                        }}
+                      >
+                        <MenuItem>
+                          <Link
+                            to="/my_account"
+                            style={{
+                              textDecoration: "none",
+                              color: "black",
+                            }}
+                          >
+                            <span>
+                              {t("app_route.profile")}
+                            </span>
+                          </Link>
+                        </MenuItem>
+                        <MenuItem>
+                          <Link
+                            to="/user/address"
+                            style={{
+                              textDecoration: "none",
+                              color: "black",
+                            }}
+                          >
+                            <span>
+                              {t("app_route.address")}
+                            </span>
+                          </Link>
+                        </MenuItem>
+                        <MenuItem>
+                          <Link
+                            to="/user/password"
+                            style={{
+                              textDecoration: "none",
+                              color: "black",
+                            }}
+                          >
+                            <span>
+                              {t("commons.button.change_password")}
+                            </span>
+                          </Link>
+                        </MenuItem>
+                        <Divider />
+                        <MenuItem>
+                          <Link
+                            onClick={this.handleLogOut}
+                            to="/shop/login"
+                            style={{
+                              textDecoration: "none",
+                              color: "black",
+                            }}
+                          >
+                            <span>
+                              {t("commons.button.logout")}
+                            </span>
+                          </Link>
+                        </MenuItem>
+                      </Menu>
+                    </>
+                    }
+
+                    {/* {token && (<Link
+                      to="/shop/login"
+                      style={{
+                        textDecoration: "none",
+                        color: "white",
+                        marginTop: "5px"
+                      }}
+                    >
+                      <Button
+                        color="inherit"
+                        iconStyle={{
+                          height: 200,
+                          width: 200,
+                          fontSize: "48px",
+                        }}
+                        aria-label="Đăng xuất"
+                        onClick={this.handleLogOut}
+                      >
+                        <span style={{ marginLeft: 10 }}>
+                          {t("commons.button.logout")}
+                        </span>
+                      </Button>
+                    </Link>)} */}
+
+
+
                   </div>
+                </Toolbar>
+              </AppBar>
+
+              {getRole() != cs.Role_Solo_Buyer &&
+                window.location.pathname != "/products" &&
+                !window.location.pathname.includes("/product_detail") && (
+                  <Drawer
+                    variant="permanent"
+                    classes={{
+                      paper: classNames(
+                        classes.drawerPaper,
+                        !this.state.open && classes.drawerPaperClose
+                      ),
+                    }}
+                    onEscapeKeyDown={this.handleDrawerClose}
+                    onBackdropClick={this.handleDrawerClose}
+                    open={this.state.open}
+                  >
+                    <div className={classes.toolbarHeader}>
+                      <Avatar
+                        className={classes.avatar}
+                      // src={require("../img/LOGO-Credito.png")}
+                      />
+                      <Typography variant="body" className={classes.username}>
+                        {username}
+                      </Typography>
+                    </div>
+                    <Divider />
+                    <List grouped={true} collapsibleGroups={true}>
+                      <NestedList
+                        multilingual={true}
+                        menu={menu}
+                        closeMenuTab={this.handleDrawerClose}
+                      />
+                    </List>
+                  </Drawer>
                 )}
 
+              <main className={classes.content}>
+                <div className={classes.appBarSpacer} />
+                <AppRoute />
 
+              </main>
+            </div>
+          </Router>
 
-                <div style={{ display: "flex" }}>
-                  <div>
-                    <IconButton
-                      size="large"
-                      aria-label="account of current user"
-                      aria-controls="menu-appbar"
-                      aria-haspopup="true"
-                      onClick={(e) => {
-                        this.setState({ anchorEl: e.target })
-                      }}
-                      color="inherit"
-                    >
-                      <DragIndicator />
-                    </IconButton>
-                    <Menu
-                      id="menu-appbar"
-                      anchorEl={this.state.anchorEl}
-                      anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                      }}
-                      keepMounted
-                      transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                      }}
-                      open={Boolean(this.state.anchorEl)}
-                      onClose={() => this.setState({ anchorEl: null })}
-                    >
-                      <MenuItem onClick={() => {
-                        openInNewTab(cs.ShopUrl) ;
-                      }}>Bán hàng với Salesplus</MenuItem>
-
-                      <MenuItem onClick={() => {
-                        openInNewTab(cs.HRUrl);
-
-                      }}>HR Management</MenuItem>
-                      <MenuItem onClick={() => {
-                         openInNewTab(cs.EtrainingUrl);
-                      }}>eTraining</MenuItem>
-                    </Menu>
-                  </div>
-
-                  {token && (<Link
-                    to="/shop/login"
-                    style={{
-                      textDecoration: "none",
-                      color: "white",
-                      marginTop: "5px"
-                    }}
-                  >
-                    <Button
-                      color="inherit"
-                      iconStyle={{
-                        height: 200,
-                        width: 200,
-                        fontSize: "48px",
-                      }}
-                      aria-label="Đăng xuất"
-                      onClick={this.handleLogOut}
-                    >
-                      <span style={{ marginLeft: 10 }}>
-                        {t("commons.button.logout")}
-                      </span>
-                    </Button>
-                  </Link> )}
-
-                
-                </div> 
-              </Toolbar>
-            </AppBar>
-
-            {getRole() != cs.Role_Solo_Buyer &&
-              window.location.pathname != "/products" &&
-              !window.location.pathname.includes("/product_detail") && (
-                <Drawer
-                  variant="permanent"
-                  classes={{
-                    paper: classNames(
-                      classes.drawerPaper,
-                      !this.state.open && classes.drawerPaperClose
-                    ),
+          <div className={classes.footer}>
+            <div >
+              {Object.keys(lngs).map((lng) => (
+                <button
+                  key={lng}
+                  style={{ fontWeight: i18n.language === lng ? "bold" : "normal" }}
+                  type="submit"
+                  onClick={() => {
+                    i18n.changeLanguage(lng);
+                    localStorage.setItem("currentLanguage", lng);
                   }}
-                  onEscapeKeyDown={this.handleDrawerClose}
-                  onBackdropClick={this.handleDrawerClose}
-                  open={this.state.open}
                 >
-                  <div className={classes.toolbarHeader}>
-                    <Avatar
-                      className={classes.avatar}
-                    // src={require("../img/LOGO-Credito.png")}
-                    />
-                    <Typography variant="body" className={classes.username}>
-                      {username}
-                    </Typography>
-                  </div>
-                  <Divider />
-                  <List grouped={true} collapsibleGroups={true}>
-                    <NestedList
-                      multilingual={true}
-                      menu={menu}
-                      closeMenuTab={this.handleDrawerClose}
-                    />
-                  </List>
-                </Drawer>
-              )}
-
-            <main className={classes.content}> 
-              <div className={classes.appBarSpacer} />
-              <AppRoute />
-              
-            </main>
+                  {t(lngs[lng].nativeName)}
+                </button>
+              ))}
+            </div>
           </div>
-        </Router>
 
-        <div className={classes.footer}>
-          <div >
-            {Object.keys(lngs).map((lng) => (
-              <button
-                key={lng}
-                style={{ fontWeight: i18n.language === lng ? "bold" : "normal" }}
-                type="submit"
-                onClick={() => {
-                  i18n.changeLanguage(lng);
-                  localStorage.setItem("currentLanguage", lng);
-                }}
-              >
-                {t(lngs[lng].nativeName)}
-              </button>
-            ))}
-          </div>
         </div>
-
-      </div>
-    );
+      );
   }
 }
 

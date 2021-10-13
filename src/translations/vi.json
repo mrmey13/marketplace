@@ -29,7 +29,9 @@
     },
     "app_route": {
         "dashboard": "Trang chính Marketplace",
-        "shop-profile": "Hồ sơ Shop"
+        "shop-profile": "Hồ sơ Shop",
+        "profile": "Hồ sơ",
+        "address": "Địa chỉ"
     },
     "language": {
         "title": "Ngôn ngữ: ",

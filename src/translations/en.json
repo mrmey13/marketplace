@@ -195,7 +195,9 @@
             "enter_product_description": "Please enter product description",
             "enter_product_price": "Please enter product price",
             "enter_inventory_count": "Please enter inventory count",
-            "enter_product_weight": "Please enter product weight"
+            "enter_product_weight": "Please enter product weight",
+            "create_product_success": "Create a successful product",
+            "update_product_success": "Update successful product"
         },
         "others": {
             "cover_image": "Cover Image",

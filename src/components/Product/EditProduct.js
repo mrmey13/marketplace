@@ -206,6 +206,10 @@ const EditProduct = (props) => {
     addImages();
     editAttribute();
     createCustomAttributeProduct();
+    handleOpenMessage("success", t("product_config.message.update_product_success"));
+    setTimeout(() => {
+      props.history.push("/seller-product-list/all");
+    }, 2000);
   }
 
   const editBasicInformation = async () => {
@@ -231,7 +235,7 @@ const EditProduct = (props) => {
           isNewProduct: form.isNewProduct,
         }
       })
-      console.log("basicInf", response.data)
+      // console.log("basicInf", response.data)
     } catch (error) {
       console.log(error);
     }
@@ -262,14 +266,6 @@ const EditProduct = (props) => {
   }
 
   const changeCoverImage = async () => {
-    if (!imgData.coverImg.path) {
-      console.log("CoverImages ?");
-      return;
-    }
-    if (imgData.coverImg.file === null) {
-      console.log("No Change");
-      return;
-    }
     const formData = new FormData();
     formData.append('file', imgData.coverImg.file);
     formData.append('productId', productId);
@@ -282,7 +278,7 @@ const EditProduct = (props) => {
         },
         data: formData,
       })
-      console.log("changeCoverImage", response.data)
+      // console.log("changeCoverImage", response.data)
     } catch (error) {
       console.log(error);
     }
@@ -301,7 +297,7 @@ const EditProduct = (props) => {
           imageIdList: imgData.delImgsId
         }
       });
-      console.log("delImg", response.data);
+      // console.log("delImg", response.data);
     } catch (error) {
       console.log(error)
     }
@@ -320,7 +316,7 @@ const EditProduct = (props) => {
         },
         data: formData,
       })
-      console.log("addImages", response.data)
+      // console.log("addImages", response.data)
     } catch (error) {
       console.log(error)
     }
@@ -359,7 +355,7 @@ const EditProduct = (props) => {
           productAttributes: getArrayAttribute(),
         }
       });
-      console.log("edit", response.data)
+      // console.log("edit", response.data)
     } catch (error) {
       console.log(error)
     }
@@ -383,7 +379,7 @@ const EditProduct = (props) => {
         }
       }
     }
-    console.log("custom-value", resultArr);
+    // console.log("custom-value", resultArr);
     return resultArr;
   }
 
@@ -401,7 +397,7 @@ const EditProduct = (props) => {
           customAttributes: getArrayCustomAttribute()
         }
       });
-      console.log("custom-attr-value", response.data)
+      // console.log("custom-attr-value", response.data)
     } catch (error) {
       console.log(error);
     }
@@ -455,7 +451,7 @@ const EditProduct = (props) => {
         Authorization: localStorage.getItem(cs.System_Code + "-token")
       }
     });
-    console.log("data", response.data.data);
+    // console.log("data", response.data.data);
     let data = response.data.data;
 
     let tmp = { ...form };

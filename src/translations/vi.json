@@ -195,7 +195,9 @@
             "enter_product_description": "Vui lòng nhập mô tả sản phẩm",
             "enter_product_price": "Vui lòng nhập giá sản phẩm",
             "enter_inventory_count": "Vui lòng nhập số lượng sản phẩm",
-            "enter_product_weight": "Vui lòng nhập khối lượng sản phẩm"
+            "enter_product_weight": "Vui lòng nhập khối lượng sản phẩm",
+            "create_product_success": "Tạo sản phẩm thành công",
+            "update_product_success": "Cập nhật sản phẩm thành công"
         },
         "others": {
             "cover_image": "Ảnh bìa",

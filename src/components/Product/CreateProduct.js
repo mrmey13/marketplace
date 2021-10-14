@@ -19,7 +19,7 @@ export const LIMIT_IMAGE_UPLOAD = 9;
 
 const createVariationURL = cs.BaseURL + "/api/seller/product/variation/create";
 const createProductUrl = cs.BaseURL + "/api/seller/product/create";
-const createCoverImageUrl = cs.BaseURL + "/api/seller/product/image/upload";
+const createCoverImageUrl = cs.BaseURL + "/api/seller/product/cover-image/upload";
 const createImagesUrl = cs.BaseURL + "/api/seller/product/image/upload";
 const createAttributeUrl = cs.BaseURL + "/api/seller/product/attribute/create";
 const createCustomAttributeUrl = cs.BaseURL + "/api/seller/product/attribute-custom/create";

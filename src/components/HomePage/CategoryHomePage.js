@@ -115,7 +115,7 @@ function CategoryHomePage() {
                 >
                   <img
                     className="homepage-category-image"
-                    src="https://cdn-icons-png.flaticon.com/512/2586/2586488.png"
+                    src={`${cs.MediaURL}/media/category_img/${JSON.parse(data.displayImagePath)[0]}.png`}
                     alt=""
                     style={{
                       width: "60px",

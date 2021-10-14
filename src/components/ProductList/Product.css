@@ -43,7 +43,7 @@ html {
   }
   .card-course {
     position: relative;
-    border-radius: 10px;
+    border-radius: 5px;
     overflow: hidden;
     background-color: white;
     box-shadow: rgba(31, 31, 32, 0.2) 0px 7px 29px 0px;
@@ -55,7 +55,7 @@ html {
   }
   .card-course:hover {
     position: relative;
-    border-radius: 10px;
+    border-radius: 5px;
     overflow: hidden;
     background-color: white;
     box-shadow: rgba(31, 31, 32, 0.2) 0px 7px 29px 0px;

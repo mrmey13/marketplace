@@ -1,59 +1,64 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Pagination.css";
-const Pagination = ({
-  postsPerPage,
-  totalPosts,
-  paginate,
-  currentPage,
-  isDark,
-  // clicked,
-}) => {
-  const pageNumbers = [];
 
-  for (let i = 1; i <= Math.ceil(totalPosts / postsPerPage); i++) {
+const Pagination = ({ ItemsPerPage, totalItems, currentPage, setCurrentPage }) => {
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(totalItems / ItemsPerPage); i++) {
     pageNumbers.push(i);
   }
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    // console.log(currentPage);
+  };
   return (
-    <nav>
-      <ul className="pagination">
-        {/* <li className="page-item" style={{ margin: "2px" }}>
-          <a onClick={() => paginate(1)} href="#" className="page-link">
-            <ion-icon name="play-back-outline"></ion-icon>
-          </a>
-        </li> */}
-        {pageNumbers.map((number) => (
-          <li
-            // style={
-            //   clicked == "true"
-            //     ? { backgroundColor: "silver" }
-            //     : { backgroundColor: "white" }
-            // }
-            key={number}
-            className={
-              currentPage === number ? "page-item active" : "page-item"
-            }
-          >
-            <a
-              style={isDark === "true" ? { backgroundColor: "#685F5F" } : null}
-              onClick={() => paginate(number)}
-              href="#"
-              className="page-link"
+    totalItems > 0 && (
+      <nav aria-label="Pagination">
+        <ul className="pagination">
+          <li className="page-item">
+            <button
+              className="btn page-link"
+              onClick={() => paginate(1)}
+              aria-label="Previous"
+              disabled={currentPage == 1}
             >
-              {number}
-            </a>
+              <span aria-hidden="true">«</span>
+            </button>
           </li>
-        ))}
-        {/* <li className="page-item" style={{ margin: "2px" }}>
-          <a
-            onClick={() => paginate(pageNumbers.length)}
-            href="#"
-            className="page-link"
+          {pageNumbers.map(
+            (number) =>
+              currentPage > number - 2 &&
+              currentPage < number + 2 && (
+                <li key={number} className="page-item">
+                  <a
+                    onClick={() => paginate(number)}
+                    className={
+                      currentPage === number
+                        ? "page-link selected"
+                        : "page-link"
+                    }
+                  >
+                    {number}
+                  </a>
+                </li>
+              )
+          )}
+          <li
+            className="page-item"
+            key={Math.ceil(totalItems / ItemsPerPage)}
           >
-            <ion-icon name="play-forward-outline"></ion-icon>
-          </a>
-        </li> */}
-      </ul>
-    </nav>
+            <button
+              className="btn page-link"
+              onClick={() => paginate(Math.ceil(totalItems / ItemsPerPage))}
+              aria-label="Next"
+              disabled={currentPage == Math.ceil(totalItems / ItemsPerPage)}
+            >
+              <span aria-hidden="true">»</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    )
   );
 };
 

@@ -2,34 +2,42 @@ import React, { useState, useEffect } from "react";
 import Product from "../ProductList/Product";
 import axios from "axios";
 import cs from "../../const";
-const URL = cs.BaseURL + "/api/buyer/product/list";
+import Pagination from "../shared/Pagination";
+import Pagin from "../shared/Pagin";
+
+const loadProductListUrl = cs.BaseURL + "/api/buyer/product/list";
+
 function ProductListHomePage() {
+
+  const ITEMS_PER_PAGE = 30;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+
   const [listType, setListType] = useState(1);
   const [productList, setProductList] = useState([]);
+
   const loadProductList = async (conditions) => {
     const response = await axios({
       method: "post",
-      url: `${URL}`,
+      url: `${loadProductListUrl}`,
       //   headers: {
       //     Authorization: localStorage.getItem(cs.System_Code + "-token"),
       //   },
       data: {
         //categoryLevel1Id: 100017,
-        page: 0,
-        size: 96,
+        page: currentPage,
+        size: ITEMS_PER_PAGE,
       },
     });
-    if (
-      response.data.error_desc === "Success" &&
-      response.data.data.length !== 0
-    ) {
-      setProductList(response.data.data);
-      console.log("res", response.data.data);
-    }
+    setProductList(response.data.data);
+    setTotalItems(response.data.total_count);
+    console.log("res", response.data);
   };
+
   useEffect(() => {
     loadProductList();
-  }, []);
+  }, [currentPage]);
+
   return (
     <div
       className="container homepage-product-list-container"
@@ -80,6 +88,15 @@ function ProductListHomePage() {
             <Product useFor="buyer" data={item} />
           ))}
         </div>
+        <div className="d-flex justify-content-end">
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            ItemsPerPage={ITEMS_PER_PAGE}
+            totalItems={totalItems}
+          />
+        </div>
+
       </div>
     </div>
   );

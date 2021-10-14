@@ -85,7 +85,9 @@ function ProductListHomePage() {
           style={{ minWidth: "1320px" }}
         >
           {productList.map((item) => (
-            <Product useFor="buyer" data={item} />
+            <div className="col-2 p-0">
+              <Product useFor="buyer" data={item} />
+            </div>
           ))}
         </div>
         <div className="d-flex justify-content-end">

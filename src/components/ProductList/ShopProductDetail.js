@@ -5,10 +5,14 @@ import Color from "../../theme/color";
 import "./Product.css";
 import Product from "./Product";
 import { useParams } from "react-router-dom";
+
 const URL = cs.BaseURL + "/api/seller/shop/detail";
 const Seller_product_detail = cs.BaseURL + "/api/seller/product/detail";
 const Buyer_product_detail = cs.BaseURL + "/api/buyer/product/detail";
+const loadProductListUrl = cs.BaseURL + "/api/buyer/product/list";
 const mediaURL = cs.MediaURL + "/media/";
+
+
 function ShopProductDetail() {
   const { productId } = useParams();
   // console.log("productId", productId);
@@ -90,10 +94,28 @@ function ShopProductDetail() {
       // setProductImage([...productImage, { path: introImage, id: 0 }]);
     }
   };
+
+  const [productList, setProductList] = useState([]);
+
+  const loadProductList = async (conditions) => {
+    const response = await axios({
+      method: "post",
+      url: `${loadProductListUrl}`,
+      data: {
+        page: 1,
+        size: 10,
+      },
+    });
+    setProductList(response.data.data);
+    console.log("res", response.data);
+  };
+
   useEffect(() => {
     loadProductDetail();
     loadShopDetail();
+    loadProductList();
   }, []);
+
   console.log("introimage", introImage);
   console.log("intro", productImage);
   const QuantityFunctionSub = () => {
@@ -112,7 +134,6 @@ function ShopProductDetail() {
     }
   }
 
-  const List = [1, 2, 3, 4, 5];
   return (
     <div className="product-detail-container container">
       <div
@@ -183,7 +204,7 @@ function ShopProductDetail() {
                   onClick={() => {
                     if (curPage > 1) setCurPage(curPage - 1);
                   }}
-                  // style={{ position: "absolute", zIndex: 1 }}
+                // style={{ position: "absolute", zIndex: 1 }}
                 >
                   <ion-icon name="chevron-back-outline"></ion-icon>
                 </button>
@@ -198,15 +219,15 @@ function ShopProductDetail() {
                   style={
                     imageTab === 0
                       ? {
-                          width: "87px",
-                          height: "80px",
-                          border: "1px solid" + Color.tanhide,
-                        }
+                        width: "87px",
+                        height: "80px",
+                        border: "1px solid" + Color.tanhide,
+                      }
                       : {
-                          width: "87px",
-                          height: "80px",
-                          border: "1px solid silver",
-                        }
+                        width: "87px",
+                        height: "80px",
+                        border: "1px solid silver",
+                      }
                   }
                 />
                 {curPosts.map((item, index) => (
@@ -222,15 +243,15 @@ function ShopProductDetail() {
                     style={
                       imageTab === item.id
                         ? {
-                            width: "87px",
-                            height: "80px",
-                            border: "1px solid" + Color.tanhide,
-                          }
+                          width: "87px",
+                          height: "80px",
+                          border: "1px solid" + Color.tanhide,
+                        }
                         : {
-                            width: "87px",
-                            height: "80px",
-                            border: "1px solid silver",
-                          }
+                          width: "87px",
+                          height: "80px",
+                          border: "1px solid silver",
+                        }
                     }
                   />
                 ))}
@@ -247,87 +268,11 @@ function ShopProductDetail() {
                   if (curPage < Math.ceil(productImage.length / imagesPerPage))
                     setCurPage(curPage + 1);
                 }}
-                // style={{ position: "absolute", zIndex: 1, left: "477px" }}
+              // style={{ position: "absolute", zIndex: 1, left: "477px" }}
               >
                 <ion-icon name="chevron-forward-outline"></ion-icon>
               </button>
 
-              {/* <img
-                onMouseOver={() => {
-                  setImageTab(2);
-                  setIntroImage(
-                    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80"
-                  );
-                }}
-                src="https://images.unsplash.com/photo-1521093470119-a3acdc43374a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80"
-                alt=""
-                style={
-                  imageTab == 2
-                    ? {
-                        width: "20%",
-                        height: "80px",
-                        border: "1px solid" + Color.tanhide,
-                      }
-                    : { width: "20%", height: "80px" }
-                }
-              />
-              <img
-                onMouseOver={() => {
-                  setImageTab(3);
-                  setIntroImage(
-                    "https://images.unsplash.com/photo-1521093470119-a3acdc43374a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80"
-                  );
-                }}
-                src="https://images.unsplash.com/photo-1521093470119-a3acdc43374a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80"
-                alt=""
-                style={
-                  imageTab == 3
-                    ? {
-                        width: "20%",
-                        height: "80px",
-                        border: "1px solid" + Color.tanhide,
-                      }
-                    : { width: "20%", height: "80px" }
-                }
-              />
-              <img
-                onMouseOver={() => {
-                  setImageTab(4);
-                  setIntroImage(
-                    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80"
-                  );
-                }}
-                src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80"
-                alt=""
-                style={
-                  imageTab == 4
-                    ? {
-                        width: "20%",
-                        height: "80px",
-                        border: "1px solid" + Color.tanhide,
-                      }
-                    : { width: "20%", height: "80px" }
-                }
-              />
-              <img
-                onMouseOver={() => {
-                  setImageTab(5);
-                  setIntroImage(
-                    "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1170&q=80"
-                  );
-                }}
-                src="https://images.unsplash.com/photo-1521093470119-a3acdc43374a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=387&q=80"
-                alt=""
-                style={
-                  imageTab == 5
-                    ? {
-                        width: "20%",
-                        height: "80px",
-                        border: "1px solid" + Color.tanhide,
-                      }
-                    : { width: "20%", height: "80px" }
-                }
-              /> */}
             </div>
             <div className="row share-product-detail-intro d-flex justify-content-center">
               <div style={{ width: "fit-content", paddingTop: "10px" }}>
@@ -461,7 +406,7 @@ function ShopProductDetail() {
                         ChooseOption(e);
                       }}
                       value={option.optionValue}
-                      // style={{ backgroundColor: Color.tanhide }}
+                    // style={{ backgroundColor: Color.tanhide }}
                     />
                   ))}
                 </div>
@@ -665,10 +610,10 @@ function ShopProductDetail() {
               <b style={{ color: "black" }}>
                 {shopDetail.createdTime &&
                   shopDetail.createdTime.slice(8, 10) +
-                    " - " +
-                    shopDetail.createdTime.slice(4, 7) +
-                    " - " +
-                    shopDetail.createdTime.slice(23, 28)}
+                  " - " +
+                  shopDetail.createdTime.slice(4, 7) +
+                  " - " +
+                  shopDetail.createdTime.slice(23, 28)}
               </b>
             </div>
           </div>
@@ -682,160 +627,156 @@ function ShopProductDetail() {
         class="scrollspy-example"
         tabindex="0"
       >
-        <div className="row product-detail-row mt-3 ms-1">
-          <div className="col-10 g-0">
-            <div className="card product-detail-product-detail-card p-5">
-              <h5 className="card-product-detail-title">Chi Tiết Sản Phẩm</h5>
-              <div className="p-2 d-flex flex-row path-link">
-                <a style={{ marginRight: "10px" }}>Danh Mục: </a>
-                {"  "}
-                <a style={{ color: Color.tanhide }} href="/">
-                  SalePlus
-                </a>
-                <div className="px-2">
-                  <ion-icon name="chevron-forward-outline"></ion-icon>
-                </div>
-                <a>{productDetail.categoryLevel1VieName}</a>
-                <div className="px-2">
-                  <ion-icon name="chevron-forward-outline"></ion-icon>
-                </div>
-                <a>{productDetail.categoryLevel2VieName}</a>
-                <div className="px-2 ">
-                  <ion-icon name="chevron-forward-outline"></ion-icon>
-                </div>
-                <a>{productDetail.categoryLevel3VieName}</a>
-                {productDetail.categoryLevel4VieName != "" && (
-                  <div className="px-2">
-                    <ion-icon name="chevron-forward-outline"></ion-icon>
-                  </div>
-                )}
-                <a>{productDetail.categoryLevel4VieName}</a>
-                {productDetail.categoryLevel4VieName != "" && (
-                  <div className="px-2">
-                    <ion-icon name="chevron-forward-outline"></ion-icon>
-                  </div>
-                )}
-                <a>{productDetail.categoryLevel5VieName}</a>
-              </div>
-              <div className="p-2">Kho Hàng:</div>
-              <div className="p-2">
-                Kích Thước(cm): {productDetail.height} X {productDetail.width} X{" "}
-                {productDetail.depth}
-              </div>
-              <div className="p-2">
-                Tình Trạng: {productDetail.isNewProduct == 1 ? "Mới" : "Cũ"}
-              </div>
-              <div className="p-2">
-                Cho Đặt Trước:{" "}
-                {productDetail.isPreorderedProduct == 1 ? "Có" : "Không"}
-              </div>
-              <div className="p-2">Gửi Từ:</div>
+        <div className="card product-detail-product-detail-card p-5 mt-3">
+          <h5 className="card-product-detail-title">Chi Tiết Sản Phẩm</h5>
+          <div className="p-2 d-flex flex-row path-link">
+            <a style={{ marginRight: "10px" }}>Danh Mục: </a>
+            {"  "}
+            <a style={{ color: Color.tanhide }} href="/">
+              SalePlus
+            </a>
+            <div className="px-2">
+              <ion-icon name="chevron-forward-outline"></ion-icon>
             </div>
-            <div className="card product-detail-description-card p-5 mt-3">
-              <h5 className="card-product-detail-title">Mô Tả Sản Phẩm</h5>
-              <div className="p-2">{productDetail.productDescription}</div>
+            <a>{productDetail.categoryLevel1VieName}</a>
+            <div className="px-2">
+              <ion-icon name="chevron-forward-outline"></ion-icon>
             </div>
-            <div
-              className="card product-detail-rate-card p-5 mt-3"
-              id="scrollspyHeading1"
-            >
-              <h5 className="card-product-detail-title">ĐÁNH GIÁ SẢN PHẨM</h5>
-              <div className="row product-detail-rate-row">
-                <div className="col-4"> ĐÁNH GIÁ SẢN PHẨM : TRÊN 5 SAO</div>
-                <div className="col-8">
-                  <button
-                    className={
-                      buttonRateState === "all"
-                        ? "sort-rate-button rate-active"
-                        : "sort-rate-button"
-                    }
-                    onClick={() => setButtonRateState("all")}
-                  >
-                    Tất Cả
-                  </button>
-                  <button
-                    className={
-                      buttonRateState === "5star"
-                        ? "sort-rate-button rate-active"
-                        : "sort-rate-button"
-                    }
-                    onClick={() => setButtonRateState("5star")}
-                  >
-                    5 Sao
-                  </button>
-                  <button
-                    className={
-                      buttonRateState === "4star"
-                        ? "sort-rate-button rate-active"
-                        : "sort-rate-button"
-                    }
-                    onClick={() => setButtonRateState("4star")}
-                  >
-                    4 Sao
-                  </button>
-                  <button
-                    className={
-                      buttonRateState === "3star"
-                        ? "sort-rate-button rate-active"
-                        : "sort-rate-button"
-                    }
-                    onClick={() => setButtonRateState("3star")}
-                  >
-                    3 Sao
-                  </button>
-                  <button
-                    className={
-                      buttonRateState === "2star"
-                        ? "sort-rate-button rate-active"
-                        : "sort-rate-button"
-                    }
-                    onClick={() => setButtonRateState("2star")}
-                  >
-                    2 Sao
-                  </button>
-                  <button
-                    className={
-                      buttonRateState === "1star"
-                        ? "sort-rate-button rate-active"
-                        : "sort-rate-button"
-                    }
-                    onClick={() => setButtonRateState("1star")}
-                  >
-                    1 Sao
-                  </button>
-                  <button
-                    className={
-                      buttonRateState === "hascmt"
-                        ? "sort-rate-button rate-active"
-                        : "sort-rate-button"
-                    }
-                    onClick={() => setButtonRateState("hascmt")}
-                  >
-                    Có Bình Luận
-                  </button>
-                  <button
-                    className={
-                      buttonRateState === "hasimg"
-                        ? "sort-rate-button rate-active"
-                        : "sort-rate-button"
-                    }
-                    onClick={() => setButtonRateState("hasimg")}
-                  >
-                    Có Hình Ảnh/ Video
-                  </button>
-                </div>
+            <a>{productDetail.categoryLevel2VieName}</a>
+            <div className="px-2 ">
+              <ion-icon name="chevron-forward-outline"></ion-icon>
+            </div>
+            <a>{productDetail.categoryLevel3VieName}</a>
+            {productDetail.categoryLevel4VieName != "" && (
+              <div className="px-2">
+                <ion-icon name="chevron-forward-outline"></ion-icon>
               </div>
+            )}
+            <a>{productDetail.categoryLevel4VieName}</a>
+            {productDetail.categoryLevel4VieName != "" && (
+              <div className="px-2">
+                <ion-icon name="chevron-forward-outline"></ion-icon>
+              </div>
+            )}
+            <a>{productDetail.categoryLevel5VieName}</a>
+          </div>
+          <div className="p-2">Kho Hàng:</div>
+          <div className="p-2">
+            Kích Thước(cm): {productDetail.height} X {productDetail.width} X{" "}
+            {productDetail.depth}
+          </div>
+          <div className="p-2">
+            Tình Trạng: {productDetail.isNewProduct == 1 ? "Mới" : "Cũ"}
+          </div>
+          <div className="p-2">
+            Cho Đặt Trước:{" "}
+            {productDetail.isPreorderedProduct == 1 ? "Có" : "Không"}
+          </div>
+          <div className="p-2">Gửi Từ:</div>
+        </div>
+        <div className="card product-detail-description-card p-5 mt-3">
+          <h5 className="card-product-detail-title">Mô Tả Sản Phẩm</h5>
+          <div className="p-2">{productDetail.productDescription}</div>
+        </div>
+        <div
+          className="card product-detail-rate-card p-5 mt-3"
+          id="scrollspyHeading1"
+        >
+          <h5 className="card-product-detail-title">ĐÁNH GIÁ SẢN PHẨM</h5>
+          <div className="row product-detail-rate-row">
+            <div className="col-4"> ĐÁNH GIÁ SẢN PHẨM : TRÊN 5 SAO</div>
+            <div className="col-8">
+              <button
+                className={
+                  buttonRateState === "all"
+                    ? "sort-rate-button rate-active"
+                    : "sort-rate-button"
+                }
+                onClick={() => setButtonRateState("all")}
+              >
+                Tất Cả
+              </button>
+              <button
+                className={
+                  buttonRateState === "5star"
+                    ? "sort-rate-button rate-active"
+                    : "sort-rate-button"
+                }
+                onClick={() => setButtonRateState("5star")}
+              >
+                5 Sao
+              </button>
+              <button
+                className={
+                  buttonRateState === "4star"
+                    ? "sort-rate-button rate-active"
+                    : "sort-rate-button"
+                }
+                onClick={() => setButtonRateState("4star")}
+              >
+                4 Sao
+              </button>
+              <button
+                className={
+                  buttonRateState === "3star"
+                    ? "sort-rate-button rate-active"
+                    : "sort-rate-button"
+                }
+                onClick={() => setButtonRateState("3star")}
+              >
+                3 Sao
+              </button>
+              <button
+                className={
+                  buttonRateState === "2star"
+                    ? "sort-rate-button rate-active"
+                    : "sort-rate-button"
+                }
+                onClick={() => setButtonRateState("2star")}
+              >
+                2 Sao
+              </button>
+              <button
+                className={
+                  buttonRateState === "1star"
+                    ? "sort-rate-button rate-active"
+                    : "sort-rate-button"
+                }
+                onClick={() => setButtonRateState("1star")}
+              >
+                1 Sao
+              </button>
+              <button
+                className={
+                  buttonRateState === "hascmt"
+                    ? "sort-rate-button rate-active"
+                    : "sort-rate-button"
+                }
+                onClick={() => setButtonRateState("hascmt")}
+              >
+                Có Bình Luận
+              </button>
+              <button
+                className={
+                  buttonRateState === "hasimg"
+                    ? "sort-rate-button rate-active"
+                    : "sort-rate-button"
+                }
+                onClick={() => setButtonRateState("hasimg")}
+              >
+                Có Hình Ảnh/ Video
+              </button>
             </div>
           </div>
-          <div className="col-2">
-            <div className="card product-detail-best-seller-card px-3">
-              <h6 className="card-product-detail-title">
-                Top Sản Phẩm Bán Chạy
-              </h6>
-              {List.map((item) => (
-                <Product useFor="bestseller" data={item} />
-              ))}
-            </div>
+        </div>
+        <div className="card product-detail-description-card p-5 mt-3">
+          <h5 className="card-product-detail-title">sản phẩm của shop</h5>
+          <div className="row p-1">
+            {productList.map((item) => {
+              return <div className="col p-0" style={{ width: "20%" }}>
+                <Product useFor="buyer" data={item} />
+              </div>
+            })}
           </div>
         </div>
       </div>

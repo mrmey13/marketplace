@@ -10,64 +10,57 @@ function Product({ data, useFor }) {
   let fakeRating = Math.floor(Math.random() * 50) / 10;
   return (
     <div
-      className="col-2 p-0"
+      className="card-course"
+      style={{ margin: "5px" }}
     >
-      <div
-        className="card-course"
-        style={
-          useFor === "seller" || useFor === "buyer"
-            ? { marginRight: "10px" }
-            : null
+      <Link
+        className="h5 text-dark fw-bold text-decoration-none stretched-link"
+        to={
+          useFor === "seller"
+            ? "/seller" + "/product_detail/" + data.productId
+            : "/product_detail/" + data.productId
         }
-      >
-        <Link
-          className="h5 text-dark fw-bold text-decoration-none stretched-link"
-          to={
-            useFor === "seller"
-              ? "/seller" + "/product_detail/" + data.productId
-              : "/product_detail/" + data.productId
-          }
-        ></Link>
+      ></Link>
 
-        <img
-          src={`${cs.MediaURL}/media/${data.productImageCover}`}
-          className="card-img-top"
-          alt=""
-        />
-        <div className="card-body">
-          <div className="card-content">
-            <div className="card-top">
-              <h6
-                className="card-title card-product-name"
-                style={{ fontSize: "14px", textTransform: "capitalize" }}
-              >
-                {data.productName}
-              </h6>
-              <div className="card-time"></div>
-            </div>
-            <div className="card-price d-flex">
-              <div className="product-price d-flex">
-                <div className="disc-price">
-                  <h6
+      <img
+        src={`${cs.MediaURL}/media/${data.productImageCover}`}
+        className="card-img-top"
+        alt=""
+      />
+      <div className="card-body">
+        <div className="card-content">
+          <div className="card-top">
+            <h6
+              className="card-title card-product-name"
+              style={{ fontSize: "14px", textTransform: "capitalize" }}
+            >
+              {data.productName}
+            </h6>
+            <div className="card-time"></div>
+          </div>
+          <div className="card-price d-flex">
+            <div className="product-price d-flex">
+              <div className="disc-price">
+                <h6
+                  style={{
+                    color: "#F26A0D",
+                    width: "fit-content",
+                    marginRight: "5px",
+                  }}
+                >
+                  {data.price}
+                  <sub
                     style={{
-                      color: "#F26A0D",
                       width: "fit-content",
-                      marginRight: "5px",
+                      marginLeft: "5px",
+                      color: "black",
                     }}
                   >
-                    {data.price}
-                    <sub
-                      style={{
-                        width: "fit-content",
-                        marginLeft: "5px",
-                        color: "black",
-                      }}
-                    >
-                      <u>đ</u>
-                    </sub>
-                  </h6>
-                </div>
-                {/* <div className="price ">
+                    <u>đ</u>
+                  </sub>
+                </h6>
+              </div>
+              {/* <div className="price ">
                   <del
                     style={{
                       fontSize: "14px",
@@ -88,18 +81,17 @@ function Product({ data, useFor }) {
                     </sub>
                   </del>
                 </div> */}
-              </div>
-              <img
-                className="free-ship-img"
-                src="https://cdn-icons-png.flaticon.com/512/3306/3306060.png"
-                alt="free ship"
-              />
             </div>
-            <div className="card-bottom px-0">
-              <ReactStars isHalf={true} value={fakeRating} />
-              <div className="card-watching text-align-end">
-                -Địa chỉ Shop-
-              </div>
+            <img
+              className="free-ship-img"
+              src="https://cdn-icons-png.flaticon.com/512/3306/3306060.png"
+              alt="free ship"
+            />
+          </div>
+          <div className="card-bottom px-0">
+            <ReactStars isHalf={true} value={fakeRating} />
+            <div className="card-watching text-align-end">
+              -Địa chỉ Shop-
             </div>
           </div>
         </div>

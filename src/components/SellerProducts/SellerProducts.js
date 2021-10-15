@@ -108,10 +108,10 @@ class SellerProducts extends Component {
             selection: [],
             tableColumnExtensions: [
                 { columnName: 'productName', align: 'center', width: 200 },
-                { columnName: 'variationSKU', align: 'center', width: 200 },
-                { columnName: 'variationName', align: 'center', width: 200 },
-                { columnName: 'price', align: 'center', width: 200 },
-                { columnName: 'stock', align: 'center', width: 200 },
+                { columnName: 'variationSKU', align: 'center', width: 160 },
+                { columnName: 'variationName', align: 'center', width: 160 },
+                { columnName: 'price', align: 'center', width: 120 },
+                { columnName: 'stock', align: 'center', width: 120 },
                 { columnName: 'sales', align: 'center', width: 150 },
                 { columnName: 'productStatusId', align: 'center', width: 150 },
                 { columnName: 'totalNumberOfQuestions', align: 'center', width: 250 },
@@ -167,7 +167,7 @@ class SellerProducts extends Component {
             .then((response) => response.json())
             .then((data) => {
 
-                console.log(data.data);
+                console.log("status", data.data);
                 if (data && data.data) {
                     this.setState({
                         statusList: data.data
@@ -216,9 +216,6 @@ class SellerProducts extends Component {
             case 'soldout':
                 productStatus = 20;
                 break;
-            // case 'new':
-            //     productStatus = 1;
-            //     break;
             default:
                 break;
         }
@@ -228,12 +225,6 @@ class SellerProducts extends Component {
             queryString += `&status=${productStatus}`;
         }
         const columnSorting = sorting[0];
-        // if (columnSorting) {
-        //     queryString = `${queryString}&orderby=${columnSorting.columnName}`;
-
-        //     if (columnSorting.direction === 'desc') queryString = `${queryString}&asc=false`;
-        //     else queryString = `${queryString}&asc=true`;
-        // }
         return queryString;
     }
 
@@ -251,7 +242,7 @@ class SellerProducts extends Component {
             .then((response) => response.json())
             .then((data) => {
 
-                console.log(data.data);
+                console.log("data", data.data);
                 if (data && data.data) {
                     this.setState({
                         rows: data.data,
@@ -337,39 +328,6 @@ class SellerProducts extends Component {
                         >
                             {t("all_products.tabs.all")}
                         </Button>
-                        {/* <Button
-                                className={this.state.currentTab === 'new' ? classes.tabBtnSelected : classes.tabBtn}
-
-                                variant={"contained"}
-                                // component={Link} to="/product/new"
-                                onClick={() => { window.location.href = "/seller-product-list/new"; }}
-                            >
-                                {t("all_products.tabs.new")}
-                            </Button>
-                            <Button
-                                className={this.state.currentTab === 'justChanged' ? classes.tabBtnSelected : classes.tabBtn}
-
-                                variant={"contained"}
-                                onClick={() => { window.location.href = "/seller-product-list/justChanged"; }}
-                            >
-                                {t("all_products.tabs.justChanged")}
-                            </Button> */}
-                        {/* <Button
-                                className={this.state.currentTab === 'deleted' ? classes.tabBtnSelected : classes.tabBtn}
-
-                                variant={"contained"}
-                                onClick={() => { window.location.href = "/seller-product-list/deleted"; }}
-                            >
-                                {t("all_products.tabs.deleted")}
-                            </Button> */}
-                        {/* <Button
-                                className={this.state.currentTab === 'contraband' ? classes.tabBtnSelected : classes.tabBtn}
-
-                                variant={"contained"}
-                                onClick={() => { window.location.href = "/seller-product-list/contraband"; }}
-                            >
-                                {t("all_products.tabs.contraband")}
-                            </Button> */}
                         <Button
                             className={this.state.currentTab === 'violatesRules' ? classes.tabBtnSelected : classes.tabBtn}
 
@@ -393,42 +351,6 @@ class SellerProducts extends Component {
                         >
                             {t("all_products.tabs.soldout")}
                         </Button>
-                        {/* <Button
-                                className={this.state.currentTab === 'notAccepted' ? classes.tabBtnSelected : classes.tabBtn}
-
-                                variant={"contained"}
-                                onClick={() => { window.location.href = "/seller-product-list/notAccepted"; }}
-                            >
-                                {t("all_products.tabs.notAccepted")}
-                            </Button> */}
-                        {/* <Button
-                                className={this.state.currentTab === 'active' ? classes.tabBtnSelected : classes.tabBtn}
-                                // component={Link} to="/product/active"
-                                onClick={() => { window.location.href = "/seller-product-list/active"; }}
-                            >
-                                Đang hoạt động
-                            </Button>
-                            <Button
-                                className={this.state.currentTab === 'soldout' ? classes.tabBtnSelected : classes.tabBtn}
-                                // component={Link} to="/product/soldout"
-                                onClick={() => { window.location.href = "/seller-product-list/soldout"; }}
-                            >
-                                Hết hàng
-                            </Button>
-                            <Button
-                                className={this.state.currentTab === 'banned' ? classes.tabBtnSelected : classes.tabBtn}
-                                // component={Link} to="/product/banned"
-                                onClick={() => { window.location.href = "/seller-product-list/banned"; }}
-                            >
-                                Vi phạm
-                            </Button>
-                            <Button
-                                className={this.state.currentTab === 'unlisted' ? classes.tabBtnSelected : classes.tabBtn}
-                                // component={Link} to="/product/unlisted"
-                                onClick={() => { window.location.href = "/seller-product-list/unlisted"; }}
-                            >
-                                Đã ẩn
-                            </Button> */}
                     </div>
 
 
@@ -458,24 +380,6 @@ class SellerProducts extends Component {
     }
 }
 
-// const CellComponent = props => {
-//     const { column } = props;
-//     if (column.name === 'action') {
-//         return <ActionCell {...props} />;
-//     }
-
-//     return (
-//         <Table.Cell
-//             {...props}
-//             style={{
-//                 padding: 2,
-//                 color: '#81557a',
-//                 fontSize: '12px'
-//             }}
-//         />
-//     );
-// };
-
 class CellComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -502,7 +406,6 @@ class CellComponent extends React.Component {
 
 class ActionCell extends React.Component {
     static contextType = TabHoldContext;
-
     render() {
         return (
             <Table.Cell style={{
@@ -528,45 +431,6 @@ class ActionCell extends React.Component {
                             <Icon>edit</Icon>
                         </Button>
                     </Tooltip>
-
-
-
-                    {/* <Tooltip title="Change question">
-                        <Button
-                            color="primary"
-                            style={{
-                                margin: 0,
-                                padding: 0
-                            }}
-                            component={Link}
-                            to={{
-                                pathname: `/course_exams/${this.props.row.courseId}/customize/${this.props.row.testOrderNumber}`,
-                                state: { previous: `/course_exams/${this.props.row.courseId}` }
-                            }}
-                            onClick={() => {
-                                console.log(this.props.row);
-                            }}
-                        >
-                            <Icon>edit</Icon>
-                        </Button>
-                    </Tooltip>
-
-
-                    <Button
-                        color="secondary"
-                        style={{
-                            margin: 0,
-                            padding: 0
-                        }}
-                        component={Link}
-                        to={{
-                            pathname: `/seller-product-list/${this.props.row.courseId}/delete/${this.props.row.testOrderNumber}`,
-                            state: { previous: `/course_exams/${this.props.row.courseId}` }
-                        }}
-                    >
-                        <Icon>remove_circle</Icon>
-                    </Button> */}
-
                 </span>
             </Table.Cell>
         );

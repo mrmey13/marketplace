@@ -31,6 +31,7 @@ import MyAddress from "./MyAccount/MyAddress";
 
 import HomePage from "./HomePage/HomePage";
 import ProductListHomePage from "./HomePage/ProductListHomePage";
+import SellerProduct from "./SellerProducts/SellerProduct"
 import ProductListCategory from "./HomePage/ProductListCategory";
 import EditProduct from "./Product/EditProduct";
 import ShopProductDetail from "./ProductList/ShopProductDetail";
@@ -51,7 +52,7 @@ export class AppRoute extends Component {
     return (
       <ToastProvider autoDismissTimeout={5000} placement="bottom-center">
         <Route exact path="/" component={() => HomePage(t, i18n)} />
-        <Route exact path="/shop" component={() => ShopDashboard(t,i18n)} />
+        <Route exact path="/shop" component={() => ShopDashboard(t, i18n)} />
         <Route exact path="/shop_view" component={() => ShopView(t, i18n)} />
         <Route
           exact
@@ -111,6 +112,12 @@ export class AppRoute extends Component {
           // exact
           path="/seller-product-list/:type"
           component={() => SellerProductsArea(t, i18n)}
+        />
+
+        <Route
+          // exact
+          path="/product/list/:status"
+          component={SellerProduct}
         />
 
         <Route

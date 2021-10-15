@@ -1,0 +1,70 @@
+import React, { useEffect, useState } from "react";
+import { useTranslation, withTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import AllProduct from "./AllProduct";
+
+const SellerProduct = ({ match }) => {
+  const [status, setStatus] = useState(match.params.status);
+  useEffect(() => {
+    setStatus(match.params.status)
+  }, [match.params.status])
+  return <div className="card shadow-sm">
+    <div
+      className="card-header"
+      style={{
+        position: "-webkit-sticky",
+        position: "sticky",
+        zIndex: "2",
+        top: "53px",
+        boxShadow: "0px 1px 3px rgba(0,0,0,0.2)",
+        backgroundColor: "#efefef"
+      }}
+    >
+      <ul className="nav nav-tabs">
+        <li className="nav-item">
+          <Link
+            className={status === "all" ? "nav-link active px-4 text-danger" : "nav-link text-dark px-4"}
+            to="all"
+          >
+            All
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link
+            className={status === "active" ? "nav-link active px-4 text-danger" : "nav-link text-dark px-4"}
+            to="active">
+            Live
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link
+            className={status === "soldout" ? "nav-link active px-4 text-danger" : "nav-link text-dark px-4"}
+            to="soldout">
+            Sold out
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link
+            className={status === "banned" ? "nav-link active px-4 text-danger" : "nav-link text-dark px-4"}
+            to="banned"
+          >
+            Violation
+          </Link>
+        </li>
+        {/* <li className="nav-item">
+          <Link
+            className={status === "denisted" ? "nav-link active px-4 text-danger" : "nav-link text-dark px-4"}
+            to="denisted"
+          >
+            Delisted
+          </Link>
+        </li> */}
+      </ul>
+    </div>
+    <div className="card-body">
+      <AllProduct />
+    </div>
+  </div>
+}
+
+export default withTranslation()(SellerProduct)

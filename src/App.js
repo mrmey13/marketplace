@@ -7,7 +7,7 @@ import Loadable from 'react-loadable';
 import Home from './components/Home';
 import { MyThemeProvider } from './components/contexts/ThemeContext';
 import { TableSettingProvider } from './components/contexts/TableSettingContext';
-import {Router,Switch,Route} from "react-router-dom";
+import { Router, Switch, Route } from "react-router-dom";
 import HomeShop from './components/HomeShop';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
@@ -47,13 +47,13 @@ function App() {
 	// 	// );
 	// } else 
 	return (
-		
+
 		<MyThemeProvider>
 			<TableSettingProvider>
-				
+
 				<Switch>
 					<Route exact path="/signup" component={SignUp} />
-					<Route exact path="/login"  component={Login} />
+					<Route exact path="/login" component={Login} />
 					<Route exact path="/shop/login" component={LoginShop} />
 					<Route exact path="/" component={Home} />
 					<Route exact path="/shop" component={HomeShop} />
@@ -120,13 +120,19 @@ function App() {
 
 					<Route
 						// exact
+						path="/product/list/:status"
+						component={HomeShop}
+					/>
+
+					<Route
+						// exact
 						path="/product/edit/:productId"
 						component={HomeShop}
 					/>
 
 					<Route exact path="/cart" component={Home} />
 				</Switch>
-				
+
 			</TableSettingProvider>
 		</MyThemeProvider>
 	);

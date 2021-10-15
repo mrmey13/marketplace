@@ -377,18 +377,18 @@ function ProductListCategory() {
           </div>
         </div>
         <div class="col-md-10 col-8">
-          <div className="card sort-card mb-2">
+          <div className="sort-card mb-2 d-flex align-items-center">
             <div className="saleplus-credito sort-card">
               <button
                 className="btn btn-outline-dark btn-sort"
                 style={
                   sortTab == "popular"
                     ? {
-                        width: "fit-content",
-                        backgroundColor: "#F69756",
-                        color: "black",
-                      }
-                    : { width: "fit-content", backgroundColor: "white" }
+                      width: "160px",
+                      backgroundColor: "#F69756",
+                      color: "black",
+                    }
+                    : { width: "160px", backgroundColor: "white" }
                 }
                 onClick={() => setSortTab("popular")}
               >
@@ -399,11 +399,11 @@ function ProductListCategory() {
                 style={
                   sortTab == "newest"
                     ? {
-                        width: "fit-content",
-                        backgroundColor: "#F69756",
-                        color: "black",
-                      }
-                    : { width: "fit-content", backgroundColor: "white" }
+                      width: "160px",
+                      backgroundColor: "#F69756",
+                      color: "black",
+                    }
+                    : { width: "160px", backgroundColor: "white" }
                 }
                 onClick={() => setSortTab("newest")}
               >
@@ -414,42 +414,38 @@ function ProductListCategory() {
                 style={
                   sortTab === "selling"
                     ? {
-                        width: "fit-content",
-                        backgroundColor: "#F69756",
-                        color: "black",
-                      }
-                    : { width: "fit-content", backgroundColor: "white" }
+                      width: "160px",
+                      backgroundColor: "#F69756",
+                      color: "black",
+                    }
+                    : { width: "160px", backgroundColor: "white" }
                 }
                 onClick={() => setSortTab("selling")}
               >
                 Bán Chạy
               </button>
               <select
-                class="form-select select-sort"
+                className="form-select select-sort"
                 aria-label="Default select example"
-                style={{
-                  width: "fit-content",
-                  margin: "5px",
-                }}
               >
                 <option selected>Giá</option>
                 <option value="1">Từ thấp tới cao</option>
                 <option value="2">Từ cao tới thấp</option>
               </select>
             </div>
-            <div className="saleplus-credito pagin-card d-none d-md-flex">
-              <Pagin
-                ItemsPerPage={postsPerPage}
-                paginate={paginate}
-                totalItems={productList.length}
-                currentPage={currentPage}
-              />
-            </div>
+            <Pagin
+              ItemsPerPage={postsPerPage}
+              paginate={paginate}
+              totalItems={productList.length}
+              currentPage={currentPage}
+            />
           </div>
           <div className="product-card">
             <div className="row g-0 ">
               {currentPosts.map((data) => (
-                <Product data={data} useFor="buyer" />
+                <div className="col-2">
+                  <Product data={data} useFor="buyer" />
+                </div>
               ))}
             </div>
             <div className="saleplus-credito pagin-card mt-5 d-flex justify-content-center ">

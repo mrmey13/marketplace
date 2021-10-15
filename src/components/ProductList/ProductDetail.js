@@ -4,9 +4,9 @@ import cs from '../../const';
 import Color from '../../theme/color';
 import './Product.css';
 import Product from './Product';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
-const URL = cs.BaseURL + '/api/seller/shop/detail';
+const shopDetailUrl = cs.BaseURL + '/api/seller/shop/detail';
 const Seller_product_detail = cs.BaseURL + '/api/seller/product/detail';
 const Buyer_product_detail = cs.BaseURL + '/api/buyer/product/detail';
 const loadProductListUrl = cs.BaseURL + "/api/buyer/product/list";
@@ -63,7 +63,7 @@ function ProductDetail() {
   const loadShopDetail = async (conditions) => {
     const response = await axios({
       method: 'get',
-      url: `${URL}`,
+      url: `${shopDetailUrl}`,
       headers: {
         Authorization: localStorage.getItem(cs.System_Code + '-token'),
       },
@@ -74,6 +74,7 @@ function ProductDetail() {
     ) {
       setShopDetail(response.data.data);
       setMedia(response.data.data.mediaDescriptionsList);
+      console.log("data-shop", response.data);
     }
   };
   const loadProductDetail = async (conditions) => {
@@ -88,12 +89,11 @@ function ProductDetail() {
       response.data.error_desc === 'Success' &&
       response.data.data.length !== 0
     ) {
+      console.log("data-product", response.data)
       setProductDetail(response.data.data);
       setIntroImage(response.data.data.productImageCover);
       setFirstImage(response.data.data.productImageCover);
       setProductImage(response.data.data.productImages);
-      // setProductImage([...productImage, { path: introImage, id: 0 }]);
-      // setVariations([...variations, response.data.data.variationArray]);
       setVariation1(response.data.data.variationArray.filter((item) => item.id == 1));
       setVariation2(response.data.data.variationArray.filter((item) => item.id == 2));
       setInventoryArray(response.data.data.inventoryArray);
@@ -112,7 +112,7 @@ function ProductDetail() {
       },
     });
     setProductList(response.data.data);
-    console.log("res", response.data);
+    // console.log("res", response.data);
   };
 
   useEffect(() => {
@@ -292,8 +292,8 @@ function ProductDetail() {
               <button
                 class={
                   curPage === Math.ceil(productImage.length / imagesPerPage)
-                    ? 'btn btn-category visually-hidden category-next '
-                    : 'btn btn-category category-next '
+                    ? 'btn-category visually-hidden category-next '
+                    : 'btn-category category-next '
                 }
                 type="button"
                 style={{ width: '15px', height: '30px' }}
@@ -301,48 +301,50 @@ function ProductDetail() {
                   if (curPage < Math.ceil(productImage.length / imagesPerPage))
                     setCurPage(curPage + 1);
                 }}
-              // style={{ position: "absolute", zIndex: 1, left: "477px" }}
               >
-                <ion-icon name="chevron-forward-outline"></ion-icon>
+                <ion-icon name="chevron-forward-outline" />
               </button>
-
             </div>
-            <div className="row share-product-detail-intro d-flex justify-content-center">
-              <div style={{ width: 'fit-content', paddingTop: '10px' }}>
-                Share
+            <div className="row share-product-detail-intro">
+              <div className="d-flex mb-2 align-items-center">
+                <div style={{ width: 'fit-content' }}>
+                  Share:
+                </div>
+                <button
+                  className="btn p-0 ms-2"
+                  style={{ width: 'fit-content' }}
+                >
+                  <img
+                    src="https://cdn-icons-png.flaticon.com/512/733/733547.png"
+                    alt="fbicon"
+                    style={{ width: '20px', height: '20px' }}
+                  />
+                </button>
+                <button
+                  className="btn p-0 ms-2"
+                  style={{ width: 'fit-content' }}
+                >
+                  <img
+                    src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png"
+                    alt="fbicon"
+                    style={{ width: '20px', height: '20px' }}
+                  />
+                </button>
+                <button
+                  className="btn p-0 ms-2"
+                  style={{ width: 'fit-content' }}
+                >
+                  <img
+                    src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png"
+                    alt="fbicon"
+                    style={{ width: '20px', height: '20px' }}
+                  />
+                </button>
               </div>
-              <button
-                className="btn btn-outline-none "
-                style={{ width: 'fit-content' }}
-              >
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/733/733547.png"
-                  alt="fbicon"
-                  style={{ width: '20px', height: '20px' }}
-                />
-              </button>
-              <button
-                className="btn btn-outline-none "
-                style={{ width: 'fit-content' }}
-              >
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png"
-                  alt="fbicon"
-                  style={{ width: '20px', height: '20px' }}
-                />
-              </button>
-              <button
-                className="btn btn-outline-none "
-                style={{ width: 'fit-content' }}
-              >
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png"
-                  alt="fbicon"
-                  style={{ width: '20px', height: '20px' }}
-                />
-              </button>
             </div>
           </div>
+
+
           <div className="col-7 info-product-detail-intro">
             <div
               className="product-product-detail-name"
@@ -414,9 +416,10 @@ function ProductDetail() {
                   />{' '}
                   Vận Chuyển Tới
                 </div>
-                <div className="free-shipping"> Phí Vận Chuyển</div>
+                <div className="free-shipping">Phí Vận Chuyển</div>
               </div>
             </div>
+
             {variation1.map((item) => (
               <div className="row product-product-detail-variation mt-3">
                 <div className="col-4">{item.name}</div>
@@ -439,6 +442,7 @@ function ProductDetail() {
                 </div>
               </div>
             ))}
+
             {variation2.map((item) => (
               <div className="row product-product-detail-variation mt-3">
                 <div className="col-4">{item.name}</div>
@@ -464,18 +468,21 @@ function ProductDetail() {
 
             <div className="row product-product-detail-quantity mt-5">
               <div className="col-4">Số Lượng</div>
-              <button className="_2KdYzP" onClick={decreaseQuantity}>
+              <button
+                className="_2KdYzP"
+                onClick={decreaseQuantity}
+              >
                 -
               </button>
               <div class="_2KdYzP iRO3yj">{quantity}</div>
               {/* <input class="_2KdYzP iRO3yj" type="text" value={quantity} onChange={onChange}  /> */}
-              <button className="_2KdYzP" onClick={increaseQuantity}>
+              <button
+                className="_2KdYzP"
+                onClick={increaseQuantity}
+              >
                 +
               </button>
               <div>{productDetail.inventoryCount} sản phẩm có sẵn</div>
-              <div className="col-8 ">
-
-              </div>
             </div>
 
             <div className="product-product-detail-buy d-flex flex-row justify-content-center my-5">
@@ -488,7 +495,7 @@ function ProductDetail() {
                 }}
                 onClick={addToCart}
               >
-                <ion-icon name="medkit-outline"></ion-icon>
+                <ion-icon name="medkit-outline" />
                 <div
                   className=""
                   style={{ width: 'fit-content', marginLeft: '5px' }}
@@ -509,127 +516,73 @@ function ProductDetail() {
           </div>
         </div>
       </div>
+
       <div className="card card-shop-info-product-detail mt-3">
         <div className="row infor-row" style={{ borderBottom: 'none' }}>
-          <div className="col-4 col-avatar">
-            <div
-              className="card card-shop-avatar"
-              style={{
-                height: 'fit-content',
-                backgroundImage:
-                  'url(' + cs.MediaURL + '/media/' + shopDetail.coverPath + ')',
-              }}
-            >
+          <div className="col-4">
+            <div className="">
               <div className="card-body ">
                 <div className="card-body-top d-flex">
                   <img
-                    className="shop-avatar"
+                    className="shop-avatar me-1"
                     src={`${cs.MediaURL}/media/${shopDetail.avatarPath}`}
                     alt="shop avatar"
                   />
-                  <div
-                    className="row-title d-none d-sm-block"
-                    style={{
-                      width: 'fit-content',
-                      color: 'black',
-                    }}
-                  >
-                    <h5>{shopDetail.shopName}</h5>
-                    <h6>
+                  <div>
+                    <div className="row-title d-none d-sm-block">
+                      <h6 className="mb-0">{shopDetail.shopName}</h6>
                       <sub>Online:</sub>
-                    </h6>
+                    </div>
+                    <div className="card-body-bottom d-xl-flex mt-2 justify-content-between d-flex">
+                      <button className="btn border p-1 col-4 mx-1">
+                        Theo dõi
+                      </button>
+                      <button className="btn border p-1 col-4 mx-1">
+                        Chat
+                      </button>
+                      <Link
+                        className="btn border p-1 col-4 mx-1"
+                        to="#"
+                      >
+                        Xem shop
+                      </Link>
+                    </div>
                   </div>
-                </div>
-                <div className="card-body-bottom d-xl-flex mt-2 justify-content-between d-none">
-                  <button className="btn btn-outline-light text-black">
-                    <img
-                      src="https://cdn-icons-png.flaticon.com/512/2097/2097705.png"
-                      className="icon-button"
-                    />
-                    Theo dõi
-                  </button>
-                  <button className="btn btn-outline-light text-black">
-                    <img
-                      src="https://cdn-icons-png.flaticon.com/512/589/589708.png"
-                      className="icon-button"
-                    />
-                    Chat
-                  </button>
                 </div>
               </div>
             </div>
           </div>
-          <div
-            className="col-4"
-            style={{
-              borderLeft: '2px solid rgb(219, 97, 16)',
-              marginBottom: '5px',
-            }}
-          >
-            <div className="row-title-shopview">
-              <img
-                className="icon-item"
-                src="https://cdn-icons-png.flaticon.com/512/2827/2827585.png"
-              />
-              Sản Phẩm:{' '}
-              <b style={{ color: 'black' }}>{shopDetail.numberOfProducts}</b>
-            </div>
-            <div className="row-title-shopview">
-              <img
-                className="icon-item"
-                src="https://cdn-icons-png.flaticon.com/512/748/748004.png"
-              />
-              Đang Theo Dõi:{' '}
-              <b style={{ color: 'black' }}>{shopDetail.numberOfReviews}</b>
-            </div>
-            <div className="row-title-shopview">
-              <img
-                className="icon-item"
-                src="https://cdn-icons-png.flaticon.com/512/892/892228.png"
-              />
-              Tỉ Lệ Phản Hồi Chat:{' '}
-              <b style={{ color: 'black' }}>
-                {shopDetail.pertcentageOfChatFeedbacks}
-              </b>
-            </div>
-          </div>
-          <div
-            className="col-4"
-            style={{
-              borderLeft: '2px solid rgb(219, 97, 16)',
-              marginBottom: '5px',
-            }}
-          >
-            <div className="row-title-shopview">
-              <img
-                className="icon-item"
-                src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png"
-              />
-              Đánh Giá:{' '}
-              <b style={{ color: 'black' }}>{shopDetail.averageRating}</b>
-            </div>
-            <div className="row-title-shopview">
-              <img
-                className="icon-item"
-                src="https://cdn-icons-png.flaticon.com/512/2097/2097705.png"
-              />
-              Người Theo Dõi:{' '}
-              <b style={{ color: 'black' }}>{shopDetail.numberOfFollowers}</b>
-            </div>
-            <div className="row-title-shopview">
-              <img
-                className="icon-item"
-                src="https://cdn-icons-png.flaticon.com/512/747/747310.png"
-              />
-              Tham Gia:{' '}
-              <b style={{ color: 'black' }}>
-                {shopDetail.createdTime &&
-                  shopDetail.createdTime.slice(8, 10) +
-                  ' - ' +
-                  shopDetail.createdTime.slice(4, 7) +
-                  ' - ' +
-                  shopDetail.createdTime.slice(23, 28)}
-              </b>
+          <div className="col-8 border-start d-flex justify-content-center align-items-center">
+            <div className="row" style={{ width: "80%" }}>
+              <div className="col-4 d-flex align-items-center mb-2">
+                Sản Phẩm:
+                <b className="ms-1">{shopDetail.numberOfProducts}</b>
+              </div>
+              <div className="col-4 d-flex align-items-center mb-2">
+                Đang Theo Dõi:
+                <b className="ms-1">{shopDetail.numberOfReviews}</b>
+              </div>
+              <div className="col-4 d-flex align-items-center mb-2">
+                Tỉ Lệ Phản Hồi Chat:
+                <b className="ms-1  d-flex align-items-center ">
+                  {shopDetail.pertcentageOfChatFeedbacks}
+                </b>
+              </div>
+              <div className="col-4 d-flex align-items-center">
+                Đánh Giá:
+                <b className="ms-1">{shopDetail.averageRating}</b>
+              </div>
+              <div className="col-4 d-flex align-items-center">
+                Người Theo Dõi:
+                <b className="ms-1">{shopDetail.numberOfFollowers}</b>
+              </div>
+              <div className="col-4 d-flex align-items-center">
+                Tham Gia:
+                <b className="ms-1">
+                  {shopDetail.createdTime &&
+                    shopDetail.createdTime.slice(8, 10) + '-' + shopDetail.createdTime.slice(4, 7) + '-' + shopDetail.createdTime.slice(24, 28)}
+                </b>
+              </div>
             </div>
           </div>
         </div>
@@ -692,7 +645,9 @@ function ProductDetail() {
           </div>
           <div className="card product-detail-description-card p-5 mt-3">
             <h5 className="card-product-detail-title">Mô Tả Sản Phẩm</h5>
-            <div className="p-2">{productDetail.productDescription}</div>
+            <div className="p-2" style={{ whiteSpace: "pre-line", fontSize: "14px" }}>
+              {productDetail.productDescription}
+            </div>
           </div>
           <div
             className="card product-detail-rate-card p-5 mt-3"
@@ -700,7 +655,7 @@ function ProductDetail() {
           >
             <h5 className="card-product-detail-title">ĐÁNH GIÁ SẢN PHẨM</h5>
             <div className="row product-detail-rate-row">
-              <div className="col-4"> ĐÁNH GIÁ SẢN PHẨM : TRÊN 5 SAO</div>
+              <div className="col-4"> ĐÁNH GIÁ SẢN PHẨM:</div>
               <div className="col-8">
                 <button
                   className={

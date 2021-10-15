@@ -2,6 +2,8 @@ import React from "react";
 import { useTranslation, withTranslation } from "react-i18next";
 import { TrashIcon } from "@primer/octicons-react";
 
+import { CHARACTER_LIMIT } from "../ProductCategory/ProductCategory";
+
 const BasicInformation = ({ imageList, form, limitImg, onChangeData, imgData, setImgData, handleChangeCategoryPath, setModalVideo, t, i18n }) => {
 
   const handleAddCoverImage = (event) => {
@@ -154,16 +156,16 @@ const BasicInformation = ({ imageList, form, limitImg, onChangeData, imgData, se
         )}
       </div>
     </div>
-    <div className="row mb-2">
+    <div className="row mb-2 align-items-center">
       <div className="col-3 text-muted text-end">
         {t("product_config.fields.product_video")}
       </div>
-      <div className="col-9 d-flex align-items-baseline">
+      <div className="col-9 d-flex align-items-center">
         <div className="">
           <button
             className="btn btn-outline-secondary btn-sm me-3"
             onClick={() => setModalVideo(true)}
-            style={{ width: "70px"}}
+            style={{ width: "70px" }}
           >
             {t("commons.button.browse")}
           </button>
@@ -179,13 +181,17 @@ const BasicInformation = ({ imageList, form, limitImg, onChangeData, imgData, se
     <div className="row mb-2">
       <label className="col-3 form-label text-muted text-end" for="product-name">{"* " + t("product_config.fields.product_name")}</label>
       <div className="col-9">
-        <input
-          className="form-control form-control-sm"
-          id="product-name"
-          name="name"
-          value={form.name}
-          onChange={onChangeData}
-        />
+        <div className="input-group input-group-sm">
+          <input
+            className="form-control"
+            id="product-name"
+            name="name"
+            value={form.name}
+            maxLength={CHARACTER_LIMIT}
+            onChange={onChangeData}
+          />
+          <span className="input-group-text text-center d-flex justify-content-center bg-light text-muted" style={{ width: "75px" }}>{form.name.length + "/" + CHARACTER_LIMIT}</span>
+        </div>
       </div>
     </div>
     <div className="row mb-2">

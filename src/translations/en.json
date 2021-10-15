@@ -178,7 +178,7 @@
         },
         "fields": {
             "product_images": "Product Images",
-            "product_video": "product Video",
+            "product_video": "Product Video",
             "product_name": "Product Name",
             "product_description": "Product Description",
             "category": "Category",

@@ -88,7 +88,7 @@ const styles = (theme) => ({
     }
 })
 
-const CHARACTER_LIMIT = 20;
+export const CHARACTER_LIMIT = 120;
 
 
 

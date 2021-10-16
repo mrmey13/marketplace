@@ -191,7 +191,7 @@ const CreateProduct = (props) => {
         createCustomAttributeProduct(productId);
         handleOpenMessage("success", t("product_config.message.create_product_success"));
         setTimeout(() => {
-          props.history.push("/seller-product-list/all");
+          props.history.push("/product/list/all");
         }, 2000);
       }
     } catch (error) {

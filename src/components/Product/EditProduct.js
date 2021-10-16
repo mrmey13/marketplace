@@ -208,7 +208,7 @@ const EditProduct = (props) => {
     createCustomAttributeProduct();
     handleOpenMessage("success", t("product_config.message.update_product_success"));
     setTimeout(() => {
-      props.history.push("/seller-product-list/all");
+      props.history.push("/product/list/all");
     }, 2000);
   }
 

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import cs from "../../const";
 
 const NormalTable = ({ data }) => {
-  const list = [1, 2, 3, 4, 5];
+  const list = [1, 2];
   return <div className="card">
     <div className="card-header">
       <div className="row text-muted" style={{ fontSize: "14px" }}>
@@ -66,6 +66,21 @@ const NormalTable = ({ data }) => {
             </div>
           </div>
           <div className="row m-0 p-0" style={{ width: "60%" }}>
+            <div className="" style={{ width: "16.67%" }}>
+              {item.SKU || "-"}
+            </div>
+            <div className="" style={{ width: "25%" }}>
+              {item.variations || "-"}
+            </div>
+            <div className="" style={{ width: "25%" }}>
+              {item.price}
+            </div>
+            <div className="" style={{ width: "16.66%" }}>
+              {item.inventoryCount ? item.inventoryCount : <span className="text-danger fw-bold">Sold out</span>}
+            </div>
+            <div className="" style={{ width: "16.66%", height: "60px" }}>
+              {item.sales || "-"}
+            </div>
             {list.map(element => <>
               <div className="" style={{ width: "16.67%" }}>
                 {item.SKU || "-"}
@@ -74,10 +89,10 @@ const NormalTable = ({ data }) => {
                 {item.variations || "-"}
               </div>
               <div className="" style={{ width: "25%" }}>
-                {item.price}
+                {"-"}
               </div>
               <div className="" style={{ width: "16.66%" }}>
-                {item.inventoryCount ? item.inventoryCount : <span className="text-danger fw-bold">Sold out</span>}
+                {false ? item.inventoryCount : <span className="text-danger fw-bold">Sold out</span>}
               </div>
               <div className="" style={{ width: "16.66%", height: "60px" }}>
                 {item.sales || "-"}

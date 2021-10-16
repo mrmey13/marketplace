@@ -8,11 +8,12 @@ import BannedProduct from "./BannedProduct";
 import SoldOutProduct from "./SoldOutProduct";
 
 const SellerProduct = ({ match }) => {
+  console.log(match)
   const [status, setStatus] = useState(match.params.status);
   useEffect(() => {
     setStatus(match.params.status || "all")
   }, [match.params.status])
-  return <div className="card shadow-sm">
+  return <div className="card shadow-sm" style={{ minWidth: "956px" }}>
     <div
       className="card-header"
       style={{

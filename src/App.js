@@ -112,11 +112,11 @@ function App() {
 						component={Home}
 					/>
 
-					<Route
+					{/* <Route
 						// exact
 						path="/seller-product-list/:type"
 						component={HomeShop}
-					/>
+					/> */}
 
 					<Route
 						// exact
@@ -131,6 +131,7 @@ function App() {
 					/>
 
 					<Route exact path="/cart" component={Home} />
+					<Route path="/" component={Home} />
 				</Switch>
 
 			</TableSettingProvider>

@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation, withTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+
+import ActiveProduct from "./ActiveProduct";
 import AllProduct from "./AllProduct";
+import BannedProduct from "./BannedProduct";
+import SoldOutProduct from "./SoldOutProduct";
 
 const SellerProduct = ({ match }) => {
   const [status, setStatus] = useState(match.params.status);
   useEffect(() => {
-    setStatus(match.params.status)
+    setStatus(match.params.status || "all")
   }, [match.params.status])
   return <div className="card shadow-sm">
     <div
@@ -62,7 +66,10 @@ const SellerProduct = ({ match }) => {
       </ul>
     </div>
     <div className="card-body">
-      <AllProduct />
+      {status === "all" && <AllProduct />}
+      {status === "active" && <ActiveProduct />}
+      {status === "banned" && <BannedProduct />}
+      {status === "soldout" && <SoldOutProduct />}
     </div>
   </div>
 }

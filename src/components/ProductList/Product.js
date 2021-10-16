@@ -7,7 +7,7 @@ import cs from "../../const";
 import { Link } from "react-router-dom";
 const mediaURL = cs.MediaURL + "/material";
 function Product({ data, useFor }) {
-  let fakeRating = Math.floor(Math.random() * 50) / 10;
+  let fakeRating = (Math.floor(Math.random() * 20) / 10) + 3;
   return (
     <div
       className="card-course"

@@ -28,7 +28,7 @@ const AllProduct = () => {
 
   useEffect(() => {
     loadProductData();
-  }, [])
+  }, [currentPage])
 
   return <div>
     <NormalTable data={productData} />

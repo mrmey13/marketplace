@@ -8,7 +8,7 @@ import BannedProduct from "./BannedProduct";
 import SoldOutProduct from "./SoldOutProduct";
 
 const SellerProduct = ({ match }) => {
-  console.log(match)
+  const { t,i18n } = useTranslation();
   const [status, setStatus] = useState(match.params.status);
   useEffect(() => {
     setStatus(match.params.status || "all")
@@ -31,21 +31,21 @@ const SellerProduct = ({ match }) => {
             className={status === "all" ? "nav-link active px-4 text-danger" : "nav-link text-dark px-4"}
             to="all"
           >
-            All
+            {t('product.all')}
           </Link>
         </li>
         <li className="nav-item">
           <Link
             className={status === "active" ? "nav-link active px-4 text-danger" : "nav-link text-dark px-4"}
             to="active">
-            Live
+            {t('product.live')}
           </Link>
         </li>
         <li className="nav-item">
           <Link
             className={status === "soldout" ? "nav-link active px-4 text-danger" : "nav-link text-dark px-4"}
             to="soldout">
-            Sold out
+            {t('product.sold_out')}
           </Link>
         </li>
         <li className="nav-item">
@@ -53,7 +53,7 @@ const SellerProduct = ({ match }) => {
             className={status === "banned" ? "nav-link active px-4 text-danger" : "nav-link text-dark px-4"}
             to="banned"
           >
-            Violation
+            {t('product.violation')}
           </Link>
         </li>
         {/* <li className="nav-item">

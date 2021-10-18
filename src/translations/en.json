@@ -75,6 +75,18 @@
         "media": "Media",
         "deleteMedia": "Delete item with id={{id}}"
     },
+    "product":{
+        "all": "All",
+        "live": "Live",
+        "sold_out": "Sold out",
+        "violation": "Violation",
+        "product_name":"Product Name",
+        "sku":"SKU",
+        "variation":"Variations",
+        "price":"Price",
+        "stock":"Stock",
+        "sale":"Sales"
+    },
     "product_category": {
         "title": "Add a new product",
         "productName": "Product Name",

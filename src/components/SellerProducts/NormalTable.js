@@ -2,35 +2,36 @@ import { height } from "@mui/system";
 import React from "react";
 import { Link } from "react-router-dom";
 import cs from "../../const";
+import { useTranslation } from 'react-i18next';
 
 const NormalTable = ({ data }) => {
-  const list = [1, 2];
+  const { t,i18n } = useTranslation();
   return <div className="card">
     <div className="card-header">
       <div className="row text-muted" style={{ fontSize: "14px" }}>
         <div className="border-start" style={{ width: "4%" }}>
-          #
+          
         </div>
         <div className="border-start" style={{ width: "29%" }}>
-          Product Name
+          {t('product.product_name')}
         </div>
         <div className="border-start" style={{ width: "10%" }}>
-          SKU
+          {t('product.sku')}
         </div>
         <div className="border-start" style={{ width: "15%" }}>
-          Variations
+          {t('product.variation')}
         </div>
         <div className="border-start" style={{ width: "15%" }}>
-          Price
+          {t('product.price')}
         </div>
         <div className="border-start" style={{ width: "10%" }}>
-          Stock
+          {t('product.stock')}
         </div>
         <div className="border-start" style={{ width: "10%" }}>
-          Sales
+          {t('product.sale')}
         </div>
         <div className="border-start" style={{ width: "7%" }}>
-          Options
+          {/* Options */}
         </div>
       </div>
     </div>
@@ -81,18 +82,18 @@ const NormalTable = ({ data }) => {
             <div className="" style={{ width: "16.66%", height: "60px" }}>
               {item.sales || "-"}
             </div>
-            {list.map(element => <>
+            {item.inventoryArray.map(i => <>
               <div className="" style={{ width: "16.67%" }}>
-                {item.SKU || "-"}
+                {i.sku || "-"}
               </div>
               <div className="" style={{ width: "25%" }}>
-                {item.variations || "-"}
+                {i.variationName || "-"}
               </div>
               <div className="" style={{ width: "25%" }}>
                 {"-"}
               </div>
               <div className="" style={{ width: "16.66%" }}>
-                {false ? item.inventoryCount : <span className="text-danger fw-bold">Sold out</span>}
+                {item.inventoryCount ? item.inventoryCount : <span className="text-danger fw-bold">Sold out</span>}
               </div>
               <div className="" style={{ width: "16.66%", height: "60px" }}>
                 {item.sales || "-"}
@@ -104,7 +105,7 @@ const NormalTable = ({ data }) => {
               className="btn link-btn"
               to={`/product/edit/${item.productId}`}
             >
-              Edit
+              {t('commons.button.edit')}
             </Link>
           </div>
         </div>

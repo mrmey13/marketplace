@@ -75,6 +75,18 @@
         "media": "Media",
         "deleteMedia": "Xóa item với id={{id}}"
     },
+    "product":{
+        "all": "Tất cả",
+        "live": "Đang hoạt động",
+        "sold_out": "Hết hàng",
+        "violation": "Vi phạm",
+        "product_name":"Tên sản phẩm",
+        "sku":"SKU",
+        "variation":"Phân loại hàng",
+        "price":"Giá",
+        "stock":"Kho hàng",
+        "sale":"Đã bán"
+    },
     "product_category": {
         "title": "Thêm 1 sản phẩm mới",
         "productName": "Tên sản phẩm",

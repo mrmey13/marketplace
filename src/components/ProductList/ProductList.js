@@ -73,7 +73,7 @@ function ProductList() {
     loadProductList();
   }, []);
   //Pagin
-  const [postsPerPage, setpostPerPage] = useState(6);
+  const [postsPerPage, setpostPerPage] = useState(24);
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
@@ -436,18 +436,18 @@ function ProductList() {
           </div>
         </div>
         <div class="col-md-10 col-8">
-          <div className="card sort-card mb-2">
+          <div className="sort-card mb-2 d-flex align-items-center">
             <div className="saleplus-credito sort-card">
               <button
                 className="btn btn-outline-dark btn-sort"
                 style={
                   sortTab == "popular"
                     ? {
-                        width: "fit-content",
-                        backgroundColor: "#F69756",
-                        color: "black",
-                      }
-                    : { width: "fit-content", backgroundColor: "white" }
+                      width: "160px",
+                      backgroundColor: "#F69756",
+                      color: "black",
+                    }
+                    : { width: "160px", backgroundColor: "white" }
                 }
                 onClick={() => setSortTab("popular")}
               >
@@ -458,11 +458,11 @@ function ProductList() {
                 style={
                   sortTab == "newest"
                     ? {
-                        width: "fit-content",
-                        backgroundColor: "#F69756",
-                        color: "black",
-                      }
-                    : { width: "fit-content", backgroundColor: "white" }
+                      width: "160px",
+                      backgroundColor: "#F69756",
+                      color: "black",
+                    }
+                    : { width: "160px", backgroundColor: "white" }
                 }
                 onClick={() => setSortTab("newest")}
               >
@@ -471,13 +471,13 @@ function ProductList() {
               <button
                 className="btn btn-outline-dark btn-sort"
                 style={
-                  sortTab == "selling"
+                  sortTab === "selling"
                     ? {
-                        width: "fit-content",
-                        backgroundColor: "#F69756",
-                        color: "black",
-                      }
-                    : { width: "fit-content", backgroundColor: "white" }
+                      width: "160px",
+                      backgroundColor: "#F69756",
+                      color: "black",
+                    }
+                    : { width: "160px", backgroundColor: "white" }
                 }
                 onClick={() => setSortTab("selling")}
               >
@@ -486,10 +486,6 @@ function ProductList() {
               <select
                 class="form-select select-sort"
                 aria-label="Default select example"
-                style={{
-                  width: "fit-content",
-                  margin: "5px",
-                }}
               >
                 <option selected>Giá</option>
                 <option value="1">Từ thấp tới cao</option>
@@ -508,7 +504,9 @@ function ProductList() {
           <div className="product-card">
             <div className="row g-0 ">
               {currentPosts.map((data) => (
-                <Product data={data} useFor="seller" />
+                <div className="col-2">
+                  <Product data={data} useFor="seller" />
+                </div>
               ))}
             </div>
             <div className="saleplus-credito pagin-card mt-5 d-flex justify-content-center ">

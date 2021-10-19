@@ -5,12 +5,12 @@ import cs from "../../const";
 import { useTranslation } from 'react-i18next';
 
 const NormalTable = ({ data }) => {
-  const { t,i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   return <div className="card">
     <div className="card-header">
       <div className="row text-muted" style={{ fontSize: "14px" }}>
         <div className="border-start" style={{ width: "4%" }}>
-          
+
         </div>
         <div className="border-start" style={{ width: "29%" }}>
           {t('product.product_name')}
@@ -67,21 +67,23 @@ const NormalTable = ({ data }) => {
             </div>
           </div>
           <div className="row m-0 p-0" style={{ width: "60%" }}>
-            <div className="" style={{ width: "16.67%" }}>
-              {item.SKU || "-"}
-            </div>
-            <div className="" style={{ width: "25%" }}>
-              {item.variations || "-"}
-            </div>
-            <div className="" style={{ width: "25%" }}>
-              {item.price}
-            </div>
-            <div className="" style={{ width: "16.66%" }}>
-              {item.inventoryCount ? item.inventoryCount : <span className="text-danger fw-bold">Sold out</span>}
-            </div>
-            <div className="" style={{ width: "16.66%", height: "60px" }}>
-              {item.sales || "-"}
-            </div>
+            {!item.inventoryArray.length && <>
+              <div className="" style={{ width: "16.67%" }}>
+                {item.SKU || "-"}
+              </div>
+              <div className="" style={{ width: "25%" }}>
+                {item.variations || "-"}
+              </div>
+              <div className="" style={{ width: "25%" }}>
+                {item.price}
+              </div>
+              <div className="" style={{ width: "16.66%" }}>
+                {item.inventoryCount ? item.inventoryCount : <span className="text-danger fw-bold">Sold out</span>}
+              </div>
+              <div className="" style={{ width: "16.66%", height: "60px" }}>
+                {item.sales || "-"}
+              </div>
+            </>}
             {item.inventoryArray.map(i => <>
               <div className="" style={{ width: "16.67%" }}>
                 {i.sku || "-"}
@@ -90,7 +92,7 @@ const NormalTable = ({ data }) => {
                 {i.variationName || "-"}
               </div>
               <div className="" style={{ width: "25%" }}>
-                {"-"}
+                {i.price || "-"}
               </div>
               <div className="" style={{ width: "16.66%" }}>
                 {item.inventoryCount ? item.inventoryCount : <span className="text-danger fw-bold">Sold out</span>}

@@ -39,6 +39,7 @@ import MyPassword from "./MyAccount/MyPassword";
 import ShopDashboard from "./HomePage/ShopDashboard";
 
 import Cart from "./Cart/Cart";
+import BusinessInsights from "./DataAnalysis/BusinessInsights";
 
 const styles = (theme) => ({
   tableContainer: {
@@ -96,6 +97,10 @@ export class AppRoute extends Component {
 
         {/* Product */}
         <Route exact path="/product/new" component={CreateProduct} />
+
+        {/* Data Analysis */}
+        <Route exact path="/datacenter/:title" component={BusinessInsights} />
+        <Route exact path="/datacenter/:title/:tab" component={BusinessInsights} />
 
         {/* Settings */}
         <Route exact path="/settings/address" component={MyAddresses} />

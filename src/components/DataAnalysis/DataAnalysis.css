@@ -1,0 +1,16 @@
+.data-title {
+  text-align: center;
+  font-size: 14px;
+  color: #5c5c5c;
+}
+
+.data-value {
+  text-align: center;
+  font-size: 20px;
+}
+
+.data-desc {
+  text-align: center;
+  font-size: 12px;
+  color: #5c5c5c;
+}

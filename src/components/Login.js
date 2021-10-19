@@ -56,7 +56,7 @@ const styles = (theme) => ({
 class Login extends React.Component {
   constructor(props) {
     super(props);
-
+    console.log("props", props)
     this.state = {
       username: "",
       password: "",
@@ -124,7 +124,11 @@ class Login extends React.Component {
             // console.log(JSON.stringify(data.data.functionRoles));
             //window.location.reload();
             //window.location.reload();
-            this.props.history.push('/');
+            if (this.props.location.state && this.props.location.state.prePath) {
+              this.props.history.push(this.props.location.state.prePath);
+            } else {
+              this.props.history.push('/');
+            }
           } else {
             this.setState({
               username: "",

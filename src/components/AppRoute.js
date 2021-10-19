@@ -83,7 +83,7 @@ export class AppRoute extends Component {
         <Route
           exact
           path="/product_detail/:productId"
-          component={() => ProductDetail(t, i18n)}
+          component={ProductDetail}
         />
 
         <Route exact path="/my_account" component={() => MyAccount(t, i18n)} />

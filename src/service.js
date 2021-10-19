@@ -21,6 +21,11 @@ export const getFunctionRoles = () => {
     return userFunctionRoles;
 }
 
+export const hasToken = () => {
+    var token = localStorage.getItem(cs.System_Code + '-token');
+    return !(!token || token === null || token === 'null' || token === undefined)
+}
+
 export const isTrainer = () => {
     var user = localStorage.getItem(cs.System_Code + '-user');
     if (!user) return null;
@@ -129,7 +134,7 @@ export const isSeller = () => {
     let tmp = userFunctionRoles.filter(element =>
         element.functionRoleId === cs.FunctionRole_Seller
     );
-    
+
     if ((userRole && (userRole === cs.Role_Solo_Seller))
         || (tmp && tmp.length > 0)
     ) {

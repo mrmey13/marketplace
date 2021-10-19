@@ -5,6 +5,7 @@ import Color from '../../theme/color';
 import './Product.css';
 import Product from './Product';
 import { Link, useParams } from 'react-router-dom';
+import { hasToken } from '../../service';
 
 const shopDetailUrl = cs.BaseURL + '/api/seller/shop/detail';
 const Seller_product_detail = cs.BaseURL + '/api/seller/product/detail';
@@ -15,7 +16,9 @@ const mediaURL = cs.MediaURL + '/media/';
 
 const ADD_TO_CART_URL = cs.BaseURL + '/api/buyer/cart/add';
 
-function ProductDetail() {
+function ProductDetail(props) {
+  console.log("props", props)
+  console.log("hasToken", hasToken());
   const { productId } = useParams();
   const [quantity, setQuantity] = useState(1);
   const [buttonRateState, setButtonRateState] = useState('all');
@@ -60,23 +63,23 @@ function ProductDetail() {
   const [inventoryArray, setInventoryArray] = useState([]);
 
   const [media, setMedia] = useState([]);
-  const loadShopDetail = async (conditions) => {
-    const response = await axios({
-      method: 'get',
-      url: `${shopDetailUrl}`,
-      headers: {
-        Authorization: localStorage.getItem(cs.System_Code + '-token'),
-      },
-    });
-    if (
-      response.data.error_desc === 'Success' &&
-      response.data.data.length !== 0
-    ) {
-      setShopDetail(response.data.data);
-      setMedia(response.data.data.mediaDescriptionsList);
-      console.log("data-shop", response.data);
-    }
-  };
+  // const loadShopDetail = async (conditions) => {
+  //   const response = await axios({
+  //     method: 'get',
+  //     url: `${shopDetailUrl}`,
+  //     headers: {
+  //       Authorization: localStorage.getItem(cs.System_Code + '-token'),
+  //     },
+  //   });
+  //   if (
+  //     response.data.error_desc === 'Success' &&
+  //     response.data.data.length !== 0
+  //   ) {
+  //     setShopDetail(response.data.data);
+  //     setMedia(response.data.data.mediaDescriptionsList);
+  //     console.log("data-shop", response.data);
+  //   }
+  // };
   const loadProductDetail = async (conditions) => {
     const response = await axios({
       method: 'get',
@@ -117,7 +120,7 @@ function ProductDetail() {
 
   useEffect(() => {
     loadProductDetail();
-    loadShopDetail();
+    // loadShopDetail();
     loadProductList();
   }, []);
 
@@ -137,6 +140,11 @@ function ProductDetail() {
       variationIndex = variationIndex1 + '_' + variationIndex2;
     } else {
       variationIndex = variationIndex1;
+    }
+    if (!hasToken()) {
+      props.history.push("/login", {
+        prePath: props.location.pathname
+      })
     }
     const productVariation = inventoryArray.find(
       (i) => i.variationIndex == variationIndex
@@ -430,7 +438,7 @@ function ProductDetail() {
                         className={
                           !selected
                             ? 'product-variation'
-                            : 'product-variation--selected'
+                            : 'product-variation product-variation--selected'
                         }
                         value={option.optionId}
                         onClick={handleVariation1}
@@ -453,7 +461,7 @@ function ProductDetail() {
                         className={
                           !selected
                             ? 'product-variation'
-                            : 'product-variation--selected'
+                            : 'product-variation-selected'
                         }
                         value={option.optionId}
                         onClick={handleVariation2}
@@ -509,6 +517,15 @@ function ProductDetail() {
                   backgroundColor: Color.tanhide,
                   width: 'fit-content',
                 }}
+                onClick={() => {
+                  if (hasToken()) {
+                    props.history.push("/cart");
+                  } else {
+                    props.history.push("/login", {
+                      prePath: props.location.pathname
+                    })
+                  }
+                }}
               >
                 Mua Ngay
               </button>
@@ -528,7 +545,7 @@ function ProductDetail() {
                     src={`${cs.MediaURL}/media/${shopDetail.avatarPath}`}
                     alt="shop avatar"
                   />
-                  <div>
+                  <div style={{ width: "80%" }}>
                     <div className="row-title d-none d-sm-block">
                       <h6 className="mb-0">{shopDetail.shopName}</h6>
                       <sub>Online:</sub>
@@ -595,7 +612,7 @@ function ProductDetail() {
         class="scrollspy-example"
         tabindex="0"
       >
-        <div className="row product-detail-row mt-3 ms-1">
+        <div className="row product-detail-row mt-3 px-1">
           <div className="card product-detail-product-detail-card p-5">
             <h5 className="card-product-detail-title">Chi Tiết Sản Phẩm</h5>
             <div className="p-2 d-flex flex-row path-link">

@@ -132,7 +132,7 @@ const admin_menu = [{
 export const menu = [
     ...(!isMarketplaceAdmin() && shop_menu || []),
     ...(!isMarketplaceAdmin() && product_menu || []),
-    ...(!isMarketplaceAdmin() && data_menu),
+    ...(!isMarketplaceAdmin() && data_menu || []),
     ...(isMarketplaceAdmin() && admin_menu || []),
     ...(!isMarketplaceAdmin() && settings_menu || []),
 ]

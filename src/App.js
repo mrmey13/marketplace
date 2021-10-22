@@ -101,6 +101,9 @@ function App() {
 					{/* Product */}
 					<Route exact path="/product/new" component={HomeShop} />
 
+					{/* Finance */}
+					<Route exact path="/finance/wallet/card" component={HomeShop} />
+
 					{/* Data Analysis */}
 					<Route exact path="/datacenter/:title" component={HomeShop} />
 					<Route exact path="/datacenter/:title/:tab" component={HomeShop} />

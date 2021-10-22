@@ -1,0 +1,14 @@
+.credit-card {
+  width: 336px;
+  height: 210px;
+  border-radius: 5px;
+  box-shadow: 3px 3px 1px rgb(179, 179, 179);
+}
+
+.credit-card:hover {
+  width: 336px;
+  height: 210px;
+  border-radius: 5px;
+  box-shadow: 3px 3px 3px rgb(179, 179, 179);
+  transform: scale(1.04, 1.04);
+}

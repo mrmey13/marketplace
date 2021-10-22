@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from '@material-ui/core/Icon';
-import { LocalMall, InsertChartRounded } from '@material-ui/icons';
+import { LocalMall, InsertChartRounded, AccountBalanceWallet, SettingsApplications } from '@material-ui/icons';
 import cs from '../const';
 import { isMarketplaceAdmin, isSoloUser } from '../service';
 const shop_menu = [
@@ -66,6 +66,20 @@ const product_menu = [
     }
 ]
 
+const finance_menu = [
+    {
+        icon: <AccountBalanceWallet />,
+        title: 'finance',
+        items: [
+            {
+                // icon: <Icon color="disable">shop</Icon>,
+                to: '/finance/wallet/card',
+                title: 'Bank Accounts'
+            },
+        ],
+    }
+]
+
 const data_menu = [
     {
         icon: <InsertChartRounded />,
@@ -82,7 +96,7 @@ const data_menu = [
 
 const settings_menu = [
     {
-        icon: <Icon color="disable">build</Icon>,
+        icon: <SettingsApplications />,
         title: 'nested_list.settings_menu.title',
         items: [
             {
@@ -132,6 +146,7 @@ const admin_menu = [{
 export const menu = [
     ...(!isMarketplaceAdmin() && shop_menu || []),
     ...(!isMarketplaceAdmin() && product_menu || []),
+    ...(!isMarketplaceAdmin() && finance_menu || []),
     ...(!isMarketplaceAdmin() && data_menu || []),
     ...(isMarketplaceAdmin() && admin_menu || []),
     ...(!isMarketplaceAdmin() && settings_menu || []),

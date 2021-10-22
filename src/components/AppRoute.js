@@ -40,6 +40,7 @@ import ShopDashboard from "./HomePage/ShopDashboard";
 
 import Cart from "./Cart/Cart";
 import BusinessInsights from "./DataAnalysis/BusinessInsights";
+import BankAccounts from "./Finance/BankAccounts";
 
 const styles = (theme) => ({
   tableContainer: {
@@ -97,6 +98,9 @@ export class AppRoute extends Component {
 
         {/* Product */}
         <Route exact path="/product/new" component={CreateProduct} />
+
+        {/* Finance */}
+        <Route exact path="/finance/wallet/card" component={BankAccounts} />
 
         {/* Data Analysis */}
         <Route exact path="/datacenter/:title" component={BusinessInsights} />

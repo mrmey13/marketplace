@@ -8,6 +8,16 @@ import "./DataAnalysis.css";
 
 const BusinessInsights = (props) => {
   const { match, history, t, i18n } = props;
+
+  const d = new Date();
+  const maxDate = `${d.getFullYear()}-${("0" + (d.getMonth() + 1)).slice(-2)}-${("0" + d.getDate()).slice(-2)}`;
+  const [filterData, setFilterData] = useState({
+    startDate: maxDate,
+    endDate: maxDate,
+    statisticsTypeId: "",
+    objectFilter: null
+  });
+
   // console.log(match)
   const [title, setTitle] = useState(match.params.title);
   useEffect(() => {
@@ -73,12 +83,9 @@ const BusinessInsights = (props) => {
         backgroundColor: "#fff"
       }}
     >
-      <FilterData />
+      <FilterData {...props} filterData={filterData} setFilterData={setFilterData} />
     </div>
-    {title === "sales" && <SalesAnalysis {...props} />}
-    <div style={{ height: "1200px" }}>
-
-    </div>
+    {title === "sales" && <SalesAnalysis {...props} filterData={filterData} />}
   </div>
 }
 

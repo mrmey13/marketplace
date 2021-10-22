@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import Overview from "./Overview";
 
-const SalesAnalysis = ({ match }) => {
+const SalesAnalysis = (props) => {
+  const { match } = props
   let { path, url } = useRouteMatch()
   // console.log(url)
   // console.log(match);
@@ -31,7 +32,7 @@ const SalesAnalysis = ({ match }) => {
         </li>
       </ul>
     </div>
-    {tab === "overview" && <Overview />}
+    {tab === "overview" && <Overview {...props}/>}
   </>
 }
 

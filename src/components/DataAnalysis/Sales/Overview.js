@@ -1,53 +1,12 @@
-import React, { useState } from "react";
-import { LineChart, Line, YAxis, XAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { LineChart, Line, YAxis, XAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
+import cs from "../../../const";
 
-const data = [
-  {
-    "name": "Page A",
-    "uv": 4000,
-    "pv": 2400,
-    "amt": 6
-  },
-  {
-    "name": "Page B",
-    "uv": 3000,
-    "pv": 1398,
-    "amt": 70
-  },
-  {
-    "name": "Page C",
-    "uv": 2000,
-    "pv": 9800,
-    "amt": 80
-  },
-  {
-    "name": "Page D",
-    "uv": 2780,
-    "pv": 3908,
-    "amt": 4
-  },
-  {
-    "name": "Page E",
-    "uv": 1890,
-    "pv": 4800,
-    "amt": 30
-  },
-  {
-    "name": "Page F",
-    "uv": 2390,
-    "pv": 3800,
-    "amt": 20
-  },
-  {
-    "name": "Page G",
-    "uv": 3490,
-    "pv": 4300,
-    "amt": 21
-  }
-]
+const loadDataUrl = cs.BaseURL + "/api/statistics/get";
 
-const Overview = () => {
-
+const Overview = ({ filterData }) => {
+  // console.log(filterData)
   const [chartsDisplay, setChartsDisplay] = useState({
     visitors: true,
     buyersPO: false,
@@ -68,8 +27,8 @@ const Overview = () => {
   const SELECTED_CHARTS_LIMIT = 4;
 
   const onSelectCharts = (event) => {
-    console.log(numberSelectedCharts);
-    console.log(event);
+    // console.log(numberSelectedCharts);
+    // console.log(event);
     if (chartsDisplay[event.target.name]) {
       if (numberSelectedCharts <= 1) {
         return
@@ -85,6 +44,66 @@ const Overview = () => {
     }
     setChartsDisplay({ ...chartsDisplay, [event.target.name]: event.target.checked })
   }
+
+  const [data, setData] = useState([]);
+  const [chartsData, setChartsData] = useState([]);
+
+
+  const loadData = async () => {
+    // console.log(filterData.statisticsTypeId);
+    if (!filterData.statisticsTypeId) {
+      // console(null)
+      setData([]);
+      return
+    }
+    try {
+      const response = await axios({
+        method: "POST",
+        url: loadDataUrl,
+        headers: {
+          Authorization: localStorage.getItem(cs.System_Code + "-token"),
+        },
+        data: {
+          inputStartDateStr: filterData.startDate,
+          inputEndDateStr: filterData.endDate,
+          timeGroupTypeId: 1,
+          statisticsTypeId: filterData.statisticsTypeId
+        }
+      });
+      if (response.data.error_code === 0) {
+        setData(response.data.data);
+      }
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const loadChartsData = () => {
+    // console.log("Data", data)
+    switch (filterData.statisticsTypeId) {
+      case "4":
+        if (data[0] && data[0].statisticsObj.length) {
+          setChartsData(data[0].statisticsObj[0].chartObjList);
+        }
+        break;
+      default:
+        if (data[0] && data[0].statisticsObj.length && data[0].statisticsObj.find(e => e.valueField === filterData.objectFilter)) {
+          setChartsData(data[0].statisticsObj.find(e => e.valueField === filterData.objectFilter).chartObjList)
+        } else {
+          setChartsData([])
+        }
+        break;
+    }
+  }
+
+  useEffect(() => {
+    loadData();
+  }, [filterData.startDate, filterData.endDate, filterData.statisticsTypeId]);
+
+  useEffect(() => {
+    loadChartsData();
+  }, [data, filterData.objectFilter])
 
   return <div>
     <div className="card card-body mb-1">
@@ -401,14 +420,19 @@ const Overview = () => {
       </div>
       <div className="d-flex justify-content-center">
         <ResponsiveContainer width='95%' height={300}>
-          <LineChart data={data}>
-            <XAxis dataKey="name" />
-            <YAxis domain={[0, 'auto']} yAxisId="number" hide />
+          <LineChart data={chartsData}>
+            <XAxis dataKey="time" />
+            <YAxis domain={[0, 'dataMax + 5']} yAxisId="number" hide />
+            <YAxis domain={[0, 'dataMax + 10000']} yAxisId="currency" hide />
             <YAxis domain={[0, 100]} yAxisId="percent" hide />
-            <Line type="linear" dataKey="uv" stroke="red" yAxisId="number" dot={false} hide={false} />
-            {/* <CartesianGrid stroke="#ccc" /> */}
-            <Line type="linear" dataKey="amt" stroke="blue" yAxisId="percent" dot={false} />
-            <Tooltip />
+            <CartesianGrid stroke="#ccc" />
+            <Line name="Order" type="linear" dataKey="totalOrder" stroke="red" yAxisId="number" dot={false} hide={false} />
+            <Line name="Revenue" type="linear" dataKey="totalRevenue" stroke="blue" yAxisId="currency" dot={false} />
+            <Line name="Sold products" type="linear" dataKey="totalSoldProducts" stroke="green" yAxisId="number" dot={false} />
+            <Tooltip
+            // formatter={(value, name, props) => "a"}
+            />
+            <Legend iconType="circle" iconSize={10} />
           </LineChart>
         </ResponsiveContainer>
       </div>

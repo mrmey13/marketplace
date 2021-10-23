@@ -45,9 +45,19 @@ const Overview = ({ filterData }) => {
     setChartsDisplay({ ...chartsDisplay, [event.target.name]: event.target.checked })
   }
 
+  const formatter = (value, name, props) => {
+    switch (name) {
+      case "Orders":
+        return value;
+      case "Sales":
+        return value + "đ";
+      default:
+        return value;
+    }
+  }
+
   const [data, setData] = useState([]);
   const [chartsData, setChartsData] = useState([]);
-
 
   const loadData = async () => {
     // console.log(filterData.statisticsTypeId);
@@ -418,7 +428,7 @@ const Overview = ({ filterData }) => {
           Metric Selected: {`${numberSelectedCharts}/${SELECTED_CHARTS_LIMIT}`}
         </div>
       </div>
-      <div className="d-flex justify-content-center">
+      <div className="d-flex justify-content-center mb-5">
         <ResponsiveContainer width='95%' height={300}>
           <LineChart data={chartsData}>
             <XAxis dataKey="time" />
@@ -426,16 +436,36 @@ const Overview = ({ filterData }) => {
             <YAxis domain={[0, 'dataMax + 10000']} yAxisId="currency" hide />
             <YAxis domain={[0, 100]} yAxisId="percent" hide />
             <CartesianGrid stroke="#ccc" />
-            <Line name="Order" type="linear" dataKey="totalOrder" stroke="red" yAxisId="number" dot={false} hide={false} />
-            <Line name="Revenue" type="linear" dataKey="totalRevenue" stroke="blue" yAxisId="currency" dot={false} />
+            <Line name="Orders" type="linear" dataKey="totalOrder" stroke="red" yAxisId="number" dot={false} hide={false} />
+            <Line name="Sales" type="linear" dataKey="totalRevenue" stroke="blue" yAxisId="currency" dot={false} />
             <Line name="Sold products" type="linear" dataKey="totalSoldProducts" stroke="green" yAxisId="number" dot={false} />
             <Tooltip
-            // formatter={(value, name, props) => "a"}
+              formatter={formatter}
             />
             <Legend iconType="circle" iconSize={10} />
           </LineChart>
         </ResponsiveContainer>
       </div>
+      <table className="table table-striped table-bordered table-hover">
+        <thead className="text-center">
+          <tr className="table-danger">
+            <th style={{ width: "25%" }}>Time</th>
+            <th style={{ width: "25%" }}>Orders</th>
+            <th style={{ width: "25%" }}>Sold products</th>
+            <th style={{ width: "25%" }}>Sales</th>
+          </tr>
+        </thead>
+        <tbody className="text-end">
+          {chartsData.map((item) => {
+            return <tr>
+              <td className="text-center">{item.time}</td>
+              <td>{item.totalOrder}</td>
+              <td>{item.totalSoldProducts}</td>
+              <td>{item.totalRevenue + "đ"}</td>
+            </tr>
+          })}
+        </tbody>
+      </table>
     </div>
   </div>
 }

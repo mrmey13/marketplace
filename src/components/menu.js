@@ -69,12 +69,12 @@ const product_menu = [
 const finance_menu = [
     {
         icon: <AccountBalanceWallet />,
-        title: 'finance',
+        title: 'nested_list.finance_menu.title',
         items: [
             {
                 // icon: <Icon color="disable">shop</Icon>,
                 to: '/finance/wallet/card',
-                title: 'Bank Accounts'
+                title: 'nested_list.finance_menu.bank_accounts'
             },
         ],
     }
@@ -83,12 +83,12 @@ const finance_menu = [
 const data_menu = [
     {
         icon: <InsertChartRounded />,
-        title: 'data',
+        title: 'nested_list.data_menu.title',
         items: [
             {
                 // icon: <Icon color="disable">shop</Icon>,
                 to: '/datacenter/dashboard',
-                title: 'Business Insights'
+                title: 'nested_list.data_menu.business_insights'
             },
         ],
     }

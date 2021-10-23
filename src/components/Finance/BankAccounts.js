@@ -2,7 +2,7 @@ import { border, borderRadius, display } from "@mui/system";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useTranslation, withTranslation } from "react-i18next";
-import { formatMs, makeStyles, Modal } from '@material-ui/core';
+import { formatMs, makeStyles, Modal, Snackbar } from '@material-ui/core';
 import cs from "../../const";
 import "./Finance.css"
 
@@ -34,6 +34,26 @@ const useStyles = makeStyles((theme) => ({
 
 const BankAccounts = ({ t, i18n }) => {
   const classes = useStyles();
+
+  const [responseMessage, setResponseMessage] = useState({
+    type: "",
+    content: "",
+  });
+  const [openMessage, setOpenMessage] = useState(false);
+  const handleOpenMessage = (type, message) => {
+    setResponseMessage({
+      type: type,
+      content: message,
+    });
+    setOpenMessage(true);
+  }
+  const handleCloseMessage = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setResponseMessage({ type: "", content: "" });
+    setOpenMessage(false);
+  };
 
   const [reqType, setReqType] = useState("");
   const [openModal, setOpenModal] = useState(false);
@@ -78,6 +98,18 @@ const BankAccounts = ({ t, i18n }) => {
   }
 
   const handleConfirmAddClick = async () => {
+    if (!modalForm.bankAccountHolderName) {
+      handleOpenMessage("warning", t("bank_accounts.message.please_input_fullname"));
+      return;
+    }
+    if (!modalForm.bankId || !modalForm.bankName) {
+      handleOpenMessage("warning", t("bank_accounts.message.please_select_bank"));
+      return;
+    }
+    if (!modalForm.bankAccountNumber) {
+      handleOpenMessage("warning", t("bank_accounts.message.please_input_account_no"));
+      return;
+    }
     try {
       const response = await axios({
         method: "POST",
@@ -95,6 +127,7 @@ const BankAccounts = ({ t, i18n }) => {
       if (response.data.error_code == 0) {
         loadBankCardData();
         handleCloseModal();
+        handleOpenMessage("success", t("bank_accounts.message.create_success"));
       }
     } catch (error) {
       console.log(error)
@@ -114,7 +147,7 @@ const BankAccounts = ({ t, i18n }) => {
   }
 
   const handleConfirmDelClick = async () => {
-    console.log("del")
+    // console.log("del")
     try {
       const response = await axios({
         method: "POST",
@@ -126,6 +159,7 @@ const BankAccounts = ({ t, i18n }) => {
       if (response.data.error_code == 0) {
         loadBankCardData();
         handleCloseModal();
+        handleOpenMessage("success", t("bank_accounts.message.delete_success"));
       }
     } catch (error) {
       console.log(error)
@@ -177,7 +211,7 @@ const BankAccounts = ({ t, i18n }) => {
   }, [])
 
   return <div className="card card-body shadow-sm" style={{ minWidth: "956px" }}>
-    <h4 className="card- mb-3">Bank Accounts</h4>
+    <h4 className="card- mb-3">{t("bank_accounts.tabs.bank_accounts")}</h4>
     <div className="d-flex flex-wrap justify-content-between">
       <button
         className="mb-3 d-flex justify-content-center align-items-center credit-card"
@@ -190,7 +224,7 @@ const BankAccounts = ({ t, i18n }) => {
           <div>
             <img src="https://img.icons8.com/material/24/777777/plus-math--v2.png" />
           </div>
-          Add Bank Account
+          {t("bank_accounts.tabs.add_bank_account")}
         </div>
       </button>
       {bankCardData.map(item => {
@@ -233,12 +267,12 @@ const BankAccounts = ({ t, i18n }) => {
     >
       <div className={classes.paper}>
         <h4 className="card-title">
-          {reqType === "add" && "Add Bank Account"}
-          {reqType === "choose" && "Bank Account"}
+          {reqType === "add" && t("bank_accounts.tabs.add_bank_account")}
+          {reqType === "choose" && t("bank_accounts.tabs.bank_account")}
         </h4>
         {reqType === "add" && <>
           <div className="row mb-2">
-            <label className="col-3" for="fullname">Full Name</label>
+            <label className="col-3" for="fullname">{t("bank_accounts.fields.fullname")}</label>
             <div className="col-9">
               <input
                 type="text"
@@ -251,7 +285,7 @@ const BankAccounts = ({ t, i18n }) => {
             </div>
           </div>
           <div className="row mb-2">
-            <label className="col-3" for="bank">Bank Name</label>
+            <label className="col-3" for="bank">{t("bank_accounts.fields.fullname")}</label>
             <div className="col-9">
               <select
                 className="form-select form-select-sm"
@@ -260,7 +294,7 @@ const BankAccounts = ({ t, i18n }) => {
                 value={modalForm.bankId}
                 onChange={onChangeModal}
               >
-                <option value="">Select</option>
+                <option value="">{t("bank_accounts.message.select_bank")}</option>
                 {bankData.map(item =>
                   <option value={item.id} onClick={() => onChangeBank(item)}>{item.shortName + " - " + item.fullName}</option>
                 )}
@@ -268,7 +302,7 @@ const BankAccounts = ({ t, i18n }) => {
             </div>
           </div>
           <div className="row mb-2">
-            <label className="col-3" for="bankAccount">Account No</label>
+            <label className="col-3" for="bankAccount">{t("bank_accounts.fields.account_no")}</label>
             <div className="col-9">
               <input
                 type="text"
@@ -284,19 +318,19 @@ const BankAccounts = ({ t, i18n }) => {
 
         {reqType === "choose" && <>
           <div className="row mb-2">
-            <label className="col-3" for="fullname">Full Name</label>
+            <label className="col-3" for="fullname">{t("bank_accounts.fields.fullname")}</label>
             <div className="col-9 text-uppercase">
               {modalForm.bankAccountHolderName}
             </div>
           </div>
           <div className="row mb-2">
-            <label className="col-3" for="bank">Bank Name</label>
+            <label className="col-3" for="bank">{t("bank_accounts.fields.bankname")}</label>
             <div className="col-9">
               {modalForm.bankName}
             </div>
           </div>
           <div className="row mb-2">
-            <label className="col-3" for="bankAccount">Account No</label>
+            <label className="col-3" for="bankAccount">{t("bank_accounts.fields.account_no")}</label>
             <div className="col-9">
               {modalForm.bankAccountNumber}
             </div>
@@ -324,11 +358,21 @@ const BankAccounts = ({ t, i18n }) => {
             style={{ width: "65px" }}
             onClick={handleCloseModal}
           >
-            {t("Close")}
+            {t("commons.button.close")}
           </button>
         </div>
       </div>
     </Modal>
+
+    <Snackbar
+      open={openMessage}
+      autoHideDuration={2000}
+      onClose={handleCloseMessage}
+    >
+      <div className={"alert-popup text-" + responseMessage.type}>
+        {responseMessage.content}
+      </div>
+    </Snackbar>
   </div>
 }
 

@@ -3,7 +3,7 @@ import { Link, useRouteMatch } from "react-router-dom";
 import Overview from "./Overview";
 
 const SalesAnalysis = (props) => {
-  const { match } = props
+  const { match, t } = props
   let { path, url } = useRouteMatch()
   // console.log(url)
   // console.log(match);
@@ -19,7 +19,7 @@ const SalesAnalysis = (props) => {
             className={tab === "overview" ? "nav-link active px-4 text-danger" : "nav-link text-dark px-4"}
             to={`overview`}
           >
-            {"Overview"}
+            {t("business_insights.tabs.overview")}
           </Link>
         </li>
         <li className="nav-item">
@@ -27,12 +27,12 @@ const SalesAnalysis = (props) => {
             className={tab === "composition" ? "nav-link active px-4 text-danger" : "nav-link text-dark px-4"}
             to={`composition`}
           >
-            {"Composition"}
+            {t("business_insights.tabs.composition")}
           </Link>
         </li>
       </ul>
     </div>
-    {tab === "overview" && <Overview {...props}/>}
+    {tab === "overview" && <Overview {...props} />}
   </>
 }
 

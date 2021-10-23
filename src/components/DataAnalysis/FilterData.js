@@ -80,7 +80,7 @@ const FilterData = ({ filterData, setFilterData, t, i18n }) => {
   return <div className="card card-body shadow-sm d-flex mb-3 py-2">
     <div className="row align-items-center">
       <div className="col-5 row align-items-center">
-        <label className="col-2 text-end" htmlFor="startDate">From:</label>
+        <label className="col-2 text-end" htmlFor="startDate">{t("business_insights.fields.from")}:</label>
         <div className="col-4">
           <input
             type="date"
@@ -91,7 +91,7 @@ const FilterData = ({ filterData, setFilterData, t, i18n }) => {
             onChange={onChangeData}
           />
         </div>
-        <label className="col-2 text-end" htmlFor="endDate">To:</label>
+        <label className="col-2 text-end" htmlFor="endDate">{t("business_insights.fields.to")}:</label>
         <div className="col-4">
           <input
             type="date"
@@ -131,7 +131,7 @@ const FilterData = ({ filterData, setFilterData, t, i18n }) => {
         </div>
       </div> */}
 
-      <label className="col-2 text-nowrap text-end" htmlFor="statisticsTypeId">Statistics Type:</label>
+      <label className="col-2 text-nowrap text-end" htmlFor="statisticsTypeId">{t("business_insights.fields.statistics_type")}:</label>
       <div className="col-2">
         {/* <button
           className="form-control form-control-sm"
@@ -145,7 +145,7 @@ const FilterData = ({ filterData, setFilterData, t, i18n }) => {
           value={filterData.statisticsTypeId}
           onChange={onChangeData}
         >
-          <option value={""}>Select</option>
+          <option value={""}>{t("business_insights.message.please_select")}</option>
           {statisticsType.map(item => <option value={item.value}>{item.name}</option>)}
         </select>
       </div>
@@ -162,7 +162,7 @@ const FilterData = ({ filterData, setFilterData, t, i18n }) => {
               value={filterData.objectFilter}
               onChange={onChangeData}
             >
-              <option value={""}>Select</option>
+              <option value={""}>{t("business_insights.message.please_select")}</option>
               {filterData.statisticsTypeId == 1 && agentData.map(item => <option value={item.code}>{item.code}</option>)}
               {filterData.statisticsTypeId == 2 && teamData.map(item => <option value={item.value}>{item.displayName}</option>)}
               {filterData.statisticsTypeId == 3 && supplierData.map(item => <option value={item.supplierId}>{item.supplierName}</option>)}

@@ -45,7 +45,7 @@ const BusinessInsights = (props) => {
                 : {}}
               to={`/datacenter/dashboard`}
             >
-              {"Dashboard"}
+              {t("business_insights.tabs.dashboard")}
             </Link>
           </li>
           <li className="nav-item">
@@ -56,7 +56,7 @@ const BusinessInsights = (props) => {
                 : {}}
               to="/datacenter/product"
             >
-              {"Product"}
+              {t("business_insights.tabs.product")}
             </Link>
           </li>
           <li className="nav-item">
@@ -67,7 +67,7 @@ const BusinessInsights = (props) => {
                 : {}}
               to="/datacenter/sales/overview"
             >
-              {"Sales"}
+              {t("business_insights.tabs.sales")}
             </Link>
           </li>
         </ul>

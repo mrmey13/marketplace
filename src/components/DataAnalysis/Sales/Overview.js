@@ -5,7 +5,7 @@ import cs from "../../../const";
 
 const loadDataUrl = cs.BaseURL + "/api/statistics/get";
 
-const Overview = ({ filterData }) => {
+const Overview = ({ filterData, t, i18n }) => {
   // console.log(filterData)
   const [chartsDisplay, setChartsDisplay] = useState({
     visitors: true,
@@ -47,9 +47,9 @@ const Overview = ({ filterData }) => {
 
   const formatter = (value, name, props) => {
     switch (name) {
-      case "Orders":
+      case `${t("business_insights.fields.orders")} (${t("business_insights.fields.placed_order")})`:
         return value;
-      case "Sales":
+      case `${t("business_insights.fields.sales")} (${t("business_insights.fields.placed_order")})`:
         return value + "đ";
       default:
         return value;
@@ -117,65 +117,65 @@ const Overview = ({ filterData }) => {
 
   return <div>
     <div className="card card-body mb-1">
-      <h5>Sales Overview</h5>
+      <h5>{t("business_insights.title.sales_overview")}</h5>
       <div className="card px-2 py-1">
         <div className="d-flex border-bottom row row-cols-5" style={{}}>
           <div className="col d-flex align-items-center justify-content-center">
-            <div className="data-title">Visitor</div>
+            <div className="data-title">{t("business_insights.fields.visit")}</div>
           </div>
           <div className="col d-flex align-items-center justify-content-center">
-            <div className="data-label">Visitor</div>
+            <div className="data-label">{t("business_insights.fields.visitors")}</div>
             <div className="data-value">0</div>
             <div> -- </div>
           </div>
           <div className="col" />
           <div className="col" />
           <div className="col d-flex align-items-center justify-content-center">
-            <div className="data-desc">Conversion Rate (Visit to Placed)</div>
+            <div className="data-desc">{`${t("business_insights.fields.conversion_rate")} (${t("business_insights.fields.visit_to_placed")})`}</div>
             <div>0%</div>
           </div>
         </div>
         <div className="d-flex border-bottom row row-cols-5" style={{}}>
           <div className="col d-flex align-items-center justify-content-center">
-            <div className="data-title">Placed Order</div>
+            <div className="data-title">{t("business_insights.fields.placed_order")}</div>
           </div>
           <div className="col d-flex align-items-center justify-content-center">
-            <div className="data-label">Visitor</div>
+            <div className="data-label">{t("business_insights.fields.buyers")}</div>
             <div className="data-value">0</div>
             <div> -- </div>
           </div>
           <div className="col d-flex align-items-center justify-content-center">
-            <div className="data-label">Sales</div>
+            <div className="data-label">{t("business_insights.fields.sales")}</div>
             <div className="data-value">0</div>
             <div> -- </div>
           </div>
           <div className="col" />
           <div className="col d-flex align-items-center justify-content-center">
-            <div className="data-desc">Conversion Rate (Placed to Confirmed)</div>
+            <div className="data-desc">{`${t("business_insights.fields.conversion_rate")} (${t("business_insights.fields.visit_to_confirmed")})`}</div>
             <div>0%</div>
           </div>
         </div>
         <div className="d-flex row row-cols-5" style={{}}>
           <div className="col d-flex align-items-center justify-content-center">
-            <div className="data-title">Confirmed Order</div>
+            <div className="data-title">{t("business_insights.fields.confirmed_order")}</div>
           </div>
           <div className="col d-flex align-items-center justify-content-center">
-            <div className="data-label">Visitor</div>
+            <div className="data-label">{t("business_insights.fields.buyers")}</div>
             <div className="data-value">0</div>
             <div> -- </div>
           </div>
           <div className="col d-flex align-items-center justify-content-center">
-            <div className="data-label">Sales</div>
+            <div className="data-label">{t("business_insights.fields.sales")}</div>
             <div className="data-value">0</div>
             <div> -- </div>
           </div>
           <div className="col d-flex align-items-center justify-content-center">
-            <div className="data-label">Sales Per Buyer</div>
+            <div className="data-label">{t("business_insights.fields.sales_per_buyer")}</div>
             <div className="data-value">0</div>
             <div> -- </div>
           </div>
           <div className="col d-flex align-items-center justify-content-center">
-            <div className="data-desc">Conversion Rate (Visit to Confirmed)</div>
+            <div className="data-desc">{`${t("business_insights.fields.conversion_rate")} (${t("business_insights.fields.placed_to_confirmed")})`}</div>
             <div>0%</div>
           </div>
         </div>
@@ -183,12 +183,12 @@ const Overview = ({ filterData }) => {
     </div>
 
     <div className="card card-body mb-1">
-      <h5>Metric trend</h5>
+      <h5>{t("business_insights.title.metric_trend")}</h5>
       <div className="card mb-5">
         <div className="px-3">
           <div className="d-flex border-bottom row py-3">
             <div className="col-2 d-flex align-items-baseline justify-content-end">
-              <div className="data-title">Visitor: </div>
+              <div className="data-title">{t("business_insights.fields.visit")}: </div>
             </div>
             <div className="col-10 row row-cols-4">
               <div className="col mb-2 px-1">
@@ -203,7 +203,7 @@ const Overview = ({ filterData }) => {
                   // disabled={!addressList.length || address.isReturn}
                   />
                   <label className="data-label ms-2" for="visitors">
-                    {"Visitors"}
+                    {t("business_insights.fields.visitors")}
                   </label>
                 </div>
               </div>
@@ -212,7 +212,7 @@ const Overview = ({ filterData }) => {
 
           <div className="d-flex border-bottom row py-3">
             <div className="col-2 d-flex align-items-baseline justify-content-end">
-              <div className="data-title">Placed Order: </div>
+              <div className="data-title">{t("business_insights.fields.placed_order")}: </div>
             </div>
             <div className="col-10 row row-cols-4">
               <div className="col mb-2 px-1">
@@ -227,7 +227,7 @@ const Overview = ({ filterData }) => {
                   // disabled={!addressList.length || address.isReturn}
                   />
                   <label className="data-label ms-2" for="buyersPO">
-                    {"Buyers"}
+                    {t("business_insights.fields.buyers")}
                   </label>
                 </div>
               </div>
@@ -243,7 +243,7 @@ const Overview = ({ filterData }) => {
                   // disabled={!addressList.length || address.isReturn}
                   />
                   <label className="data-label ms-2" for="unitsPO">
-                    {"Units"}
+                    {t("business_insights.fields.units")}
                   </label>
                 </div>
               </div>
@@ -259,7 +259,7 @@ const Overview = ({ filterData }) => {
                   // disabled={!addressList.length || address.isReturn}
                   />
                   <label className="data-label ms-2" for="ordersPO">
-                    {"Orders"}
+                    {t("business_insights.fields.orders")}
                   </label>
                 </div>
               </div>
@@ -275,7 +275,7 @@ const Overview = ({ filterData }) => {
                   // disabled={!addressList.length || address.isReturn}
                   />
                   <label className="data-label ms-2" for="salesPO">
-                    {"Sales"}
+                    {t("business_insights.fields.sales")}
                   </label>
                 </div>
               </div>
@@ -293,7 +293,7 @@ const Overview = ({ filterData }) => {
                     />
                   </div>
                   <label className="data-label text-start ms-2" for="conversionRateVtoP">
-                    {"Conversion Rate (Visit to Placed)"}
+                    {`${t("business_insights.fields.conversion_rate")} (${t("business_insights.fields.visit_to_placed")})`}
                   </label>
                 </div>
               </div>
@@ -302,7 +302,7 @@ const Overview = ({ filterData }) => {
 
           <div className="d-flex border-bottom row py-3">
             <div className="col-2 d-flex align-items-baseline justify-content-end">
-              <div className="data-title">Confirmed Order:</div>
+              <div className="data-title">{t("business_insights.fields.confirmed_order")}:</div>
             </div>
             <div className="col-10 row row-cols-4">
               <div className="col mb-2 px-1">
@@ -317,7 +317,7 @@ const Overview = ({ filterData }) => {
                   // disabled={!addressList.length || address.isReturn}
                   />
                   <label className="data-label ms-2" for="buyersCO">
-                    {"Buyers"}
+                    {t("business_insights.fields.buyers")}
                   </label>
                 </div>
               </div>
@@ -333,7 +333,7 @@ const Overview = ({ filterData }) => {
                   // disabled={!addressList.length || address.isReturn}
                   />
                   <label className="data-label ms-2" for="unitsCO">
-                    {"Units"}
+                    {t("business_insights.fields.units")}
                   </label>
                 </div>
               </div>
@@ -349,7 +349,7 @@ const Overview = ({ filterData }) => {
                   // disabled={!addressList.length || address.isReturn}
                   />
                   <label className="data-label ms-2" for="ordersCO">
-                    {"Orders"}
+                    {t("business_insights.fields.orders")}
                   </label>
                 </div>
               </div>
@@ -365,7 +365,7 @@ const Overview = ({ filterData }) => {
                   // disabled={!addressList.length || address.isReturn}
                   />
                   <label className="data-label ms-2" for="salesCO">
-                    {"Sales"}
+                    {t("business_insights.fields.sales")}
                   </label>
                 </div>
               </div>
@@ -381,7 +381,7 @@ const Overview = ({ filterData }) => {
                   // disabled={!addressList.length || address.isReturn}
                   />
                   <label className="data-label ms-2" for="salesPerBuyer">
-                    {"Sales Per Buyer"}
+                    {t("business_insights.fields.sales_per_buyer")}
                   </label>
                 </div>
               </div>
@@ -399,7 +399,7 @@ const Overview = ({ filterData }) => {
                     />
                   </div>
                   <label className="data-label text-start ms-2" for="conversionRateVtoC">
-                    {"Conversion Rate (Visit to Confirmed)"}
+                    {`${t("business_insights.fields.conversion_rate")} (${t("business_insights.fields.visit_to_confirmed")})`}
                   </label>
                 </div>
               </div>
@@ -417,7 +417,7 @@ const Overview = ({ filterData }) => {
                     />
                   </div>
                   <label className="data-label text-start ms-2" for="conversionRatePtoC">
-                    {"Conversion Rate (Placed to Confirmed)"}
+                    {`${t("business_insights.fields.conversion_rate")} (${t("business_insights.fields.placed_to_confirmed")})`}
                   </label>
                 </div>
               </div>
@@ -425,7 +425,7 @@ const Overview = ({ filterData }) => {
           </div>
         </div>
         <div className="bg-light text-secondary p-1 px-3">
-          Metric Selected: {`${numberSelectedCharts}/${SELECTED_CHARTS_LIMIT}`}
+          {t("business_insights.fields.metric_selected")}: {`${numberSelectedCharts}/${SELECTED_CHARTS_LIMIT}`}
         </div>
       </div>
       <div className="d-flex justify-content-center mb-5">
@@ -436,9 +436,9 @@ const Overview = ({ filterData }) => {
             <YAxis domain={[0, 'dataMax + 10000']} yAxisId="currency" hide />
             <YAxis domain={[0, 100]} yAxisId="percent" hide />
             <CartesianGrid stroke="#ccc" />
-            <Line name="Orders" type="linear" dataKey="totalOrder" stroke="red" yAxisId="number" dot={false} hide={false} />
-            <Line name="Sales" type="linear" dataKey="totalRevenue" stroke="blue" yAxisId="currency" dot={false} />
-            <Line name="Sold products" type="linear" dataKey="totalSoldProducts" stroke="green" yAxisId="number" dot={false} />
+            <Line name={`${t("business_insights.fields.orders")} (${t("business_insights.fields.placed_order")})`} type="linear" dataKey="totalOrder" stroke="red" yAxisId="number" dot={false} hide={false} />
+            <Line name={`${t("business_insights.fields.sales")} (${t("business_insights.fields.placed_order")})`} type="linear" dataKey="totalRevenue" stroke="blue" yAxisId="currency" dot={false} />
+            <Line name={`${t("business_insights.fields.units")} (${t("business_insights.fields.placed_order")})`} type="linear" dataKey="totalSoldProducts" stroke="green" yAxisId="number" dot={false} />
             <Tooltip
               formatter={formatter}
             />
@@ -448,11 +448,11 @@ const Overview = ({ filterData }) => {
       </div>
       <table className="table table-striped table-bordered table-hover">
         <thead className="text-center">
-          <tr className="table-danger">
-            <th style={{ width: "25%" }}>Time</th>
-            <th style={{ width: "25%" }}>Orders</th>
-            <th style={{ width: "25%" }}>Sold products</th>
-            <th style={{ width: "25%" }}>Sales</th>
+          <tr className="table-warning">
+            <th style={{ width: "25%" }}>{t("business_insights.fields.time")}</th>
+            <th style={{ width: "25%" }}>{`${t("business_insights.fields.orders")} (${t("business_insights.fields.placed_order")})`}</th>
+            <th style={{ width: "25%" }}>{`${t("business_insights.fields.units")} (${t("business_insights.fields.placed_order")})`}</th>
+            <th style={{ width: "25%" }}>{`${t("business_insights.fields.sales")} (${t("business_insights.fields.placed_order")})`}</th>
           </tr>
         </thead>
         <tbody className="text-end">
@@ -464,7 +464,7 @@ const Overview = ({ filterData }) => {
               <td>{item.totalRevenue + "đ"}</td>
             </tr>
           })}
-          {!chartsData.length && <tr className="text-start">No Data</tr>}
+          {!chartsData.length && <tr className="text-start">{t("commons.no_data")}</tr>}
         </tbody>
       </table>
     </div>

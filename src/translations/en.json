@@ -31,7 +31,8 @@
             "yes": "Yes",
             "add": "Add",
             "apply": "Apply",
-            "set_default": "Set Default"
+            "set_default": "Set Default",
+            "close": "Close"
         },
         "expansionPanelText": "Search ...",
         "no_data": "No Data"
@@ -63,6 +64,14 @@
         "admin_menu": {
             "title": "Administration",
             "all_products": "Approve Products"
+        },
+        "finance_menu": {
+            "title": "Finance",
+            "bank_accounts": "Bank Accounts"
+        },
+        "data_menu": {
+            "title": "Data",
+            "business_insights": "Business Insights"
         }
     },
     "shop_profile": {
@@ -75,17 +84,17 @@
         "media": "Media",
         "deleteMedia": "Delete item with id={{id}}"
     },
-    "product":{
+    "product": {
         "all": "All",
         "live": "Live",
         "sold_out": "Sold out",
         "violation": "Violation",
-        "product_name":"Product Name",
-        "sku":"SKU",
-        "variation":"Variations",
-        "price":"Price",
-        "stock":"Stock",
-        "sale":"Sales"
+        "product_name": "Product Name",
+        "sku": "SKU",
+        "variation": "Variations",
+        "price": "Price",
+        "stock": "Stock",
+        "sale": "Sales"
     },
     "product_category": {
         "title": "Add a new product",
@@ -273,6 +282,62 @@
             "select_category": "Select category",
             "please_select_category": "Please select category",
             "confirm_delete": "Are you sure you want to delete?"
+        }
+    },
+    "bank_accounts": {
+        "tabs": {
+            "bank_accounts": "Bank Accounts",
+            "bank_account": "Bank Account",
+            "add_bank_account": "Add Bank Account"
+        },
+        "fields": {
+            "fullname": "Full Name",
+            "bankname": "Bank Name",
+            "account_no": "Account No"
+        },
+        "message": {
+            "create_success": "Create success",
+            "delete_success": "Delete success",
+            "select_bank": "Select Bank",
+            "please_select_bank": "Please select bank",
+            "please_input_fullname": "Please enter your full name",
+            "please_input_account_no": "Please enter your Account No"
+        }
+    },
+    "business_insights": {
+        "tabs": {
+            "dashboard": "Dashboard",
+            "product": "Product",
+            "sales": "Sales",
+            "overview": "Overview",
+            "composition": "Composition"
+        },
+        "title": {
+            "sales_overview": "Sales Overview",
+            "metric_trend": "Metric Trend"
+        },
+        "fields": {
+            "from": "Form",
+            "to": "To",
+            "statistics_type": "Statistics Type",
+            "visit": "Visit",
+            "visitors": "Visitors",
+            "placed_order": "Placed Order",
+            "buyers": "Buyers",
+            "sales": "Sales",
+            "confirmed_order": "Confirmed Order",
+            "sales_per_buyer": "Sales Per Buyer",
+            "conversion_rate": "Conversion Rate",
+            "visit_to_placed": "Visit to Placed",
+            "visit_to_confirmed": "Visit to Confirmed",
+            "placed_to_confirmed": "Placed to Confirmed",
+            "orders": "Orders",
+            "units": "Units",
+            "metric_selected": "Metric selected",
+            "time": "Time"
+        },
+        "message": {
+            "please_select": "Please select"
         }
     }
 }

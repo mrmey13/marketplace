@@ -464,6 +464,7 @@ const Overview = ({ filterData }) => {
               <td>{item.totalRevenue + "đ"}</td>
             </tr>
           })}
+          {!chartsData.length && <tr className="text-start">No Data</tr>}
         </tbody>
       </table>
     </div>

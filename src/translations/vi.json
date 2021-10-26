@@ -319,6 +319,7 @@
         "fields": {
             "from": "Từ",
             "to": "Đến",
+            "data_period": "Khung thời gian",
             "statistics_type": "Kiểu thống kê",
             "visit": "Lượt truy cập",
             "visitors": "Số lượt truy cập",
@@ -338,6 +339,21 @@
         },
         "message": {
             "please_select": "Vui lòng chọn"
+        },
+        "time_type": {
+            "real_time": "Thời gian báo cáo",
+            "yesterday": "Hôm qua",
+            "past_7_days": "Trong 7 ngày qua",
+            "past_30_days": "Trong 30 ngày qua",
+            "by_day": "Theo ngày",
+            "by_week": "Theo tuần",
+            "by_month": "Theo tháng"
+        },
+        "statistics_type": {
+            "agent": "Đại lý",
+            "team": "Team",
+            "supplier": "Nhà cung cấp",
+            "merchant": "Đối tác"
         }
     }
 }

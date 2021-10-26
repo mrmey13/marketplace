@@ -319,6 +319,7 @@
         "fields": {
             "from": "Form",
             "to": "To",
+            "data_period": "Data Period",
             "statistics_type": "Statistics Type",
             "visit": "Visit",
             "visitors": "Visitors",
@@ -338,6 +339,21 @@
         },
         "message": {
             "please_select": "Please select"
+        },
+        "time_type": {
+            "real_time": "Real-Time",
+            "yesterday": "Yesterday",
+            "past_7_days": "Past 7 days",
+            "past_30_days": "Past 30 days",
+            "by_day": "By Day",
+            "by_week": "By Week",
+            "by_month": "By Month"
+        },
+        "statistics_type": {
+            "agent": "Agent",
+            "team": "Team",
+            "supplier": "Supplier",
+            "merchant": "Merchant"
         }
     }
 }

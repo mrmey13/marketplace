@@ -436,9 +436,30 @@ const Overview = ({ filterData, t, i18n }) => {
             <YAxis domain={[0, 'dataMax + 10000']} yAxisId="currency" hide />
             <YAxis domain={[0, 100]} yAxisId="percent" hide />
             <CartesianGrid stroke="#ccc" />
-            <Line name={`${t("business_insights.fields.orders")} (${t("business_insights.fields.placed_order")})`} type="linear" dataKey="totalOrder" stroke="red" yAxisId="number" dot={false} hide={false} />
-            <Line name={`${t("business_insights.fields.sales")} (${t("business_insights.fields.placed_order")})`} type="linear" dataKey="totalRevenue" stroke="blue" yAxisId="currency" dot={false} />
-            <Line name={`${t("business_insights.fields.units")} (${t("business_insights.fields.placed_order")})`} type="linear" dataKey="totalSoldProducts" stroke="green" yAxisId="number" dot={false} />
+            <Line
+              name={`${t("business_insights.fields.orders")} (${t("business_insights.fields.placed_order")})`}
+              type="linear"
+              dataKey="totalOrder"
+              stroke="red"
+              yAxisId="number"
+              dot={false}
+              hide={false}
+            />
+            <Line
+              name={`${t("business_insights.fields.sales")} (${t("business_insights.fields.placed_order")})`}
+              type="linear" dataKey="totalRevenue"
+              stroke="blue"
+              yAxisId="currency"
+              dot={false}
+            />
+            <Line
+              name={`${t("business_insights.fields.units")} (${t("business_insights.fields.placed_order")})`}
+              type="linear"
+              dataKey="totalSoldProducts"
+              stroke="green"
+              yAxisId="number"
+              dot={false}
+            />
             <Tooltip
               formatter={formatter}
             />

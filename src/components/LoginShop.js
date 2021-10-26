@@ -14,7 +14,10 @@ import {withTranslation } from 'react-i18next';
 
 
 const loginURL = cs.BaseURL + "/api/auth/login";
-const homeShopBase = "/" + cs.routeBase + "/shop";
+let homeShopBase =  "/shop";
+if (cs.routeBase.length > 0) {
+  homeShopBase = "/" + cs.routeBase + homeShopBase;
+}
 const styles = (theme) => ({
   card: {
     maxWidth: 800,
@@ -98,13 +101,13 @@ class LoginShop extends React.Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
+        
           if (
             data &&
             data.data &&
             data.data.token &&
-            data.data.token != "null" &&
-            data.data.token != undefined
+            data.data.token !== "null" &&
+            data.data.token !== undefined
           ) {
             sessionStorage.clear();
             localStorage.setItem(cs.System_Code + "-token", data.data.token);
@@ -129,8 +132,7 @@ class LoginShop extends React.Component {
               error_message: "Tài khoản hoặc mật khẩu không chính xác !",
             });
           }
-        } else {
-        }
+        
       })
       .catch(() => {
         this.setState({

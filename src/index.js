@@ -6,11 +6,13 @@ import reportWebVitals from './reportWebVitals';
 import './i18n';
 import { createBrowserHistory } from 'history';
 import { BrowserRouter as Router } from 'react-router-dom';
+import cs from './const';
 
 const history = createBrowserHistory();
+const routeBase =  '/' + `${cs.routeBase}`;
 ReactDOM.render(
   <React.StrictMode>
-    <Router history={history}>
+    <Router history={history}  basename={routeBase}>
       <App history={history}/>
     </Router>  
   </React.StrictMode>,

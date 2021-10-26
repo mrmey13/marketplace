@@ -14,7 +14,7 @@ import {withTranslation } from 'react-i18next';
 
 
 const loginURL = cs.BaseURL + "/api/auth/login";
-
+const homeShopBase = "/" + cs.routeBase + "/shop";
 const styles = (theme) => ({
   card: {
     maxWidth: 800,
@@ -121,7 +121,7 @@ class LoginShop extends React.Component {
             localStorage.setItem(cs.System_Code + '-funtionRoles', JSON.parse(JSON.stringify(data.data.functionRoles)));
             console.log(data.data);
             // go to shop management page after logging in
-            this.props.history.push('/shop');
+            this.props.history.push(homeShopBase);
           } else {
             this.setState({
               username: "",

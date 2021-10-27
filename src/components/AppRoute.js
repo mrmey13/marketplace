@@ -104,8 +104,8 @@ export class AppRoute extends Component {
         <Route path="/finance/wallet/card" component={BankAccounts} />
 
         {/* Data Analysis */}
-        <Route path="/datacenter/:title" component={BusinessInsights} />
-        <Route path="/datacenter/:title/:tab" component={BusinessInsights} />
+        <Route exact path="/datacenter/:title" component={BusinessInsights} />
+        <Route exact path="/datacenter/:title/:tab" component={BusinessInsights} />
 
         {/* Settings */}
         <Route path="/settings/address" component={MyAddresses} />

@@ -14,7 +14,10 @@ import {withTranslation } from 'react-i18next';
 
 
 const loginURL = cs.BaseURL + "/api/auth/login";
-
+let homeShopBase =  "/shop";
+if (cs.routeBase.length > 0) {
+  homeShopBase = "/" + cs.routeBase + homeShopBase;
+}
 const styles = (theme) => ({
   card: {
     maxWidth: 800,
@@ -98,13 +101,13 @@ class LoginShop extends React.Component {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
+        
           if (
             data &&
             data.data &&
             data.data.token &&
-            data.data.token != "null" &&
-            data.data.token != undefined
+            data.data.token !== "null" &&
+            data.data.token !== undefined
           ) {
             sessionStorage.clear();
             localStorage.setItem(cs.System_Code + "-token", data.data.token);
@@ -121,7 +124,7 @@ class LoginShop extends React.Component {
             localStorage.setItem(cs.System_Code + '-funtionRoles', JSON.parse(JSON.stringify(data.data.functionRoles)));
             console.log(data.data);
             // go to shop management page after logging in
-            this.props.history.push('/shop');
+            this.props.history.push(homeShopBase);
           } else {
             this.setState({
               username: "",
@@ -129,8 +132,7 @@ class LoginShop extends React.Component {
               error_message: "Tài khoản hoặc mật khẩu không chính xác !",
             });
           }
-        } else {
-        }
+        
       })
       .catch(() => {
         this.setState({

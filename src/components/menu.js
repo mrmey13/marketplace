@@ -3,6 +3,11 @@ import Icon from '@material-ui/core/Icon';
 import { LocalMall, InsertChartRounded, AccountBalanceWallet, SettingsApplications } from '@material-ui/icons';
 import cs from '../const';
 import { isMarketplaceAdmin, isSoloUser } from '../service';
+
+let baseRoute ="";
+if (cs.routeBase.length > 0) {
+    baseRoute = "/" + cs.routeBase;
+}
 const shop_menu = [
     {
         icon: <Icon color="disable">store</Icon>,
@@ -12,7 +17,7 @@ const shop_menu = [
             {
                 // icon: <Icon color="disable">query_builder</Icon>,
                 title: 'nested_list.shop_menu.profile',
-                to: '/shop/profile',
+                to: baseRoute + '/shop/profile',
                 items: [],
                 accesses: [],
                 nonaccesses: []
@@ -54,12 +59,12 @@ const product_menu = [
         items: [
             {
                 // icon: <Icon color="disable">shop</Icon>,
-                to: '/product/list/all',
+                to: baseRoute + '/product/list/all',
                 title: 'nested_list.product_menu.all_products'
             },
             {
                 // icon: <Icon color="disable">shop</Icon>,
-                to: '/product/category',
+                to: baseRoute + '/product/category',
                 title: 'nested_list.product_menu.new_product'
             }
         ],
@@ -73,7 +78,7 @@ const finance_menu = [
         items: [
             {
                 // icon: <Icon color="disable">shop</Icon>,
-                to: '/finance/wallet/card',
+                to: baseRoute + '/finance/wallet/card',
                 title: 'nested_list.finance_menu.bank_accounts'
             },
         ],
@@ -87,7 +92,7 @@ const data_menu = [
         items: [
             {
                 // icon: <Icon color="disable">shop</Icon>,
-                to: '/datacenter/dashboard',
+                to: baseRoute + '/datacenter/dashboard',
                 title: 'nested_list.data_menu.business_insights'
             },
         ],
@@ -101,7 +106,7 @@ const settings_menu = [
         items: [
             {
                 title: 'shop_settings.my_addresses',
-                to: '/settings/address',
+                to: baseRoute + '/settings/address',
                 items: [],
                 accesses: [],
                 nonaccesses: []
@@ -109,7 +114,7 @@ const settings_menu = [
             {
                 // icon: <Icon color="disable">query_builder</Icon>,
                 title: 'shop_settings.setting',
-                to: '/shop/setting',
+                to: baseRoute + '/shop/setting',
                 items: [],
                 accesses: [],
                 nonaccesses: []
@@ -117,7 +122,7 @@ const settings_menu = [
             {
                 // icon: <Icon color="disable">query_builder</Icon>,
                 title: 'MyAccount',
-                to: '/my_account',
+                to: baseRoute + '/my_account',
                 items: [],
                 accesses: [],
                 nonaccesses: []
@@ -132,12 +137,12 @@ const admin_menu = [{
     items: [
         {
             // icon: <Icon color="disable">shop</Icon>,
-            to: '/product-list/all',
+            to: baseRoute + '/product-list/all',
             title: 'nested_list.admin_menu.all_products'
         },
         {
             // icon: <Icon color="disable">shop</Icon>,
-            to: '/attribute/list',
+            to: baseRoute + '/attribute/list',
             title: 'Attribute Management'
         },
     ]

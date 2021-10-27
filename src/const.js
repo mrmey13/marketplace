@@ -74,16 +74,22 @@ export default {
     ShopUrl:"http://localhost:3002/shop",
     EtrainingUrl:"http://192.168.1.127:3000",
     HRUrl:"http://192.168.1.127:3001",
-
+    SaleUrl:"https://general.aidriven.credito.asia",
+    routeBase:"",
+   
     // Deploy locally
-    // ShopUrl:"http://192.168.1.127:3002/shop",
-    // EtrainingUrl:"http://192.168.1.127:3000",
-    // HRUrl:"http://192.168.1.127:3001",
+    // ShopUrl:"http://192.168.1.127:2999/marketplace/shop",
+    // EtrainingUrl:"http://192.168.1.127:2999/etraining",
+    // HRUrl:"http://192.168.1.127:2999/hr",
+    // SaleUrl:"https://general.aidriven.credito.asia",
+    // routeBase:"marketplace",
 
     // production
     // ShopUrl:"http://salesplus.asia/shop",
     // EtrainingUrl:"http://etraining.salesplus.asia",
     // HRUrl:"http://hr.salesplus.asia",
+    // SaleUrl:"https://general.aidriven.credito.asia",
+    // routeBase:""
 };
 
 export const openInNewTab = (url) => {

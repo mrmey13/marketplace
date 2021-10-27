@@ -74,7 +74,7 @@ export class AppRoute extends Component {
         />
 
         <Route
-          exact
+          
           path="/shop/setting"
           component={() => ShopSetting(t, i18n)}
         />
@@ -89,28 +89,28 @@ export class AppRoute extends Component {
           component={ProductDetail}
         />
 
-        <Route exact path="/my_account" component={() => MyAccount(t, i18n)} />
+        <Route path="/my_account" component={() => MyAccount(t, i18n)} />
         <Route exact path="/user/address" component={MyAddress} />
         <Route exact path="/user/password" component={MyPassword} />
 
         {/* Administration */}
-        <Route exact path="/attribute/list" component={Attribute} />
-        <Route exact path="/attribute/config" component={AttributeManage} />
+        <Route path="/attribute/list" component={Attribute} />
+        <Route path="/attribute/config" component={AttributeManage} />
 
         {/* Product */}
-        <Route exact path="/product/new" component={CreateProduct} />
+        <Route path="/product/new" component={CreateProduct} />
 
         {/* Finance */}
-        <Route exact path="/finance/wallet/card" component={BankAccounts} />
+        <Route path="/finance/wallet/card" component={BankAccounts} />
 
         {/* Data Analysis */}
-        <Route exact path="/datacenter/:title" component={BusinessInsights} />
-        <Route exact path="/datacenter/:title/:tab" component={BusinessInsights} />
+        <Route path="/datacenter/:title" component={BusinessInsights} />
+        <Route path="/datacenter/:title/:tab" component={BusinessInsights} />
 
         {/* Settings */}
-        <Route exact path="/settings/address" component={MyAddresses} />
+        <Route path="/settings/address" component={MyAddresses} />
 
-        <Route exact path="/product/category" component={ProductCategoryArea} />
+        <Route path="/product/category" component={ProductCategoryArea} />
 
         <Route
           // exact

@@ -15,6 +15,7 @@ import { useTranslation, withTranslation } from 'react-i18next';
 
 
 const loginURL = cs.BaseURL + "/api/auth/login";
+const homeBase = "/" + cs.routeBase;
 
 const styles = (theme) => ({
   card: {
@@ -127,7 +128,7 @@ class Login extends React.Component {
             if (this.props.location.state && this.props.location.state.prePath) {
               this.props.history.push(this.props.location.state.prePath);
             } else {
-              this.props.history.push('/');
+              this.props.history.push(homeBase);
             }
           } else {
             this.setState({
@@ -156,7 +157,7 @@ class Login extends React.Component {
           <a class="active" href="http://www.salesplus.asia">SALESPLUS</a>
           <a href="http://hr.salesplus.asia">HR</a>
           <a href="http://etraining.salesplus.asia">eTraining</a>
-          <a href="http://sales.salesplus.asia">Sales</a>
+          <a href="https://general.aidriven.credito.asia">Sales</a>
         </div>
         <div className={classes.main_container}>
           <Card

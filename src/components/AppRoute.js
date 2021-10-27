@@ -137,7 +137,7 @@ export class AppRoute extends Component {
         />
 
         {/* Shop (buyer) */}
-        <Route exact path="/:shopCode" component={ShopInfo} />
+        <Route exact path="/shop-detail/:shopCode" component={ShopInfo} />
 
         <Route exact path="/cart" component={Cart} />
       </ToastProvider>

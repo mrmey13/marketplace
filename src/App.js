@@ -141,7 +141,7 @@ function App() {
 					<Route path="/" component={Home} />
 
 					{/* Shop (buyer) */}
-					<Route exact path="/:shopCode" component={Home} />
+					<Route exact path="/shop-detail/:shopCode" component={Home} />
 				</Switch>
 
 			</TableSettingProvider>

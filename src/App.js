@@ -139,6 +139,9 @@ function App() {
 
 					<Route exact path="/cart" component={Home} />
 					<Route path="/" component={Home} />
+
+					{/* Shop (buyer) */}
+					<Route exact path="/:shopCode" component={Home} />
 				</Switch>
 
 			</TableSettingProvider>

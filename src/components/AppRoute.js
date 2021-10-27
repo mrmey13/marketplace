@@ -41,6 +41,7 @@ import ShopDashboard from "./HomePage/ShopDashboard";
 import Cart from "./Cart/Cart";
 import BusinessInsights from "./DataAnalysis/BusinessInsights";
 import BankAccounts from "./Finance/BankAccounts";
+import ShopInfo from "./ShopInfo/ShopInfo";
 
 const styles = (theme) => ({
   tableContainer: {
@@ -134,6 +135,9 @@ export class AppRoute extends Component {
           path="/product/edit/:productId"
           component={EditProduct}
         />
+
+        {/* Shop (buyer) */}
+        <Route exact path="/:shopCode" component={ShopInfo} />
 
         <Route exact path="/cart" component={Cart} />
       </ToastProvider>

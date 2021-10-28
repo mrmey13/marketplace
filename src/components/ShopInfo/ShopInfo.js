@@ -1,14 +1,72 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { withTranslation } from "react-i18next";
 import color from "../../theme/color";
 import cs from "../../const";
 import { Link } from "react-router-dom";
 import Product from "../ProductList/Product";
+import Pagination from "../shared/Pagination";
+import axios from "axios";
 
-const list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+const list = [1, 2, 3, 4, 5, 6, 7];
+const loadProductListUrl = cs.BaseURL + "/api/buyer/product/list";
+
+const FEATURED_PRODUCT_SIZE = 6 * 2;
+const PRODUCT_BY_CATEGORY_SIZE = 5 * 3;
 
 const ShopInfo = (props) => {
+  const { match } = props;
   console.log(props.match)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const itemsPerPage = PRODUCT_BY_CATEGORY_SIZE;
+
+  const [featuredProductList, setFeaturedProductList] = useState([]);
+  const [productByCategoryList, setProductByCategoryList] = useState([]);
+
+  const loadFeatureProductList = async (conditions) => {
+    const response = await axios({
+      method: "post",
+      url: `${loadProductListUrl}`,
+      //   headers: {
+      //     Authorization: localStorage.getItem(cs.System_Code + "-token"),
+      //   },
+      data: {
+        //categoryLevel1Id: 100017,
+        page: 1,
+        size: FEATURED_PRODUCT_SIZE,
+      },
+    });
+    setFeaturedProductList(response.data.data);
+    setTotalItems(response.data.total_count);
+    // console.log("res", response.data);
+  };
+
+  const loadProductByCategoryList = async (conditions) => {
+    const response = await axios({
+      method: "post",
+      url: `${loadProductListUrl}`,
+      //   headers: {
+      //     Authorization: localStorage.getItem(cs.System_Code + "-token"),
+      //   },
+      data: {
+        //categoryLevel1Id: 100017,
+        page: currentPage,
+        size: itemsPerPage,
+      },
+    });
+    setProductByCategoryList(response.data.data);
+    setTotalItems(response.data.total_count);
+    // console.log("res", response.data);
+  };
+
+  useEffect(() => {
+    loadFeatureProductList();
+  }, [match.params.shopCode]);
+
+  useEffect(() => {
+    loadProductByCategoryList();
+  }, [currentPage, match.params.shopCode]);
+
   const [sortTab, setSortTab] = useState("");
   return <div className="container-fluid" style={{ width: "90%", minWidth: "1200px" }} >
     <div className="card card-body shadow-sm mb-3">
@@ -73,7 +131,7 @@ const ShopInfo = (props) => {
     <div className="card card-body shadow-sm mb-2">
       <div className="text-uppercase mb-1" style={{ color: color.tanhide, fontSize: "17px" }}>Sản phẩm nổi bật</div>
       <div className="row">
-        {list.map((item) => <div className="col-2 p-0">
+        {featuredProductList.map((item) => <div className="col-2 p-0">
           <Product useFor="buyer" data={item} />
         </div>)}
       </div>
@@ -82,10 +140,10 @@ const ShopInfo = (props) => {
     <div className="card card-body shadow-sm mb-2">
       <div className="row">
         <div className="col-2">
-          <div className="text-uppercase" style={{ fontSize: "16px" }}>DANH MUC</div>
-          {list.map(item => <div>
+          <div className="text-uppercase border-bottom" style={{ fontSize: "16px" }}>DANH MUC</div>
+          {list.map(item => <button className="button-category">
             {`danh muc ${item}`}
-          </div>)}
+          </button>)}
         </div>
         <div className="col-10">
           <div className="sort-card mb-2 d-flex align-items-center">
@@ -144,9 +202,12 @@ const ShopInfo = (props) => {
                 <option value="2">Từ cao tới thấp</option>
               </select>
             </div>
+            <div className="mt-2">
+              <Pagination ItemsPerPage={itemsPerPage} totalItems={totalItems} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            </div>
           </div>
           <div className="row row-cols-5">
-            {list.map((item) => <div className="col p-0">
+            {productByCategoryList.map((item) => <div className="col p-0">
               <Product useFor="buyer" data={item} />
             </div>)}
           </div>

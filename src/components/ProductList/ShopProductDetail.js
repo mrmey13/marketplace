@@ -13,9 +13,9 @@ const loadProductListUrl = cs.BaseURL + "/api/buyer/product/list";
 const mediaURL = cs.MediaURL + "/media/";
 
 
-function ShopProductDetail() {
-  const { productId } = useParams();
-  // console.log("productId", productId);
+function ShopProductDetail({ match }) {
+  // console.log("productId", match.params.productId);
+  const [productId, setProductId] = match.params.productId;
   const [quantityProduct, setQuantityProduct] = useState(1);
   const [variation, setVariation] = useState({ 0: "0" });
   // console.log("variation", variation);
@@ -36,22 +36,7 @@ function ShopProductDetail() {
   const curPosts = productImage.slice(indexOfFirstImage, indexOfLastImage);
 
   const [imageTab, setImageTab] = useState(0);
-  const [shopDetail, setShopDetail] = useState({
-    numberOfFollowers: 0,
-    pertcentageOfChatFeedbacks: 0,
-    numberOfReviews: 0,
-    description: "",
-    shopName: "",
-    numberOfProducts: 0,
-    userName: "",
-    followingCount: 0,
-    averageRating: 0,
-    mediaDescriptionsList: [],
-    createdTime: "",
-    shopId: 1,
-    id: 0,
-    productId: 0,
-  });
+  const [shopDetail, setShopDetail] = useState({});
   const [productDetail, setProductDetail] = useState({
     variationArray: [],
     productName: "",
@@ -91,7 +76,6 @@ function ShopProductDetail() {
       setIntroImage(response.data.data.productImageCover);
       setFirstImage(response.data.data.productImageCover);
       setProductImage(response.data.data.productImages);
-      // setProductImage([...productImage, { path: introImage, id: 0 }]);
     }
   };
 
@@ -111,10 +95,14 @@ function ShopProductDetail() {
   };
 
   useEffect(() => {
+    setProductId(match.params.productId);
+  }, [match.params.productId]);
+
+  useEffect(() => {
     loadProductDetail();
     loadShopDetail();
     loadProductList();
-  }, []);
+  }, [productId]);
 
   console.log("introimage", introImage);
   console.log("intro", productImage);

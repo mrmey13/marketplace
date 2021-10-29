@@ -7,18 +7,16 @@ import Product from './Product';
 import { Link, useParams } from 'react-router-dom';
 import { hasToken } from '../../service';
 
-const shopDetailUrl = cs.BaseURL + '/api/seller/shop/detail';
+const shopDetailUrl = cs.BaseURL + '/api/buyer/shop/info?';
+const loadProductListUrl = cs.BaseURL + "/api/buyer/product/list";
 const Seller_product_detail = cs.BaseURL + '/api/seller/product/detail';
 const Buyer_product_detail = cs.BaseURL + '/api/buyer/product/detail';
-const loadProductListUrl = cs.BaseURL + "/api/buyer/product/list";
 
 const mediaURL = cs.MediaURL + '/media/';
 
 const ADD_TO_CART_URL = cs.BaseURL + '/api/buyer/cart/add';
 
 function ProductDetail(props) {
-  console.log("props", props)
-  console.log("hasToken", hasToken());
   const { productId } = useParams();
   const [quantity, setQuantity] = useState(1);
   const [buttonRateState, setButtonRateState] = useState('all');
@@ -38,23 +36,10 @@ function ProductDetail(props) {
   const curPosts = productImage.slice(indexOfFirstImage, indexOfLastImage);
 
   const [imageTab, setImageTab] = useState(0);
-  const [shopDetail, setShopDetail] = useState({
-    numberOfFollowers: 0,
-    pertcentageOfChatFeedbacks: 0,
-    numberOfReviews: 0,
-    description: '',
-    shopName: '',
-    numberOfProducts: 0,
-    userName: '',
-    followingCount: 0,
-    averageRating: 0,
-    mediaDescriptionsList: [],
-    createdTime: '',
-    shopId: 1,
-    id: 0,
-    productId: 0,
-  });
+
   const [productDetail, setProductDetail] = useState({});
+  const [shopId, setShopId] = useState();
+  const [shopDetail, setShopDetail] = useState({});
 
   const [variation1, setVariation1] = useState([]);
   const [variation2, setVariation2] = useState([]);
@@ -63,23 +48,7 @@ function ProductDetail(props) {
   const [inventoryArray, setInventoryArray] = useState([]);
 
   const [media, setMedia] = useState([]);
-  // const loadShopDetail = async (conditions) => {
-  //   const response = await axios({
-  //     method: 'get',
-  //     url: `${shopDetailUrl}`,
-  //     headers: {
-  //       Authorization: localStorage.getItem(cs.System_Code + '-token'),
-  //     },
-  //   });
-  //   if (
-  //     response.data.error_desc === 'Success' &&
-  //     response.data.data.length !== 0
-  //   ) {
-  //     setShopDetail(response.data.data);
-  //     setMedia(response.data.data.mediaDescriptionsList);
-  //     console.log("data-shop", response.data);
-  //   }
-  // };
+
   const loadProductDetail = async (conditions) => {
     const response = await axios({
       method: 'get',
@@ -94,6 +63,7 @@ function ProductDetail(props) {
     ) {
       console.log("data-product", response.data)
       setProductDetail(response.data.data);
+      setShopId(response.data.data.shopId)
       setIntroImage(response.data.data.productImageCover);
       setFirstImage(response.data.data.productImageCover);
       setProductImage(response.data.data.productImages);
@@ -102,6 +72,19 @@ function ProductDetail(props) {
       setInventoryArray(response.data.data.inventoryArray);
     }
   };
+
+  const loadShopDetail = async () => {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: `${shopDetailUrl}shopId=${shopId}`
+      });
+      console.log("shopInfo", response.data);
+      setShopDetail(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const [productList, setProductList] = useState([]);
 
@@ -120,9 +103,14 @@ function ProductDetail(props) {
 
   useEffect(() => {
     loadProductDetail();
-    // loadShopDetail();
     loadProductList();
-  }, []);
+  }, [productId]);
+
+  useEffect(() => {
+    if (shopId) {
+      loadShopDetail();
+    }
+  }, [shopId]);
 
   const decreaseQuantity = () => {
     if (quantity > 1) setQuantity(quantity - 1);
@@ -559,7 +547,7 @@ function ProductDetail(props) {
                       </button>
                       <Link
                         className="btn border p-1 col-4 mx-1"
-                        to="#"
+                        to={`/shop-detail/${shopId}`}
                       >
                         Xem shop
                       </Link>
@@ -573,7 +561,7 @@ function ProductDetail(props) {
             <div className="row" style={{ width: "80%" }}>
               <div className="col-4 d-flex align-items-center mb-2">
                 Sản Phẩm:
-                <b className="ms-1">{shopDetail.numberOfProducts}</b>
+                <b className="ms-1">{shopDetail.numberOfProducts || "-"}</b>
               </div>
               <div className="col-4 d-flex align-items-center mb-2">
                 Đang Theo Dõi:
@@ -582,12 +570,12 @@ function ProductDetail(props) {
               <div className="col-4 d-flex align-items-center mb-2">
                 Tỉ Lệ Phản Hồi Chat:
                 <b className="ms-1  d-flex align-items-center ">
-                  {shopDetail.pertcentageOfChatFeedbacks}
+                  {shopDetail.pertcentageOfChatFeedbacks || "-"}
                 </b>
               </div>
               <div className="col-4 d-flex align-items-center">
                 Đánh Giá:
-                <b className="ms-1">{shopDetail.averageRating}</b>
+                <b className="ms-1">{shopDetail.averageRating || "-"}</b>
               </div>
               <div className="col-4 d-flex align-items-center">
                 Người Theo Dõi:
@@ -597,7 +585,7 @@ function ProductDetail(props) {
                 Tham Gia:
                 <b className="ms-1">
                   {shopDetail.createdTime &&
-                    shopDetail.createdTime.slice(8, 10) + '-' + shopDetail.createdTime.slice(4, 7) + '-' + shopDetail.createdTime.slice(24, 28)}
+                    shopDetail.createdTime.slice(8, 10) + '-' + shopDetail.createdTime.slice(5, 7) + '-' + shopDetail.createdTime.slice(0, 4)}
                 </b>
               </div>
             </div>

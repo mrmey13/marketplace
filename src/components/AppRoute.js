@@ -74,7 +74,6 @@ export class AppRoute extends Component {
         />
 
         <Route
-          
           path="/shop/setting"
           component={() => ShopSetting(t, i18n)}
         />

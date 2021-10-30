@@ -9,6 +9,7 @@ import axios from "axios";
 
 const list = [1, 2, 3, 4, 5, 6, 7];
 const loadProductListUrl = cs.BaseURL + "/api/buyer/product/list";
+const shopDetailUrl = cs.BaseURL + '/api/buyer/shop/info?';
 
 const FEATURED_PRODUCT_SIZE = 6 * 2;
 const PRODUCT_BY_CATEGORY_SIZE = 5 * 3;
@@ -22,6 +23,21 @@ const ShopInfo = (props) => {
 
   const [featuredProductList, setFeaturedProductList] = useState([]);
   const [productByCategoryList, setProductByCategoryList] = useState([]);
+
+  const [shopDetail, setShopDetail] = useState({});
+
+  const loadShopDetail = async () => {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: `${shopDetailUrl}shopId=${match.params.shopCode}`
+      });
+      console.log("shopInfo", response.data);
+      setShopDetail(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const loadFeatureProductList = async (conditions) => {
     const response = await axios({
@@ -61,6 +77,7 @@ const ShopInfo = (props) => {
 
   useEffect(() => {
     loadFeatureProductList();
+    loadShopDetail();
   }, [match.params.shopCode]);
 
   useEffect(() => {
@@ -76,8 +93,9 @@ const ShopInfo = (props) => {
           style={{
             maxWidth: "400px",
             height: "150px",
-            backgroundImage: `url("${"aaa"}")`,
-            backgroundColor: color.jaffa,
+            backgroundImage: `url("${cs.MediaURL}/media/${shopDetail.coverPath}")`,
+            backgroundSize: "400px 150px",
+            // backgroundColor: color.jaffa,
             margin: "5px",
             borderRadius: "5px"
           }}>
@@ -87,14 +105,14 @@ const ShopInfo = (props) => {
                 className="border rounded-circle"
                 width="100px"
                 height="100px"
-                src={`${cs.MediaURL}/media/${"shopDetail.avatarPath"}`}
+                src={`${cs.MediaURL}/media/${shopDetail.avatarPath}`}
                 style={{}}
               // alt="shop avatar"
               />
             </div>
             <div className="" style={{ width: "70%" }}>
               <div className="row-title d-none d-sm-block">
-                <h6 className="mb-0">shopDetail.shopName</h6>
+                <h6 className="mb-0">{shopDetail.shopName}</h6>
                 <sub>Online:</sub>
               </div>
               <div className="card-body-bottom d-xl-flex mt-2 d-flex">
@@ -110,19 +128,22 @@ const ShopInfo = (props) => {
         </div>
         <div className="col-7 mx-auto row row-cols-2 mt-3 py-4" style={{ fontSize: "14px" }}>
           <div className="col">
-            Sản phẩm: __
+            Sản phẩm: {shopDetail.numberOfProducts || "-"}
           </div>
           <div className="col">
-            Đánh giá:
+            Đánh giá: {shopDetail.averageRating}
           </div>
           <div className="col">
-            Theo dõi:
+            Theo dõi: {shopDetail.followingCount}
           </div>
           <div className="col">
-            Lượt theo dõi:
+            Lượt theo dõi: {shopDetail.numberOfFollowers}
           </div>
           <div className="col">
-            Tham gia:
+            Tham gia: {shopDetail.createdTime &&
+              shopDetail.createdTime.slice(8, 10) + ' - '
+              + shopDetail.createdTime.slice(5, 7) + ' - '
+              + shopDetail.createdTime.slice(0, 4)}
           </div>
         </div>
       </div>

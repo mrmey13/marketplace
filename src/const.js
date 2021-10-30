@@ -85,9 +85,9 @@ export default {
     // routeBase:"marketplace",
 
     // production
-    // ShopUrl:"http://salesplus.asia/shop",
-    // EtrainingUrl:"http://etraining.salesplus.asia",
-    // HRUrl:"http://hr.salesplus.asia",
+    // ShopUrl:"https://salesplus.asia/shop",
+    // EtrainingUrl:"https://etraining.salesplus.asia",
+    // HRUrl:"https://hr.salesplus.asia",
     // SaleUrl:"https://general.aidriven.credito.asia",
     // routeBase:""
 };

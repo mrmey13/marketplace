@@ -21,7 +21,7 @@ Deployment on dev server
 Production deployment guide
 0. config the production.env and url definition, routeBase in const.js
 change homepage in package.json
-"homepage": "http://salesplus.asia",
+"homepage": "https://salesplus.asia",
 1. npm run build:production
 2. copy WEB-INF to build folder
 3. deploy build folder to production

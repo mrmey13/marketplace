@@ -184,11 +184,11 @@ const CreateProduct = (props) => {
       // console.log("create", response.data);
       if (response.data.error_desc === "Success") {
         let productId = response.data.data.productId;
-        saveCoverImage(productId);
-        saveImages(productId);
-        createVariation(productId);
-        createAttributeProduct(productId);
-        createCustomAttributeProduct(productId);
+        await saveCoverImage(productId);
+        await saveImages(productId);
+        await createVariation(productId);
+        await createAttributeProduct(productId);
+        await createCustomAttributeProduct(productId);
         handleOpenMessage("success", t("product_config.message.create_product_success"));
         setTimeout(() => {
           props.history.push("/product/list/all");

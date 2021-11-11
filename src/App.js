@@ -138,6 +138,8 @@ function App() {
 					/>
 
 					<Route exact path="/cart" component={Home} />
+					<Route exact path="/place-order" component={Home} />
+					<Route exact path="/payment" component={Home} />
 					<Route path="/" component={Home} />
 
 					{/* Shop (buyer) */}

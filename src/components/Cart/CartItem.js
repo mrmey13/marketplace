@@ -9,7 +9,45 @@ import cs from '../../const';
 const UPDATE_CART_URL = cs.BaseURL + '/api/buyer/cart/edit';
 const REMOVE_ITEM_FROM_CART_URL = cs.BaseURL + '/api/buyer/cart/delete';
 
-function CartItem({ item }) {
+const CartItem = ({ item, checkAllShop, setCheckAllShop, getCartList, checkOutList, setCheckOutList }) => {
+  // console.log("item", item);
+  const [checkItem, setCheckItem] = useState(checkAllShop);
+  // const [globalChange, setGlobalChange] = useState(false);
+  // console.log("shopCart", checkOutList);
+
+  useEffect(() => {
+    if (checkAllShop) {
+      setCheckItem(checkAllShop);
+    }
+  }, [checkAllShop]);
+
+  useEffect(() => {
+    if (checkItem === false) {
+      setCheckAllShop(checkItem);
+      setCheckOutList(checkOutList.filter(e => e.id !== item.id));
+    } else {
+      checkOutList.push({
+        id: item.id,
+        productVariationId: item.productVariationId,
+        price: item.price,
+        quantity: item.quantity
+      })
+    }
+  }, [checkItem]);
+
+  useEffect(() => {
+    if (checkItem) {
+      setCheckOutList(checkOutList
+        .filter(e => e.id !== item.id)
+        .concat({
+          id: item.id,
+          productVariationId: item.productVariationId,
+          price: item.price,
+          quantity: item.quantity
+        }));
+    }
+  }, [item])
+
   const [open, setOpen] = useState(false);
   const [variation1, setVariation1] = useState(
     item.variationArray.filter((item) => item.id == 1)
@@ -17,6 +55,12 @@ function CartItem({ item }) {
   const [variation2, setVariation2] = useState(
     item.variationArray.filter((item) => item.id == 2)
   );
+
+  useEffect(() => {
+    setVariation1(item.variationArray.filter((item) => item.id == 1));
+    setVariation2(item.variationArray.filter((item) => item.id == 2));
+  }, [item.variationArray]);
+
   const [variationIndex1, setVariationIndex1] = useState('');
   const [variationIndex2, setVariationIndex2] = useState('');
   const [quantity, setQuantity] = useState(item.quantity);
@@ -54,9 +98,10 @@ function CartItem({ item }) {
         },
       });
       if (res.data.error_code == 0) {
+        getCartList();
       } else {
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const mediaURL =
@@ -118,12 +163,12 @@ function CartItem({ item }) {
         },
       });
       if (res.data.error_code == 0) {
-        alert('Success');
+        alert('Remove Success');
         window.location.reload();
       } else {
         alert('Error');
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   return (
@@ -132,11 +177,15 @@ function CartItem({ item }) {
         <div className="_1GcTXp">
           <div className="uUhc_B">
             <label className="stardust-checkbox">
-              <input className="stardust-checkbox__input" type="checkbox" />
-              <div className="stardust-checkbox__box"></div>
+              <input
+                className="stardust-checkbox__box"
+                type="checkbox"
+                checked={checkItem}
+                onChange={() => setCheckItem(!checkItem)}
+              />
             </label>
           </div>
-          <div className="_2pPbjQ">
+          <div className="_2pPbjQ" style={checkItem ? { opacity: "1" } : {}}>
             <div className="YxpsCR">
               <a title={item.productName}>
                 <div
@@ -164,9 +213,9 @@ function CartItem({ item }) {
                     <Box sx={{ position: 'relative' }}>
                       <button
                         type="button"
-                        className="_2Ipt-j"
+                        className="_2Ipt-j p-0"
                         onClick={handleClickOpen}
-                      ></button>
+                      />
                       {open ? (
                         <Box>
                           <div class="xVCpY7 shopee-modal__transition-enter-done">
@@ -218,7 +267,7 @@ function CartItem({ item }) {
                                       </button>
                                       <button
                                         class="shopee-button-solid shopee-button-solid--primary"
-                                        onClick={handleClickAgree}
+                                        onClick={() => { handleClickAgree(); handleClickOpen() }}
                                       >
                                         Xác nhận
                                       </button>

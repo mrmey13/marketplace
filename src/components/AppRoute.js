@@ -42,6 +42,8 @@ import Cart from "./Cart/Cart";
 import BusinessInsights from "./DataAnalysis/BusinessInsights";
 import BankAccounts from "./Finance/BankAccounts";
 import ShopInfo from "./ShopInfo/ShopInfo";
+import PlaceOrder from "./Cart/PlaceOrder";
+import Payment from "./Cart/Payment";
 
 const styles = (theme) => ({
   tableContainer: {
@@ -139,6 +141,8 @@ export class AppRoute extends Component {
         <Route exact path="/shop-detail/:shopCode" component={ShopInfo} />
 
         <Route exact path="/cart" component={Cart} />
+        <Route exact path="/place-order" component={PlaceOrder} />
+        <Route exact path="/payment" component={Payment} />
       </ToastProvider>
     );
   }

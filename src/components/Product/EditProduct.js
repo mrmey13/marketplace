@@ -199,13 +199,13 @@ const EditProduct = (props) => {
       handleOpenMessage("warning", t("product_config.message.enter_product_weight"))
       return;
     }
-    editBasicInformation();
-    editVariation(productId);
-    changeCoverImage();
-    deleteImages();
-    addImages();
-    editAttribute();
-    createCustomAttributeProduct();
+    await editBasicInformation();
+    await editVariation(productId);
+    await changeCoverImage();
+    await deleteImages();
+    await addImages();
+    await editAttribute();
+    await createCustomAttributeProduct();
     handleOpenMessage("success", t("product_config.message.update_product_success"));
     setTimeout(() => {
       props.history.push("/product/list/all");

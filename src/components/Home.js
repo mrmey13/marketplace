@@ -23,7 +23,6 @@ import DragIndicator from "@material-ui/icons/DragIndicator";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import { ToastProvider } from "react-toast-notifications";
 
-
 import { useParams } from "react-router";
 import cs from "../const";
 import { openInNewTab } from "../const";
@@ -37,6 +36,8 @@ import AppRoute from "./AppRoute";
 import { useTranslation, withTranslation } from "react-i18next";
 import { getRole, isSoloUser, getUser } from "../service";
 import { Grid, Menu } from "@material-ui/core";
+
+import ProductCategoryDialog from "./ProductCategory/ProductCategoryDialog";
 
 const URL = cs.BaseURL + "/user/detail";
 const revokeTokenURL = cs.BaseURL + "/api/auth/logout";
@@ -216,7 +217,8 @@ class Home extends React.Component {
       user: {},
       open: true,
       showChangePassword: false,
-      anchorEl: null   
+      anchorEl: null,
+      showProductCategoryDialog: false
     };
     
     this.handleShowChangePassword = this.handleShowChangePassword.bind(this);
@@ -264,6 +266,10 @@ class Home extends React.Component {
   handleCloseChangePassword = () => {
     this.setState({ showChangePassword: false });
   };
+
+  handleShowProductCategoryDialog = () => {
+    this.setState({ showProductCategoryDialog: !this.state.showProductCategoryDialog })
+  }
 
   render() {
     console.log ("This is Home");
@@ -321,6 +327,27 @@ class Home extends React.Component {
                   </Link>
                 </div>
 
+                <Button
+                color="inherit"
+                iconStyle={{
+                  height: 200,
+                  width: 200,
+                  fontSize: '48px',
+                }}
+                aria-label=""
+                // onClick={this.handleShowProductCategoryDialog}
+                onMouseEnter={this.handleShowProductCategoryDialog}
+              >
+                <span style={{ marginLeft: 10 }}>
+                <img src="https://img.icons8.com/external-flatart-icons-outline-flatarticons/22/ffffff/external-menu-basic-ui-elements-flatart-icons-outline-flatarticons.png"/>
+                </span>
+              </Button>
+              {this.state.showProductCategoryDialog && (
+                <ProductCategoryDialog
+                  handleOpen={this.state.showProductCategoryDialog}
+                  handleClose={this.handleShowProductCategoryDialog}
+                />
+              )}
 
                  {/* search bar */}
                 { (
@@ -333,7 +360,7 @@ class Home extends React.Component {
                       type="search"
                       placeholder="Search"
                       aria-label="Search"
-                      style={{ border: "none", width: "400px" }}
+                      style={{ border: "none", width: "1200px" }}
                     />
                     <button
                       className="btn btn-light btn-search"
@@ -550,6 +577,19 @@ class Home extends React.Component {
                           horizontal: 'right',
                         }}
                       >
+                        <MenuItem>
+                          <Link
+                            to="/user/purchase"
+                            style={{
+                              textDecoration: "none",
+                              color: "black",
+                            }}
+                          >
+                            <span>
+                              {t("app_route.purchase")}
+                            </span>
+                          </Link>
+                        </MenuItem>
                         <MenuItem>
                           <Link
                             to="/my_account"

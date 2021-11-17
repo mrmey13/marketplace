@@ -313,6 +313,7 @@ class ProductCategoryDialog extends Component {
                     id={item.categoryId}
                     data-id={item.categoryId}
                     onMouseEnter={() => this.handleCategory(2, item)}
+                    onClick={() => this.handleOnClick(item)}
                   >
                     <p
                       className={
@@ -340,6 +341,7 @@ class ProductCategoryDialog extends Component {
                     id={item.categoryId}
                     data-id={item.categoryId}
                     onMouseEnter={() => this.handleCategory(3, item)}
+                    onClick={() => this.handleOnClick(item)}
                   >
                     <p
                       className={
@@ -367,6 +369,7 @@ class ProductCategoryDialog extends Component {
                     id={item.categoryId}
                     data-id={item.categoryId}
                     onMouseEnter={() => this.handleCategory(4, item)}
+                    onClick={() => this.handleOnClick(item)}
                   >
                     <p
                       className={
@@ -394,6 +397,7 @@ class ProductCategoryDialog extends Component {
                     id={item.categoryId}
                     data-id={item.categoryId}
                     onMouseEnter={() => this.handleCategory(5, item)}
+                    onClick={() => this.handleOnClick(item)}
                   >
                     <p
                       className={

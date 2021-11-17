@@ -61,7 +61,7 @@ function ProductListCategory() {
       //     Authorization: localStorage.getItem(cs.System_Code + "-token"),
       //   },
       data: {
-        categoryLevel1Id: id,
+        categoryId: id,
         page: 0,
         size: 0,
       },

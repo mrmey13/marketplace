@@ -6,9 +6,11 @@ import Pagination from "../shared/Pagination";
 
 const productListURL = cs.BaseURL + "/api/seller/product/list";
 
+export const PAGE_SIZE = 24;
+
 const AllProduct = () => {
   const [productData, setProductData] = useState([]);
-  const [pageSize, setPageSize] = useState(24);
+  const [pageSize, setPageSize] = useState(PAGE_SIZE);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState();
 
@@ -34,7 +36,7 @@ const AllProduct = () => {
   }, [currentPage])
 
   return <div>
-    <NormalTable data={productData} />
+    <NormalTable data={productData} loadProductData={loadProductData} />
     <div className="d-flex justify-content-end">
       <Pagination
         ItemsPerPage={pageSize}

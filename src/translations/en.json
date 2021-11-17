@@ -113,7 +113,13 @@
             "violatesRules": "Violates Rules",
             "accepted": "Accepted",
             "notAccepted": "Not Accepted",
-            "soldout": "Sold-out"
+            "soldout": "Sold-out",
+            "delete_product": "Delete Products"
+        },
+        "message": {
+            "delete_product": "You want to delete {{quantity}} products",
+            "choose_product": "Selected {{quantity}} products",
+            "select_all": "Select all"
         }
     },
     "shop_settings": {

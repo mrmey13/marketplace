@@ -113,7 +113,13 @@
             "violatesRules": "Vi phạm",
             "accepted": "Chấp nhận",
             "notAccepted": "Không chấp nhận",
-            "soldout": "Hết hàng"
+            "soldout": "Hết hàng",
+            "delete_product": "Xóa sản phẩm"
+        },
+        "message": {
+            "delete_product": "Bạn muốn xóa {{quantity}} sản phẩm",
+            "choose_product": "Đã chọn {{quantity}} sản phẩm",
+            "select_all": "Chọn tất cả"
         }
     },
     "shop_settings": {

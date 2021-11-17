@@ -41,7 +41,8 @@
         "dashboard": "Marketplace Home",
         "shop-profile": "Shop Profile",
         "profile": "Profile",
-        "address": "Address"
+        "address": "Address",
+        "purchase": "Purchase Order"
     },
     "language": {
         "title": "Language: ",

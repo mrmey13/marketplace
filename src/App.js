@@ -93,6 +93,7 @@ function App() {
 					<Route exact path="/my_account" component={HomeShop} />
 					<Route exact path="/user/address" component={Home} />
 					<Route exact path="/user/password" component={Home} />
+					<Route exact path="/user/purchase" component={Home} />
 
 					{/* Administration */}
 					<Route exact path="/attribute/list" component={HomeShop} />

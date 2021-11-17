@@ -45,6 +45,9 @@ import ShopInfo from "./ShopInfo/ShopInfo";
 import PlaceOrder from "./Cart/PlaceOrder";
 import Payment from "./Cart/Payment";
 
+import Purchase from "./MyAccount/Purchase";
+import PurchaseDetail from "./MyAccount/PurchaseDetail";
+
 const styles = (theme) => ({
   tableContainer: {
     height: 320,
@@ -93,6 +96,8 @@ export class AppRoute extends Component {
         <Route path="/my_account" component={() => MyAccount(t, i18n)} />
         <Route exact path="/user/address" component={MyAddress} />
         <Route exact path="/user/password" component={MyPassword} />
+        <Route exact path="/user/purchase" component={Purchase} />
+        <Route exact path="/user/purchase/detail/:id" component={PurchaseDetail} />
 
         {/* Administration */}
         <Route path="/attribute/list" component={Attribute} />
